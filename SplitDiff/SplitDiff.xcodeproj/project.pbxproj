@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXContainerItemProxy section */
@@ -30,21 +30,9 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		7C224A772CD012D800AB2B13 /* SplitDiff */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = SplitDiff;
-			sourceTree = "<group>";
-		};
-		7C224A882CD012D900AB2B13 /* SplitDiffTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = SplitDiffTests;
-			sourceTree = "<group>";
-		};
-		7C224A922CD012D900AB2B13 /* SplitDiffUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = SplitDiffUITests;
-			sourceTree = "<group>";
-		};
+		7C224A772CD012D800AB2B13 /* SplitDiff */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = SplitDiff; sourceTree = "<group>"; };
+		7C224A882CD012D900AB2B13 /* SplitDiffTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = SplitDiffTests; sourceTree = "<group>"; };
+		7C224A922CD012D900AB2B13 /* SplitDiffUITests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = SplitDiffUITests; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -187,6 +175,7 @@
 				};
 			};
 			buildConfigurationList = 7C224A702CD012D800AB2B13 /* Build configuration list for PBXProject "SplitDiff" */;
+			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -195,7 +184,6 @@
 			);
 			mainGroup = 7C224A6C2CD012D800AB2B13;
 			minimizedProjectReferenceProxies = 1;
-			preferredProjectObjectVersion = 77;
 			productRefGroup = 7C224A762CD012D800AB2B13 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
