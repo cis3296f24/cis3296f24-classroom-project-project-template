@@ -1,46 +1,25 @@
-# GrindDaily - Proof of Concept
-
-## Project Overview
-GrindDaily is a daily challenge platform where users can view and complete tasks via the React frontend, while the Spring Boot backend provides RESTful APIs for data interaction.
-
-## Tech Stack
-- **Frontend**: React.js
-- **Backend**: Spring Boot 3.3.4
-- **Database**: MongoDB or Firebase
-
-## System Requirements
-- **Operating System**: Windows 10, macOS, or Linux
-- **Node.js**: v14 or higher
-- **Java**: JDK 11 or higher
-- **Maven**: 3.6+ version
-
-## How to Run the Project
-
-### Frontend (React)
-1. Clone the frontend repository:
-   git clone https://github.com/yourusername/grind-daily-frontend.git
-   cd grind-daily-frontend
-
-### Frontend (React)
-1. Clone the frontend repository:
-   git clone https://github.com/yourusername/grind-daily-frontend.git
-   cd grind-daily-frontend
-   
-2. Install dependencies:
-    npm install
-
-3. Start the development server:
-    npm start
-    The React app will run on http://localhost:3000.
-
-### Backend (Spring Boot)
-1. Clone the backend repository:
-    git clone https://github.com/yourusername/grind-daily-backend.git
-    cd grind-daily-backend
-    Run the Spring Boot application:
-    ./mvnw spring-boot:run
-
-The Spring Boot backend will run on http://localhost:8080.
-
-### Connecting Frontend and Backend
-The React frontend uses Axios to send requests to the Spring Boot backend's /api/tasks endpoint to fetch task data.
+# Project Name
+Put here a short paragraph describing your project. 
+Adding an screenshot or a mockup of your application in action would be nice.  
+![This is a screenshot.](images.png)
+# How to run
+Provide here instructions on how to use your application.   
+- Download the latest binary from the Release section on the right on GitHub.  
+- On the command line uncompress using
+```
+tar -xzf  
+```
+- On the command line run with
+```
+./hello
+```
+- You will see Hello World! on your terminal. 
+# How to contribute
+Follow this project board to know the latest status of the project: [http://...]([http://...])  
+### How to build
+- Use this github repository: ... 
+- Specify what branch to use for a more stable release or for cutting edge development.  
+- Use InteliJ 11
+- Specify additional library to download if needed 
+- What file and target to compile and run. 
+- What is expected to happen when the app start. 
