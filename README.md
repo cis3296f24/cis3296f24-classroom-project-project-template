@@ -22,4 +22,5 @@ Follow this project board to know the latest status of the project: [http://...]
 - Use InteliJ 11
 - Specify additional library to download if needed 
 - What file and target to compile and run. 
-- What is expected to happen when the app start. 
+- What is expected to happen when the app start.
+- Project Board: [https://github.com/orgs/cis3296f24/projects/100]()
