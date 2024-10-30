@@ -22,7 +22,7 @@ class LoginWindow(QWidget):
 
         # Setting the gradient
         gradient = QLinearGradient(0, 0, 0, self.height())
-        gradient.setColorAt(0.0, QColor(135, 206, 235))  # Light blue color at the top
+        gradient.setColorAt(0.0, QColor(0, 0, 0))  # black
         gradient.setColorAt(1.0, QColor(65, 105, 225))  # Royal blue color at the bottom
 
         # Set the gradient as the background
