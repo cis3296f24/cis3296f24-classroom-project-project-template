@@ -1,7 +1,9 @@
 
 import { View, Text, Image } from 'react-native'
+import React from 'react';
 import { Tabs } from 'expo-router'
 import { FontAwesome6, AntDesign, MaterialCommunityIcons } from '@expo/vector-icons'
+
 
 const TabsLayout = () => {
   return (
@@ -44,6 +46,20 @@ const TabsLayout = () => {
               ), 
           }} 
         />
+
+          <Tabs.Screen 
+            name="nana"
+            options={{
+              title: 'Nana\'s screen',
+              headerShown: false,
+              tabBarIcon: ({color, focused}) => 
+                focused ? (
+                  <MaterialCommunityIcons name="blur" size={24} color={color} />
+                ) : (
+                  <MaterialCommunityIcons name="blur" size={24} color={color} />
+                ), 
+            }} 
+          />
       </Tabs>
     </>
   )
