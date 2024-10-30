@@ -1,5 +1,6 @@
 import { Link } from "expo-router";
 import { Text, View } from "react-native";
+// import {TabsLayout} from "./TabsLayout";
 
 export default function Index() {
   return (
