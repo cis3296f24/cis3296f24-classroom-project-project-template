@@ -1,0 +1,21 @@
+:root {
+    /* Light Mode */
+    --background-light-mode: #ffffff;
+    --text-light-mode: #333333;
+    --primary-light-mode: #007bff;
+    --secondary-light-mode: #6c757d;
+
+    /* Dark Mode */
+    --background-dark-mode: #121212;
+    --text-dark-mode: #ffffff;
+    --primary-dark-mode: #1e90ff;
+    --secondary-dark-mode: #495057;
+
+    /* Border Radius */
+    --border-radius: 4px;
+}
+
+body {
+    background-color: var(--background-light-mode);
+}
+
