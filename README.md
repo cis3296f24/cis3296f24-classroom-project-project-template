@@ -62,7 +62,9 @@ npm start
 ```
 
 # How to contribute
-Follow this project board to know the latest status of the project: [https://github.com/orgs/cis3296f24/projects/100]([https://github.com/orgs/cis3296f24/projects/100])  
+Follow this project board to know the latest status of the project: 
+[https://github.com/orgs/cis3296f24/projects/100]([https://github.com/orgs/cis3296f24/projects/100])
+  
 ### How to build
 - Use this github repository: ... 
 - Specify what branch to use for a more stable release or for cutting edge development.  
