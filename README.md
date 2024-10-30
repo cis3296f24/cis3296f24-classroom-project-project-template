@@ -33,6 +33,8 @@ Once that is completed, do the following:
 - Now type the command "pip3 install pyside6"
 - Once the download has completed, return to IntelliJ and hit the play button to run main.py and use the application.
 
+PDF Instructions: [Best Notes Mac Set Up Instructions.pdf](https://github.com/user-attachments/files/17577744/Best.Notes.Mac.Set.Up.Instructions.pdf)
+
 
 # How to contribute
 Follow this project board to know the latest status of the project: [http://...]([http://...])  
