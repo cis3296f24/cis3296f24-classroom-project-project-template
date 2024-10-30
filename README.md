@@ -1,9 +1,17 @@
 # Best Notes
-Put here a short paragraph describing your project. 
-Adding an screenshot or a mockup of your application in action would be nice.  
+BestNotes is a Python recreation of the app/program GoodNotes, a note-taking application. 
+The user gets to create a digital notebook 
+where they can write down notes for class or personal uses like journaling.
+Through either drawing by their mouse or a stylus, users can create drawings as well as hand-written notes 
+that they can easily move around by using a select tool. The program will also have a text feature, 
+that allows the user to type their notes, which is easily moveable through the select tool. 
+The notebooks have an autosave feature that saves these notebooks to the user’s devices. 
+This program also has a collaboration feature that allows users to work together on a notebook. 
 
-![This is a screenshot.](images.png)
+![current image](currentUI.png)
+
 # How to run
+
 Provide here instructions on how to use your application.   
 - Download the latest binary from the Release section on the right on GitHub.  
 - On the command line uncompress using
@@ -15,7 +23,22 @@ tar -xzf
 ./hello
 ```
 - You will see Hello World! on your terminal.
-## Mac Instructions
+
+# How to contribute
+Follow this project board to know the latest status of the project: [BestNotes Project Board](https://github.com/orgs/cis3296f24/projects/94/)
+
+## How to build
+- Use this github repository: ... 
+- Specify what branch to use for a more stable release or for cutting edge development.  
+- Use InteliJ 11
+- Specify additional library to download if needed 
+- What file and target to compile and run. 
+- What is expected to happen when the app start. 
+
+### Windows instructions
+- TBD
+
+### Mac Instructions
 For mac, you will need to download the IntelliJ IDE. You can download it from the following link:
 https://www.jetbrains.com/idea/download/?section=mac
 
@@ -35,14 +58,3 @@ Once that is completed, do the following:
 
 PDF Instructions: [Best Notes Mac Set Up Instructions.pdf](https://github.com/user-attachments/files/17577744/Best.Notes.Mac.Set.Up.Instructions.pdf)
 
-
-# How to contribute
-Follow this project board to know the latest status of the project: [http://...]([http://...])  
-
-### How to build
-- Use this github repository: ... 
-- Specify what branch to use for a more stable release or for cutting edge development.  
-- Use InteliJ 11
-- Specify additional library to download if needed 
-- What file and target to compile and run. 
-- What is expected to happen when the app start. 
