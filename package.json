@@ -1,0 +1,13 @@
+{
+    "name": "spaceify-simple-demo",
+    "version": "1.0.0",
+    "description": "A simple demo of D3.js and Express.js",
+    "main": "app.js",
+    "scripts": {
+      "start": "node app.js"
+    },
+    "dependencies": {
+      "express": "^4.17.1"
+    }
+  }
+  
