@@ -15,14 +15,7 @@ GrindDaily is a daily challenge platform where users can view and complete tasks
 - **Operating System**: Windows 10, macOS, or Linux
 - **Node.js**: v14 or higher
 
-## How to Run the Project
-
-### Frontend (React)
-1. Clone the frontend repository:
-   git clone https://github.com/yourusername/grind-daily-frontend.git
-   cd grind-daily-frontend
-
-### Frontend (React)
+## How to Run the Project 
 1. Clone the repository:
 - On the command line:
 ```
