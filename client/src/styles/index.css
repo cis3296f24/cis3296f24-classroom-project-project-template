@@ -30,7 +30,7 @@
 
 body {
     background-color: var(--background-dark-mode);
-    color: var(--text-color);
+    height: 100vh;
 }
 
 .text-link {
