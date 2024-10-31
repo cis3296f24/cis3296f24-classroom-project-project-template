@@ -1,6 +1,6 @@
 # GrindDaily
 
-![This is a screenshot.](images.png)
+![This is a screenshot.](Screenshot.png)
 
 ## Project Overview
 GrindDaily is a daily challenge platform where users can view and complete tasks via the React frontend, while the Spring Boot backend provides RESTful APIs for data interaction.
@@ -64,7 +64,7 @@ npm start
 # How to contribute
 Follow this project board to know the latest status of the project: 
 [https://github.com/orgs/cis3296f24/projects/100]([https://github.com/orgs/cis3296f24/projects/100]) 
- 
+
 ### How to build
 - Use this github repository: ... 
 - Specify what branch to use for a more stable release or for cutting edge development.  
