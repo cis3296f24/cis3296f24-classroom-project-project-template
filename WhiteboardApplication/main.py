@@ -87,7 +87,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         ###########################################################################################################
         self.current_color = QColor("#000000")
         self.pb_Pen.clicked.connect(lambda e: self.color_changed(self.current_color))
-        self.pb_Eraser.clicked.connect(lambda e: self.color_changed(QColor("#FFFFFF")))
+        # This eraser just changes stuff to white (#FFFFFF) and not to the proper background color of window... - RS 10/30
+        # I used an online tool to find out the proper color of the background and updated it below... - RS 10/30
+        self.pb_Eraser.clicked.connect(lambda e: self.color_changed(QColor("#F3F3F3")))
 
         self.dial.sliderMoved.connect(self.change_size)
         self.dial.setMinimum(1)
