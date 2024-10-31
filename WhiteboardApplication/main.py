@@ -91,7 +91,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.dial.sliderMoved.connect(self.change_size)
         self.dial.setMinimum(1)
-        self.dial.setMaximum(40)
+        self.dial.setMaximum(100)
         self.dial.setWrapping(False)
 
         self.pb_Color.clicked.connect(self.color_dialog)
