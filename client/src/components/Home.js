@@ -64,6 +64,14 @@ function Home() {
                 <span className="px-2 text-gray-500 text-lg font-semibold">Meet Our Dev Team</span>
                 <div className="flex-grow border-t-2 border-gray-500"></div>
             </div>
+
+            <div>
+                <h3 className='px-2 text-gray-500 text-lg font-semibold'>Kyle Wilson</h3>
+                        <ul>
+                            <li className='px-2 text-gray-500 text-lg font-semibold'>Email: tuk30460@temple.edu</li>
+                            <li className='px-2 text-gray-500 text-lg font-semibold'>Phone #: 215-###-#####</li>
+                        </ul>
+            </div>
         </div>
     );
 }
