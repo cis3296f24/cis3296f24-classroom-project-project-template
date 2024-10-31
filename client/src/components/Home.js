@@ -72,6 +72,14 @@ function Home() {
                             <li className='px-2 text-gray-500 text-lg font-semibold'>Phone #: 215-###-#####</li>
                         </ul>
             </div>
+            <div>
+                <h3 className='px-2 text-gray-500 text-lg font-semibold'>Antonio Mongeluzi</h3>
+                        <ul>
+                            <li className='px-2 text-gray-500 text-lg font-semibold'>Email: tuj46268@temple.edu</li>
+                            <li className='px-2 text-gray-500 text-lg font-semibold'>Phone #: 215-###-####</li>
+                        </ul>
+            </div>
+            
         </div>
     );
 }
