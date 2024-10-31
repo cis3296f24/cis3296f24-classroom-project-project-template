@@ -4,6 +4,7 @@ from PySide6.QtWidgets import (
     QApplication,
     QGraphicsPathItem,
     QColorDialog,
+    QPushButton,
 )
 
 from PySide6.QtGui import (
@@ -68,6 +69,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
+
+        # Add pb_BackgroundColor button - Chloe
+        self.pb_BackgroundColor = QPushButton("Change Background Color", self)
+        self.pb_BackgroundColor.setGeometry(10, 195, 150, 30)
+        self.pb_BackgroundColor.clicked.connect(self.change_background_color)
 
         ############################################################################################################
         # Ensure all buttons behave properly when clicked
@@ -144,6 +150,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         for btn in self.list_of_buttons:
             if btn is not sender_button:
                 btn.setChecked(False)
+
+    def change_background_color(self):
+        # Open a color board and set the background color
+        color = QColorDialog.getColor()
+        if color.isValid():
+            # Update backround color
+            self.scene.setBackgroundBrush(color)
 
 
 if __name__ == '__main__':
