@@ -22,34 +22,40 @@ function Home() {
                 <div className="flex-grow border-t-2 border-gray-500"></div>
             </div>
             <div className='text-gray-500'></div>
-            <div className="grid grid-cols-1 gap-6 mt-24 mb-10 text-lg text-gray-400 w-10/12 sm:grid-cols-3">
+            <div className="grid grid-cols-1 gap-6 mt-12 mb-10 text-lg text-gray-400 w-10/12 sm:grid-cols-3">
                 <NavLink
                     to="/task"
-                    className="bg-slate-300 p-8 h-96 w-full text-center text-xl font-semibold text-gray-800 rounded-lg shadow-lg hover:bg-slate-400 hover:scale-105 transition duration-500"
+                    className="relative bg-slate-300 p-8 h-96 w-full text-center text-xl font-semibold text-gray-800 rounded-lg shadow-lg hover:bg-slate-400 hover:scale-105 transition duration-500 flex flex-col justify-between items-center"
                 >
                     Daily Challenges
-                    <Lottie animationData={hand} style={{ width: "100%", height: "auto", marginTop: "1rem" }}>
-                    </Lottie>
-                    <EastIcon />
+                    <Lottie
+                        animationData={hand}
+                        style={{ width: "80%", height: "auto", margin: "auto" }}
+                    />
+                    <EastIcon className="absolute bottom-4 right-4" />
                 </NavLink>
+
                 <NavLink
                     to="/login"
-                    className="bg-slate-300 p-8 h-96 w-full text-center text-xl font-semibold text-gray-800 rounded-lg shadow-lg hover:bg-slate-400 hover:scale-105 transition duration-500"
+                    className="relative bg-slate-300 p-8 h-96 w-full text-center text-xl font-semibold text-gray-800 rounded-lg shadow-lg hover:bg-slate-400 hover:scale-105 transition duration-500 flex flex-col justify-between items-center"
                 >
                     Progress Tracking
-                    <div>
-                        <img src={chatBox} alt="My SVG Icon" className="my-svg-icon"/>
+                    <div className="my-svg-icon-container" style={{ margin: "auto", width: "80%", height: "auto" }}>
+                        <img src={chatBox} alt="My SVG Icon" className="my-svg-icon" />
                     </div>
-                    <EastIcon />
+                    <EastIcon className="absolute bottom-4 right-4" />
                 </NavLink>
+
                 <NavLink
                     to="/login"
-                    className="bg-slate-300 p-8 h-96 w-full text-center text-xl font-semibold text-gray-800 rounded-lg shadow-lg hover:bg-slate-400 hover:scale-105 transition duration-500"
+                    className="relative bg-slate-300 p-8 h-96 w-full text-center text-xl font-semibold text-gray-800 rounded-lg shadow-lg hover:bg-slate-400 hover:scale-105 transition duration-500 flex flex-col justify-between items-center"
                 >
                     Community Support
-                    <Lottie animationData={motivate} style={{ width: "100%", height: "auto", marginTop: "1rem" }}>
-                    </Lottie>
-                    <EastIcon />
+                    <Lottie
+                        animationData={motivate}
+                        style={{ width: "80%", height: "auto", margin: "auto" }}
+                    />
+                    <EastIcon className="absolute bottom-4 right-4" />
                 </NavLink>
             </div>
 
