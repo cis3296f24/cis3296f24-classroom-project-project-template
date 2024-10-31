@@ -19,32 +19,46 @@ const TabsLayout = () => {
           },
         }}
       >
-        <Tabs.Screen 
+        <Tabs.Screen
           name="jaime"
           options={{
             title: 'Jaime',
             headerShown: false,
-            tabBarIcon: ({color, focused}) => 
+            tabBarIcon: ({ color, focused }) =>
               focused ? (
                 <FontAwesome6 name="meh" size={24} color={color} />
               ) : (
                 <FontAwesome6 name="face-meh-blank" size={24} color={color} />
-              ), 
-          }} 
+              ),
+          }}
         />
 
-        <Tabs.Screen 
+        <Tabs.Screen
+          name="luis"
+          options={{
+            title: 'Luis',
+            headerShown: false,
+            tabBarIcon: ({ color, focused }) =>
+              focused ? (
+                <FontAwesome6 name="l" size={24} color={color} />
+              ) : (
+                <FontAwesome6 name="user" size={24} color={color} />
+              ),
+          }}
+        />
+
+        <Tabs.Screen
           name="home"
           options={{
             title: 'Home',
             headerShown: false,
-            tabBarIcon: ({color, focused}) => 
+            tabBarIcon: ({ color, focused }) =>
               focused ? (
                 <MaterialCommunityIcons name="home" size={24} color={color} />
               ) : (
                 <MaterialCommunityIcons name="home-outline" size={24} color={color} />
-              ), 
-          }} 
+              ),
+          }}
         />
 
           <Tabs.Screen 
