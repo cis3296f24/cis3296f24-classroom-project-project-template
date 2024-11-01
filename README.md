@@ -11,18 +11,9 @@ This program also has a collaboration feature that allows users to work together
 ![current image](currentUI.png)
 
 # How to run
+- Download and extract the BestNotes.zip file from the latest release.
+- Run the BestNotes.exe executable to launch the application.
 
-Provide here instructions on how to use your application.   
-- Download the latest binary from the Release section on the right on GitHub.  
-- On the command line uncompress using
-```
-tar -xzf  
-```
-- On the command line run with
-```
-./hello
-```
-- You will see Hello World! on your terminal.
 
 # How to contribute
 Follow this project board to know the latest status of the project: [BestNotes Project Board](https://github.com/orgs/cis3296f24/projects/94/)
@@ -36,7 +27,19 @@ Follow this project board to know the latest status of the project: [BestNotes P
 - What is expected to happen when the app start. 
 
 ### Windows instructions
-- TBD
+-	First if you don't have IntelliJ, download the IDE IntelliJ, then clone the project into IntelliJ using the repository URL
+-	Ensure you have the python plugin downloaded in the IDE
+-	When you try to run main.py, it will give a warning about a missing translator. So, click configure python interpreter and then add a new local interpreter.
+-	Then on the left bar make sure that Virtualenv Environment is selected. 
+-	Inside the Virtualenv Environment menu create a new environment and click ok.
+-	Open command prompt and cd IdeaProjects\BestNotes (or where ever you saved the repository)
+-	Afterwards type in the command venv\Scripts\activate
+-	Next, install pyside6 with the command pip install pyside6
+-	After it’s installed, you can exit the command prompt and go back to IntelliJ
+-	Finally, run main.py and the application should pop up.
+
+PDF Instructions: [Best Notes Windows Set Up Instructions.pdf](https://github.com/user-attachments/files/17594508/BestNotes.Instruction.pdf)
+
 
 ### Mac Instructions
 For mac, you will need to download the IntelliJ IDE. You can download it from the following link:
