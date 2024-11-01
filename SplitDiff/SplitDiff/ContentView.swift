@@ -12,8 +12,13 @@ struct ContentView: View {
         VStack {
             Text("🧾")
                 .font(.system(size: 24))
-                Text("Split Diff!")
-                    .font(.headline)
+            Text("Split Diff!")
+                .font(.headline)
+            
+            Button("Take a Picture") {
+                print("Took a Picture")
+            }
+            .padding(.top, 20)
         }
         .padding()
     }
