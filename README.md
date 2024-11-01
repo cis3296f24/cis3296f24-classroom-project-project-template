@@ -1,21 +1,37 @@
 # Best Notes
-Put here a short paragraph describing your project. 
-Adding an screenshot or a mockup of your application in action would be nice.  
+BestNotes is a Python recreation of the app/program GoodNotes, a note-taking application. 
+The user gets to create a digital notebook 
+where they can write down notes for class or personal uses like journaling.
+Through either drawing by their mouse or a stylus, users can create drawings as well as hand-written notes 
+that they can easily move around by using a select tool. The program will also have a text feature, 
+that allows the user to type their notes, which is easily moveable through the select tool. 
+The notebooks have an autosave feature that saves these notebooks to the user’s devices. 
+This program also has a collaboration feature that allows users to work together on a notebook. 
 
-![This is a screenshot.](images.png)
+![current image](currentUI.png)
+
 # How to run
-Provide here instructions on how to use your application.   
-- Download the latest binary from the Release section on the right on GitHub.  
-- On the command line uncompress using
-```
-tar -xzf  
-```
-- On the command line run with
-```
-./hello
-```
-- You will see Hello World! on your terminal.
-## Mac Instructions
+- Download and run the main.exe file from the latest [release](https://github.com/cis3296f24/01-BestNotes/releases/tag/first).
+
+# How to build
+[BestNotes Project Board](https://github.com/orgs/cis3296f24/projects/94/)
+
+### Windows instructions
+-	First if you don't have IntelliJ, download the IDE IntelliJ, then clone the project into IntelliJ using the repository URL
+-	Ensure you have the python plugin downloaded in the IDE
+-	When you try to run main.py, it will give a warning about a missing translator. So, click configure python interpreter and then add a new local interpreter.
+-	Then on the left bar make sure that Virtualenv Environment is selected. 
+-	Inside the Virtualenv Environment menu create a new environment and click ok.
+-	Open command prompt and cd IdeaProjects\BestNotes (or where ever you saved the repository)
+-	Afterwards type in the command venv\Scripts\activate
+-	Next, install pyside6 with the command pip install pyside6
+-	After it’s installed, you can exit the command prompt and go back to IntelliJ
+-	Finally, run main.py and the application should pop up.
+
+PDF Instructions: [Best Notes Windows Set Up Instructions.pdf](https://github.com/user-attachments/files/17594508/BestNotes.Instruction.pdf)
+
+
+### Mac Instructions
 For mac, you will need to download the IntelliJ IDE. You can download it from the following link:
 https://www.jetbrains.com/idea/download/?section=mac
 
@@ -35,14 +51,5 @@ Once that is completed, do the following:
 
 PDF Instructions: [Best Notes Mac Set Up Instructions.pdf](https://github.com/user-attachments/files/17577744/Best.Notes.Mac.Set.Up.Instructions.pdf)
 
+Credits: Contributing on the code from [WhiteBoard](https://github.com/Shabbar10/PySide-Whiteboard)
 
-# How to contribute
-Follow this project board to know the latest status of the project: [http://...]([http://...])  
-
-### How to build
-- Use this github repository: ... 
-- Specify what branch to use for a more stable release or for cutting edge development.  
-- Use InteliJ 11
-- Specify additional library to download if needed 
-- What file and target to compile and run. 
-- What is expected to happen when the app start. 

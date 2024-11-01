@@ -4,6 +4,7 @@ from PySide6.QtWidgets import (
     QApplication,
     QGraphicsPathItem,
     QColorDialog,
+    QPushButton,
 )
 
 from PySide6.QtGui import (
@@ -69,6 +70,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
 
+        # Add pb_BackgroundColor button - Chloe
+        self.pb_BackgroundColor = QPushButton("Change Background Color", self)
+        self.pb_BackgroundColor.setGeometry(10, 195, 150, 30)
+        self.pb_BackgroundColor.clicked.connect(self.change_background_color)
+
         ############################################################################################################
         # Ensure all buttons behave properly when clicked
         self.list_of_buttons = [self.pb_Pen, self.pb_Eraser]
@@ -87,11 +93,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         ###########################################################################################################
         self.current_color = QColor("#000000")
         self.pb_Pen.clicked.connect(lambda e: self.color_changed(self.current_color))
-        self.pb_Eraser.clicked.connect(lambda e: self.color_changed(QColor("#FFFFFF")))
+        # This eraser just changes stuff to white (#FFFFFF) and not to the proper background color of window... - RS 10/30
+        # I used an online tool to find out the proper color of the background and updated it below... - RS 10/30
+        self.pb_Eraser.clicked.connect(lambda e: self.color_changed(QColor("#F3F3F3")))
 
         self.dial.sliderMoved.connect(self.change_size)
         self.dial.setMinimum(1)
-        self.dial.setMaximum(40)
+        self.dial.setMaximum(100)
         self.dial.setWrapping(False)
 
         self.pb_Color.clicked.connect(self.color_dialog)
@@ -142,6 +150,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         for btn in self.list_of_buttons:
             if btn is not sender_button:
                 btn.setChecked(False)
+
+    def change_background_color(self):
+        # Open a color board and set the background color
+        color = QColorDialog.getColor()
+        if color.isValid():
+            # Update backround color
+            self.scene.setBackgroundBrush(color)
 
     def text_box(self):
         return
