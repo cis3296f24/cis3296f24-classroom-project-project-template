@@ -1,45 +1,67 @@
-document.getElementById('fetch-button').addEventListener('click', fetchLocations);
-
-function fetchLocations() {
-    //const apiUrl = 'https://www3.septa.org/api/locations/get_locations.php?lon=-75.15457&lat=39.98034&type=rail_stations&radius=2'
-    //^normal url for when we've implemented server
-    
-    const apiUrl = 'https://cors-anywhere.herokuapp.com/https://www3.septa.org/api/locations/get_locations.php?lon=-75.15457&lat=39.98034&type=rail_stations&radius=2';
-    //delete when backend is implemented and use top URL^^
-    //https://cors-anywhere.herokuapp.com/corsdemo
-    //have to request permissions to bypass CORS proxy whenever testing on live server, shouldnt be a problem later
-
-    fetch(apiUrl)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('Fetched data:', data); // log JSON for debugging
-            displayLocations(data);
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-            document.getElementById('response-container').innerText = 'Error fetching data.';
-        });
+// Function to get the user's current position as a Promise
+function getCurrentPosition() {
+    return new Promise((resolve, reject) => {
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition(
+                function (position) {
+                    resolve(position);
+                },
+                function (error) {
+                    reject(error);
+                }
+            );
+        } else {
+            reject(new Error("Geolocation API is not available in this browser."));
+        }
+    });
 }
 
+// Add event listener to the fetch button
+document.getElementById('fetch-button').addEventListener('click', async function () {
+    try {
+        // Get the user's current position
+        const position = await getCurrentPosition();
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+
+        console.log("Latitude:", latitude);
+        console.log("Longitude:", longitude);
+
+        // Construct the API URL using the latitude and longitude from geolocation API
+        const apiUrl = `https://cors-anywhere.herokuapp.com/https://www3.septa.org/api/locations/get_locations.php?lon=${longitude}&lat=${latitude}&type=rail_stations&radius=2`;
+
+        // Fetch the data from the API
+        const response = await fetch(apiUrl);
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json();
+
+        console.log('Fetched data:', data); // Log JSON for debugging
+
+        // Display the locations
+        displayLocations(data);
+    } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('response-container').innerText = error.message;
+    }
+});
+
+// Function to display the locations
 function displayLocations(locations) {
     const container = document.getElementById('response-container');
-    container.innerHTML = ''; //clear prev loc
+    container.innerHTML = ''; // Clear previous locations
 
-    if (locations.length === 0) {
+    if (!Array.isArray(locations) || locations.length === 0) {
         container.innerText = 'No locations found.';
         return;
     }
 
     locations.forEach(location => {
         const locationDiv = document.createElement('div');
-        locationDiv.classList.add('location-item'); 
+        locationDiv.classList.add('location-item');
 
-        // build each location
+        // Build each location display
         locationDiv.innerHTML = `
             <strong>${location.location_name}</strong><br>
             Coordinates: (${location.location_lat}, ${location.location_lon})<br>
@@ -47,7 +69,7 @@ function displayLocations(locations) {
             Location Type: ${location.location_type}
         `;
 
-        // Append location to children
+        // Append location to container
         container.appendChild(locationDiv);
     });
 }
