@@ -9,6 +9,7 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
+//starts the server and logs a message to the console
 app.listen(port, () => {
   console.log(`App running at http://localhost:${port}`);
 });
