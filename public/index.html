@@ -9,7 +9,8 @@
     body {
       margin: 0;
       padding: 0;
-      font-family: Arial, sans-serif;
+      font-family: "Arial Black", sans-serif;
+      letter-spacing: 0.1em;
       background: url('https://www.pixel4k.com/wp-content/uploads/2018/10/sky-full-of-stars-space-4k_1540139420.jpg') no-repeat center center;
       background-size: cover;
       color: #fff;
@@ -18,8 +19,9 @@
 
     h1 {
       text-align: center;
-      color: #fff;
-      margin-top: 20px;
+      color: #6196f2;
+      margin-top: 50px;
+      font-size: 2.5em;
     }
 
     #chart {
@@ -28,62 +30,64 @@
     }
 
     text {
-      font-size: 14px;
+      font-size: 15px;
       fill: #fff;
     }
   </style>
 </head>
 <body>
-  <h1>Spotify Top Tracks - Sample Visualization</h1>
-  <div id="chart"></div>
-  <script>
-    const data = [
-      { name: "Artist 1", artist: "Artist 1", popularity: 100, duration: 220 },
-      { name: "Artist 2", artist: "Artist 2", popularity: 90, duration: 220 },
-      { name: "Artist 3", artist: "Artist 3", popularity: 30, duration: 210 },
-      { name: "Artist 4", artist: "Artist 4", popularity: 10, duration: 240 },
-      { name: "Artist 5", artist: "Artist 5", popularity: 90, duration: 230 }
-    ];
 
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-    
-    const planetColors = ["#f75", "#b9e", "#72e", "#3a0", "#436"];
+<h1>Spotify Top Tracks - Sample Visualization</h1>
+<div id="chart"></div>
 
-    const svg = d3.select("#chart")
-                  .append("svg")
-                  .attr("width", width)
-                  .attr("height", height);
+<script>
+  const data = [
+    { name: "Artist 1", artist: "Artist 1", popularity: 100, duration: 220 },
+    { name: "Artist 2", artist: "Artist 2", popularity: 90, duration: 220 },
+    { name: "Artist 3", artist: "Artist 3", popularity: 30, duration: 210 },
+    { name: "Artist 4", artist: "Artist 4", popularity: 10, duration: 240 },
+    { name: "Artist 5", artist: "Artist 5", popularity: 90, duration: 230 }
+  ];
 
-    const xScale = d3.scaleLinear()
-                     .domain([0, 100]) // Popularity (0 - 100)
-                     .range([100, width - 100]);
+  const width = window.innerWidth;
+  const height = window.innerHeight;
 
-    const yScale = d3.scaleLinear()
-                     .domain([150, 300]) 
-                     .range([height - 100, 100]);
+  const planetColors = ["#f75", "#b9e", "#72e", "#3a0", "#436"];
 
-    svg.selectAll("circle")
-       .data(data)
-       .enter()
-       .append("circle")
-       .attr("cx", d => xScale(d.popularity))
-       .attr("cy", d => yScale(d.duration))
-       .attr("r", 40)
-       .attr("fill", (d, i) => planetColors[i])
-       .attr("stroke", "white")
-       .attr("stroke-width", 2);
+  const svg = d3.select("#chart")
+          .append("svg")
+          .attr("width", width)
+          .attr("height", height);
 
-    svg.selectAll(".artist-label")
-       .data(data)
-       .enter()
-       .append("text")
-       .attr("class", "artist-label")
-       .attr("x", d => xScale(d.popularity))
-       .attr("y", d => yScale(d.duration) + 5)
-       .attr("text-anchor", "middle")
-       .text(d => d.artist);
+  const xScale = d3.scaleLinear()
+          .domain([0, 100]) // Popularity (0 - 100)
+          .range([100, width - 100]);
 
-  </script>
+  const yScale = d3.scaleLinear()
+          .domain([150, 300])
+          .range([height - 100, 100]);
+
+  svg.selectAll("circle")
+          .data(data)
+          .enter()
+          .append("circle")
+          .attr("cx", d => xScale(d.popularity))
+          .attr("cy", d => yScale(d.duration))
+          .attr("r", 40)
+          .attr("fill", (d, i) => planetColors[i])
+          .attr("stroke", "white")
+          .attr("stroke-width", 2);
+
+  svg.selectAll(".artist-label")
+          .data(data)
+          .enter()
+          .append("text")
+          .attr("class", "artist-label")
+          .attr("x", d => xScale(d.popularity))
+          .attr("y", d => yScale(d.duration) + 5)
+          .attr("text-anchor", "middle")
+          .text(d => d.artist);
+
+</script>
 </body>
 </html>
