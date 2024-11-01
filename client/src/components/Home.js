@@ -88,6 +88,14 @@ function Home() {
                             <li className='px-2 text-gray-500 text-lg font-semibold'>Phone #: 215-###-####</li>
                         </ul>
             </div>
+
+            <div>
+                <h3 className='px-2 text-gray-500 text-lg font-semibold'>Jie Huang</h3>
+                        <ul>
+                            <li className='px-2 text-gray-500 text-lg font-semibold'>Email: tuo77200@temple.edu</li>
+                            <li className='px-2 text-gray-500 text-lg font-semibold'>Phone #: 215-###-####</li>
+                        </ul>
+            </div>
             
         </div>
     );
