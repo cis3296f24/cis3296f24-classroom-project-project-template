@@ -143,6 +143,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             if btn is not sender_button:
                 btn.setChecked(False)
 
+    def text_box(self):
+        return
+
 
 if __name__ == '__main__':
     app = QApplication()

@@ -107,6 +107,16 @@ class Ui_MainWindow(object):
 
         self.gridLayout.addWidget(self.pb_Pen, 0, 0, 1, 1)
 
+        self.pb_Text_Box = QPushButton(self.centralwidget)
+        self.pb_Text_Box.setObjectName(u"pb_Text_Box")
+        icon6 = QIcon()
+        icon6.addFile(u":/Tools/pen.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.pb_Text_Box.setIcon(icon3)
+        self.pb_Text_Box.setCheckable(True)
+
+        self.gridLayout.addWidget(self.pb_Text_Box, 5, 0, 1, 1)
+
+
         self.dial = QDial(self.centralwidget)
         self.dial.setObjectName(u"dial")
 
