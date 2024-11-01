@@ -11,20 +11,10 @@ This program also has a collaboration feature that allows users to work together
 ![current image](currentUI.png)
 
 # How to run
-- Download and extract the BestNotes.zip file from the latest release.
-- Run the BestNotes.exe executable to launch the application.
+- Download and run the main.exe file from the latest [release](https://github.com/cis3296f24/01-BestNotes/releases/tag/first).
 
-
-# How to contribute
-Follow this project board to know the latest status of the project: [BestNotes Project Board](https://github.com/orgs/cis3296f24/projects/94/)
-
-## How to build
-- Use this github repository: ... 
-- Specify what branch to use for a more stable release or for cutting edge development.  
-- Use InteliJ 11
-- Specify additional library to download if needed 
-- What file and target to compile and run. 
-- What is expected to happen when the app start. 
+# How to build
+[BestNotes Project Board](https://github.com/orgs/cis3296f24/projects/94/)
 
 ### Windows instructions
 -	First if you don't have IntelliJ, download the IDE IntelliJ, then clone the project into IntelliJ using the repository URL
@@ -60,4 +50,6 @@ Once that is completed, do the following:
 - Once the download has completed, return to IntelliJ and hit the play button to run main.py and use the application.
 
 PDF Instructions: [Best Notes Mac Set Up Instructions.pdf](https://github.com/user-attachments/files/17577744/Best.Notes.Mac.Set.Up.Instructions.pdf)
+
+Credits: Contributing on the code from [WhiteBoard](https://github.com/Shabbar10/PySide-Whiteboard)
 
