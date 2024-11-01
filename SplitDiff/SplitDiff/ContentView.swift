@@ -16,7 +16,7 @@ struct ContentView: View {
                 .font(.headline)
             
             Button("Take a Picture") {
-                print("Took a Picture")
+                print("Took a Picture!")
             }
             .padding(.top, 20)
         }
