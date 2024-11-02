@@ -25,7 +25,7 @@ class TextBox (QGraphicsTextItem):
         # Create a resize handle to adjust text box size
         self.resize_handle = QGraphicsRectItem(0, 0, 10, 10, self)
         self.resize_handle.setBrush(Qt.black)
-        self.resize_handle.setFlags(QGraphicsItem.ItemIsMovable)
+        #self.resize_handle.setFlags(QGraphicsItem.ItemIsMovable)
         self.resize_handle.setCursor(Qt.SizeFDiagCursor)
 
         # Track initial position for dragging calculations
@@ -43,6 +43,7 @@ class TextBox (QGraphicsTextItem):
         if event.button() == Qt.LeftButton:
             # Record the initial scene position when clicked
             self.start_pos = event.scenePos()
+            self.setFocus()
             event.accept()
         super().mousePressEvent(event)
 
@@ -64,12 +65,11 @@ class TextBox (QGraphicsTextItem):
 
     #Deletes text box
     def keyPressEvent(self, event):
-        if event.key() == Qt.Key_Delete:
+        if event.key() == Qt.Key_Backspace:
             scene = self.scene()
             if scene:
                 scene.removeItem(self)
         else:
             super().keyPressEvent(event)
             self.updateResizeHandlePosition()  # Update the handle position after typing
-
 

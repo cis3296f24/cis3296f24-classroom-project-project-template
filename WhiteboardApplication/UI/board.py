@@ -9,16 +9,16 @@
 ################################################################################
 
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
-    QMetaObject, QObject, QPoint, QRect,
-    QSize, QTime, QUrl, Qt)
+                            QMetaObject, QObject, QPoint, QRect,
+                            QSize, QTime, QUrl, Qt)
 from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
-    QCursor, QFont, QFontDatabase, QGradient,
-    QIcon, QImage, QKeySequence, QLinearGradient,
-    QPainter, QPalette, QPixmap, QRadialGradient,
-    QTransform)
+                           QCursor, QFont, QFontDatabase, QGradient,
+                           QIcon, QImage, QKeySequence, QLinearGradient,
+                           QPainter, QPalette, QPixmap, QRadialGradient,
+                           QTransform)
 from PySide6.QtWidgets import (QApplication, QDial, QGraphicsView, QGridLayout,
-    QMainWindow, QMenu, QMenuBar, QPushButton,
-    QSizePolicy, QSpacerItem, QStatusBar, QWidget)
+                               QMainWindow, QMenu, QMenuBar, QPushButton,
+                               QSizePolicy, QSpacerItem, QStatusBar, QWidget)
 import Icons_rc
 
 class Ui_MainWindow(object):
@@ -106,15 +106,6 @@ class Ui_MainWindow(object):
         self.pb_Pen.setCheckable(True)
 
         self.gridLayout.addWidget(self.pb_Pen, 0, 0, 1, 1)
-
-        self.pb_Text_Box = QPushButton(self.centralwidget)
-        self.pb_Text_Box.setObjectName(u"pb_Text_Box")
-        icon6 = QIcon()
-        icon6.addFile(u":/Tools/pen.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.pb_Text_Box.setIcon(icon3)
-        self.pb_Text_Box.setCheckable(True)
-
-        self.gridLayout.addWidget(self.pb_Text_Box, 5, 0, 1, 1)
 
 
         self.dial = QDial(self.centralwidget)
@@ -208,29 +199,28 @@ class Ui_MainWindow(object):
         self.actionClose.setText(QCoreApplication.translate("MainWindow", u"Close", None))
         self.actionNew_4.setText(QCoreApplication.translate("MainWindow", u"New", None))
         self.actionNew_3.setText(QCoreApplication.translate("MainWindow", u"New", None))
-#if QT_CONFIG(tooltip)
+        #if QT_CONFIG(tooltip)
         self.pb_Redo.setToolTip(QCoreApplication.translate("MainWindow", u"<html><head/><body><p>Redo</p></body></html>", None))
-#endif // QT_CONFIG(tooltip)
+        #endif // QT_CONFIG(tooltip)
         self.pb_Redo.setText("")
-#if QT_CONFIG(tooltip)
+        #if QT_CONFIG(tooltip)
         self.pb_Eraser.setToolTip(QCoreApplication.translate("MainWindow", u"<html><head/><body><p>Eraser</p></body></html>", None))
-#endif // QT_CONFIG(tooltip)
+        #endif // QT_CONFIG(tooltip)
         self.pb_Eraser.setText("")
         self.pb_Color.setText(QCoreApplication.translate("MainWindow", u"Color", None))
         self.pb_Rectangle.setText("")
-#if QT_CONFIG(tooltip)
+        #if QT_CONFIG(tooltip)
         self.pb_Pen.setToolTip(QCoreApplication.translate("MainWindow", u"<html><head/><body><p>Pen</p></body></html>", None))
-#endif // QT_CONFIG(tooltip)
+        #endif // QT_CONFIG(tooltip)
         self.pb_Pen.setText("")
-#if QT_CONFIG(tooltip)
+        #if QT_CONFIG(tooltip)
         self.pb_Undo.setToolTip(QCoreApplication.translate("MainWindow", u"<html><head/><body><p>Undo</p></body></html>", None))
-#endif // QT_CONFIG(tooltip)
-#if QT_CONFIG(whatsthis)
+        #endif // QT_CONFIG(tooltip)
+        #if QT_CONFIG(whatsthis)
         self.pb_Undo.setWhatsThis(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><br/></p></body></html>", None))
-#endif // QT_CONFIG(whatsthis)
+        #endif // QT_CONFIG(whatsthis)
         self.pb_Undo.setText("")
         self.pb_Line.setText("")
         self.pb_Ellipse.setText("")
         self.menuFile.setTitle(QCoreApplication.translate("MainWindow", u"File", None))
     # retranslateUi
-

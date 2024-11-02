@@ -48,7 +48,7 @@ class BoardScene(QGraphicsScene):
 
     def mousePressEvent(self, event):
         if event.button() == Qt.MouseButton.LeftButton:
-        # Check if clicked on an existing text box
+            # Check if clicked on an existing text box
             item = self.itemAt(event.scenePos(), QTransform())
             if isinstance(item, QGraphicsTextItem):
                 self.selected_textbox = item
@@ -84,7 +84,7 @@ class BoardScene(QGraphicsScene):
         # Set the position to a visible area (e.g., center of the scene)
         scene_rect = self.sceneRect()
         text_box.setPos(scene_rect.width() / 2 - text_box.boundingRect().width() / 2,
-                    scene_rect.height() / 2 - text_box.boundingRect().height() / 2)
+                        scene_rect.height() / 2 - text_box.boundingRect().height() / 2)
 
         self.text_boxes.append(text_box)
 
