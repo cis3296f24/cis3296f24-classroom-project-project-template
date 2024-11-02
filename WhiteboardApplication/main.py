@@ -5,6 +5,7 @@ from PySide6.QtWidgets import (
     QGraphicsPathItem,
     QColorDialog,
     QPushButton,
+    QGraphicsTextItem
 )
 
 from PySide6.QtGui import (
@@ -13,6 +14,7 @@ from PySide6.QtGui import (
     QPainter,
     QPainterPath,
     QColor,
+    QTransform
 )
 
 from PySide6.QtCore import (
@@ -45,28 +47,36 @@ class BoardScene(QGraphicsScene):
         self.size = size
 
     def mousePressEvent(self, event):
-        if event.button() == Qt.LeftButton:
-            self.drawing = True
-            self.path = QPainterPath()
-            self.previous_position = event.scenePos()
-            self.path.moveTo(self.previous_position)
-            self.pathItem = QGraphicsPathItem()
-            my_pen = QPen(self.color, self.size)
-            my_pen.setCapStyle(Qt.PenCapStyle.RoundCap)
-            self.pathItem.setPen(my_pen)
-            self.addItem(self.pathItem)
+        if event.button() == Qt.MouseButton.LeftButton:
+        # Check if clicked on an existing text box
+            item = self.itemAt(event.scenePos(), QTransform())
+            if isinstance(item, QGraphicsTextItem):
+                self.selected_textbox = item
+                self.moving_textbox = True  # Flag to indicate movement
+            else:
+                self.selected_textbox = None
+                self.moving_textbox = False  # No movement if not on a text box
+        super().mousePressEvent(event)
 
     def mouseMoveEvent(self, event):
-        if self.drawing:
-            curr_position = event.scenePos()
-            self.path.lineTo(curr_position)
-            self.pathItem.setPath(self.path)
-            self.previous_position = curr_position
+        if self.moving_textbox and self.selected_textbox:
+            # Move the selected text box
+            self.selected_textbox.setPos(event.scenePos())
+        else:
+            if self.drawing:
+                curr_position = event.scenePos()
+                self.path.lineTo(curr_position)
+                self.pathItem.setPath(self.path)
+                self.previous_position = curr_position
+        super().mouseMoveEvent(event)
+
 
     def mouseReleaseEvent(self, event):
-        if event.button() == Qt.MouseButton.LeftButton:
-            self.previous_position = None
-            self.drawing = False
+        # Release movement
+        if self.moving_textbox:
+            self.moving_textbox = False
+            self.selected_textbox = None
+        super().mouseReleaseEvent(event)
 
     def add_text_box(self):
         text_box = TextBox()
