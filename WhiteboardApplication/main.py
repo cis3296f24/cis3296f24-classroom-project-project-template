@@ -21,6 +21,7 @@ from PySide6.QtCore import (
 
 from WhiteboardApplication.UI.board import Ui_MainWindow
 
+from text_box import TextBox
 
 class BoardScene(QGraphicsScene):
     def __init__(self):
@@ -33,6 +34,9 @@ class BoardScene(QGraphicsScene):
         self.color = QColor("#000000")
         self.size = 1
         self.pathItem = None
+
+        #A list to keep track of all existing text boxes
+        self.text_boxes = []
 
     def change_color(self, color):
         self.color = color
@@ -64,6 +68,20 @@ class BoardScene(QGraphicsScene):
             self.previous_position = None
             self.drawing = False
 
+    def add_text_box(self):
+        text_box = TextBox()
+        self.addItem(text_box)
+        # Set the position to a visible area (e.g., center of the scene)
+        scene_rect = self.sceneRect()
+        text_box.setPos(scene_rect.width() / 2 - text_box.boundingRect().width() / 2,
+                    scene_rect.height() / 2 - text_box.boundingRect().height() / 2)
+
+        self.text_boxes.append(text_box)
+
+    def remove_text_box(self, text_box):
+        if text_box in self.text_boxes:
+            self.text_boxes.remove(text_box)  # Remove from the list
+        self.removeItem(text_box)  # Remove from the scene
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -74,6 +92,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.pb_BackgroundColor = QPushButton("Change Background Color", self)
         self.pb_BackgroundColor.setGeometry(10, 195, 150, 30)
         self.pb_BackgroundColor.clicked.connect(self.change_background_color)
+
+        self.pb_Text_Box = QPushButton("Text Box", self)
+        self.pb_Text_Box.setGeometry(10, 400, 100, 30)
+        self.pb_Text_Box.clicked.connect(self.add_text_box)
 
         ############################################################################################################
         # Ensure all buttons behave properly when clicked
@@ -158,8 +180,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             # Update backround color
             self.scene.setBackgroundBrush(color)
 
-    def text_box(self):
-        return
+    def add_text_box(self):
+        self.scene.add_text_box()
 
 
 if __name__ == '__main__':
