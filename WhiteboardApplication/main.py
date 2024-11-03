@@ -70,18 +70,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
 
-        # Add pb_BackgroundColor button - Chloe
-        self.pb_BackgroundColor = QPushButton("Change Background Color", self)
-        self.pb_BackgroundColor.setGeometry(10, 195, 150, 30)
-        self.pb_BackgroundColor.clicked.connect(self.change_background_color)
+        # # Add pb_BackgroundColor button - Chloe
+        # self.pb_BackgroundColor = QPushButton("Change Background Color", self)
+        # self.pb_BackgroundColor.setGeometry(10, 195, 150, 30)
+        # self.pb_BackgroundColor.clicked.connect(self.change_background_color)
 
         ############################################################################################################
         # Ensure all buttons behave properly when clicked
-        self.list_of_buttons = [self.pb_Pen, self.pb_Eraser]
+        self.list_of_buttons = [self.actionPen, self.actionEraser]
 
-        self.pb_Pen.setChecked(True)
-        self.pb_Pen.clicked.connect(self.button_clicked)
-        self.pb_Eraser.clicked.connect(self.button_clicked)
+        self.actionPen.setChecked(True)
+        self.actionPen.triggered.connect(self.button_clicked)
+        self.actionEraser.triggered.connect(self.button_clicked)
 
         self.current_color = QColor("#000000")
 
@@ -92,19 +92,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # Define what the tool buttons do
         ###########################################################################################################
         self.current_color = QColor("#000000")
-        self.pb_Pen.clicked.connect(lambda e: self.color_changed(self.current_color))
+        self.actionPen.triggered.connect(lambda e: self.color_changed(self.current_color))
         # This eraser just changes stuff to white (#FFFFFF) and not to the proper background color of window... - RS 10/30
         # I used an online tool to find out the proper color of the background and updated it below... - RS 10/30
-        self.pb_Eraser.clicked.connect(lambda e: self.color_changed(QColor("#F3F3F3")))
+        self.actionEraser.triggered.connect(lambda e: self.color_changed(QColor("#F3F3F3")))
 
-        self.dial.sliderMoved.connect(self.change_size)
-        self.dial.setMinimum(1)
-        self.dial.setMaximum(100)
-        self.dial.setWrapping(False)
+        # self.dial.sliderMoved.connect(self.change_size)
+        # self.dial.setMinimum(1)
+        # self.dial.setMaximum(100)
+        # self.dial.setWrapping(False)
 
-        self.pb_Color.clicked.connect(self.color_dialog)
-        self.pb_Undo.clicked.connect(self.undo)
-        self.pb_Redo.clicked.connect(self.redo)
+        #self.pb_Color.clicked.connect(self.color_dialog)
+        self.actionUndo.triggered.connect(self.undo)
+        self.actionRedo.triggered.connect(self.redo)
         ###########################################################################################################
 
         self.scene = BoardScene()
@@ -113,8 +113,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.redo_list = []
 
-    def change_size(self):
-        self.scene.change_size(self.dial.value())
+    # def change_size(self):
+    #     self.scene.change_size(self.dial.value())
 
     def undo(self):
         if self.scene.items():
@@ -138,9 +138,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def color_dialog_color_changed(self, current_color):
         self.color_changed(current_color)
-        if self.pb_Eraser.isChecked():
-            self.pb_Eraser.setChecked(False)
-            self.pb_Pen.setChecked(True)
+        if self.actionEraser.isChecked():
+            self.actionEraser.setChecked(False)
+            self.actionPen.setChecked(True)
 
     def color_changed(self, color):
         self.scene.change_color(color)
@@ -151,12 +151,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             if btn is not sender_button:
                 btn.setChecked(False)
 
-    def change_background_color(self):
-        # Open a color board and set the background color
-        color = QColorDialog.getColor()
-        if color.isValid():
-            # Update backround color
-            self.scene.setBackgroundBrush(color)
+    # def change_background_color(self):
+    #     # Open a color board and set the background color
+    #     color = QColorDialog.getColor()
+    #     if color.isValid():
+    #         # Update backround color
+    #         self.scene.setBackgroundBrush(color)
 
 
 if __name__ == '__main__':
