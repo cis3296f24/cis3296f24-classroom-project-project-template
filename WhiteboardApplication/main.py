@@ -187,7 +187,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # Open a color board and set the background color
         color = QColorDialog.getColor()
         if color.isValid():
-            # Update backround color
+            # Update background color
             self.scene.setBackgroundBrush(color)
 
     def add_text_box(self):
