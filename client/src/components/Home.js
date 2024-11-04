@@ -5,6 +5,7 @@ import { NavLink } from 'react-router-dom';
 import chatBox from '../assets/chatBox.svg';
 import hand from '../assets/hand.json';
 import motivate from '../assets/motivate.json';
+import React, { useEffect, useState } from 'react';
 
 function Home() {
     return (
