@@ -2,22 +2,16 @@ import logo from './logo.svg';
 import './App.css';
 
 function App() {
-  return (
+    const CLIENT_ID = "9f79956a03b04bcfb5df0ff2a5a78059"
+    const REDIRECT_URI = "http://localhost:3000"
+    const AUTH_ENDPOINT = "https://accounts.spotify.com"
+    const RESPONSE_TYPE = "token"
+    
+    return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+	<header className="App-header">
+	     <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>Login to Spotify</a>
+	</header>
     </div>
   );
 }
