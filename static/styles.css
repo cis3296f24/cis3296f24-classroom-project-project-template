@@ -1,0 +1,16 @@
+.trip-planner-form{
+    display: block;
+    width: 33%;
+    border: 2px solid grey;
+    border-radius: 12px;
+}
+
+.trip-planner-form input{
+    display: block;
+    margin: 5px;
+    width: 80%;
+}
+
+body button{
+    border-radius: 12px;
+}
