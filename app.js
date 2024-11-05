@@ -38,9 +38,11 @@ app.use(
   })
 );
 
+
 const CLIENT_ID = '89cd82b2bc114cde888005822373c259'; // Your Spotify client ID
 const CLIENT_SECRET = 'c7fdc87c8d12446d89080c9691a05ea9'; // Your Spotify client secret
 const REDIRECT_URI = 'http://localhost:3000/callback';
+
 
 // Redirect to Spotify authorization page
 app.get('/login', (req, res) => {
@@ -111,6 +113,7 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html')); // Serve your HTML file
 });
 
+//starts the server and logs a message to the console
 app.listen(port, () => {
   console.log(`App running at http://localhost:${port}`);
 });
