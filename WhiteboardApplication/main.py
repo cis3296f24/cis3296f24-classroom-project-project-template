@@ -77,11 +77,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         ############################################################################################################
         # Ensure all buttons behave properly when clicked
-        self.list_of_buttons = [self.actionPen, self.actionEraser]
+        self.list_of_buttons = [self.tb_Pen, self.pb_Eraser]
 
-        self.actionPen.setChecked(True)
-        self.actionPen.triggered.connect(self.button_clicked)
-        self.actionEraser.triggered.connect(self.button_clicked)
+        self.tb_Pen.setChecked(True)
+        self.tb_Pen.triggered.connect(self.button_clicked)
+        self.pb_Eraser.clicked.connect(self.button_clicked)
 
         self.current_color = QColor("#000000")
 
@@ -92,19 +92,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # Define what the tool buttons do
         ###########################################################################################################
         self.current_color = QColor("#000000")
-        self.actionPen.triggered.connect(lambda e: self.color_changed(self.current_color))
+        self.tb_Pen.triggered.connect(lambda e: self.color_changed(self.current_color))
         # This eraser just changes stuff to white (#FFFFFF) and not to the proper background color of window... - RS 10/30
         # I used an online tool to find out the proper color of the background and updated it below... - RS 10/30
-        self.actionEraser.triggered.connect(lambda e: self.color_changed(QColor("#F3F3F3")))
+        self.pb_Eraser.clicked.connect(lambda e: self.color_changed(QColor("#F3F3F3")))
 
-        # self.dial.sliderMoved.connect(self.change_size)
-        # self.dial.setMinimum(1)
-        # self.dial.setMaximum(100)
-        # self.dial.setWrapping(False)
+        self.dial.sliderMoved.connect(self.change_size)
+        self.dial.setMinimum(1)
+        self.dial.setMaximum(100)
+        self.dial.setWrapping(False)
 
         #self.pb_Color.clicked.connect(self.color_dialog)
-        self.actionUndo.triggered.connect(self.undo)
-        self.actionRedo.triggered.connect(self.redo)
+        self.pb_Undo.clicked.connect(self.undo)
+        self.pb_Redo.clicked.connect(self.redo)
         ###########################################################################################################
 
         self.scene = BoardScene()
@@ -113,8 +113,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.redo_list = []
 
-    # def change_size(self):
-    #     self.scene.change_size(self.dial.value())
+    def change_size(self):
+        self.scene.change_size(self.dial.value())
 
     def undo(self):
         if self.scene.items():
@@ -138,9 +138,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def color_dialog_color_changed(self, current_color):
         self.color_changed(current_color)
-        if self.actionEraser.isChecked():
-            self.actionEraser.setChecked(False)
-            self.actionPen.setChecked(True)
+        if self.pb_Eraser.isChecked():
+            self.pb_Eraser.setChecked(False)
+            self.tb_Pen.setChecked(True)
 
     def color_changed(self, color):
         self.scene.change_color(color)
