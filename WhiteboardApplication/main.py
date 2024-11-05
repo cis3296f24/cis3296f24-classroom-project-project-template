@@ -37,6 +37,10 @@ class BoardScene(QGraphicsScene):
         self.size = 1
         self.pathItem = None
 
+        # Initialize moving and selected text box attributes
+        self.moving_textbox = False
+        self.selected_textbox = None
+
         #A list to keep track of all existing text boxes
         self.text_boxes = []
 
