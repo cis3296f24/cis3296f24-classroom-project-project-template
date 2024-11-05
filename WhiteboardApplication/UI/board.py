@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'boardcvKVAQ.ui'
+## Form generated from reading UI file 'boardLconev.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.8.0
 ##
@@ -16,10 +16,11 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QIcon, QImage, QKeySequence, QLinearGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
-from PySide6.QtWidgets import (QAbstractScrollArea, QApplication, QGraphicsView, QGridLayout,
-    QHBoxLayout, QMainWindow, QMenu, QMenuBar,
-    QPushButton, QScrollArea, QSizePolicy, QSpacerItem,
-    QStatusBar, QTabWidget, QToolBar, QWidget)
+from PySide6.QtWidgets import (QAbstractScrollArea, QApplication, QDial, QGraphicsView,
+    QGridLayout, QHBoxLayout, QMainWindow, QMenu,
+    QMenuBar, QPushButton, QScrollArea, QSizePolicy,
+    QSpacerItem, QStatusBar, QTabWidget, QToolButton,
+    QVBoxLayout, QWidget)
 import Icons_rc
 
 class Ui_MainWindow(object):
@@ -147,9 +148,236 @@ class Ui_MainWindow(object):
         self.actionChat.setObjectName(u"actionChat")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
+        self.centralwidget.setStyleSheet(u"")
         self.horizontalLayout = QHBoxLayout(self.centralwidget)
         self.horizontalLayout.setSpacing(0)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.horizontalLayout.setContentsMargins(-1, 5, 0, 0)
+        self.w_Tools = QWidget(self.centralwidget)
+        self.w_Tools.setObjectName(u"w_Tools")
+        self.w_Tools.setMaximumSize(QSize(50, 16777215))
+        self.verticalLayout = QVBoxLayout(self.w_Tools)
+        self.verticalLayout.setSpacing(0)
+        self.verticalLayout.setObjectName(u"verticalLayout")
+        self.verticalLayout.setContentsMargins(0, 25, 0, 0)
+        self.pb_Cursor = QPushButton(self.w_Tools)
+        self.pb_Cursor.setObjectName(u"pb_Cursor")
+        self.pb_Cursor.setMinimumSize(QSize(0, 40))
+        self.pb_Cursor.setMaximumSize(QSize(60, 60))
+        self.pb_Cursor.setStyleSheet(u"")
+        self.pb_Cursor.setIcon(icon)
+        self.pb_Cursor.setIconSize(QSize(25, 25))
+        self.pb_Cursor.setCheckable(True)
+        self.pb_Cursor.setChecked(False)
+        self.pb_Cursor.setFlat(True)
+
+        self.verticalLayout.addWidget(self.pb_Cursor)
+
+        self.tb_Pen = QToolButton(self.w_Tools)
+        self.tb_Pen.setObjectName(u"tb_Pen")
+        self.tb_Pen.setMinimumSize(QSize(0, 40))
+        self.tb_Pen.setMaximumSize(QSize(60, 60))
+        self.tb_Pen.setStyleSheet(u"QToolButton {\n"
+"	border: none;\n"
+"	background: transparent;\n"
+"}\n"
+"\n"
+"QToolButton:hover {\n"
+"	background-color: rgb(141, 200, 216);\n"
+"	border-radius: 15px;\n"
+"}")
+        self.tb_Pen.setIcon(icon1)
+        self.tb_Pen.setIconSize(QSize(25, 25))
+        self.tb_Pen.setCheckable(True)
+        self.tb_Pen.setPopupMode(QToolButton.ToolButtonPopupMode.DelayedPopup)
+        self.tb_Pen.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonIconOnly)
+        self.tb_Pen.setArrowType(Qt.ArrowType.NoArrow)
+
+        self.verticalLayout.addWidget(self.tb_Pen)
+
+        self.tb_Highlighter = QToolButton(self.w_Tools)
+        self.tb_Highlighter.setObjectName(u"tb_Highlighter")
+        self.tb_Highlighter.setMinimumSize(QSize(0, 40))
+        self.tb_Highlighter.setMaximumSize(QSize(60, 60))
+        self.tb_Highlighter.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
+        self.tb_Highlighter.setStyleSheet(u"QToolButton {\n"
+"	border: none;\n"
+"	background: transparent;\n"
+"}\n"
+"\n"
+"QToolButton:hover {\n"
+"	background-color: rgb(141, 200, 216);\n"
+"	border-radius: 15px;\n"
+"}")
+        self.tb_Highlighter.setIcon(icon2)
+        self.tb_Highlighter.setIconSize(QSize(25, 25))
+        self.tb_Highlighter.setCheckable(True)
+        self.tb_Highlighter.setPopupMode(QToolButton.ToolButtonPopupMode.DelayedPopup)
+        self.tb_Highlighter.setArrowType(Qt.ArrowType.NoArrow)
+
+        self.verticalLayout.addWidget(self.tb_Highlighter)
+
+        self.pb_Eraser = QPushButton(self.w_Tools)
+        self.pb_Eraser.setObjectName(u"pb_Eraser")
+        self.pb_Eraser.setMinimumSize(QSize(0, 40))
+        self.pb_Eraser.setMaximumSize(QSize(60, 60))
+        self.pb_Eraser.setIcon(icon3)
+        self.pb_Eraser.setIconSize(QSize(25, 25))
+        self.pb_Eraser.setCheckable(True)
+        self.pb_Eraser.setFlat(True)
+
+        self.verticalLayout.addWidget(self.pb_Eraser)
+
+        self.tb_Line = QToolButton(self.w_Tools)
+        self.tb_Line.setObjectName(u"tb_Line")
+        self.tb_Line.setMinimumSize(QSize(0, 40))
+        self.tb_Line.setMaximumSize(QSize(60, 60))
+        self.tb_Line.setStyleSheet(u"QToolButton {\n"
+"	border: none;\n"
+"	background: transparent;\n"
+"}\n"
+"\n"
+"QToolButton:hover {\n"
+"	background-color: rgb(141, 200, 216);\n"
+"	border-radius: 15px;\n"
+"}")
+        self.tb_Line.setIcon(icon4)
+        self.tb_Line.setIconSize(QSize(25, 25))
+        self.tb_Line.setCheckable(True)
+        self.tb_Line.setPopupMode(QToolButton.ToolButtonPopupMode.DelayedPopup)
+        self.tb_Line.setArrowType(Qt.ArrowType.NoArrow)
+
+        self.verticalLayout.addWidget(self.tb_Line)
+
+        self.tb_Select = QToolButton(self.w_Tools)
+        self.tb_Select.setObjectName(u"tb_Select")
+        self.tb_Select.setMinimumSize(QSize(0, 40))
+        self.tb_Select.setMaximumSize(QSize(60, 60))
+        self.tb_Select.setStyleSheet(u"QToolButton {\n"
+"	border: none;\n"
+"	background: transparent;\n"
+"}\n"
+"\n"
+"QToolButton:hover {\n"
+"	background-color: rgb(141, 200, 216);\n"
+"	border-radius: 15px;\n"
+"}")
+        self.tb_Select.setIcon(icon10)
+        self.tb_Select.setIconSize(QSize(25, 25))
+        self.tb_Select.setPopupMode(QToolButton.ToolButtonPopupMode.DelayedPopup)
+        self.tb_Select.setArrowType(Qt.ArrowType.NoArrow)
+
+        self.verticalLayout.addWidget(self.tb_Select)
+
+        self.tb_Text = QToolButton(self.w_Tools)
+        self.tb_Text.setObjectName(u"tb_Text")
+        self.tb_Text.setMinimumSize(QSize(0, 40))
+        self.tb_Text.setMaximumSize(QSize(60, 60))
+        self.tb_Text.setStyleSheet(u"QToolButton {\n"
+"	border: none;\n"
+"	background: transparent;\n"
+"}\n"
+"\n"
+"QToolButton:hover {\n"
+"	background-color: rgb(141, 200, 216);\n"
+"	border-radius: 15px;\n"
+"}")
+        self.tb_Text.setIcon(icon11)
+        self.tb_Text.setIconSize(QSize(25, 25))
+
+        self.verticalLayout.addWidget(self.tb_Text)
+
+        self.tb_Shapes = QToolButton(self.w_Tools)
+        self.tb_Shapes.setObjectName(u"tb_Shapes")
+        self.tb_Shapes.setMinimumSize(QSize(0, 40))
+        self.tb_Shapes.setMaximumSize(QSize(60, 60))
+        self.tb_Shapes.setStyleSheet(u"QToolButton {\n"
+"	border: none;\n"
+"	background: transparent;\n"
+"}\n"
+"\n"
+"QToolButton:hover {\n"
+"	background-color: rgb(141, 200, 216);\n"
+"	border-radius: 15px;\n"
+"}")
+        self.tb_Shapes.setIcon(icon5)
+        self.tb_Shapes.setIconSize(QSize(25, 25))
+        self.tb_Shapes.setPopupMode(QToolButton.ToolButtonPopupMode.DelayedPopup)
+        self.tb_Shapes.setArrowType(Qt.ArrowType.NoArrow)
+
+        self.verticalLayout.addWidget(self.tb_Shapes)
+
+        self.tb_Images = QToolButton(self.w_Tools)
+        self.tb_Images.setObjectName(u"tb_Images")
+        self.tb_Images.setMinimumSize(QSize(0, 40))
+        self.tb_Images.setMaximumSize(QSize(60, 60))
+        self.tb_Images.setStyleSheet(u"QToolButton {\n"
+"	border: none;\n"
+"	background: transparent;\n"
+"}\n"
+"\n"
+"QToolButton:hover {\n"
+"	background-color: rgb(141, 200, 216);\n"
+"	border-radius: 15px;\n"
+"}")
+        self.tb_Images.setIcon(icon6)
+        self.tb_Images.setIconSize(QSize(25, 25))
+        self.tb_Images.setPopupMode(QToolButton.ToolButtonPopupMode.DelayedPopup)
+        self.tb_Images.setArrowType(Qt.ArrowType.NoArrow)
+
+        self.verticalLayout.addWidget(self.tb_Images)
+
+        self.tb_Videos = QToolButton(self.w_Tools)
+        self.tb_Videos.setObjectName(u"tb_Videos")
+        self.tb_Videos.setMinimumSize(QSize(0, 40))
+        self.tb_Videos.setMaximumSize(QSize(60, 60))
+        self.tb_Videos.setStyleSheet(u"QToolButton {\n"
+"	border: none;\n"
+"	background: transparent;\n"
+"}\n"
+"\n"
+"QToolButton:hover {\n"
+"	background-color: rgb(141, 200, 216);\n"
+"	border-radius: 15px;\n"
+"}")
+        self.tb_Videos.setIcon(icon7)
+        self.tb_Videos.setIconSize(QSize(25, 25))
+        self.tb_Videos.setPopupMode(QToolButton.ToolButtonPopupMode.DelayedPopup)
+        self.tb_Videos.setArrowType(Qt.ArrowType.NoArrow)
+
+        self.verticalLayout.addWidget(self.tb_Videos)
+
+        self.dial = QDial(self.w_Tools)
+        self.dial.setObjectName(u"dial")
+        self.dial.setMaximumSize(QSize(60, 60))
+
+        self.verticalLayout.addWidget(self.dial)
+
+        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+
+        self.verticalLayout.addItem(self.verticalSpacer)
+
+        self.pb_Undo = QPushButton(self.w_Tools)
+        self.pb_Undo.setObjectName(u"pb_Undo")
+        self.pb_Undo.setMaximumSize(QSize(60, 16777215))
+        self.pb_Undo.setIcon(icon8)
+        self.pb_Undo.setIconSize(QSize(25, 25))
+        self.pb_Undo.setFlat(True)
+
+        self.verticalLayout.addWidget(self.pb_Undo)
+
+        self.pb_Redo = QPushButton(self.w_Tools)
+        self.pb_Redo.setObjectName(u"pb_Redo")
+        self.pb_Redo.setMaximumSize(QSize(60, 16777215))
+        self.pb_Redo.setIcon(icon9)
+        self.pb_Redo.setIconSize(QSize(25, 25))
+        self.pb_Redo.setFlat(True)
+
+        self.verticalLayout.addWidget(self.pb_Redo)
+
+
+        self.horizontalLayout.addWidget(self.w_Tools)
+
         self.tabWidget = QTabWidget(self.centralwidget)
         self.tabWidget.setObjectName(u"tabWidget")
         self.tabWidget.setMinimumSize(QSize(880, 0))
@@ -170,9 +398,9 @@ class Ui_MainWindow(object):
 "}\n"
 "\n"
 "QTabBar{\n"
-"	border: 2px solid;\n"
 "	border-top-right-radius: 10px;\n"
 "	border-top-left-radius: 10px;\n"
+"	border: 2px solid;\n"
 "}\n"
 "")
         self.tabWidget.setTabsClosable(True)
@@ -180,9 +408,7 @@ class Ui_MainWindow(object):
         self.notebook_1 = QWidget()
         self.notebook_1.setObjectName(u"notebook_1")
         self.notebook_1.setMinimumSize(QSize(850, 0))
-        self.notebook_1.setStyleSheet(u"QTabBar{\n"
-"	border: 2px solid ;\n"
-"}")
+        self.notebook_1.setStyleSheet(u"")
         self.gridLayout = QGridLayout(self.notebook_1)
         self.gridLayout.setObjectName(u"gridLayout")
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
@@ -234,20 +460,20 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout.addWidget(self.pb_AddPage)
 
-        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+        self.horizontalSpacer = QSpacerItem(150, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout.addItem(self.horizontalSpacer)
 
-        self.horizontalLayout.setStretch(0, 100)
+        self.horizontalLayout.setStretch(1, 94)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
         self.menubar.setGeometry(QRect(0, 0, 1177, 33))
         font1 = QFont()
-        font1.setFamilies([u"Yu Gothic UI"])
         font1.setBold(True)
-        font1.setItalic(False)
         self.menubar.setFont(font1)
+        self.menubar.setStyleSheet(u"background-color: rgb(141, 200, 216);\n"
+"color: rgb(255, 255, 255);")
         self.menuFile = QMenu(self.menubar)
         self.menuFile.setObjectName(u"menuFile")
         self.menuOptions = QMenu(self.menubar)
@@ -260,9 +486,6 @@ class Ui_MainWindow(object):
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
         MainWindow.setStatusBar(self.statusbar)
-        self.toolBar = QToolBar(MainWindow)
-        self.toolBar.setObjectName(u"toolBar")
-        MainWindow.addToolBar(Qt.ToolBarArea.LeftToolBarArea, self.toolBar)
 
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuOptions.menuAction())
@@ -283,19 +506,6 @@ class Ui_MainWindow(object):
         self.menuCollab.addAction(self.actionJoin)
         self.menuCollab.addAction(self.actionChat)
         self.menuHelp.addAction(self.actionDocument)
-        self.toolBar.addAction(self.actionCursor)
-        self.toolBar.addAction(self.actionPen)
-        self.toolBar.addAction(self.actionHighlighter)
-        self.toolBar.addAction(self.actionEraser)
-        self.toolBar.addAction(self.actionLine)
-        self.toolBar.addAction(self.actionSelection)
-        self.toolBar.addAction(self.actionText)
-        self.toolBar.addAction(self.actionShapes)
-        self.toolBar.addAction(self.actionImages)
-        self.toolBar.addAction(self.actionVideos)
-        self.toolBar.addSeparator()
-        self.toolBar.addAction(self.actionUndo_2)
-        self.toolBar.addAction(self.actionRedo_2)
 
         self.retranslateUi(MainWindow)
 
@@ -340,12 +550,23 @@ class Ui_MainWindow(object):
         self.actionSelection.setText(QCoreApplication.translate("MainWindow", u"Selection", None))
         self.actionText.setText(QCoreApplication.translate("MainWindow", u"Text", None))
         self.actionChat.setText(QCoreApplication.translate("MainWindow", u"Chat", None))
+        self.pb_Cursor.setText("")
+        self.tb_Pen.setText("")
+        self.tb_Highlighter.setText("")
+        self.pb_Eraser.setText("")
+        self.tb_Line.setText("")
+        self.tb_Select.setText("")
+        self.tb_Text.setText("")
+        self.tb_Shapes.setText("")
+        self.tb_Images.setText("")
+        self.tb_Videos.setText("")
+        self.pb_Undo.setText("")
+        self.pb_Redo.setText("")
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.notebook_1), QCoreApplication.translate("MainWindow", u"Notebook 1", None))
         self.pb_AddPage.setText("")
         self.menuFile.setTitle(QCoreApplication.translate("MainWindow", u"File", None))
         self.menuOptions.setTitle(QCoreApplication.translate("MainWindow", u"Edit", None))
         self.menuCollab.setTitle(QCoreApplication.translate("MainWindow", u"Collab", None))
         self.menuHelp.setTitle(QCoreApplication.translate("MainWindow", u"Help", None))
-        self.toolBar.setWindowTitle(QCoreApplication.translate("MainWindow", u"toolBar", None))
     # retranslateUi
 
