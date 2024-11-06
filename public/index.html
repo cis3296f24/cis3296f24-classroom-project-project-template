@@ -4,18 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Spotify Top Tracks - Sample Visualization</title>
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'nonce-${res.locals.nonce}'; script-src 'self' 'nonce-${res.locals.nonce}' https://d3js.org;">
-  <script nonce="${res.locals.nonce}" src="https://d3js.org/d3.v6.min.js"></script>
-  <script nonce="${res.locals.nonce}" src="/main.js"></script>
-  <style nonce="${res.locals.nonce}">
+  <script src="https://d3js.org/d3.v6.min.js"></script>
+  <style>
     body {
       margin: 0;
       padding: 0;
-      font-family: "Arial Black", sans-serif;
-      letter-spacing: 0.1em;
-
-      background: url('sky-full-of-stars-space-4k_1540139420.jpg') no-repeat center center;
-
+      font-family: "Comic Sans MS", sans-serif;
+      background: url('https://www.pixel4k.com/wp-content/uploads/2018/10/sky-full-of-stars-space-4k_1540139420.jpg') no-repeat center center;
       background-size: cover;
       color: #fff;
       overflow: hidden;
@@ -25,7 +20,6 @@
       text-align: center;
       color: #6196f2;
       margin-top: 50px;
-      font-size: 2.5em;
     }
 
     #chart {
@@ -38,29 +32,90 @@
       fill: #fff;
     }
 
-
-    #error-message {
+    .tooltip {
+      position: absolute;
       text-align: center;
-    }
-
-    #spinner {
-      text-align: center;
-    }
-
-    #track-list {
-      text-align: center;
-      margin-top: 20px;
+      width: auto;
+      padding: 5px;
+      font-size: 14px;
+      background-color: rgba(0, 0, 0, 0.7);
+      color: #fff;
+      border-radius: 5px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s;
     }
   </style>
 </head>
 <body>
+  <h1>Spotify Top Tracks - Sample Visualization</h1>
+  <div id="chart"></div>
 
-<h1>Spotify Top Tracks - Sample Visualization</h1>
-<div id="chart"></div>
-<div id="error-message" style="color: red;"></div>
-<div id="spinner" style="display: none;">Loading...</div>
-<div id="track-list"></div>
+  <div class="tooltip" id="tooltip"></div>
 
+  <script>
+    const data = [
+      { name: "Artist 1", artist: "Artist 1", popularity: 100, duration: 220 },
+      { name: "Artist 2", artist: "Artist 2", popularity: 90, duration: 220 },
+      { name: "Artist 3", artist: "Artist 3", popularity: 30, duration: 210 },
+      { name: "Artist 4", artist: "Artist 4", popularity: 10, duration: 240 },
+      { name: "Artist 5", artist: "Artist 5", popularity: 90, duration: 230 }
+    ];
 
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    
+    const planetColors = ["#f75", "#b9e", "#72e", "#3a0", "#436"];
+
+    const svg = d3.select("#chart")
+                  .append("svg")
+                  .attr("width", width)
+                  .attr("height", height);
+
+    const xScale = d3.scaleLinear()
+                     .domain([0, 100]) // Popularity (0 - 100)
+                     .range([100, width - 100]);
+
+    const yScale = d3.scaleLinear()
+                     .domain([150, 300]) 
+                     .range([height - 100, 100]);
+    
+    const tooltip = d3.select("#tooltip");
+
+    svg.selectAll("circle")
+       .data(data)
+       .enter()
+       .append("circle")
+       .attr("cx", d => xScale(d.popularity))
+       .attr("cy", d => yScale(d.duration))
+       .attr("r", 40)
+       .attr("fill", (d, i) => planetColors[i])
+       .attr("stroke", "white")
+       .attr("stroke-width", 2)
+       .on("mouseover", (event, d) => {
+        tooltip.style("opacity", 1) // Show the tooltip
+               .html(`<strong>${d.artist}</strong><br>Track: ${d.name}<br>Popularity: ${d.popularity}<br>Duration: ${d.duration} sec`)
+               .style("left", (event.pageX + 10) + "px") // Position the tooltip
+               .style("top", (event.pageY - 30) + "px");
+      })
+      .on("mousemove", (event) => {
+        tooltip.style("left", (event.pageX + 10) + "px")
+               .style("top", (event.pageY - 30) + "px");
+      })
+      .on("mouseout", () => {
+        tooltip.style("opacity", 0); // Hide the tooltip
+      });
+
+    svg.selectAll(".artist-label")
+       .data(data)
+       .enter()
+       .append("text")
+       .attr("class", "artist-label")
+       .attr("x", d => xScale(d.popularity))
+       .attr("y", d => yScale(d.duration) + 5)
+       .attr("text-anchor", "middle")
+       .text(d => d.artist);
+
+  </script>
 </body>
 </html>
