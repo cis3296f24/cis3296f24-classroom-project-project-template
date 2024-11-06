@@ -1,28 +1,33 @@
-# Project Name
-Put here a short paragraph describing your project. 
-Adding an screenshot or a mockup of your application in action would be nice.  
+#  Music Matcher
 
-![This is a screenshot.](images.png)
-# How to run
-Provide here instructions on how to use your application.   
-- Download the latest binary from the Release section on the right on GitHub.  
-- On the command line uncompress using
-```
-tar -xzf  
-```
-- On the command line run with
-```
-./hello
-```
-- You will see Hello World! on your terminal. 
+## Overview
+React Music Taste Matcher is a web application designed to connect users based on their music preferences. By integrating with Spotify’s API, users can link their Spotify accounts through OAuth to create personalized profiles showcasing their listening history.
 
-# How to contribute
-Follow this project board to know the latest status of the project: [http://...]([http://...])  
+## Features
+- **User Profile Creation**: Users can build a profile displaying their music taste, generated from Spotify listening data.
+- **Music Taste Analytics**: The app visualizes listening statistics using interactive charts and graphics.
+- **User Matching**: Matches users with similar music tastes based on their listening history, enabling them to discover other listeners with shared interests.
+- **Profile Exploration**: Users can view the profiles of their matches and explore their music preferences to find new songs and artists.
 
-### How to build
-- Use this github repository: ... 
-- Specify what branch to use for a more stable release or for cutting edge development.  
-- Use InteliJ 11
-- Specify additional library to download if needed 
-- What file and target to compile and run. 
-- What is expected to happen when the app start. 
+## Tech Stack
+- **Frontend**: React (JavaScript/TypeScript), libraries like Recharts for data visualization.
+- **Backend**: Supabase and potentially Docker for containerization.
+- **API Integration**: Spotify API for user data.
+
+## Installation
+To run the project locally, clone the repository and install dependencies:
+```bash
+# Clone the repo
+git clone https://github.com/cis3296f24/MusicMatcher
+cd musicmatcher
+
+# Install dependencies
+npm install
+
+# Start the development server
+npm start
+```
+
+## License
+This project is open-source and available under the MIT License.
+
