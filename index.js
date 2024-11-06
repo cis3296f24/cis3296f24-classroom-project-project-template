@@ -31,12 +31,19 @@ document.getElementById('fetch-button').addEventListener('click', async function
         const apiUrl = `https://cors-anywhere.herokuapp.com/https://www3.septa.org/api/locations/get_locations.php?lon=${longitude}&lat=${latitude}&type=rail_stations&radius=2`;
 
         // Fetch the data from the API
-        const response = await fetch(apiUrl);
+        const response = await fetch(apiUrl, {
+            method: 'GET',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Origin': window.location.origin, // This is to set the correct origin header
+            }
+        });
+
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
-        const data = await response.json();
 
+        const data = await response.json();
         console.log('Fetched data:', data); // Log JSON for debugging
 
         // Display the locations
