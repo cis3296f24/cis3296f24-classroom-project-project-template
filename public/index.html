@@ -31,11 +31,27 @@
       font-size: 15px;
       fill: #fff;
     }
+
+    .tooltip {
+      position: absolute;
+      text-align: center;
+      width: auto;
+      padding: 5px;
+      font-size: 14px;
+      background-color: rgba(0, 0, 0, 0.7);
+      color: #fff;
+      border-radius: 5px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
   </style>
 </head>
 <body>
   <h1>Spotify Top Tracks - Sample Visualization</h1>
   <div id="chart"></div>
+
+  <div class="tooltip" id="tooltip"></div>
 
   <script>
     const data = [
@@ -63,6 +79,8 @@
     const yScale = d3.scaleLinear()
                      .domain([150, 300]) 
                      .range([height - 100, 100]);
+    
+    const tooltip = d3.select("#tooltip");
 
     svg.selectAll("circle")
        .data(data)
@@ -73,7 +91,20 @@
        .attr("r", 40)
        .attr("fill", (d, i) => planetColors[i])
        .attr("stroke", "white")
-       .attr("stroke-width", 2);
+       .attr("stroke-width", 2)
+       .on("mouseover", (event, d) => {
+        tooltip.style("opacity", 1) // Show the tooltip
+               .html(`<strong>${d.artist}</strong><br>Track: ${d.name}<br>Popularity: ${d.popularity}<br>Duration: ${d.duration} sec`)
+               .style("left", (event.pageX + 10) + "px") // Position the tooltip
+               .style("top", (event.pageY - 30) + "px");
+      })
+      .on("mousemove", (event) => {
+        tooltip.style("left", (event.pageX + 10) + "px")
+               .style("top", (event.pageY - 30) + "px");
+      })
+      .on("mouseout", () => {
+        tooltip.style("opacity", 0); // Hide the tooltip
+      });
 
     svg.selectAll(".artist-label")
        .data(data)
