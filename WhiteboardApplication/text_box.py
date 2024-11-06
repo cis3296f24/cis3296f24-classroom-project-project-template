@@ -1,8 +1,8 @@
 from PySide6.QtWidgets import (
     QGraphicsTextItem, QGraphicsRectItem, QGraphicsItem, QColorDialog, QFontDialog, QMenu
 )
-from PySide6.QtGui import QFont, QPen, QColor, QKeySequence
-from PySide6.QtCore import Qt, QRectF, QSizeF, QPointF
+from PySide6.QtGui import QFont, QPen, QColor
+from PySide6.QtCore import Qt, QPointF
 from resize_handles import ResizeHandle
 
 class TextBox(QGraphicsTextItem):
@@ -16,8 +16,8 @@ class TextBox(QGraphicsTextItem):
 
         # Enable the text box to be moved, selected, and focused
         self.setFlags(QGraphicsTextItem.ItemIsMovable |
-                  QGraphicsTextItem.ItemIsSelectable |
-                  QGraphicsTextItem.ItemIsFocusable)
+                      QGraphicsTextItem.ItemIsSelectable |
+                      QGraphicsTextItem.ItemIsFocusable)
 
         # Allow text editing within the box
         self.setTextInteractionFlags(Qt.TextEditorInteraction)
@@ -28,20 +28,37 @@ class TextBox(QGraphicsTextItem):
         self.background.setPen(QPen(Qt.black))
         self.background.setFlag(QGraphicsItem.ItemStacksBehindParent)
 
-        # Create resize handles
+        # Define color mapping for resize handles
+        handle_colors = {
+            'topleft': QColor(255, 0, 0),     # Red doesn't work
+            'top': QColor(0, 255, 0),         # Green doesn't work
+            'topright': QColor(0, 0, 255),    # Blue
+            'right': QColor(255, 255, 0),     # Yellow doesn't work
+            'bottomright': QColor(255, 0, 255), # Magenta
+            'bottom': QColor(0, 255, 255),    # Cyan
+            'bottomleft': QColor(255, 128, 0), # Orange
+            'left': QColor(128, 0, 255)       # Purple
+        }
+
         self.handles = {}
-        for position in ['topleft', 'top', 'topright', 'right','bottomright', 'bottom', 'bottomleft', 'left']:
-            self.handles[position] = ResizeHandle(position, self)
+        for position in handle_colors:
+            handle = ResizeHandle(position, handle_colors[position], self)
+            self.handles[position] = handle
 
         # Set initial size
-        #self.setMinimumWidth(100)
         self.resize(200, 100)
-
-        # Track initial position for dragging calculations
-        self.start_pos = QPointF()
 
         # Update handle positions
         self.updateHandlePositions()
+
+        # Initially hide handles
+        self.updateHandlesVisibility()
+
+        # Variable to track if resizing is happening
+        self.resizing = False
+
+        #Variable to track if drawing is disabled
+        self.drawing_disabled = False
 
     def resize(self, width, height):
         # Update the text document size
@@ -60,13 +77,13 @@ class TextBox(QGraphicsTextItem):
         # Position mapping for each handle
         positions = {
             'topleft': (0, 0),
-            'top': (rect.width()/2 - handle_size/2, 0),
+            'top': (rect.width() / 2 - handle_size / 2, 0),
             'topright': (rect.width() - handle_size, 0),
-            'right': (rect.width() - handle_size, rect.height()/2 - handle_size/2),
+            'right': (rect.width() - handle_size, rect.height() / 2 - handle_size / 2),
             'bottomright': (rect.width() - handle_size, rect.height() - handle_size),
-            'bottom': (rect.width()/2 - handle_size/2, rect.height() - handle_size),
+            'bottom': (rect.width() / 2 - handle_size / 2, rect.height() - handle_size),
             'bottomleft': (0, rect.height() - handle_size),
-            'left': (0, rect.height()/2 - handle_size/2)
+            'left': (0, rect.height() / 2 - handle_size / 2)
         }
 
         # Update each handle position
@@ -75,30 +92,30 @@ class TextBox(QGraphicsTextItem):
 
     def mousePressEvent(self, event):
         if event.button() == Qt.LeftButton:
-            # Set focus to the text box when left-clicked
-            self.setFocus()
+            # Check if the click is on a resize handle
+            if any(handle.contains(event.pos()) for handle in self.handles.values()):
+                self.resizing = True
+            else:
+                # Show handles when the box is selected
+                self.updateHandlesVisibility()
+                # Set focus to the text box when left-clicked
+                self.setFocus()
 
-            # Store the starting position for dragging relative to the box
-            self.start_pos = event.scenePos() - self.pos()  # Calculate offset
-            print("Hit left button once")
-            super().mousePressEvent(event)
-        elif event.button() == Qt.RightButton:
-            # Handle right-click to show context menu
-            if self.isSelected():
-                self.contextMenuEvent(event)
-        else:
             super().mousePressEvent(event)
 
     def mouseMoveEvent(self, event):
-        if event.buttons() == Qt.LeftButton and not self.textCursor().hasSelection():
-            # Move the text box based on the current mouse position minus the start position
-            self.setPos(event.scenePos() - self.start_pos)  # Use the offset for movement
-            event.accept()
-        else:
+        if not self.drawing_disabled:
+            # Process move or drawing events only if drawing is enabled
             super().mouseMoveEvent(event)
+        else:
+            event.ignore()
+
 
     def mouseReleaseEvent(self, event):
+        self.resizing = False  # Reset resizing state on mouse release
         super().mouseReleaseEvent(event)
+        # Update handle visibility based on selection
+        self.updateHandlesVisibility()
 
     def boundingRect(self):
         return self.background.rect()
@@ -106,20 +123,7 @@ class TextBox(QGraphicsTextItem):
     def shape(self):
         return self.background.shape()
 
-    def contextMenuEvent(self, event):
-        super().contextMenuEvent(event)
-
-    def keyPressEvent(self, event):
-        if event.key() == Qt.Key_Backspace:
-            # Regular Backspace behavior for text deletion
-            if self.textInteractionFlags() == Qt.TextEditorInteraction:
-                super().keyPressEvent(event)
-                self.updateHandlePositions()
-
-        else:
-            # Let other keys work as usual
-            super().keyPressEvent(event)
-
+    #Creates context menu to change fonts, delete, and style text
     def contextMenuEvent(self, event):
         # Create a context menu
         context_menu = QMenu()
@@ -128,27 +132,21 @@ class TextBox(QGraphicsTextItem):
         bold_action = context_menu.addAction("Bold")
         italic_action = context_menu.addAction("Italic")
         underline_action = context_menu.addAction("Underline")
-        delete_action = context_menu.addAction("Delete Box")  # New delete action
-
+        delete_action = context_menu.addAction("Delete Box")
 
         # Execute the menu and capture the action
         action = context_menu.exec_(event.screenPos())
 
         if action == change_color_action:
             self.change_color()
-
         elif action == change_text_action:
             self.change_font()
-
         elif action == bold_action:
             self.bold()
-
         elif action == italic_action:
             self.italic()
-
         elif action == underline_action:
             self.underline()
-
         elif action == delete_action:
             self.delete()
 
@@ -157,13 +155,13 @@ class TextBox(QGraphicsTextItem):
         if new_color.isValid():
             cursor = self.textCursor()
             fmt = cursor.charFormat()
-            fmt.setForeground(new_color)  # Set foreground color to the new color
-            cursor.mergeCharFormat(fmt)  # Apply the format to the selected text
+            fmt.setForeground(new_color)
+            cursor.mergeCharFormat(fmt)
 
     def change_font(self):
-        ok, font = QFontDialog.getFont()  # Show the font dialog
+        ok, font = QFontDialog.getFont()
         if ok:
-            self.setFont(font)# User clicked OK
+            self.setFont(font)
 
     def bold(self):
         cursor = self.textCursor()
@@ -186,5 +184,10 @@ class TextBox(QGraphicsTextItem):
     def delete(self):
         scene = self.scene()
         if scene:
-            scene.removeItem(self)  # Remove the item from the scene
-        self.deleteLater()  # Schedule the item for deletion
+            scene.removeItem(self)
+        self.deleteLater()
+
+    def updateHandlesVisibility(self):
+        # Show or hide handles based on the selection state
+        for handle in self.handles.values():
+            handle.setVisible(self.isSelected())
