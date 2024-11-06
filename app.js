@@ -1,32 +1,18 @@
-const { createServer } = require('node:http');
-const path = require('node:path');
-const fs = require('fs');
-const url = require('url');
+//modules
+const express = require('express');
+const app = express();
+const path = require('path');
+
 
 const hostname = 'localhost';
 const port = '9999';
+app.use(express.static(path.join(__dirname, 'static')));
+app.set('');
 
-const server = createServer((req, res) => {
-    filePath = "." + url.parse(req.url).pathname;
-    if (filePath.localeCompare("./") == 0){
-        filePath = "./index.html"
-    }
-    console.log(filePath);
-    fs.readFile(filePath, (err, data) => {
-        if (err) {
-            res.writeHead(404, {"Content-Type": "text/html"});
-            res.write("Page Not Found.");
-            res.end();
-        }
-        else {
-            res.writeHead(200, {"Content-Type": "text/html"});
-            res.write(data);
-            res.end();
-        }
-    });
-});
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+})
 
-server.listen(port, hostname, () => {
-    console.log(`Server running at http://${hostname}:${port}/`);
-});
-
+app.listen(port, () => {
+    console.log(`listening on port: ${port}`);
+})
