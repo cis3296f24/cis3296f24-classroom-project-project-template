@@ -41,7 +41,8 @@ function App() {
     <div className="App">
 	<header className="App-header"> 
 	    <h2>MusicMatcher</h2>
-	    <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>Login to Spotify</a>  
+	    <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>Login to Spotify</a>
+	    <p>testing</p>
 	</header>
     </div>
   );
