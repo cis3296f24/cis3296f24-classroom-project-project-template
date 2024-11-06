@@ -31,6 +31,19 @@ document.getElementById('fetch-button').addEventListener('click', async function
         const apiUrl = `https://cors-anywhere.herokuapp.com/https://www3.septa.org/api/locations/get_locations.php?lon=${longitude}&lat=${latitude}&type=rail_stations&radius=2`;
 
         // Fetch the data from the API
+        const data = await APIcall(apiUrl);
+
+        // Display the locations
+        displayLocations(data);
+    } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('response-container').innerText = error.message;
+    }
+});
+
+// API call to fetch data from the API
+async function APIcall(apiUrl) {
+    try {
         const response = await fetch(apiUrl, {
             method: 'GET',
             headers: {
@@ -45,14 +58,13 @@ document.getElementById('fetch-button').addEventListener('click', async function
 
         const data = await response.json();
         console.log('Fetched data:', data); // Log JSON for debugging
+        return data;  // Return the fetched data
 
-        // Display the locations
-        displayLocations(data);
     } catch (error) {
-        console.error('Error:', error);
-        document.getElementById('response-container').innerText = error.message;
+        console.error("Error fetching data:", error);
+        throw error;  // Re-throw the error so it can be caught in the calling code
     }
-});
+}
 
 // Function to display the locations
 function displayLocations(locations) {
