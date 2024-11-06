@@ -101,6 +101,8 @@ function renderTracks(data) {
     const validData = data.filter(d => typeof d.popularity === 'number' && typeof d.duration_ms === 'number');
     console.log("Filtered data for valid entries:", validData);
 
+    const tooltip = d3.select("#tooltip");
+
     svg.selectAll("circle")
         .data(validData)
         .enter()
@@ -114,7 +116,20 @@ function renderTracks(data) {
         }) // Dynamic radius based on popularity
         .attr("fill", (d, i) => planetColors[i % planetColors.length])
         .attr("stroke", "white")
-        .attr("stroke-width", 2);
+        .attr("stroke-width", 2)
+        .on("mouseover", (event, d) => {
+            tooltip.style("opacity", 1) // Show the tooltip
+                   .html(`<strong>${d.artist}</strong><br>Track: ${d.name}<br>Popularity: ${d.popularity}<br>Duration: ${d.duration} sec`)
+                   .style("left", (event.pageX + 10) + "px") // Position the tooltip
+                   .style("top", (event.pageY - 30) + "px");
+          })
+          .on("mousemove", (event) => {
+            tooltip.style("left", (event.pageX + 10) + "px")
+                   .style("top", (event.pageY - 30) + "px");
+          })
+          .on("mouseout", () => {
+            tooltip.style("opacity", 0); // Hide the tooltip
+          });
 
     svg.selectAll(".artist-label")
         .data(validData)
