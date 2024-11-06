@@ -9,18 +9,18 @@
 ################################################################################
 
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
-    QMetaObject, QObject, QPoint, QRect,
-    QSize, QTime, QUrl, Qt)
+                            QMetaObject, QObject, QPoint, QRect,
+                            QSize, QTime, QUrl, Qt)
 from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
-    QCursor, QFont, QFontDatabase, QGradient,
-    QIcon, QImage, QKeySequence, QLinearGradient,
-    QPainter, QPalette, QPixmap, QRadialGradient,
-    QTransform)
+                           QCursor, QFont, QFontDatabase, QGradient,
+                           QIcon, QImage, QKeySequence, QLinearGradient,
+                           QPainter, QPalette, QPixmap, QRadialGradient,
+                           QTransform)
 from PySide6.QtWidgets import (QAbstractScrollArea, QApplication, QDial, QGraphicsView,
-    QGridLayout, QHBoxLayout, QMainWindow, QMenu,
-    QMenuBar, QPushButton, QScrollArea, QSizePolicy,
-    QSpacerItem, QStatusBar, QTabWidget, QToolButton,
-    QVBoxLayout, QWidget)
+                               QGridLayout, QHBoxLayout, QMainWindow, QMenu,
+                               QMenuBar, QPushButton, QScrollArea, QSizePolicy,
+                               QSpacerItem, QStatusBar, QTabWidget, QToolButton,
+                               QVBoxLayout, QWidget)
 import Icons_rc
 
 class Ui_MainWindow(object):
@@ -178,14 +178,14 @@ class Ui_MainWindow(object):
         self.tb_Pen.setMinimumSize(QSize(0, 40))
         self.tb_Pen.setMaximumSize(QSize(60, 60))
         self.tb_Pen.setStyleSheet(u"QToolButton {\n"
-"	border: none;\n"
-"	background: transparent;\n"
-"}\n"
-"\n"
-"QToolButton:hover {\n"
-"	background-color: rgb(141, 200, 216);\n"
-"	border-radius: 15px;\n"
-"}")
+                                  "	border: none;\n"
+                                  "	background: transparent;\n"
+                                  "}\n"
+                                  "\n"
+                                  "QToolButton:hover {\n"
+                                  "	background-color: rgb(141, 200, 216);\n"
+                                  "	border-radius: 15px;\n"
+                                  "}")
         self.tb_Pen.setIcon(icon1)
         self.tb_Pen.setIconSize(QSize(25, 25))
         self.tb_Pen.setCheckable(True)
@@ -201,14 +201,14 @@ class Ui_MainWindow(object):
         self.tb_Highlighter.setMaximumSize(QSize(60, 60))
         self.tb_Highlighter.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         self.tb_Highlighter.setStyleSheet(u"QToolButton {\n"
-"	border: none;\n"
-"	background: transparent;\n"
-"}\n"
-"\n"
-"QToolButton:hover {\n"
-"	background-color: rgb(141, 200, 216);\n"
-"	border-radius: 15px;\n"
-"}")
+                                          "	border: none;\n"
+                                          "	background: transparent;\n"
+                                          "}\n"
+                                          "\n"
+                                          "QToolButton:hover {\n"
+                                          "	background-color: rgb(141, 200, 216);\n"
+                                          "	border-radius: 15px;\n"
+                                          "}")
         self.tb_Highlighter.setIcon(icon2)
         self.tb_Highlighter.setIconSize(QSize(25, 25))
         self.tb_Highlighter.setCheckable(True)
@@ -228,19 +228,34 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addWidget(self.pb_Eraser)
 
+        # Positioning and creation of the button to add text boxes
+        self.pb_Text_Button = QPushButton("Text", self.w_Tools)
+        self.pb_Text_Button.setObjectName(u"pb_Text_Box")
+        self.pb_Text_Button.setMinimumSize(QSize(0, 40))
+        self.pb_Text_Button.setMaximumSize(QSize(60, 60))
+        self.pb_Text_Button.setIconSize(QSize(25, 25))
+        self.pb_Text_Button.setCheckable(True)
+        self.pb_Text_Button.setFlat(True)
+
+        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+
+        self.verticalLayout.addItem(self.verticalSpacer)
+        self.verticalLayout.addWidget(self.pb_Text_Button)
+
+
         self.tb_Line = QToolButton(self.w_Tools)
         self.tb_Line.setObjectName(u"tb_Line")
         self.tb_Line.setMinimumSize(QSize(0, 40))
         self.tb_Line.setMaximumSize(QSize(60, 60))
         self.tb_Line.setStyleSheet(u"QToolButton {\n"
-"	border: none;\n"
-"	background: transparent;\n"
-"}\n"
-"\n"
-"QToolButton:hover {\n"
-"	background-color: rgb(141, 200, 216);\n"
-"	border-radius: 15px;\n"
-"}")
+                                   "	border: none;\n"
+                                   "	background: transparent;\n"
+                                   "}\n"
+                                   "\n"
+                                   "QToolButton:hover {\n"
+                                   "	background-color: rgb(141, 200, 216);\n"
+                                   "	border-radius: 15px;\n"
+                                   "}")
         self.tb_Line.setIcon(icon4)
         self.tb_Line.setIconSize(QSize(25, 25))
         self.tb_Line.setCheckable(True)
@@ -254,14 +269,14 @@ class Ui_MainWindow(object):
         self.tb_Select.setMinimumSize(QSize(0, 40))
         self.tb_Select.setMaximumSize(QSize(60, 60))
         self.tb_Select.setStyleSheet(u"QToolButton {\n"
-"	border: none;\n"
-"	background: transparent;\n"
-"}\n"
-"\n"
-"QToolButton:hover {\n"
-"	background-color: rgb(141, 200, 216);\n"
-"	border-radius: 15px;\n"
-"}")
+                                     "	border: none;\n"
+                                     "	background: transparent;\n"
+                                     "}\n"
+                                     "\n"
+                                     "QToolButton:hover {\n"
+                                     "	background-color: rgb(141, 200, 216);\n"
+                                     "	border-radius: 15px;\n"
+                                     "}")
         self.tb_Select.setIcon(icon10)
         self.tb_Select.setIconSize(QSize(25, 25))
         self.tb_Select.setPopupMode(QToolButton.ToolButtonPopupMode.DelayedPopup)
@@ -274,14 +289,14 @@ class Ui_MainWindow(object):
         self.tb_Text.setMinimumSize(QSize(0, 40))
         self.tb_Text.setMaximumSize(QSize(60, 60))
         self.tb_Text.setStyleSheet(u"QToolButton {\n"
-"	border: none;\n"
-"	background: transparent;\n"
-"}\n"
-"\n"
-"QToolButton:hover {\n"
-"	background-color: rgb(141, 200, 216);\n"
-"	border-radius: 15px;\n"
-"}")
+                                   "	border: none;\n"
+                                   "	background: transparent;\n"
+                                   "}\n"
+                                   "\n"
+                                   "QToolButton:hover {\n"
+                                   "	background-color: rgb(141, 200, 216);\n"
+                                   "	border-radius: 15px;\n"
+                                   "}")
         self.tb_Text.setIcon(icon11)
         self.tb_Text.setIconSize(QSize(25, 25))
 
@@ -292,14 +307,14 @@ class Ui_MainWindow(object):
         self.tb_Shapes.setMinimumSize(QSize(0, 40))
         self.tb_Shapes.setMaximumSize(QSize(60, 60))
         self.tb_Shapes.setStyleSheet(u"QToolButton {\n"
-"	border: none;\n"
-"	background: transparent;\n"
-"}\n"
-"\n"
-"QToolButton:hover {\n"
-"	background-color: rgb(141, 200, 216);\n"
-"	border-radius: 15px;\n"
-"}")
+                                     "	border: none;\n"
+                                     "	background: transparent;\n"
+                                     "}\n"
+                                     "\n"
+                                     "QToolButton:hover {\n"
+                                     "	background-color: rgb(141, 200, 216);\n"
+                                     "	border-radius: 15px;\n"
+                                     "}")
         self.tb_Shapes.setIcon(icon5)
         self.tb_Shapes.setIconSize(QSize(25, 25))
         self.tb_Shapes.setPopupMode(QToolButton.ToolButtonPopupMode.DelayedPopup)
@@ -312,14 +327,14 @@ class Ui_MainWindow(object):
         self.tb_Images.setMinimumSize(QSize(0, 40))
         self.tb_Images.setMaximumSize(QSize(60, 60))
         self.tb_Images.setStyleSheet(u"QToolButton {\n"
-"	border: none;\n"
-"	background: transparent;\n"
-"}\n"
-"\n"
-"QToolButton:hover {\n"
-"	background-color: rgb(141, 200, 216);\n"
-"	border-radius: 15px;\n"
-"}")
+                                     "	border: none;\n"
+                                     "	background: transparent;\n"
+                                     "}\n"
+                                     "\n"
+                                     "QToolButton:hover {\n"
+                                     "	background-color: rgb(141, 200, 216);\n"
+                                     "	border-radius: 15px;\n"
+                                     "}")
         self.tb_Images.setIcon(icon6)
         self.tb_Images.setIconSize(QSize(25, 25))
         self.tb_Images.setPopupMode(QToolButton.ToolButtonPopupMode.DelayedPopup)
@@ -332,14 +347,14 @@ class Ui_MainWindow(object):
         self.tb_Videos.setMinimumSize(QSize(0, 40))
         self.tb_Videos.setMaximumSize(QSize(60, 60))
         self.tb_Videos.setStyleSheet(u"QToolButton {\n"
-"	border: none;\n"
-"	background: transparent;\n"
-"}\n"
-"\n"
-"QToolButton:hover {\n"
-"	background-color: rgb(141, 200, 216);\n"
-"	border-radius: 15px;\n"
-"}")
+                                     "	border: none;\n"
+                                     "	background: transparent;\n"
+                                     "}\n"
+                                     "\n"
+                                     "QToolButton:hover {\n"
+                                     "	background-color: rgb(141, 200, 216);\n"
+                                     "	border-radius: 15px;\n"
+                                     "}")
         self.tb_Videos.setIcon(icon7)
         self.tb_Videos.setIconSize(QSize(25, 25))
         self.tb_Videos.setPopupMode(QToolButton.ToolButtonPopupMode.DelayedPopup)
@@ -375,7 +390,6 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addWidget(self.pb_Redo)
 
-
         self.horizontalLayout.addWidget(self.w_Tools)
 
         self.tabWidget = QTabWidget(self.centralwidget)
@@ -387,22 +401,22 @@ class Ui_MainWindow(object):
         font.setBold(True)
         self.tabWidget.setFont(font)
         self.tabWidget.setStyleSheet(u"QTabBar::close-button {\n"
-"    image: url(:Tools/close.png);\n"
-"	margin-left: 7px;\n"
-"	margin-top: 7px;\n"
-"	margin-bottom: 5px\n"
-"}\n"
-"QTabWidget::pane{\n"
-"	border: 2px solid;\n"
-"	border-radius: 5px;\n"
-"}\n"
-"\n"
-"QTabBar{\n"
-"	border-top-right-radius: 10px;\n"
-"	border-top-left-radius: 10px;\n"
-"	border: 2px solid;\n"
-"}\n"
-"")
+                                     "    image: url(:Tools/close.png);\n"
+                                     "	margin-left: 7px;\n"
+                                     "	margin-top: 7px;\n"
+                                     "	margin-bottom: 5px\n"
+                                     "}\n"
+                                     "QTabWidget::pane{\n"
+                                     "	border: 2px solid;\n"
+                                     "	border-radius: 5px;\n"
+                                     "}\n"
+                                     "\n"
+                                     "QTabBar{\n"
+                                     "	border-top-right-radius: 10px;\n"
+                                     "	border-top-left-radius: 10px;\n"
+                                     "	border: 2px solid;\n"
+                                     "}\n"
+                                     "")
         self.tabWidget.setTabsClosable(True)
         self.tabWidget.setMovable(True)
         self.notebook_1 = QWidget()
@@ -473,7 +487,7 @@ class Ui_MainWindow(object):
         font1.setBold(True)
         self.menubar.setFont(font1)
         self.menubar.setStyleSheet(u"background-color: rgb(141, 200, 216);\n"
-"color: rgb(255, 255, 255);")
+                                   "color: rgb(255, 255, 255);")
         self.menuFile = QMenu(self.menubar)
         self.menuFile.setObjectName(u"menuFile")
         self.menuOptions = QMenu(self.menubar)
@@ -510,7 +524,6 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
 
         self.tabWidget.setCurrentIndex(0)
-
 
         QMetaObject.connectSlotsByName(MainWindow)
     # setupUi
@@ -569,4 +582,3 @@ class Ui_MainWindow(object):
         self.menuCollab.setTitle(QCoreApplication.translate("MainWindow", u"Collab", None))
         self.menuHelp.setTitle(QCoreApplication.translate("MainWindow", u"Help", None))
     # retranslateUi
-
