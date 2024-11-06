@@ -228,21 +228,6 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addWidget(self.pb_Eraser)
 
-        # Positioning and creation of the button to add text boxes
-        self.pb_Text_Button = QPushButton("Text", self.w_Tools)
-        self.pb_Text_Button.setObjectName(u"pb_Text_Box")
-        self.pb_Text_Button.setMinimumSize(QSize(0, 40))
-        self.pb_Text_Button.setMaximumSize(QSize(60, 60))
-        self.pb_Text_Button.setIconSize(QSize(25, 25))
-        self.pb_Text_Button.setCheckable(True)
-        self.pb_Text_Button.setFlat(True)
-
-        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
-
-        self.verticalLayout.addItem(self.verticalSpacer)
-        self.verticalLayout.addWidget(self.pb_Text_Button)
-
-
         self.tb_Line = QToolButton(self.w_Tools)
         self.tb_Line.setObjectName(u"tb_Line")
         self.tb_Line.setMinimumSize(QSize(0, 40))
