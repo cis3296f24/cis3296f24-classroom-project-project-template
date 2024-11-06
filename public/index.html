@@ -4,13 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Spotify Top Tracks - Sample Visualization</title>
-  <script src="https://d3js.org/d3.v6.min.js"></script>
-  <style>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'nonce-${res.locals.nonce}'; script-src 'self' 'nonce-${res.locals.nonce}' https://d3js.org;">
+  <script nonce="${res.locals.nonce}" src="https://d3js.org/d3.v6.min.js"></script>
+  <script nonce="${res.locals.nonce}" src="/main.js"></script>
+  <style nonce="${res.locals.nonce}">
     body {
       margin: 0;
       padding: 0;
-      font-family: "Comic Sans MS", sans-serif;
-      background: url('https://www.pixel4k.com/wp-content/uploads/2018/10/sky-full-of-stars-space-4k_1540139420.jpg') no-repeat center center;
+      font-family: "Arial Black", sans-serif;
+      letter-spacing: 0.1em;
+
+      background: url('sky-full-of-stars-space-4k_1540139420.jpg') no-repeat center center;
+
       background-size: cover;
       color: #fff;
       overflow: hidden;
@@ -20,6 +25,7 @@
       text-align: center;
       color: #6196f2;
       margin-top: 50px;
+      font-size: 2.5em;
     }
 
     #chart {
@@ -62,19 +68,15 @@
       { name: "Artist 5", artist: "Artist 5", popularity: 90, duration: 230 }
     ];
 
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-    
-    const planetColors = ["#f75", "#b9e", "#72e", "#3a0", "#436"];
 
-    const svg = d3.select("#chart")
-                  .append("svg")
-                  .attr("width", width)
-                  .attr("height", height);
+    #error-message {
+      text-align: center;
+    }
 
-    const xScale = d3.scaleLinear()
-                     .domain([0, 100]) // Popularity (0 - 100)
-                     .range([100, width - 100]);
+    #spinner {
+      text-align: center;
+    }
+
 
     const yScale = d3.scaleLinear()
                      .domain([150, 300]) 
@@ -105,17 +107,20 @@
       .on("mouseout", () => {
         tooltip.style("opacity", 0); // Hide the tooltip
       });
+    #track-list {
+      text-align: center;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
 
-    svg.selectAll(".artist-label")
-       .data(data)
-       .enter()
-       .append("text")
-       .attr("class", "artist-label")
-       .attr("x", d => xScale(d.popularity))
-       .attr("y", d => yScale(d.duration) + 5)
-       .attr("text-anchor", "middle")
-       .text(d => d.artist);
+<h1>Spotify Top Tracks - Sample Visualization</h1>
+<div id="chart"></div>
+<div id="error-message" style="color: red;"></div>
+<div id="spinner" style="display: none;">Loading...</div>
+<div id="track-list"></div>
 
-  </script>
+
 </body>
 </html>
