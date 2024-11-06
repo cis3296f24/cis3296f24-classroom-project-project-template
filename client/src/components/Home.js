@@ -5,6 +5,7 @@ import { NavLink } from 'react-router-dom';
 import chatBox from '../assets/chatBox.svg';
 import hand from '../assets/hand.json';
 import motivate from '../assets/motivate.json';
+import React, { useEffect, useState } from 'react';
 
 function Home() {
     return (
@@ -76,6 +77,23 @@ function Home() {
                 <h3 className='px-2 text-gray-500 text-lg font-semibold'>Antonio Mongeluzi</h3>
                         <ul>
                             <li className='px-2 text-gray-500 text-lg font-semibold'>Email: tuj46268@temple.edu</li>
+                            <li className='px-2 text-gray-500 text-lg font-semibold'>Phone #: 215-960-####</li>
+                            <li className='px-2 text-gray-500 text-lg font-semibold'>Address: 1234 Temple University Rd</li>
+                        </ul>
+            </div>
+            
+            <div>
+                <h3 className='px-2 text-gray-500 text-lg font-semibold'>Yousuf Qari</h3>
+                        <ul>
+                            <li className='px-2 text-gray-500 text-lg font-semibold'>Email: tuo65470@temple.edu</li>
+                            <li className='px-2 text-gray-500 text-lg font-semibold'>Phone #: 215-###-####</li>
+                        </ul>
+            </div>
+
+            <div>
+                <h3 className='px-2 text-gray-500 text-lg font-semibold'>Jie Huang</h3>
+                        <ul>
+                            <li className='px-2 text-gray-500 text-lg font-semibold'>Email: tuo77200@temple.edu</li>
                             <li className='px-2 text-gray-500 text-lg font-semibold'>Phone #: 215-###-####</li>
                         </ul>
             </div>

@@ -5,6 +5,7 @@ import Task from './components/Task';
 import Header from './Header';
 import './styles/home.css';
 import './styles/index.css';
+import BackgroundMusic from './BackgroundMusic';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/task" element={<Task />}>
         </Route>
       </Routes>
+      <BackgroundMusic/>
     </div>
   );
 }
