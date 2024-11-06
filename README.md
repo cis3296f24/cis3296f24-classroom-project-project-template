@@ -18,8 +18,8 @@ React Music Taste Matcher is a web application designed to connect users based o
 To run the project locally, clone the repository and install dependencies:
 ```bash
 # Clone the repo
-git clone https://github.com/ldups/react-spotify-demo.git
-cd react-spotify-demo
+git clone https://github.com/cis3296f24/MusicMatcher
+cd musicmatcher
 
 # Install dependencies
 npm install
