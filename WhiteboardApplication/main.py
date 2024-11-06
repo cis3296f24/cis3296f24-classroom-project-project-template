@@ -170,7 +170,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.tb_Pen.setChecked(True)
         self.tb_Pen.clicked.connect(self.button_clicked)
         self.pb_Eraser.clicked.connect(self.button_clicked)
-        self.pb_Text_Button.clicked.connect(self.add_text_box)
+        self.tb_Text.clicked.connect(self.add_text_box)
 
         self.current_color = QColor("#000000")
 
