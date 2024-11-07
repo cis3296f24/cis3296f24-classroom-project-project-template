@@ -1,3 +1,7 @@
+import os
+import pickle
+from os.path import expanduser
+
 from PySide6.QtWidgets import (
     QMainWindow,
     QGraphicsScene,
@@ -5,7 +9,8 @@ from PySide6.QtWidgets import (
     QGraphicsPathItem,
     QColorDialog,
     QPushButton,
-    QGraphicsTextItem
+    QGraphicsTextItem,
+    QFileDialog
 )
 
 from PySide6.QtGui import (
@@ -14,11 +19,11 @@ from PySide6.QtGui import (
     QPainter,
     QPainterPath,
     QColor,
-    QTransform
+    QTransform, QBrush, QFont
 )
 
 from PySide6.QtCore import (
-    Qt, QRectF, QSizeF, QPointF
+    Qt, QRectF, QSizeF, QPointF, QSize, QRect
 )
 
 from WhiteboardApplication.UI.board import Ui_MainWindow
@@ -154,6 +159,7 @@ class BoardScene(QGraphicsScene):
         self.active_tool = tool
 
 class MainWindow(QMainWindow, Ui_MainWindow):
+
     def __init__(self):
         super().__init__()
         self.setupUi(self)
@@ -162,6 +168,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # self.pb_BackgroundColor = QPushButton("Change Background Color", self)
         # self.pb_BackgroundColor.setGeometry(10, 195, 150, 30)
         # self.pb_BackgroundColor.clicked.connect(self.change_background_color)
+
+        ############################################################################################################
+        # Menus Bar: Files
+        self.actionSave_2.triggered.connect(self.save)
+        self.actionLoad.triggered.connect(self.load)
 
         ############################################################################################################
         # Ensure all buttons behave properly when clicked
@@ -176,7 +187,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         ############################################################################################################
 
-        self.actionClear.triggered.connect(self.clear_canvas)
+        self.actionClear_2.triggered.connect(self.clear_canvas)
 
         # Define what the tool buttons do
         ###########################################################################################################
@@ -276,6 +287,196 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #         # Update backround color
     #         self.scene.setBackgroundBrush(color)
 
+    def save(self):
+        directory, _filter = QFileDialog.getSaveFileName(self, "Save as Pickle", '', "Pickle (*.pkl)")
+
+        if directory == "":
+            return
+
+        with open(directory, 'wb') as file:
+            # noinspection PyTypeChecker
+            pickle.dump(self.serialize_items(), file, protocol=pickle.HIGHEST_PROTOCOL)
+
+    def load(self):
+        self.scene.clear()
+        directory, _filter = QFileDialog.getOpenFileName()
+        with open(directory, 'rb') as file:
+            items_data = pickle.load(file)
+            self.deserialize_items(items_data)
+
+
+
+    def serialize_items(self):
+        items_data = []
+        for item in self.scene.items():
+            if isinstance(item, TextBox):
+                items_data.append({
+                    'type': 'TextBox',
+                    'text': item.toPlainText(),
+                    'font': self.serialize_font(item.font()),
+                    'color': self.serialize_color(item.defaultTextColor()),
+                    'rotation': item.rotation(),
+                    'transform': self.serialize_transform(item.transform()),
+                    'x': item.pos().x(),
+                    'y': item.pos().y(),
+                    'name': item.toolTip(),
+                })
+
+            elif isinstance(item, QGraphicsPathItem):
+                path_data = {
+                    'type': 'QGraphicsPathItem',
+                    'pen': self.serialize_pen(item.pen()),
+                    'brush': self.serialize_brush(item.brush()),
+                    'rotation': item.rotation(),
+                    'transform': self.serialize_transform(item.transform()),
+                    'x': item.pos().x(),
+                    'y': item.pos().y(),
+                    'name': item.toolTip(),
+                    'elements': self.serialize_path(item.path()),
+                }
+                items_data.append(path_data)
+
+        return items_data
+
+    def serialize_color(self, color: QColor):
+        return {
+            'red': color.red(),
+            'green': color.green(),
+            'blue': color.blue(),
+            'alpha': color.alpha(),
+        }
+
+    def serialize_pen(self, pen: QPen):
+        return {
+            'width': pen.width(),
+            'color': self.serialize_color(pen.color()),
+            'style': pen.style(),
+            'capstyle': pen.capStyle(),
+            'joinstyle': pen.joinStyle()
+        }
+
+    def serialize_brush(self, brush: QBrush):
+        return {
+            'color': self.serialize_color(brush.color()),
+            'style': brush.style()
+        }
+
+    def serialize_font(self, font: QFont):
+        return {
+            'family': font.family(),
+            'pointsize': font.pixelSize(),
+            'letterspacing': font.letterSpacing(),
+            'bold': font.bold(),
+            'italic': font.italic(),
+            'underline': font.underline(),
+        }
+
+    def serialize_transform(self, transform: QTransform):
+        return {
+            'm11': transform.m11(),
+            'm12': transform.m12(),
+            'm13': transform.m13(),
+            'm21': transform.m21(),
+            'm22': transform.m22(),
+            'm23': transform.m23(),
+            'm31': transform.m31(),
+            'm32': transform.m32(),
+            'm33': transform.m33()
+        }
+
+    def serialize_path(self, path: QPainterPath):
+        elements = []
+        for i in range(path.elementCount()):
+            element = path.elementAt(i)
+            if element.isMoveTo():
+                elements.append({'type': 'moveTo', 'x': element.x, 'y': element.y})
+            elif element.isLineTo():
+                elements.append({'type': 'lineTo', 'x': element.x, 'y': element.y})
+            elif element.isCurveTo():
+                elements.append({'type': 'curveTo', 'x': element.x, 'y': element.y})
+        return elements
+
+    def deserialize_items(self, items_data):
+        for item_data in items_data:
+            if item_data['type'] == 'TextBox':
+                item = self.deserialize_text_item(item_data)
+            elif item_data['type'] == 'QGraphicsPathItem':
+                item = self.deserialize_path_item(item_data)
+
+            # Add item
+            self.scene.addItem(item)
+
+    def deserialize_color(self, color):
+        return QColor(color['red'], color['green'], color['blue'], color['alpha'])
+
+    def deserialize_pen(self, data):
+        pen = QPen()
+        pen.setWidth(data['width'])
+        pen.setColor(self.deserialize_color(data['color']))
+        pen.setStyle(data['style'])
+        pen.setCapStyle(data['capstyle'])
+        pen.setJoinStyle(data['joinstyle'])
+        return pen
+
+    def deserialize_brush(self, data):
+        brush = QBrush()
+        brush.setColor(self.deserialize_color(data['color']))
+        brush.setStyle(data['style'])
+        return brush
+
+    def deserialize_font(self, data):
+        font = QFont()
+        font.setFamily(data['family'])
+        font.setPixelSize(data['pointsize'])
+        font.setLetterSpacing(QFont.AbsoluteSpacing, data['letterspacing'])
+        font.setBold(data['bold'])
+        font.setItalic(data['italic'])
+        font.setUnderline(data['underline'])
+        return font
+
+    def deserialize_transform(self, data):
+        transform = QTransform(
+            data['m11'], data['m12'], data['m13'],
+            data['m21'], data['m22'], data['m23'],
+            data['m31'], data['m32'], data['m33']
+        )
+        return transform
+
+    def deserialize_text_item(self, data):
+        text_item = TextBox()
+        text_item.setFont(self.deserialize_font(data['font']))
+        text_item.setDefaultTextColor(self.deserialize_color(data['color']))
+        text_item.setRotation(data['rotation'])
+        text_item.setTransform(self.deserialize_transform(data['transform']))
+        text_item.setPos(data['x'], data['y'])
+        text_item.setToolTip(data['name'])
+        text_item.setPlainText(data['text'])
+        return text_item
+
+    def deserialize_path_item(self, data):
+        sub_path = QPainterPath()
+        for element in data['elements']:
+            if element['type'] == 'moveTo':
+                sub_path.moveTo(element['x'], element['y'])
+            elif element['type'] == 'lineTo':
+                sub_path.lineTo(element['x'], element['y'])
+            elif element['type'] == 'curveTo':
+                sub_path.cubicTo(element['x'],
+                                 element['y'],
+                                 element['x'],
+                                 element['y'],
+                                 element['x'],
+                                 element['y'])
+
+        path_item = QGraphicsPathItem(sub_path)
+        path_item.setPen(self.deserialize_pen(data['pen']))
+        path_item.setBrush(self.deserialize_brush(data['brush']))
+        path_item.setRotation(data['rotation'])
+        path_item.setTransform(self.deserialize_transform(data['transform']))
+        path_item.setPos(data['x'], data['y'])
+        path_item.setToolTip(data['name'])
+
+        return path_item
 
 if __name__ == '__main__':
     app = QApplication()

@@ -812,10 +812,10 @@ color: rgb(255, 255, 255);</string>
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionSave_As"/>
+    <addaction name="actionSave_2"/>
+    <addaction name="actionLoad"/>
     <addaction name="actionExport"/>
     <addaction name="actionImport"/>
-    <addaction name="actionClear"/>
     <addaction name="actionClose"/>
    </widget>
    <widget class="QMenu" name="menuOptions">
@@ -827,7 +827,7 @@ color: rgb(255, 255, 255);</string>
     <addaction name="actionCopy"/>
     <addaction name="actionPaste"/>
     <addaction name="actionSelect_All"/>
-    <addaction name="actionDelete"/>
+    <addaction name="actionClear_2"/>
    </widget>
    <widget class="QMenu" name="menuCollab">
     <property name="title">
@@ -934,9 +934,9 @@ color: rgb(255, 255, 255);</string>
     <string>Select All</string>
    </property>
   </action>
-  <action name="actionDelete">
+  <action name="actionClear_2">
    <property name="text">
-    <string>Delete</string>
+    <string>Clear</string>
    </property>
   </action>
   <action name="actionUndo">
@@ -1090,6 +1090,16 @@ color: rgb(255, 255, 255);</string>
   <action name="actionChat">
    <property name="text">
     <string>Chat</string>
+   </property>
+  </action>
+  <action name="actionSave_2">
+   <property name="text">
+    <string>Save</string>
+   </property>
+  </action>
+  <action name="actionLoad">
+   <property name="text">
+    <string>Load</string>
    </property>
   </action>
  </widget>
