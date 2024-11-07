@@ -14,3 +14,8 @@
 body button{
     border-radius: 12px;
 }
+
+/* CSS to avoid the glow on all other markers (like stations) */
+.leaflet-marker-icon {
+    box-shadow: none !important;
+}
