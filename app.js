@@ -1,16 +1,21 @@
+=======
+//modules
 const express = require('express');
-const path = require('path');
-const fs = require('fs');
-const axios = require('axios');
-
 const app = express();
-const hostname = 'localhost';
+const path = require('path');
+const axios = require('axios');
+const fs = require('fs');
 
+// constants
+const HOSTNAME = 'localhost';
 const PORT = process.env.PORT || 9999;
 
 // Middleware to serve static files (if your static files are in the same directory as this file)
 app.use(express.static(path.join(__dirname)));
 
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+})
 // API route to handle requests to /api/get-locations
 app.get('/api/get-locations', async (req, res) => {
     const { lat, lon } = req.query; // Extract lat and lon from query params
@@ -34,5 +39,5 @@ app.get('/api/get-locations', async (req, res) => {
 
 // Start the Express server
 app.listen(PORT, () => {
-    console.log(`Server running at http://${hostname}:${PORT}/`);
+    console.log(`Server running at http://${HOSTNAME}:${PORT}/`);
 });
