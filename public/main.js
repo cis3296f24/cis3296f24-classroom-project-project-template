@@ -95,7 +95,7 @@ function renderTracks(data) {
         .range([height -50 , 50]);  // Top and bottom padding
 
     const minSize = 5;
-    const maxSize = 100;
+    const maxSize = 5;
 
     // Filtering valid data entries to avoid errors
     const validData = data.filter(d => typeof d.popularity === 'number' && typeof d.duration_ms === 'number');
