@@ -8,19 +8,51 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @State var selectedTab = 0
+    
     var body: some View {
-        VStack {
-            Text("🧾")
-                .font(.system(size: 24))
-            Text("Split Diff!")
-                .font(.headline)
-            
-            Button("Take a Picture") {
-                print("Took a Picture!")
+        TabView(selection: $selectedTab) {
+            NavigationStack {
+                VStack {
+                    Text("Home")
+                }
+                .navigationTitle("SplitDiff🧾")
             }
-            .padding(.top, 20)
+            .tabItem {
+                Image(systemName: "house")
+                Text("")
+            }
+            .tag(0)
+            
+            NavigationStack {
+                VStack {
+                    Button("Take a Picture") {
+                        print("Took a Picture!")
+                    }
+                }
+                .navigationTitle("SplitDiff🧾")
+            }
+            .tabItem {
+                Image("receipt_1f9fe")
+                    .resizable()
+                    .frame(width: 10, height: 10)
+                Text("")
+            }
+            .tag(1)
+            
+            NavigationStack {
+                VStack {
+                    Text("History")
+                }
+                .navigationTitle("SplitDiff🧾")
+            }
+            .tabItem {
+                Image(systemName: "clock")
+                Text("")
+            }
+            .tag(2)
         }
-        .padding()
     }
 }
 
