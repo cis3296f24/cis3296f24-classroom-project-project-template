@@ -1,5 +1,6 @@
 import os
 import pickle
+import sys
 from os.path import expanduser
 
 from PySide6.QtWidgets import (
@@ -29,6 +30,8 @@ from PySide6.QtCore import (
 from WhiteboardApplication.UI.board import Ui_MainWindow
 
 from text_box import TextBox
+
+from video_player import VideoPlayer
 
 class BoardScene(QGraphicsScene):
     def __init__(self):
@@ -154,6 +157,16 @@ class BoardScene(QGraphicsScene):
         text_box.setPos(scene_rect.width() / 2 - text_box.boundingRect().width() / 2,
                         scene_rect.height() / 2 - text_box.boundingRect().height() / 2)
 
+    def open_video_player(self):
+        # app1 = QApplication()
+        player = VideoPlayer()
+        player.setWindowTitle("Player")
+        player.resize(900, 600)
+        player.show()
+        sys.exit(app1.exec())
+
+
+
     #Marks which tool (pen, eraser) is being used so multiple don't run at once
     def set_active_tool(self, tool):
         self.active_tool = tool
@@ -182,6 +195,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.tb_Pen.clicked.connect(self.button_clicked)
         self.pb_Eraser.clicked.connect(self.button_clicked)
         self.tb_Text.clicked.connect(self.add_text_box)
+        self.tb_Videos.clicked.connect(self.open_video_player)
 
         self.current_color = QColor("#000000")
 
@@ -279,6 +293,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #Adds a text box using the method in BoardScene
     def add_text_box(self):
         self.scene.add_text_box()
+
+    #opens a video player using method in BoardScene
+    def open_video_player(self):
+        self.scene.open_video_player()
 
     # def change_background_color(self):
     #     # Open a color board and set the background color
