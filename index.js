@@ -1,3 +1,4 @@
+
 // Function to get the user's current position as a Promise
 function getCurrentPosition() {
     return new Promise((resolve, reject) => {
@@ -29,6 +30,10 @@ document.getElementById('fetch-button').addEventListener('click', async function
         console.log("Latitude:", latitude);
         console.log("Longitude:", longitude);
 
+
+        // Fetch the data from the API
+//         const response = await fetch(`/api/get-locations?lat=${latitude}&lon=${longitude}`);
+//         console.log("req:", response);
         // Initialize the map
         map = L.map('map', {
             attributionControl: false // Disable the default attribution control
@@ -58,10 +63,10 @@ document.getElementById('fetch-button').addEventListener('click', async function
         });
 
         // Construct the API URL using the latitude and longitude from geolocation API
-        const apiUrl = `https://cors-anywhere.herokuapp.com/https://www3.septa.org/api/locations/get_locations.php?lon=${longitude}&lat=${latitude}&type=rail_stations&radius=2`;
+//         const apiUrl = `https://cors-anywhere.herokuapp.com/https://www3.septa.org/api/locations/get_locations.php?lon=${longitude}&lat=${latitude}&type=rail_stations&radius=2`;
 
         // Fetch the data from the API
-        const data = await APIcall(apiUrl);
+        const data = await APIcall(`/api/get-locations?lat=${latitude}&lon=${longitude}`);
 
         // Display the locations
         displayLocations(data, map); // Pass map to display function
@@ -86,9 +91,20 @@ async function APIcall(apiUrl) {
         });
 
         if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
+            throw new Error(`Error: ${response.status}`);
         }
+// <<<<<<< express_branch remove if successful
+//         const data = await response.json();
+//         console.log('Data received from server:', data);
+//         console.log('displaying');
+//         displayLocations(data);
+//         console.log('after');
 
+//         } catch (error) {
+//             console.error('Error fetching data:', error);
+//         }
+// });
+// =======
         const data = await response.json();
         console.log('Fetched data:', data); // Log JSON for debugging
         return data;  // Return the fetched data
