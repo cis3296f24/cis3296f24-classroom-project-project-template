@@ -1,32 +1,38 @@
-const { createServer } = require('node:http');
-const path = require('node:path');
+const express = require('express');
+const path = require('path');
 const fs = require('fs');
-const url = require('url');
+const axios = require('axios');
 
+const app = express();
 const hostname = 'localhost';
-const port = '9999';
 
-const server = createServer((req, res) => {
-    filePath = "." + url.parse(req.url).pathname;
-    if (filePath.localeCompare("./") == 0){
-        filePath = "./index.html"
+const PORT = process.env.PORT || 9999;
+
+// Middleware to serve static files (if your static files are in the same directory as this file)
+app.use(express.static(path.join(__dirname)));
+
+// API route to handle requests to /api/get-locations
+app.get('/api/get-locations', async (req, res) => {
+    const { lat, lon } = req.query; // Extract lat and lon from query params
+    console.log('Latitude:', lat);
+    console.log('Longitude:', lon);
+
+    if (!lat || !lon) {
+        return res.status(400).json({ error: 'Latitude and Longitude are required' });
     }
-    console.log(filePath);
-    fs.readFile(filePath, (err, data) => {
-        if (err) {
-            res.writeHead(404, {"Content-Type": "text/html"});
-            res.write("Page Not Found.");
-            res.end();
-        }
-        else {
-            res.writeHead(200, {"Content-Type": "text/html"});
-            res.write(data);
-            res.end();
-        }
-    });
+
+    try {
+        const apiUrl = `https://www3.septa.org/api/locations/get_locations.php?lon=${lon}&lat=${lat}&type=rail_stations&radius=2`;
+        console.log('Fetching from:', apiUrl);
+        const response = await axios.get(apiUrl);
+        res.json(response.data); // Correctly send the response data
+    } catch (error) {
+        console.error('Error fetching data from SEPTA API:', error.message);
+        res.status(500).send('Error fetching data from the SEPTA API');
+    }
 });
 
-server.listen(port, hostname, () => {
-    console.log(`Server running at http://${hostname}:${port}/`);
+// Start the Express server
+app.listen(PORT, () => {
+    console.log(`Server running at http://${hostname}:${PORT}/`);
 });
-
