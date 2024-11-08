@@ -1,7 +1,7 @@
-// public/script.js
+// src/utils/script.js
 
 // Function to get the user's current position as a Promise
-function getCurrentPosition() {
+export function getCurrentPosition() {
     return new Promise((resolve, reject) => {
         if ("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition(
@@ -64,13 +64,13 @@ document.getElementById('fetch-button').addEventListener('click', async function
     }
 });
 
-function printSome(latitude) {
+export function printSome(latitude) {
     console.log('hello world');
     console.log(latitude);
 }
 
 // Function to fetch bus schedule
-async function fetchBusSchedule(stopId) {
+export async function fetchBusSchedule(stopId) {
     if (!stopId) {
         console.error('Invalid stopId:', stopId);
         return;
@@ -99,7 +99,7 @@ async function fetchBusSchedule(stopId) {
 }
 
 // Function to display the locations
-function displayLocations(locations) {
+export function displayLocations(locations) {
     const container = document.getElementById('response-container');
     container.innerHTML = ''; // Clear previous locations
 
@@ -127,7 +127,7 @@ function displayLocations(locations) {
 }
 
 // Function to parse and display the bus schedule
-function parseAndDisplaySchedule(scheduleData) {
+export function parseAndDisplaySchedule(scheduleData) {
     const container = document.getElementById('schedule-container');
     container.innerHTML = ''; // Clear previous schedule
 

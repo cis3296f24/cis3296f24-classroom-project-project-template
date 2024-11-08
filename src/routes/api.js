@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/api/locations', async (req, res) => {
+router.get('/locations', async (req, res) => {
+    console.log(`GET /api/locations`);
     const { lon, lat, type, radius } = req.query;
     const apiUrl = `https://www3.septa.org/api/locations/get_locations.php?lon=${lon}&lat=${lat}&type=${type}&radius=${radius}`;
     try {
@@ -14,7 +15,8 @@ router.get('/api/locations', async (req, res) => {
     }
 });
 
-router.get('/api/bus_schedules', async (req, res) => {
+router.get('/bus_schedules', async (req, res) => {
+    console.log(`GET /api/bus_schedules`);
     const { stop_id } = req.query;
     const apiUrl = `https://www3.septa.org/api/BusSchedules/index.php?stop_id=${stop_id}`;
     try {

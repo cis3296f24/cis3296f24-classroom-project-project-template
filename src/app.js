@@ -1,6 +1,5 @@
 // modules
 const express = require('express');
-// const fetch = require('node-fetch'); // Ensure you're using node-fetch version 2
 const path = require('path');
 const app = express();
 const home = require('./routes/home.js');
