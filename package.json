@@ -4,7 +4,8 @@
   "description": "Put here a short paragraph describing your project. \r Adding an screenshot or a mockup of your application in action would be nice.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
@@ -20,5 +21,9 @@
     "webpack": "^5.95.0",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.1.0"
+  },
+  "dependencies": {
+    "express": "^4.21.1",
+    "node-fetch": "^2.7.0"
   }
 }
