@@ -1,9 +1,11 @@
 <script>
     import { onMount } from "svelte";
-
-    onMount(() => { //hack until i look into svelte
-        // src/utils/script.js
-
+    import { Map } from 'maplibre-gl';
+    import 'maplibre-gl/dist/maplibre-gl.css';
+    
+    onMount(() => {
+        //hack until i look into svelte
+       
         // Function to get the user's current position as a Promise
         function getCurrentPosition() {
             return new Promise((resolve, reject) => {
@@ -26,6 +28,8 @@
             });
         }
 
+        let map;
+
         // Add event listener to the fetch button
         document
             .getElementById("fetch-button")
@@ -41,6 +45,45 @@
 
                     // Construct the API URL using the latitude and longitude from geolocation API
                     const apiUrl = `/api/locations?lon=${longitude}&lat=${latitude}&type=bus_stops&radius=2`;
+                    
+                    map = new Map({
+                        attributionControl: false,
+                        container: 'map',
+                        style: 'https://demotiles.maplibre.org/style.json',
+                        center: [latitude, longitude],
+                        zoom: 1
+                    });
+                    // map = L.map("map", {
+                    //     attributionControl: false, // Disable the default attribution control
+                    // }).setView([latitude, longitude], 13); // Set zoom level
+
+                    // Add OpenStreetMap tile layer
+                    map.tileLayer(
+                        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                        {
+                            attribution:
+                                '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                        },
+                    ).addTo(map);
+
+                    // Create a circle marker for the user's current location
+                    let userMarker = map.circleMarker([latitude, longitude], {
+                        color: "blue", // Set the border color
+                        fillColor: "blue", // Set the fill color
+                        fillOpacity: 0.5, // Make it semi-transparent
+                        radius: 10, // Set the radius of the circle
+                        weight: 3, // Set the thickness of the border
+                        opacity: 1,
+                    })
+                        .addTo(map)
+                        .bindPopup("<b>You are here</b>")
+                        .openPopup();
+
+                    // Apply a glow effect by adding a CSS class to the marker's path
+                    userMarker.on("add", function () {
+                        const path = userMarker._path; // Get the SVG path element
+                        path.classList.add("glow-effect"); // Add the glow effect class to the path
+                    });
 
                     // Fetch the data from the API
                     const response = await fetch(apiUrl);
@@ -251,6 +294,7 @@
             <input type="submit" value="Go" />
         </form>
     </div>
+    <div id="map" style="height: 500px; width: 100%;"></div>
     <button id="fetch-button">Fetch Locations</button>
     <div id="response-container"></div>
 </main>
