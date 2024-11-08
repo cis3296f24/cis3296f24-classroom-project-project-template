@@ -110,12 +110,16 @@ class Ui_MainWindow(object):
         icon5 = QIcon()
         icon5.addFile(u":/Tools/shapes.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.actionShapes.setIcon(icon5)
+
         self.actionImages = QAction(MainWindow)
         self.actionImages.setObjectName(u"actionImages")
-        self.actionImages.setCheckable(True)
+        self.actionImages.setCheckable(False)
         icon6 = QIcon()
         icon6.addFile(u":/Tools/image.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.actionImages.setIcon(icon6)
+
+
+
         self.actionVideos = QAction(MainWindow)
         self.actionVideos.setObjectName(u"actionVideos")
         self.actionVideos.setCheckable(True)
