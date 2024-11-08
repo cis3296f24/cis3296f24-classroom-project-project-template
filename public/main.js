@@ -120,7 +120,7 @@ function renderTracks(data) {
         .attr("cx", d => xScale(d.value.avgPopularity))
         .attr("cy", d => yScale(d.value.avgDuration))
         .attr("r", d => {
-            const radius = minSize + ((d.value.avgPopularity / 100) * (maxSize - minSize));
+            const radius = minSize + ((d.value.count / 10) * (maxSize - minSize));
             return radius;
         })
         .attr("fill", (d, i) => planetColors[i % planetColors.length])
