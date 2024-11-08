@@ -26,3 +26,5 @@ router.get('/api/bus_schedules', async (req, res) => {
         res.status(500).json({ error: 'Error fetching bus schedule' });
     }
 });
+
+module.exports = router;
