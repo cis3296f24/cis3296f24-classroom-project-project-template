@@ -118,8 +118,6 @@ class Ui_MainWindow(object):
         icon6.addFile(u":/Tools/image.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.actionImages.setIcon(icon6)
 
-       # MainWindow.addAction(self.actionImages) ## TEST
-
 
 
         self.actionVideos = QAction(MainWindow)

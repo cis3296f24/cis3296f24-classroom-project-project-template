@@ -232,6 +232,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 
     #Upload Image
+
     def upload_image(self):
         print("Image Button clicked")
         file_name, _ = QFileDialog.getOpenFileName(self, "Open Image", "", "Images (*.png *.jpg *.bmp)")
