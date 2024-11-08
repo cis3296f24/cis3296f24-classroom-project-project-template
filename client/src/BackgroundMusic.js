@@ -18,11 +18,11 @@ export default function BackgroundMusic() {
 
 
     useEffect(() => {
-    const startMusicOnInteraction = () => {
-      audioRef.current.play();
-      setIsPlaying(true);
-      window.removeEventListener('click', startMusicOnInteraction);
-      window.removeEventListener('keydown', startMusicOnInteraction);
+      const startMusicOnInteraction = () => {
+        audioRef.current.play();
+        setIsPlaying(true);
+        window.removeEventListener('click', startMusicOnInteraction);
+        window.removeEventListener('keydown', startMusicOnInteraction);
     };
 
 
