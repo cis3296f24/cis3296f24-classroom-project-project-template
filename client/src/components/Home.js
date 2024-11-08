@@ -1,6 +1,7 @@
 import EastIcon from '@mui/icons-material/East';
 import 'animate.css';
 import Lottie from "lottie-react";
+import React from 'react';
 import { NavLink } from 'react-router-dom';
 import chatBox from '../assets/chatBox.svg';
 import hand from '../assets/hand.json';
@@ -94,6 +95,14 @@ function Home() {
                                 <li className='px-2 text-gray-500 text-lg font-semibold'>Phone #: 215-###-####</li>
                             </ul>
                 </div>
+            </div>
+
+            <div>
+                <h3 className='px-2 text-gray-500 text-lg font-semibold'>Jie Huang</h3>
+                        <ul>
+                            <li className='px-2 text-gray-500 text-lg font-semibold'>Email: tuo77200@temple.edu</li>
+                            <li className='px-2 text-gray-500 text-lg font-semibold'>Phone #: 215-###-####</li>
+                        </ul>
             </div>
             
         </div>
