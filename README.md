@@ -3,18 +3,15 @@ SEPTA+ is a basic web application that allows users to access timetables, delays
 
 # How to run   
 - Download the latest binary from the Release section on the right on GitHub.  
-- Use VS Code
-- Install "Live Server" extension
-- Right click on index.html file and select "Run with Live Server"
-- The web page should load and you can interact with the page
+  
+- Install dependencies
+  ```
+    npm install
+  ```
+- Start application
+  ``` 
+    node app.js
+  ```
 
 # How to contribute
 Follow this project board to know the latest status of the project: [https://github.com/cis3296f24/02-Septa-CLI]([https://github.com/cis3296f24/02-Septa-CLI])  
-
-### How to build
-- Use this github repository: [https://github.com/cis3296f24/02-Septa-CLI]([https://github.com/cis3296f24/02-Septa-CLI])  
-- Select the main branch
-- Use VS Code
-- Install "Live Server" extension
-- Right click on index.html file and select "Run with Live Server"
-- The web page should load and you can interact with the page

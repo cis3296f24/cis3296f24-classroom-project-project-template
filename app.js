@@ -1,17 +1,15 @@
-=======
 //modules
 const express = require('express');
 const app = express();
 const path = require('path');
 const axios = require('axios');
-const fs = require('fs');
 
 // constants
 const HOSTNAME = 'localhost';
 const PORT = process.env.PORT || 9999;
 
 // Middleware to serve static files (if your static files are in the same directory as this file)
-app.use(express.static(path.join(__dirname)));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
