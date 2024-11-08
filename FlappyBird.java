@@ -1,7 +1,6 @@
 //jack's comment
 // David was here
 //Eli was here
-// Shafiq was here
 public class FlappyBird {
 
     //TESTING TESTING TESTING
