@@ -4,28 +4,34 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const router = express.Router();
 
-//Still Under Construction
-
-router.patch('/', async (req, res) => {
-    const { userId, currentPassword, newPassword } = req.body;
+router.post('/', async (req, res) => {
+    const { email, currentPassword, newPassword } = req.body;
 
     try {
-        //check if user exists
-        const user = await User.findById(userId);
+        // Check if user exists
+        const user = await User.findOne({ email });
         if (!user) {
-            return res.status(404).json({ error: 'User not found' });
+            return res.status(400).json({ error: "User not found" });
         }
 
+        // Verify current password
         const isPasswordValid = await bcrypt.compare(currentPassword, user.password);
-        
+        if (!isPasswordValid) {
+            return res.status(401).json({ error: "Current password is incorrect" });
+        }
 
-        //encrypt password
-        const hashedPassword = await bcrypt.hash(password, 10);
+        // Enter new password
+        const hashedNewPassword = await bcrypt.hash(newPassword, 10);
 
+        // Update password in database
+        user.password = hashedNewPassword;
+        await user.save();
 
-
-
-    }catch {
-
+        // Respond
+        res.status(200).json({ message: "Password changed successfully" });
+    } catch (error) {
+        res.status(500).json({ error: "Password change failed" });
     }
-})
+});
+
+module.exports = router;
