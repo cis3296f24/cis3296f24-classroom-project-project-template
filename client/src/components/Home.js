@@ -8,6 +8,7 @@ import hand from '../assets/hand.json';
 import motivate from '../assets/motivate.json';
 import Bar from './helper/Bar';
 
+
 function Home() {
     return (
         <div className="home flex flex-col justify-center items-center">
