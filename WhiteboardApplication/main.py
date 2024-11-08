@@ -1,5 +1,6 @@
 import os
 import pickle
+import sys
 from os.path import expanduser
 
 from PySide6.QtWidgets import (
@@ -10,7 +11,11 @@ from PySide6.QtWidgets import (
     QColorDialog,
     QPushButton,
     QGraphicsTextItem,
-    QFileDialog
+    QFileDialog,
+    QApplication,
+    QLabel,
+    QFileDialog,
+    QGraphicsPixmapItem
 )
 
 from PySide6.QtGui import (
@@ -19,7 +24,7 @@ from PySide6.QtGui import (
     QPainter,
     QPainterPath,
     QColor,
-    QTransform, QBrush, QFont
+    QTransform, QBrush, QFont, QPixmap, QImageReader
 )
 
 from PySide6.QtCore import (
@@ -164,10 +169,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
 
+        if hasattr(self, 'actionImages'):
+            print("actionImages is initialized.")
+        else:
+            print("actionImages is NOT initialized.")
+
         # # Add pb_BackgroundColor button - Chloe
         # self.pb_BackgroundColor = QPushButton("Change Background Color", self)
         # self.pb_BackgroundColor.setGeometry(10, 195, 150, 30)
         # self.pb_BackgroundColor.clicked.connect(self.change_background_color)
+
+
 
         ############################################################################################################
         # Menus Bar: Files
@@ -182,6 +194,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.tb_Pen.clicked.connect(self.button_clicked)
         self.pb_Eraser.clicked.connect(self.button_clicked)
         self.tb_Text.clicked.connect(self.add_text_box)
+
+
 
         self.current_color = QColor("#000000")
 
@@ -205,6 +219,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         #self.pb_Color.clicked.connect(self.color_dialog)
         self.pb_Undo.clicked.connect(self.undo)
         self.pb_Redo.clicked.connect(self.redo)
+
+        # Image
+        self.tb_Images.clicked.connect(self.upload_image)
         ###########################################################################################################
 
         self.scene = BoardScene()
@@ -212,6 +229,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.gv_Canvas.setRenderHint(QPainter.RenderHint.Antialiasing, True)
 
         self.redo_list = []
+
+
+    #Upload Image
+    def upload_image(self):
+        print("Image Button clicked")
+        file_name, _ = QFileDialog.getOpenFileName(self, "Open Image", "", "Images (*.png *.jpg *.bmp)")
+        if file_name:
+            pixmap = QPixmap(file_name)
+            if not pixmap.isNull():
+                pixmap = pixmap.scaled(300, 300, Qt.AspectRatioMode.KeepAspectRatio)
+                pixmap_item = QGraphicsPixmapItem(pixmap)
+                pixmap_item.setPos(0, 0)  # Adjust position as needed
+                pixmap_item.setFlag(QGraphicsPixmapItem.ItemIsMovable)
+                self.scene.addItem(pixmap_item)  # Add the image to the scene
 
     def change_size(self):
         self.scene.change_size(self.dial.value())
@@ -479,9 +510,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         return path_item
 
 if __name__ == '__main__':
-    app = QApplication()
+    app = QApplication(sys.argv)
 
     window = MainWindow()
     window.show()
 
-    app.exec()
+    sys.exit(app.exec())
