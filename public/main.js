@@ -117,7 +117,7 @@ function renderTracks(data) {
         .data(topArtists)
         .enter()
         .append("circle")
-        .attr("cx", d => xScale(d.value.avgPopularity))
+        .attr("cx", d => xScale((d.value.avgPopularity)*2)-1125)
         .attr("cy", d => yScale(d.value.avgDuration))
         .attr("r", d => {
             const radius = minSize + ((d.value.count / 10) * (maxSize - minSize));
@@ -132,7 +132,7 @@ function renderTracks(data) {
         .enter()
         .append("text")
         .attr("class", "artist-label")
-        .attr("x", d => xScale(d.value.avgPopularity))
+        .attr("x", d => xScale((d.value.avgPopularity)*2)-1125)
         .attr("y", d => yScale(d.value.avgDuration) + 5)
         .attr("text-anchor", "middle")
         .text(d => d.key);
