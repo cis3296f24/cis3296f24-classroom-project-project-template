@@ -5,11 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cc3431c8-fae9-4c0a-a641-77f0fa50dc95" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/appmap.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/lwjgl_assimp_natives_windows.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/03-flappy-bird.iml" beforeDir="false" afterPath="$PROJECT_DIR$/03-flappy-bird.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FlappyBird.java" beforeDir="false" afterPath="$PROJECT_DIR$/FlappyBird.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/03-flappy-bird/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/03-flappy-bird/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -52,7 +47,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
+    "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.31954023",
     "vue.rearranger.settings.migration": "true"
@@ -61,8 +56,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.23339.11" />
-        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.23339.11" />
+        <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.23726.103" />
+        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.23726.103" />
       </set>
     </attachedChunks>
   </component>
@@ -82,6 +77,9 @@
       <workItem from="1731107309669" duration="6000" />
       <workItem from="1731107328226" duration="7000" />
       <workItem from="1731111794786" duration="6221000" />
+      <workItem from="1731123012682" duration="153000" />
+      <workItem from="1731123225267" duration="105000" />
+      <workItem from="1731123346407" duration="358000" />
     </task>
     <servers />
   </component>
