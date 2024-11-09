@@ -1,13 +1,16 @@
-import org.lwjgl.glfw.GLFW;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL13.*;
 import static org.lwjgl.system.MemoryUtil.*;
-import static org.lwjgl.system.windows.WinBase.TRUE;
+import org.lwjgl.glfw.GLFWVidMode;
+import org.lwjgl.glfw.GLFW;
+
+//import static org.lwjgl.system.windows.WinBase.TRUE;
+//import static org.lwjgl.opengl.GL13.*;
+
 
 import java.nio.ByteBuffer;
-import org.lwjgl.glfw.GLFW;
+// import org.lwjgl.glfw.GLFW;
 
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
@@ -52,6 +55,15 @@ public class Main implements Runnable {
 
         glfwMakeContextCurrent(window);
         glfwShowWindow(window);
+
+        // GLContext.createFromCurrent();
+        // GLFW.glfwMakeContextCurrent(window)
+        GL.createCapabilities();
+
+        glClearColor(1.0f,1.0f,1.0f,1.0f);
+        glEnable(GL_DEPTH_TEST);
+
+        // System.out.println("OpenGL:" + glGetString(GL_VERSION));
     }
 
     public void run() {
@@ -68,11 +80,14 @@ public class Main implements Runnable {
 
     public void update() {
         glfwPollEvents();
-        if (Input.keys[GLFW_KEY_SPACE]) {
-            System.out.println("flap");
+        // if (Input.keys[GLFW_KEY_SPACE]) {
+        //    System.out.println("flap");
+
         }
     }
     public void render() {
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        // glClear(GL_DEPTH_BUFFER_BIT);
         glfwSwapBuffers(window);
     }
 
