@@ -5,11 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cc3431c8-fae9-4c0a-a641-77f0fa50dc95" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/lwjgl_release_3_3.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Flappy_Bird/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/03-flappy-bird.iml" beforeDir="false" afterPath="$PROJECT_DIR$/03-flappy-bird.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FlappyBird.java" beforeDir="false" afterPath="$PROJECT_DIR$/FlappyBird.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/appmap.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/lwjgl_assimp_natives_windows.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/lwjgl_assimp_natives_windows.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Flappy_Bird/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/03-flappy-bird/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/03-flappy-bird/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,7 +51,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Libraries",
+    "project.structure.last.edited": "Global Libraries",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.31954023",
     "settings.editor.selected.configurable": "reference.projectsettings.compiler.javacompiler",
@@ -86,7 +86,8 @@
       <workItem from="1731123225267" duration="105000" />
       <workItem from="1731123346407" duration="430000" />
       <workItem from="1731123817478" duration="363000" />
-      <workItem from="1731124204492" duration="712000" />
+      <workItem from="1731124204492" duration="795000" />
+      <workItem from="1731125277114" duration="1196000" />
     </task>
     <servers />
   </component>

@@ -1,20 +1,10 @@
-package Flappy_Bird;
-
-
+import static java.lang.Boolean.TRUE;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL13.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
 import java.nio.ByteBuffer;
 
-import org.lwjgl.glfw.GLFWvidmode;
-import org.lwjgl.opengl.GLContext;
-
-import com.thecherno.flappy.graphics.Shader;
-import com.thecherno.flappy.input.Input;
-import com.thecherno.flappy.level.Level;
-import com.thecherno.flappy.maths.Matrix4f;
 
 
 public class Main implements Runnable {
@@ -34,7 +24,7 @@ public class Main implements Runnable {
     }
 
     private void init() {
-        if (glfwInit() != GL_TRUE) {
+        if (!glfwInit()) {
             System.err.println("Failed to initialize GLFW");
             return;
         }
