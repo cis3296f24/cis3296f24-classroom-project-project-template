@@ -10,6 +10,7 @@ import java.nio.ByteBuffer;
 import org.lwjgl.glfw.GLFW;
 
 import org.lwjgl.glfw.GLFWVidMode;
+import org.lwjgl.opengl.GL;
 
 
 public class Main implements Runnable {
@@ -46,6 +47,9 @@ public class Main implements Runnable {
         GLFWVidMode  vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
         //glfwSetWindowPos(window, (GLFWVidMode.width(vidmode) - width / 2), (GLFWVidMode.height(vidmode) - height / 2));
         glfwSetWindowPos(window,(vidmode.width() - width) / 2,(vidmode.height() - height) / 2);
+
+        glfwSetKeyCallback(window, new Input()); // Uses the class Input
+
         glfwMakeContextCurrent(window);
         glfwShowWindow(window);
     }
@@ -64,6 +68,9 @@ public class Main implements Runnable {
 
     public void update() {
         glfwPollEvents();
+        if (Input.keys[GLFW_KEY_SPACE]) {
+            System.out.println("flap");
+        }
     }
     public void render() {
         glfwSwapBuffers(window);
