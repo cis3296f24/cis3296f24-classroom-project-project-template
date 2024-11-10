@@ -11,7 +11,11 @@ from PySide6.QtWidgets import (
     QColorDialog,
     QPushButton,
     QGraphicsTextItem,
-    QFileDialog
+    QFileDialog,
+    QApplication,
+    QLabel,
+    QFileDialog,
+    QGraphicsPixmapItem
 )
 
 from PySide6.QtGui import (
@@ -20,7 +24,7 @@ from PySide6.QtGui import (
     QPainter,
     QPainterPath,
     QColor,
-    QTransform, QBrush, QFont
+    QTransform, QBrush, QFont, QPixmap, QImageReader
 )
 
 from PySide6.QtCore import (
@@ -30,8 +34,6 @@ from PySide6.QtCore import (
 from WhiteboardApplication.UI.board import Ui_MainWindow
 
 from text_box import TextBox
-
-from video_player import VideoPlayer
 
 class BoardScene(QGraphicsScene):
     def __init__(self):
@@ -51,6 +53,57 @@ class BoardScene(QGraphicsScene):
         self.drawing_enabled = False
         self.erasing_enabled = False
         self.active_tool = None
+
+        self.undo_list = []
+        self.redo_list = []
+
+    #Adds an action to the undo list (or a list of items in the case of textbox), by treating every action as a list
+    def add_item_to_undo(self, item):
+        """Add a single item or group of items to the undo list and clear redo list"""
+        # Clear redo list to ensure correct redo functionality
+        self.redo_list.clear()
+
+        # Add item (or list of items if it's a group) to the undo list
+        self.undo_list.append([item])
+        print("Added to undo:", item)
+
+    #Pops action of undo stack to undo, and adds it to redo in case user wants to redo the action
+    def undo(self):
+        if not self.undo_list:
+            print("Undo list is empty")
+            return
+
+        # Pop the last group of items from the undo stack
+        item_group = self.undo_list.pop()
+        for item in item_group:
+            self.removeItem(item)
+            print("Removed from scene (undo):", item)
+
+        # Push the removed items to the redo stack
+        self.redo_list.append(item_group)
+        print("Added to redo stack:", item_group)
+
+    #Pops an action off the redo stack and adds it back to undo to redo and action
+    def redo(self):
+        if not self.redo_list:
+            print("Redo list is empty")
+            return
+
+        # Pop the last group of items from the redo stack
+        item_group = self.redo_list.pop()
+        for item in item_group:
+            self.addItem(item)
+            print("Added back to scene (redo):", item)
+
+        # Push the redone items back to the undo stack
+        self.undo_list.append(item_group)
+        print("Restored to undo stack:", item_group)
+
+    #Adds text box and resizing handles as a group so they are undone at once
+    def add_text_box(self, text_box_item):
+        self.addItem(text_box_item)
+        self.add_item_to_undo(text_box_item)  # For complex items, group with handles if needed
+        print("TextBox added to scene:", text_box_item)
 
     def change_color(self, color):
         self.color = color
@@ -72,23 +125,31 @@ class BoardScene(QGraphicsScene):
         if enable:
             self.drawing_enabled = False
 
+    #A basic eraser, created as a hold so text box function could be implemented
+    def erase(self, position):
+        eraser_radius = 10
+
+        #Creates a 20 x 20 rectangle, using the current position and moving further left and up to set the left corner of the rectangle
+        erase_item = self.items(QRectF(position - QPointF(eraser_radius, eraser_radius), QSizeF(eraser_radius * 2, eraser_radius * 2)))
+
+        #Removes all items within the rectangle
+        for item in erase_item:
+            if isinstance(item, QGraphicsPathItem):
+                self.removeItem(item)
+
     def mousePressEvent(self, event):
         item = self.itemAt(event.scenePos(), QTransform())
-
         print(f"Active Tool: {self.active_tool}")  # Debugging print
 
-        # Check if the left button is clicked
         if event.button() == Qt.LeftButton:
-            # If a text box is clicked, start dragging
             if isinstance(item, TextBox):
                 print("Box selected")
                 self.drawing = False
                 self.is_text_box_selected = True
                 self.selected_text_box = item
                 self.start_pos = event.scenePos()  # Store the start position for dragging
-                self.dragging_text_box = True  # Set dragging flag
+                self.dragging_text_box = True
             else:
-                # Check active tool and proceed accordingly
                 if self.active_tool == "pen":
                     print("Pen tool active")
                     self.drawing = True
@@ -102,35 +163,20 @@ class BoardScene(QGraphicsScene):
                     self.addItem(self.pathItem)
                 elif self.active_tool == "eraser":
                     print("Eraser tool active")
-                    self.drawing = False  # Ensure we're not drawing
-                    self.erase(event.scenePos())  # Start erasing
+                    self.drawing = False
+                    self.erase(event.scenePos())
 
         super().mousePressEvent(event)
 
-    #A basic eraser, created as a hold so text box function could be implemented
-    def erase(self, position):
-        eraser_radius = 10
-
-        #Creates a 20 x 20 rectangle, using the current position and moving further left and up to set the left corner of the rectangle
-        erase_item = self.items(QRectF(position - QPointF(eraser_radius, eraser_radius), QSizeF(eraser_radius * 2, eraser_radius * 2)))
-
-        #Removes all items within the rectangle
-        for item in erase_item:
-            if isinstance(item, QGraphicsPathItem):
-                self.removeItem(item)
-
     def mouseMoveEvent(self, event):
-        # Handle dragging the text box if it's selected
         if self.dragging_text_box and self.selected_text_box:
             self.drawing = False
             print("Dragging box")
             delta = event.scenePos() - self.start_pos
             self.selected_text_box.setPos(self.selected_text_box.pos() + delta)
-            self.start_pos = event.scenePos()  # Update start position for the next move
-
+            self.start_pos = event.scenePos()
         elif self.drawing:
             print("drawing")
-            # Continue drawing if no text box is selected
             curr_position = event.scenePos()
             self.path.lineTo(curr_position)
             self.pathItem.setPath(self.path)
@@ -143,30 +189,14 @@ class BoardScene(QGraphicsScene):
             if self.dragging_text_box:
                 print("Finished dragging box")
                 self.dragging_text_box = False
-        self.drawing = False  # Reset drawing state
-        self.is_text_box_selected = False  # Reset selection when mouse is released
+            elif self.drawing:
+                # Add the completed path to the undo stack when drawing is finished so it can be deleted or added back with undo
+                self.add_item_to_undo(self.pathItem)
+                print("Path item added to undo stack:", self.pathItem)
+            self.drawing = False
+            self.is_text_box_selected = False
 
         super().mouseReleaseEvent(event)
-
-    #Adds a text box when button is clicked
-    def add_text_box(self):
-        text_box = TextBox()
-        self.addItem(text_box)
-        # Set the position to a visible area (e.g., center of the scene)
-        scene_rect = self.sceneRect()
-        text_box.setPos(scene_rect.width() / 2 - text_box.boundingRect().width() / 2,
-                        scene_rect.height() / 2 - text_box.boundingRect().height() / 2)
-
-    def open_video_player(self):
-        # app1 = QApplication()
-        player = VideoPlayer()
-        player.setWindowTitle("Player")
-        player.resize(900, 600)
-        player.show()
-        sys.exit(app1.exec())
-
-
-
     #Marks which tool (pen, eraser) is being used so multiple don't run at once
     def set_active_tool(self, tool):
         self.active_tool = tool
@@ -176,6 +206,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
+
+        if hasattr(self, 'actionImages'):
+            print("actionImages is initialized.")
+        else:
+            print("actionImages is NOT initialized.")
 
         # # Add pb_BackgroundColor button - Chloe
         # self.pb_BackgroundColor = QPushButton("Change Background Color", self)
@@ -194,8 +229,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.tb_Pen.setChecked(True)
         self.tb_Pen.clicked.connect(self.button_clicked)
         self.pb_Eraser.clicked.connect(self.button_clicked)
-        self.tb_Text.clicked.connect(self.add_text_box)
-        self.tb_Videos.clicked.connect(self.open_video_player)
+        #self.tb_Text.clicked.connect(self.add_text_box)
+        self.tb_Text.clicked.connect(self.create_text_box)
 
         self.current_color = QColor("#000000")
 
@@ -219,6 +254,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         #self.pb_Color.clicked.connect(self.color_dialog)
         self.pb_Undo.clicked.connect(self.undo)
         self.pb_Redo.clicked.connect(self.redo)
+
+        # Image
+        self.tb_Images.clicked.connect(self.upload_image)
         ###########################################################################################################
 
         self.scene = BoardScene()
@@ -227,19 +265,27 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.redo_list = []
 
+    #Upload Image
+    def upload_image(self):
+        print("Image Button clicked")
+        file_name, _ = QFileDialog.getOpenFileName(self, "Open Image", "", "Images (*.png *.jpg *.bmp)")
+        if file_name:
+            pixmap = QPixmap(file_name)
+            if not pixmap.isNull():
+                pixmap = pixmap.scaled(300, 300, Qt.AspectRatioMode.KeepAspectRatio)
+                pixmap_item = QGraphicsPixmapItem(pixmap)
+                pixmap_item.setPos(0, 0)  # Adjust position as needed
+                pixmap_item.setFlag(QGraphicsPixmapItem.ItemIsMovable)
+                self.scene.addItem(pixmap_item)  # Add the image to the scene
+
     def change_size(self):
         self.scene.change_size(self.dial.value())
 
     def undo(self):
-        if self.scene.items():
-            latest_item = self.scene.items()
-            self.redo_list.append(latest_item)
-            self.scene.removeItem(latest_item[0])
+        self.scene.undo()
 
     def redo(self):
-        if self.redo_list:
-            item = self.redo_list.pop(-1)
-            self.scene.addItem(item[0])
+        self.scene.redo()
 
     def clear_canvas(self):
         self.scene.clear()
@@ -290,13 +336,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 print("Eraser deactivated")  # Debugging print
                 self.scene.set_active_tool(None)
 
-    #Adds a text box using the method in BoardScene
-    def add_text_box(self):
-        self.scene.add_text_box()
-
-    #opens a video player using method in BoardScene
-    def open_video_player(self):
-        self.scene.open_video_player()
+    def create_text_box(self):
+        # Create a text box item and add it to the scene
+        text_box_item = TextBox()
+        self.scene.add_text_box(text_box_item)
 
     # def change_background_color(self):
     #     # Open a color board and set the background color
@@ -461,7 +504,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         return transform
 
     def deserialize_text_item(self, data):
-        text_item = TextBox()
+        text_item = TextBoxGroup()
         text_item.setFont(self.deserialize_font(data['font']))
         text_item.setDefaultTextColor(self.deserialize_color(data['color']))
         text_item.setRotation(data['rotation'])
@@ -497,9 +540,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         return path_item
 
 if __name__ == '__main__':
-    app = QApplication()
+    app = QApplication(sys.argv)
 
     window = MainWindow()
     window.show()
 
-    app.exec()
+    sys.exit(app.exec())
