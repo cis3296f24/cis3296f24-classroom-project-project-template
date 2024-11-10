@@ -6,8 +6,9 @@ public class GameWindow {
     public GameWindow(GamePanel gamePanel) {
         jFrame = new JFrame();
         jFrame.setTitle("Flappy Bird");
-        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jFrame.setSize(400, 400);
+        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        jFrame.add(gamePanel);
         jFrame.setResizable(false);
         jFrame.setLocationRelativeTo(null);
         jFrame.setVisible(true);
