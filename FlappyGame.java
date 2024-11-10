@@ -8,5 +8,6 @@ public class FlappyGame {
     public FlappyGame() {
         gamePanel = new GamePanel();
         gameWindow = new GameWindow(gamePanel);
+        gamePanel.requestFocus();
     }
 }
