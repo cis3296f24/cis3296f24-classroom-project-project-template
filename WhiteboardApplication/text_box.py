@@ -1,8 +1,8 @@
 from PySide6.QtWidgets import (
-    QGraphicsTextItem, QGraphicsRectItem, QGraphicsItem, QColorDialog, QFontDialog, QMenu
+    QGraphicsTextItem, QGraphicsRectItem, QGraphicsItem, QColorDialog, QFontDialog, QMenu, QGraphicsItemGroup, QGraphicsEllipseItem
 )
-from PySide6.QtGui import QFont, QPen, QColor
-from PySide6.QtCore import Qt, QPointF
+from PySide6.QtGui import QFont, QPen, QColor, QBrush
+from PySide6.QtCore import Qt, QPointF, QRectF
 from resize_handles import ResizeHandle
 
 class TextBox(QGraphicsTextItem):
@@ -185,7 +185,7 @@ class TextBox(QGraphicsTextItem):
         scene = self.scene()
         if scene:
             scene.removeItem(self)
-        self.deleteLater()
+            self.deleteLater()
 
     def updateHandlesVisibility(self):
         # Show or hide handles based on the selection state
