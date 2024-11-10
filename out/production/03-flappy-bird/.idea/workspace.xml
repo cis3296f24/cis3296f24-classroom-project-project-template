@@ -4,12 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cc3431c8-fae9-4c0a-a641-77f0fa50dc95" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/appmap.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/lwjgl_assimp_natives_windows.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/lwjgl_assimp_natives_windows.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Flappy_Bird/Main.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/03-flappy-bird/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/03-flappy-bird/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="37465ebe-bf0e-47a0-a800-43ffd2d46c57" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/FlappyGame.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GamePanel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GameWindow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FlappyBird.java" beforeDir="false" afterPath="$PROJECT_DIR$/FlappyMain.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,7 +18,6 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="package.json" />
         <option value="Class" />
       </list>
     </option>
@@ -27,34 +25,26 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo">{
-  &quot;customColor&quot;: &quot;&quot;,
-  &quot;associatedIndex&quot;: 0
-}</component>
-  <component name="ProjectId" id="2oaTpWBWBkiSDGrrERoKCI63Jun" />
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 0
+}]]></component>
+  <component name="ProjectId" id="2ofV0M3tkjJkQa8bAkEB0t8mP1y" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Application.FlappyBird.executor": "Run",
-    "Application.Main.executor": "Run",
+    "Application.FlappyMain.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "Shafiq-Branch-Java",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/S/Downloads",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Global Libraries",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.31954023",
-    "settings.editor.selected.configurable": "reference.projectsettings.compiler.javacompiler",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -69,25 +59,12 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="cc3431c8-fae9-4c0a-a641-77f0fa50dc95" name="Changes" comment="" />
-      <created>1731106871371</created>
+      <changelist id="37465ebe-bf0e-47a0-a800-43ffd2d46c57" name="Changes" comment="" />
+      <created>1731260392425</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1731106871371</updated>
-      <workItem from="1731106873203" duration="155000" />
-      <workItem from="1731107043916" duration="7000" />
-      <workItem from="1731107080616" duration="118000" />
-      <workItem from="1731107212362" duration="4000" />
-      <workItem from="1731107228231" duration="18000" />
-      <workItem from="1731107309669" duration="6000" />
-      <workItem from="1731107328226" duration="7000" />
-      <workItem from="1731111794786" duration="6221000" />
-      <workItem from="1731123012682" duration="153000" />
-      <workItem from="1731123225267" duration="105000" />
-      <workItem from="1731123346407" duration="430000" />
-      <workItem from="1731123817478" duration="363000" />
-      <workItem from="1731124204492" duration="795000" />
-      <workItem from="1731125277114" duration="1196000" />
+      <updated>1731260392425</updated>
+      <workItem from="1731260393544" duration="4744000" />
     </task>
     <servers />
   </component>
