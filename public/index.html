@@ -3,19 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Spotify Top Tracks - Sample Visualization</title>
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'nonce-${res.locals.nonce}'; script-src 'self' 'nonce-${res.locals.nonce}' https://d3js.org;">
-  <script nonce="${res.locals.nonce}" src="https://d3js.org/d3.v6.min.js"></script>
   <script nonce="${res.locals.nonce}" src="/main.js"></script>
+  <script nonce="${res.locals.nonce}" src="https://d3js.org/d3.v6.min.js"></script>
   <style nonce="${res.locals.nonce}">
     body {
       margin: 0;
       padding: 0;
       font-family: "Arial Black", sans-serif;
       letter-spacing: 0.1em;
-
-      background: url('sky-full-of-stars-space-4k_1540139420.jpg') no-repeat center center;
-
+      background: url('https://www.pixel4k.com/wp-content/uploads/2018/10/sky-full-of-stars-space-4k_1540139420.jpg') no-repeat center center;
       background-size: cover;
       color: #fff;
       overflow: hidden;
@@ -23,7 +20,7 @@
 
     h1 {
       text-align: center;
-      color: #6196f2;
+      color: #fff;
       margin-top: 50px;
       font-size: 2.5em;
     }
@@ -55,10 +52,11 @@
 </head>
 <body>
 
-<h1>Spotify Top Tracks - Sample Visualization</h1>
+<h1>Spotify Top Artists and Tracks List  </h1>
+
 <div id="chart"></div>
 <div id="error-message" style="color: red;"></div>
-<div id="spinner" style="display: none;">Loading...</div>
+<div id="spinner" style="display: flex;">Loading...</div>
 <div id="track-list"></div>
 
 
