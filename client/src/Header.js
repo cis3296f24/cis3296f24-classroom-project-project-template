@@ -60,12 +60,20 @@ export default function Header() {
           </NavLink>
 
           <NavLink 
-            to="/task" 
+            to="/challenge" 
             className={({ isActive }) => 
               isActive ? "text-sm font-semibold text-indigo-400" : "text-sm font-semibold text-link"
             }
           >
             Challenges
+          </NavLink>
+          <NavLink 
+            to="/task" 
+            className={({ isActive }) => 
+              isActive ? "text-sm font-semibold text-indigo-400" : "text-sm font-semibold text-link"
+            }
+          >
+            Calendar
           </NavLink>
         </div>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
@@ -99,6 +107,9 @@ export default function Header() {
                 </NavLink>
                 <NavLink to="/task" onClick={() => setMobileMenuOpen(false)} className="-mx-3 block rounded-lg px-3 py-2 text-base text-link font-semibold hover:bg-gray-700">
                   Challenges
+                </NavLink>
+                <NavLink to="/yourChallenge" onClick={() => setMobileMenuOpen(false)} className="-mx-3 block rounded-lg px-3 py-2 text-base text-link font-semibold hover:bg-gray-700">
+                  Create Challenges
                 </NavLink>
               </div>
               <div className="py-6">
