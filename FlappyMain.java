@@ -1,15 +1,11 @@
 //jack's comment
 // David was here
 //Eli was here
+
+// Game starts from this point. - Shafiq
 public class FlappyMain {
-
-    //TESTING TESTING TESTING
-
     public static void main(String[] args) {
         //System.out.println("Hello World!");
         new FlappyGame();
     }
-
-
-
 }
