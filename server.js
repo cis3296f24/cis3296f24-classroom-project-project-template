@@ -37,6 +37,6 @@ app.get('/api/bus_schedules', async (req, res) => {
 
 // Start the server
 const PORT = process.env.PORT || 3333;
-app.listen(PORT, () => {
+app.listen(3333, () => {
     console.log(`Server is running on port ${PORT}`);
 });
