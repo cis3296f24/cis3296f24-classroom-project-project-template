@@ -96,15 +96,27 @@ function Home() {
                                 <li className='px-2 text-gray-500 text-lg font-semibold'>Phone #: 215-###-####</li>
                             </ul>
                 </div>
+
+                <div>
+                    <h3 className='px-2 text-gray-500 text-lg font-semibold'>Peter Ly</h3>
+                            <ul>
+                                <li className='px-2 text-gray-500 text-lg font-semibold'>Email: tul6700@temple.edu</li>
+                                <li className='px-2 text-gray-500 text-lg font-semibold'>Phone #: 215-###-####</li>
+                            </ul>
+                </div>
+                <div>
+                    <h3 className='px-2 text-gray-500 text-lg font-semibold'>Harry He</h3>
+                            <ul>
+                                <li className='px-2 text-gray-500 text-lg font-semibold'>Email: tuo77200@temple.edu</li>
+                                <li className='px-2 text-gray-500 text-lg font-semibold'>Phone #: 215-###-####</li>
+                            </ul>
+                </div>
+
+                <div>
+            </div>
             </div>
 
-            <div>
-                <h3 className='px-2 text-gray-500 text-lg font-semibold'>Jie Huang</h3>
-                        <ul>
-                            <li className='px-2 text-gray-500 text-lg font-semibold'>Email: tuo77200@temple.edu</li>
-                            <li className='px-2 text-gray-500 text-lg font-semibold'>Phone #: 215-###-####</li>
-                        </ul>
-            </div>
+            
             
         </div>
     );

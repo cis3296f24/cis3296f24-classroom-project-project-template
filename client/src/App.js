@@ -10,6 +10,8 @@ import './styles/home.css';
 import './styles/index.css';
 import { useState, useEffect } from 'react';
 import Preloader from './components/Preloader'
+import Challenge from './components/Challenge';
+
 
 function App() {
   const location = useLocation();
@@ -52,6 +54,8 @@ function App() {
         <Route path="/task" element={<Task />}/>
         <Route path="/login" element={<Login />} />
         <Route path='/register' element={<Register />}/>
+        <Route path='/challenge' element={<Challenge/>}/>
+        
         
       </Routes>
       <BackgroundMusic />
