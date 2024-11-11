@@ -1,3 +1,4 @@
+
 document.addEventListener("DOMContentLoaded", function() {
     fetchTracks();
 });
@@ -112,6 +113,7 @@ function renderTracks(data) {
     const minSize = 5;
     const maxSize = 100;
 
+<<<<<<< HEAD
     const tooltip = d3.select("body").append("div")
     .style("position", "absolute")
     .style("background", "rgba(0, 0, 0, 0.7)")
@@ -121,6 +123,8 @@ function renderTracks(data) {
     .style("pointer-events", "none")
     .style("display", "none");
 
+=======
+>>>>>>> 3c6678ab6709114376da9bb4ef976a545ffb9f72
     svg.selectAll("circle")
         .data(topArtists)
         .enter()
