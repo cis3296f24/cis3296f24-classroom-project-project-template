@@ -113,6 +113,18 @@ function renderTracks(data) {
     const minSize = 5;
     const maxSize = 100;
 
+<<<<<<< HEAD
+    const tooltip = d3.select("body").append("div")
+    .style("position", "absolute")
+    .style("background", "rgba(0, 0, 0, 0.7)")
+    .style("color", "#fff")
+    .style("padding", "5px")
+    .style("border-radius", "5px")
+    .style("pointer-events", "none")
+    .style("display", "none");
+
+=======
+>>>>>>> 3c6678ab6709114376da9bb4ef976a545ffb9f72
     svg.selectAll("circle")
         .data(topArtists)
         .enter()
@@ -125,7 +137,18 @@ function renderTracks(data) {
         })
         .attr("fill", (d, i) => planetColors[i % planetColors.length])
         .attr("stroke", "white")
-        .attr("stroke-width", 2);
+        .attr("stroke-width", 2)
+        .on("mouseover", (event, d) => {
+            tooltip.style("display", "block")
+                   .html(`<strong>${d.key}</strong><br>Tracks: ${d.value.count}<br>Popularity: ${Math.round(d.value.avgPopularity)}`);
+        })
+        .on("mousemove", (event) => {
+            tooltip.style("top", `${event.pageY + 10}px`)
+                   .style("left", `${event.pageX + 10}px`);
+        })
+        .on("mouseout", () => {
+            tooltip.style("display", "none");
+        });
 
     svg.selectAll(".artist-label")
         .data(topArtists)
