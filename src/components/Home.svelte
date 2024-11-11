@@ -314,25 +314,7 @@
         font-weight: 100;
     }
 
-    .userInputBackground {
-        background-color: #d9d9d9;
-        max-width: 360px;
-        padding: 1em;
-    }
-
-    .inlineElements {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .pairLabel {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-    }
+    
 
     @media (min-width: 640px) {
         main {
