@@ -5,7 +5,7 @@ from PySide6.QtWidgets import (
     QGraphicsPathItem,
     QColorDialog,
     QPushButton,
-    QGraphicsTextItem
+    QGraphicsTextItem, QToolBar
 )
 
 from PySide6.QtGui import (
@@ -14,7 +14,7 @@ from PySide6.QtGui import (
     QPainter,
     QPainterPath,
     QColor,
-    QTransform
+    QTransform, QAction
 )
 
 from PySide6.QtCore import (
@@ -28,6 +28,7 @@ from text_box import TextBox
 class BoardScene(QGraphicsScene):
     def __init__(self):
         super().__init__()
+
         self.setSceneRect(0, 0, 600, 500)
 
         self.path = None
@@ -43,6 +44,8 @@ class BoardScene(QGraphicsScene):
         self.drawing_enabled = False
         self.erasing_enabled = False
         self.active_tool = None
+
+
 
     def change_color(self, color):
         self.color = color
@@ -96,6 +99,7 @@ class BoardScene(QGraphicsScene):
                     print("Eraser tool active")
                     self.drawing = False  # Ensure we're not drawing
                     self.erase(event.scenePos())  # Start erasing
+
 
         super().mousePressEvent(event)
 
@@ -171,6 +175,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.tb_Pen.clicked.connect(self.button_clicked)
         self.pb_Eraser.clicked.connect(self.button_clicked)
         self.pb_Text_Button.clicked.connect(self.add_text_box)
+
+        #sharron helped me out by showing this below
+        self.toolbar_actionText.triggered.connect(self.add_text_box)
+        #self.toolbar_actionLine.triggered.connect(self.tb_Line)
+        self.toolbar_actionEraser.setChecked(True)
+        self.toolbar_actionEraser.triggered.connect(self.button_clicked)
+
 
         self.current_color = QColor("#000000")
 
@@ -265,6 +276,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 print("Eraser deactivated")  # Debugging print
                 self.scene.set_active_tool(None)
 
+        elif sender_button == self.toolbar_actionEraser:
+            if self.toolbar_actionEraser.isChecked():
+                print("Eraser activated")
+                self.color_changed(QColor("#F3F3F3"))
+                self.scene.set_active_tool("eraser")
+                self.tb_Pen.setChecked(False)
+            else:
+                print("Eraser deactivated")
+                self.scene.set_active_tool(None)
+
     #Adds a text box using the method in BoardScene
     def add_text_box(self):
         self.scene.add_text_box()
@@ -275,6 +296,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #     if color.isValid():
     #         # Update backround color
     #         self.scene.setBackgroundBrush(color)
+
+    def enable_eraser(self, enable):
+        self.erasing_enabled = enable
+        # Ensure drawing is off when erasing is on
+        if enable:
+            self.drawing_enabled = False
 
 
 if __name__ == '__main__':
