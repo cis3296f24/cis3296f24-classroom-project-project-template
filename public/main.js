@@ -129,6 +129,7 @@ function renderTracks(data) {
     const minSize = 5;
     const maxSize = 100;
 
+
     const tooltip = d3.select("body").append("div")
         .style("position", "absolute")
         .style("background", "rgba(0, 0, 0, 0.7)")
@@ -139,6 +140,7 @@ function renderTracks(data) {
         .style("display", "none");
 
     console.log("Tooltip element created:", tooltip.node());
+
 
     svg.selectAll("circle")
         .data(topArtists)
@@ -155,11 +157,13 @@ function renderTracks(data) {
         .attr("stroke-width", 2)
         .on("mouseover", (event, d) => {
             tooltip.style("display", "block")
+
                 .html(`<strong>${d.key}</strong><br>Tracks: ${d.value.count}<br>Popularity: ${Math.round(d.value.avgPopularity)}`);
         })
         .on("mousemove", (event) => {
             tooltip.style("top", `${event.pageY + 10}px`)
                 .style("left", `${event.pageX + 10}px`);
+
         })
         .on("mouseout", () => {
             tooltip.style("display", "none");
@@ -170,6 +174,7 @@ function renderTracks(data) {
         .enter()
         .append("text")
         .attr("class", "artist-label")
+
         .attr("x", d => xScale((d.value.avgPopularity) * 2) - 1125)
         .attr("y", d => yScale(d.value.avgDuration) + 5)
         .attr("text-anchor", "middle")

@@ -94,6 +94,7 @@ app.get('/top-tracks', async (req, res) => {
       headers: { 'Authorization': `Bearer ${accessToken}` }
     });
     res.json(response.data.items); // Send back the top tracks
+    //res.json({ firstName: 'Tobi' });
   } catch (error) {
     console.error('Error fetching top tracks:', error);
     res.status(500).json({ error: 'Failed to fetch top tracks' });
