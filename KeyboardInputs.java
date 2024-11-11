@@ -2,6 +2,11 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class KeyboardInputs implements KeyListener {
+    GamePanel gamePanel;
+
+    public KeyboardInputs(GamePanel gamePanel) {
+        this.gamePanel = gamePanel;
+    }
 
     public void keyTyped(KeyEvent e) {
         // todo
@@ -18,7 +23,9 @@ public class KeyboardInputs implements KeyListener {
         case KeyEvent.VK_RIGHT:
             break;
         case KeyEvent.VK_SPACE:
-            System.out.println("Space");
+            // System.out.println("Space");
+            gamePanel.changeYDelta(-5);
+
             break;
 
         }

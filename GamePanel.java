@@ -9,16 +9,26 @@ import javax.swing.JPanel;
 
 public class GamePanel extends JPanel {
 
-    public GamePanel() {
+    private int yDelta = 50; // Direction for Flappy bird up and down.
 
-        addKeyListener(new KeyboardInputs());
-        addMouseListener(new MouseInputs());
+    public GamePanel() {
+        // KeyboardInputs keyboardInputs = new KeyboardInputs(this);
+        addKeyListener(new KeyboardInputs(this));
+        addMouseListener(new MouseInputs()); // Incase we need to make flappy work with mouse clicks.
+        // Following method changes the bird direction up
     }
+
+    public void changeYDelta(int y) {
+        yDelta += y;
+        repaint();
+    }
+
+
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        g.fillRect(100, yDelta, 50, 50);
 
-        g.fillRect(100, 100, 200, 50);
 
     }
 
