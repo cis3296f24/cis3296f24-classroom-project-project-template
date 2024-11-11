@@ -35,6 +35,9 @@ public class GamePanel extends JPanel {
     }
 
     // Auto generated to load a file.
+    // todo Read this article to see why the e.printStackTrace is bad
+    // https://stackoverflow.com/questions/7469316/why-is-exception-printstacktrace-considered-bad-practice
+    // - Shafiq.
     private void importImg() {
         InputStream is = getClass().getResourceAsStream("/player_sprites.png");
         try {
@@ -42,6 +45,12 @@ public class GamePanel extends JPanel {
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+        } finally {
+            try {
+                is.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
