@@ -5,10 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="37465ebe-bf0e-47a0-a800-43ffd2d46c57" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/FlappyGame.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/GamePanel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/GameWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FlappyBird.java" beforeDir="false" afterPath="$PROJECT_DIR$/FlappyMain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FlappyGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/FlappyGame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/GamePanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameWindow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/KeyboardInputs.java" beforeDir="false" afterPath="$PROJECT_DIR$/KeyboardInputs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/03-flappy-bird/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/03-flappy-bird/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/03-flappy-bird/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/03-flappy-bird/FlappyGame.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/03-flappy-bird/FlappyGame.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/03-flappy-bird/GamePanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/03-flappy-bird/GamePanel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/03-flappy-bird/KeyboardInputs.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/03-flappy-bird/KeyboardInputs.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,6 +50,9 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.31954023",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -64,7 +72,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1731260392425</updated>
-      <workItem from="1731260393544" duration="4744000" />
+      <workItem from="1731260393544" duration="25895000" />
     </task>
     <servers />
   </component>

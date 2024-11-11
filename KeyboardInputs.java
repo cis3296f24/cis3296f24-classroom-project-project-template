@@ -12,7 +12,7 @@ public class KeyboardInputs implements KeyListener {
         // todo
     }
     public void keyPressed(KeyEvent e) {
-        System.out.println("Key pressed: ");
+        // System.out.println("Key pressed: ");
         switch (e.getKeyCode()) {
         case KeyEvent.VK_UP:
             break;
@@ -25,7 +25,7 @@ public class KeyboardInputs implements KeyListener {
         case KeyEvent.VK_SPACE:
             // System.out.println("Space");
             gamePanel.changeYDelta(-5);
-
+            gamePanel.changeXDelta(+0);
             break;
 
         }
