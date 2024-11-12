@@ -105,6 +105,11 @@ class BoardScene(QGraphicsScene):
         self.add_item_to_undo(text_box_item)  # For complex items, group with handles if needed
         print("TextBox added to scene:", text_box_item)
 
+    def add_image(self, pixmap_item):
+        self.addItem(pixmap_item)
+        self.add_item_to_undo(pixmap_item)
+        print("Image added to scene:", pixmap_item)
+
     def change_color(self, color):
         self.color = color
 
@@ -276,7 +281,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 pixmap_item = QGraphicsPixmapItem(pixmap)
                 pixmap_item.setPos(0, 0)  # Adjust position as needed
                 pixmap_item.setFlag(QGraphicsPixmapItem.ItemIsMovable)
-                self.scene.addItem(pixmap_item)  # Add the image to the scene
+                # add it to new method in boardscene self.scene.add_image(pixmap_item)
+                self.scene.add_image(pixmap_item)
+                #self.scene.addItem(pixmap_item)  # Add the image to the scene
+                #self.add_item_to_undo(pixmap_item)
 
     def change_size(self):
         self.scene.change_size(self.dial.value())
@@ -504,7 +512,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         return transform
 
     def deserialize_text_item(self, data):
-        text_item = TextBoxGroup()
+        text_item = TextBox()
         text_item.setFont(self.deserialize_font(data['font']))
         text_item.setDefaultTextColor(self.deserialize_color(data['color']))
         text_item.setRotation(data['rotation'])
