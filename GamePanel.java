@@ -17,6 +17,7 @@ public class GamePanel extends JPanel {
     private int yDelta,xDelta = 550; // Direction for Flappy bird up and down.
     private BufferedImage img; //, subImg; remarked after testing can be removed later. - Shafiq
     private BufferedImage[] idleAni;
+    private int aniTick, aniIndex, aniSpeed = 10;  // aniSpeed is the animation speed of the flying object
 
     public GamePanel() {
 
@@ -89,6 +90,17 @@ public class GamePanel extends JPanel {
         this.yDelta = y;
     }
 
+    private void updateAnimationTick() {
+
+        aniTick++;
+        if (aniTick >= aniSpeed) {
+            aniTick = 0;
+            aniIndex++;
+            if (aniIndex >= idleAni.length) {
+                aniIndex = 0;
+            }
+        }
+    }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -98,8 +110,10 @@ public class GamePanel extends JPanel {
 
         // subImg = img.getSubimage(1 * 64, 8 * 40, 64, 40);
         // g.drawImage(subImg, (int) xDelta, (int) yDelta, 128, 80, null);
-        g.drawImage(idleAni[2], (int) xDelta, (int) yDelta, 40, 40, null);
+        updateAnimationTick();
+        g.drawImage(idleAni[aniIndex], (int) xDelta, (int) yDelta, 40, 40, null);
 
     }
+
 
 }
