@@ -16,6 +16,7 @@ public class GamePanel extends JPanel {
     private MouseInputs mouseInputs;
     private int yDelta,xDelta = 550; // Direction for Flappy bird up and down.
     private BufferedImage img; //, subImg; remarked after testing can be removed later. - Shafiq
+    private BufferedImage[] idleAni;
 
     public GamePanel() {
 
@@ -32,6 +33,16 @@ public class GamePanel extends JPanel {
 
         // Import image/s
         importImg();
+        loadAnimations();
+    }
+
+    private void loadAnimations() {
+        idleAni = new BufferedImage[8];
+
+        for (int i = 0; i < idleAni.length; i++) {
+            idleAni[i] = img.getSubimage(i*37, 0, 37, 37);
+        }
+
     }
 
     // Auto generated to load a file.
@@ -39,7 +50,8 @@ public class GamePanel extends JPanel {
     // https://stackoverflow.com/questions/7469316/why-is-exception-printstacktrace-considered-bad-practice
     // - Shafiq.
     private void importImg() {
-        InputStream is = getClass().getResourceAsStream("/player_sprites.png");
+        // InputStream is = getClass().getResourceAsStream("/player_sprites.png");
+        InputStream is = getClass().getResourceAsStream("/bee_R.png");
         try {
             img = ImageIO.read(is);
         } catch (IOException e) {
@@ -86,6 +98,8 @@ public class GamePanel extends JPanel {
 
         // subImg = img.getSubimage(1 * 64, 8 * 40, 64, 40);
         // g.drawImage(subImg, (int) xDelta, (int) yDelta, 128, 80, null);
+        g.drawImage(idleAni[2], (int) xDelta, (int) yDelta, 40, 40, null);
+
     }
 
 }
