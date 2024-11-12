@@ -239,10 +239,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.tb_Pen.clicked.connect(self.button_clicked)
         self.pb_Eraser.clicked.connect(self.button_clicked)
         #self.tb_Text.clicked.connect(self.add_text_box)
-        self.tb_Text.clicked.connect(self.create_text_box)
+       # self.tb_Text.clicked.connect(self.create_text_box)
 
         #sharron helped me out by showing this below
-        self.toolbar_actionText.triggered.connect(self.add_text_box)
+        self.toolbar_actionText.triggered.connect(self.create_text_box)
         #self.toolbar_actionLine.triggered.connect(self.tb_Line)
         #self.toolbar_actionEraser.setChecked(True)
         self.toolbar_actionEraser.triggered.connect(self.button_clicked)

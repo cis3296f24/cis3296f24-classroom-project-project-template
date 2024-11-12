@@ -889,7 +889,7 @@ color: rgb(255, 255, 255);</string>
     <bool>true</bool>
    </property>
    <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
+    <enum>LeftToolBarArea</enum>
    </attribute>
    <attribute name="toolBarBreak">
     <bool>false</bool>
@@ -898,13 +898,13 @@ color: rgb(255, 255, 255);</string>
    <addaction name="toolbar_actionCursor"/>
    <addaction name="toolbar_actionPen"/>
    <addaction name="toolbar_actionHighlighter"/>
-   <addaction name="toolbar_actionEraser"/>
    <addaction name="toolbar_actionLine"/>
+   <addaction name="toolbar_actionSelection"/>
+   <addaction name="toolbar_actionEraser"/>
+   <addaction name="toolbar_actionText"/>
    <addaction name="toolbar_actionShapes"/>
    <addaction name="toolbar_actionImages"/>
    <addaction name="toolbar_actionVideos"/>
-   <addaction name="toolbar_actionText"/>
-   <addaction name="toolbar_actionSelection"/>
   </widget>
   <action name="actionOpen">
    <property name="text">
