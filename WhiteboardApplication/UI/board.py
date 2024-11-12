@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'boardNLRQPL.ui'
+## Form generated from reading UI file 'boarddtXWIF.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.8.0
 ##
@@ -144,8 +144,10 @@ class Ui_MainWindow(object):
         self.toolbar_actionText.setIcon(icon11)
         self.actionChat = QAction(MainWindow)
         self.actionChat.setObjectName(u"actionChat")
-        self.actionNew = QAction(MainWindow)
-        self.actionNew.setObjectName(u"actionNew")
+        self.actionSave_2 = QAction(MainWindow)
+        self.actionSave_2.setObjectName(u"actionSave_2")
+        self.actionLoad = QAction(MainWindow)
+        self.actionLoad.setObjectName(u"actionLoad")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.centralwidget.setStyleSheet(u"")
@@ -216,6 +218,7 @@ class Ui_MainWindow(object):
         self.tb_Highlighter.setArrowType(Qt.ArrowType.NoArrow)
 
         self.verticalLayout.addWidget(self.tb_Highlighter)
+
         self.tb_Line = QToolButton(self.w_Tools)
         self.tb_Line.setObjectName(u"tb_Line")
         self.tb_Line.setMinimumSize(QSize(0, 40))
@@ -500,7 +503,7 @@ class Ui_MainWindow(object):
         self.tb_toolbar_main_window.setEnabled(True)
         self.tb_toolbar_main_window.setMouseTracking(True)
         self.tb_toolbar_main_window.setAutoFillBackground(True)
-        MainWindow.addToolBar(Qt.ToolBarArea.TopToolBarArea, self.tb_toolbar_main_window)
+        MainWindow.addToolBar(Qt.ToolBarArea.LeftToolBarArea, self.tb_toolbar_main_window)
 
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuOptions.menuAction())
@@ -525,13 +528,13 @@ class Ui_MainWindow(object):
         self.tb_toolbar_main_window.addAction(self.toolbar_actionCursor)
         self.tb_toolbar_main_window.addAction(self.toolbar_actionPen)
         self.tb_toolbar_main_window.addAction(self.toolbar_actionHighlighter)
-        self.tb_toolbar_main_window.addAction(self.toolbar_actionEraser)
         self.tb_toolbar_main_window.addAction(self.toolbar_actionLine)
+        self.tb_toolbar_main_window.addAction(self.toolbar_actionSelection)
+        self.tb_toolbar_main_window.addAction(self.toolbar_actionEraser)
+        self.tb_toolbar_main_window.addAction(self.toolbar_actionText)
         self.tb_toolbar_main_window.addAction(self.toolbar_actionShapes)
         self.tb_toolbar_main_window.addAction(self.toolbar_actionImages)
         self.tb_toolbar_main_window.addAction(self.toolbar_actionVideos)
-        self.tb_toolbar_main_window.addAction(self.toolbar_actionText)
-        self.tb_toolbar_main_window.addAction(self.toolbar_actionSelection)
 
         self.retranslateUi(MainWindow)
 
@@ -575,7 +578,8 @@ class Ui_MainWindow(object):
         self.toolbar_actionSelection.setText(QCoreApplication.translate("MainWindow", u"Selection", None))
         self.toolbar_actionText.setText(QCoreApplication.translate("MainWindow", u"Text", None))
         self.actionChat.setText(QCoreApplication.translate("MainWindow", u"Chat", None))
-        self.actionNew.setText(QCoreApplication.translate("MainWindow", u"New", None))
+        self.actionSave_2.setText(QCoreApplication.translate("MainWindow", u"Save", None))
+        self.actionLoad.setText(QCoreApplication.translate("MainWindow", u"Load", None))
         self.pb_Cursor.setText("")
         self.tb_Pen.setText("")
         self.tb_Highlighter.setText("")
