@@ -41,7 +41,10 @@ public class GamePanel extends JPanel {
         idleAni = new BufferedImage[8];
 
         for (int i = 0; i < idleAni.length; i++) {
-            idleAni[i] = img.getSubimage(i*37, 0, 37, 37);
+            // reads in bee animation todo clean up animation it seems blurred.
+            // idleAni[i] = img.getSubimage(i*37, 0, 37, 37);
+            // Reads in HD bird with guessed dimensions.
+            idleAni[i] = img.getSubimage(i*127, 0, 127, 146);
         }
 
     }
@@ -52,7 +55,8 @@ public class GamePanel extends JPanel {
     // - Shafiq.
     private void importImg() {
         // InputStream is = getClass().getResourceAsStream("/player_sprites.png");
-        InputStream is = getClass().getResourceAsStream("/bee_R.png");
+        // InputStream is = getClass().getResourceAsStream("/bee_R.png");
+        InputStream is = getClass().getResourceAsStream("/HD_B-NoWM.png");
         try {
             img = ImageIO.read(is);
         } catch (IOException e) {
@@ -111,7 +115,7 @@ public class GamePanel extends JPanel {
         // subImg = img.getSubimage(1 * 64, 8 * 40, 64, 40);
         // g.drawImage(subImg, (int) xDelta, (int) yDelta, 128, 80, null);
         updateAnimationTick();
-        g.drawImage(idleAni[aniIndex], (int) xDelta, (int) yDelta, 40, 40, null);
+        g.drawImage(idleAni[aniIndex], (int) xDelta, (int) yDelta, 100, 110, null);
 
     }
 
