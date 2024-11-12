@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1177</width>
-    <height>656</height>
+    <width>1060</width>
+    <height>702</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -209,41 +209,6 @@ QToolButton:hover {
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pb_Eraser">
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>40</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>60</width>
-           <height>60</height>
-          </size>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset resource="../../Icons/Icons.qrc">
-           <normaloff>:/Tools/eraser.png</normaloff>:/Tools/eraser.png</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>25</width>
-           <height>25</height>
-          </size>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
-         </property>
-         <property name="flat">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
         <widget class="QToolButton" name="tb_Line">
          <property name="minimumSize">
           <size>
@@ -335,6 +300,67 @@ QToolButton:hover {
          </property>
          <property name="arrowType">
           <enum>Qt::ArrowType::NoArrow</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pb_Eraser">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>40</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>60</width>
+           <height>60</height>
+          </size>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="../../Icons/Icons.qrc">
+           <normaloff>:/Tools/eraser.png</normaloff>:/Tools/eraser.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>25</width>
+           <height>25</height>
+          </size>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="flat">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pb_Text_Button">
+         <property name="mouseTracking">
+          <bool>true</bool>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="../../Icons/Icons.qrc">
+           <normaloff>:/Tools/text.png</normaloff>:/Tools/text.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>25</width>
+           <height>25</height>
+          </size>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="checked">
+          <bool>false</bool>
          </property>
         </widget>
        </item>
@@ -762,6 +788,19 @@ QTabBar{
      </widget>
     </item>
     <item>
+     <spacer name="horizontalSpacer">
+      <property name="orientation">
+       <enum>Qt::Orientation::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>150</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item>
      <widget class="QPushButton" name="pb_AddPage">
       <property name="text">
        <string/>
@@ -775,19 +814,6 @@ QTabBar{
       </property>
      </widget>
     </item>
-    <item>
-     <spacer name="horizontalSpacer">
-      <property name="orientation">
-       <enum>Qt::Orientation::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>150</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -795,7 +821,7 @@ QTabBar{
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1177</width>
+     <width>1060</width>
      <height>33</height>
     </rect>
    </property>
@@ -849,11 +875,37 @@ color: rgb(255, 255, 255);</string>
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <action name="actionNew">
-   <property name="text">
-    <string>New</string>
+  <widget class="QToolBar" name="tb_toolbar_main_window">
+   <property name="enabled">
+    <bool>true</bool>
    </property>
-  </action>
+   <property name="mouseTracking">
+    <bool>true</bool>
+   </property>
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <property name="autoFillBackground">
+    <bool>true</bool>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="separator"/>
+   <addaction name="toolbar_actionCursor"/>
+   <addaction name="toolbar_actionPen"/>
+   <addaction name="toolbar_actionHighlighter"/>
+   <addaction name="toolbar_actionEraser"/>
+   <addaction name="toolbar_actionLine"/>
+   <addaction name="toolbar_actionShapes"/>
+   <addaction name="toolbar_actionImages"/>
+   <addaction name="toolbar_actionVideos"/>
+   <addaction name="toolbar_actionText"/>
+   <addaction name="toolbar_actionSelection"/>
+  </widget>
   <action name="actionOpen">
    <property name="text">
     <string>Open</string>
@@ -949,7 +1001,7 @@ color: rgb(255, 255, 255);</string>
     <string>Redo</string>
    </property>
   </action>
-  <action name="actionCursor">
+  <action name="toolbar_actionCursor">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -961,7 +1013,7 @@ color: rgb(255, 255, 255);</string>
     <string>Cursor</string>
    </property>
   </action>
-  <action name="actionPen">
+  <action name="toolbar_actionPen">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -973,7 +1025,7 @@ color: rgb(255, 255, 255);</string>
     <string>Pen</string>
    </property>
   </action>
-  <action name="actionHighlighter">
+  <action name="toolbar_actionHighlighter">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -985,7 +1037,7 @@ color: rgb(255, 255, 255);</string>
     <string>Highlighter</string>
    </property>
   </action>
-  <action name="actionEraser">
+  <action name="toolbar_actionEraser">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -997,7 +1049,7 @@ color: rgb(255, 255, 255);</string>
     <string>Eraser</string>
    </property>
   </action>
-  <action name="actionLine">
+  <action name="toolbar_actionLine">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -1009,7 +1061,7 @@ color: rgb(255, 255, 255);</string>
     <string>Line</string>
    </property>
   </action>
-  <action name="actionShapes">
+  <action name="toolbar_actionShapes">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -1021,7 +1073,7 @@ color: rgb(255, 255, 255);</string>
     <string>Shapes</string>
    </property>
   </action>
-  <action name="actionImages">
+  <action name="toolbar_actionImages">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -1033,7 +1085,7 @@ color: rgb(255, 255, 255);</string>
     <string>Images</string>
    </property>
   </action>
-  <action name="actionVideos">
+  <action name="toolbar_actionVideos">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -1063,7 +1115,7 @@ color: rgb(255, 255, 255);</string>
     <string>Redo</string>
    </property>
   </action>
-  <action name="actionSelection">
+  <action name="toolbar_actionSelection">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -1075,7 +1127,7 @@ color: rgb(255, 255, 255);</string>
     <string>Selection</string>
    </property>
   </action>
-  <action name="actionText">
+  <action name="toolbar_actionText">
    <property name="checkable">
     <bool>true</bool>
    </property>
