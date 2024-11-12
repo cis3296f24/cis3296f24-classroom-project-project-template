@@ -15,7 +15,7 @@ public class GamePanel extends JPanel {
 
     private MouseInputs mouseInputs;
     private int yDelta,xDelta = 550; // Direction for Flappy bird up and down.
-    private BufferedImage img, subImg;
+    private BufferedImage img; //, subImg; remarked after testing can be removed later. - Shafiq
 
     public GamePanel() {
 
@@ -84,8 +84,8 @@ public class GamePanel extends JPanel {
         // g.drawImage(img, 0, 0, this); This draws the whole png file
         // In order to pick which one to draw we use subImg to get the pic we need from the graphic.
 
-        subImg = img.getSubimage(1 * 64, 8 * 40, 64, 40);
-        g.drawImage(subImg, (int) xDelta, (int) yDelta, 128, 80, null);
+        // subImg = img.getSubimage(1 * 64, 8 * 40, 64, 40);
+        // g.drawImage(subImg, (int) xDelta, (int) yDelta, 128, 80, null);
     }
 
 }

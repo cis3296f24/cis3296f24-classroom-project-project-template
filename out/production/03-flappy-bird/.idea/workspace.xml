@@ -1,58 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="AutoImportSettings">
-    <option name="autoReloadType" value="SELECTIVE" />
-  </component>
   <component name="ChangeListManager">
-    <list default="true" id="37465ebe-bf0e-47a0-a800-43ffd2d46c57" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/FlappyGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/FlappyGame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/GamePanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/KeyboardInputs.java" beforeDir="false" afterPath="$PROJECT_DIR$/KeyboardInputs.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/03-flappy-bird/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/03-flappy-bird/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/03-flappy-bird/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/03-flappy-bird/FlappyGame.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/03-flappy-bird/FlappyGame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/03-flappy-bird/GamePanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/03-flappy-bird/GamePanel.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/03-flappy-bird/KeyboardInputs.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/03-flappy-bird/KeyboardInputs.class" afterDir="false" />
-    </list>
+    <list default="true" id="2d564377-86fc-4124-acaa-be3c3a832a59" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Class" />
-      </list>
-    </option>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 0
+  "associatedIndex": 7
 }]]></component>
-  <component name="ProjectId" id="2ofV0M3tkjJkQa8bAkEB0t8mP1y" />
+  <component name="ProjectId" id="2ojAmDiZUIoHwV3Nj2AyyCeG4QU" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Application.FlappyMain.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "Shafiq-Branch-Java",
+    "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.31954023",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -67,12 +39,12 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="37465ebe-bf0e-47a0-a800-43ffd2d46c57" name="Changes" comment="" />
-      <created>1731260392425</created>
+      <changelist id="2d564377-86fc-4124-acaa-be3c3a832a59" name="Changes" comment="" />
+      <created>1731372768266</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1731260392425</updated>
-      <workItem from="1731260393544" duration="25895000" />
+      <updated>1731372768266</updated>
+      <workItem from="1731372769660" duration="46000" />
     </task>
     <servers />
   </component>
