@@ -179,8 +179,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         #sharron helped me out by showing this below
         self.toolbar_actionText.triggered.connect(self.add_text_box)
         #self.toolbar_actionLine.triggered.connect(self.tb_Line)
-        self.toolbar_actionEraser.setChecked(True)
+        #self.toolbar_actionEraser.setChecked(True)
         self.toolbar_actionEraser.triggered.connect(self.button_clicked)
+        self.toolbar_actionPen.triggered.connect(self.button_clicked)
 
 
         self.current_color = QColor("#000000")
@@ -276,6 +277,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 print("Eraser deactivated")  # Debugging print
                 self.scene.set_active_tool(None)
 
+        #making sure toolbar button works with below copied from above - RS
         elif sender_button == self.toolbar_actionEraser:
             if self.toolbar_actionEraser.isChecked():
                 print("Eraser activated")
@@ -284,6 +286,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.tb_Pen.setChecked(False)
             else:
                 print("Eraser deactivated")
+                self.scene.set_active_tool(None)
+
+        #same as above just making sure toolbar button works....
+        elif sender_button == self.toolbar_actionPen:
+            if self.tb_Pen.isChecked():
+                # Enable pen mode, disable eraser
+                print("Pen activated")  # Debugging print
+                self.color_changed(self.current_color)
+                self.scene.set_active_tool("pen")
+                self.pb_Eraser.setChecked(False)  # Ensure eraser is not active
+            else:
+                # Deactivate drawing mode when button is clicked again
+                print("Pen deactivated")  # Debugging print
                 self.scene.set_active_tool(None)
 
     #Adds a text box using the method in BoardScene
