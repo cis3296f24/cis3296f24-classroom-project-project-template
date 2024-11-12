@@ -1,3 +1,8 @@
+import os
+import pickle
+import sys
+from os.path import expanduser
+
 from PySide6.QtWidgets import (
     QMainWindow,
     QGraphicsScene,
@@ -5,7 +10,13 @@ from PySide6.QtWidgets import (
     QGraphicsPathItem,
     QColorDialog,
     QPushButton,
-    QGraphicsTextItem, QToolBar
+    QGraphicsTextItem, 
+    QToolBar,
+    QFileDialog,
+    QApplication,
+    QLabel,
+    QFileDialog,
+    QGraphicsPixmapItem
 )
 
 from PySide6.QtGui import (
@@ -14,11 +25,12 @@ from PySide6.QtGui import (
     QPainter,
     QPainterPath,
     QColor,
-    QTransform, QAction
+    QAction,
+    QTransform, QBrush, QFont, QPixmap, QImageReader
 )
 
 from PySide6.QtCore import (
-    Qt, QRectF, QSizeF, QPointF
+    Qt, QRectF, QSizeF, QPointF, QSize, QRect
 )
 
 from WhiteboardApplication.UI.board import Ui_MainWindow
@@ -45,7 +57,61 @@ class BoardScene(QGraphicsScene):
         self.erasing_enabled = False
         self.active_tool = None
 
+        self.undo_list = []
+        self.redo_list = []
 
+    #Adds an action to the undo list (or a list of items in the case of textbox), by treating every action as a list
+    def add_item_to_undo(self, item):
+        """Add a single item or group of items to the undo list and clear redo list"""
+        # Clear redo list to ensure correct redo functionality
+        self.redo_list.clear()
+
+        # Add item (or list of items if it's a group) to the undo list
+        self.undo_list.append([item])
+        print("Added to undo:", item)
+
+    #Pops action of undo stack to undo, and adds it to redo in case user wants to redo the action
+    def undo(self):
+        if not self.undo_list:
+            print("Undo list is empty")
+            return
+
+        # Pop the last group of items from the undo stack
+        item_group = self.undo_list.pop()
+        for item in item_group:
+            self.removeItem(item)
+            print("Removed from scene (undo):", item)
+
+        # Push the removed items to the redo stack
+        self.redo_list.append(item_group)
+        print("Added to redo stack:", item_group)
+
+    #Pops an action off the redo stack and adds it back to undo to redo and action
+    def redo(self):
+        if not self.redo_list:
+            print("Redo list is empty")
+            return
+
+        # Pop the last group of items from the redo stack
+        item_group = self.redo_list.pop()
+        for item in item_group:
+            self.addItem(item)
+            print("Added back to scene (redo):", item)
+
+        # Push the redone items back to the undo stack
+        self.undo_list.append(item_group)
+        print("Restored to undo stack:", item_group)
+
+    #Adds text box and resizing handles as a group so they are undone at once
+    def add_text_box(self, text_box_item):
+        self.addItem(text_box_item)
+        self.add_item_to_undo(text_box_item)  # For complex items, group with handles if needed
+        print("TextBox added to scene:", text_box_item)
+
+    def add_image(self, pixmap_item):
+        self.addItem(pixmap_item)
+        self.add_item_to_undo(pixmap_item)
+        print("Image added to scene:", pixmap_item)
 
     def change_color(self, color):
         self.color = color
@@ -67,23 +133,31 @@ class BoardScene(QGraphicsScene):
         if enable:
             self.drawing_enabled = False
 
+    #A basic eraser, created as a hold so text box function could be implemented
+    def erase(self, position):
+        eraser_radius = 10
+
+        #Creates a 20 x 20 rectangle, using the current position and moving further left and up to set the left corner of the rectangle
+        erase_item = self.items(QRectF(position - QPointF(eraser_radius, eraser_radius), QSizeF(eraser_radius * 2, eraser_radius * 2)))
+
+        #Removes all items within the rectangle
+        for item in erase_item:
+            if isinstance(item, QGraphicsPathItem):
+                self.removeItem(item)
+
     def mousePressEvent(self, event):
         item = self.itemAt(event.scenePos(), QTransform())
-
         print(f"Active Tool: {self.active_tool}")  # Debugging print
 
-        # Check if the left button is clicked
         if event.button() == Qt.LeftButton:
-            # If a text box is clicked, start dragging
             if isinstance(item, TextBox):
                 print("Box selected")
                 self.drawing = False
                 self.is_text_box_selected = True
                 self.selected_text_box = item
                 self.start_pos = event.scenePos()  # Store the start position for dragging
-                self.dragging_text_box = True  # Set dragging flag
+                self.dragging_text_box = True
             else:
-                # Check active tool and proceed accordingly
                 if self.active_tool == "pen":
                     print("Pen tool active")
                     self.drawing = True
@@ -97,36 +171,21 @@ class BoardScene(QGraphicsScene):
                     self.addItem(self.pathItem)
                 elif self.active_tool == "eraser":
                     print("Eraser tool active")
-                    self.drawing = False  # Ensure we're not drawing
-                    self.erase(event.scenePos())  # Start erasing
+                    self.drawing = False
+                    self.erase(event.scenePos())
 
 
         super().mousePressEvent(event)
 
-    #A basic eraser, created as a hold so text box function could be implemented
-    def erase(self, position):
-        eraser_radius = 10
-
-        #Creates a 20 x 20 rectangle, using the current position and moving further left and up to set the left corner of the rectangle
-        erase_item = self.items(QRectF(position - QPointF(eraser_radius, eraser_radius), QSizeF(eraser_radius * 2, eraser_radius * 2)))
-
-        #Removes all items within the rectangle
-        for item in erase_item:
-            if isinstance(item, QGraphicsPathItem):
-                self.removeItem(item)
-
     def mouseMoveEvent(self, event):
-        # Handle dragging the text box if it's selected
         if self.dragging_text_box and self.selected_text_box:
             self.drawing = False
             print("Dragging box")
             delta = event.scenePos() - self.start_pos
             self.selected_text_box.setPos(self.selected_text_box.pos() + delta)
-            self.start_pos = event.scenePos()  # Update start position for the next move
-
+            self.start_pos = event.scenePos()
         elif self.drawing:
             print("drawing")
-            # Continue drawing if no text box is selected
             curr_position = event.scenePos()
             self.path.lineTo(curr_position)
             self.pathItem.setPath(self.path)
@@ -139,33 +198,38 @@ class BoardScene(QGraphicsScene):
             if self.dragging_text_box:
                 print("Finished dragging box")
                 self.dragging_text_box = False
-        self.drawing = False  # Reset drawing state
-        self.is_text_box_selected = False  # Reset selection when mouse is released
+            elif self.drawing:
+                # Add the completed path to the undo stack when drawing is finished so it can be deleted or added back with undo
+                self.add_item_to_undo(self.pathItem)
+                print("Path item added to undo stack:", self.pathItem)
+            self.drawing = False
+            self.is_text_box_selected = False
 
         super().mouseReleaseEvent(event)
-
-    #Adds a text box when button is clicked
-    def add_text_box(self):
-        text_box = TextBox()
-        self.addItem(text_box)
-        # Set the position to a visible area (e.g., center of the scene)
-        scene_rect = self.sceneRect()
-        text_box.setPos(scene_rect.width() / 2 - text_box.boundingRect().width() / 2,
-                        scene_rect.height() / 2 - text_box.boundingRect().height() / 2)
-
     #Marks which tool (pen, eraser) is being used so multiple don't run at once
     def set_active_tool(self, tool):
         self.active_tool = tool
 
 class MainWindow(QMainWindow, Ui_MainWindow):
+
     def __init__(self):
         super().__init__()
         self.setupUi(self)
+
+        if hasattr(self, 'actionImages'):
+            print("actionImages is initialized.")
+        else:
+            print("actionImages is NOT initialized.")
 
         # # Add pb_BackgroundColor button - Chloe
         # self.pb_BackgroundColor = QPushButton("Change Background Color", self)
         # self.pb_BackgroundColor.setGeometry(10, 195, 150, 30)
         # self.pb_BackgroundColor.clicked.connect(self.change_background_color)
+
+        ############################################################################################################
+        # Menus Bar: Files
+        self.actionSave_2.triggered.connect(self.save)
+        self.actionLoad.triggered.connect(self.load)
 
         ############################################################################################################
         # Ensure all buttons behave properly when clicked
@@ -174,7 +238,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.tb_Pen.setChecked(True)
         self.tb_Pen.clicked.connect(self.button_clicked)
         self.pb_Eraser.clicked.connect(self.button_clicked)
-        self.pb_Text_Button.clicked.connect(self.add_text_box)
+        #self.tb_Text.clicked.connect(self.add_text_box)
+        self.tb_Text.clicked.connect(self.create_text_box)
 
         #sharron helped me out by showing this below
         self.toolbar_actionText.triggered.connect(self.add_text_box)
@@ -188,7 +253,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         ############################################################################################################
 
-        self.actionClear.triggered.connect(self.clear_canvas)
+        self.actionClear_2.triggered.connect(self.clear_canvas)
 
         # Define what the tool buttons do
         ###########################################################################################################
@@ -206,6 +271,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         #self.pb_Color.clicked.connect(self.color_dialog)
         self.pb_Undo.clicked.connect(self.undo)
         self.pb_Redo.clicked.connect(self.redo)
+
+        # Image
+        self.tb_Images.clicked.connect(self.upload_image)
         ###########################################################################################################
 
         self.scene = BoardScene()
@@ -214,19 +282,30 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.redo_list = []
 
+    #Upload Image
+    def upload_image(self):
+        print("Image Button clicked")
+        file_name, _ = QFileDialog.getOpenFileName(self, "Open Image", "", "Images (*.png *.jpg *.bmp)")
+        if file_name:
+            pixmap = QPixmap(file_name)
+            if not pixmap.isNull():
+                pixmap = pixmap.scaled(300, 300, Qt.AspectRatioMode.KeepAspectRatio)
+                pixmap_item = QGraphicsPixmapItem(pixmap)
+                pixmap_item.setPos(0, 0)  # Adjust position as needed
+                pixmap_item.setFlag(QGraphicsPixmapItem.ItemIsMovable)
+                # add it to new method in boardscene self.scene.add_image(pixmap_item)
+                self.scene.add_image(pixmap_item)
+                #self.scene.addItem(pixmap_item)  # Add the image to the scene
+                #self.add_item_to_undo(pixmap_item)
+
     def change_size(self):
         self.scene.change_size(self.dial.value())
 
     def undo(self):
-        if self.scene.items():
-            latest_item = self.scene.items()
-            self.redo_list.append(latest_item)
-            self.scene.removeItem(latest_item[0])
+        self.scene.undo()
 
     def redo(self):
-        if self.redo_list:
-            item = self.redo_list.pop(-1)
-            self.scene.addItem(item[0])
+        self.scene.redo()
 
     def clear_canvas(self):
         self.scene.clear()
@@ -302,8 +381,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.scene.set_active_tool(None)
 
     #Adds a text box using the method in BoardScene
-    def add_text_box(self):
-        self.scene.add_text_box()
+    def create_text_box(self):
+        # Create a text box item and add it to the scene
+        text_box_item = TextBox()
+        self.scene.add_text_box(text_box_item)
 
     # def change_background_color(self):
     #     # Open a color board and set the background color
@@ -318,11 +399,201 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if enable:
             self.drawing_enabled = False
 
+    def save(self):
+        directory, _filter = QFileDialog.getSaveFileName(self, "Save as Pickle", '', "Pickle (*.pkl)")
+
+        if directory == "":
+            return
+
+        with open(directory, 'wb') as file:
+            # noinspection PyTypeChecker
+            pickle.dump(self.serialize_items(), file, protocol=pickle.HIGHEST_PROTOCOL)
+
+    def load(self):
+        self.scene.clear()
+        directory, _filter = QFileDialog.getOpenFileName()
+        with open(directory, 'rb') as file:
+            items_data = pickle.load(file)
+            self.deserialize_items(items_data)
+
+
+
+    def serialize_items(self):
+        items_data = []
+        for item in self.scene.items():
+            if isinstance(item, TextBox):
+                items_data.append({
+                    'type': 'TextBox',
+                    'text': item.toPlainText(),
+                    'font': self.serialize_font(item.font()),
+                    'color': self.serialize_color(item.defaultTextColor()),
+                    'rotation': item.rotation(),
+                    'transform': self.serialize_transform(item.transform()),
+                    'x': item.pos().x(),
+                    'y': item.pos().y(),
+                    'name': item.toolTip(),
+                })
+
+            elif isinstance(item, QGraphicsPathItem):
+                path_data = {
+                    'type': 'QGraphicsPathItem',
+                    'pen': self.serialize_pen(item.pen()),
+                    'brush': self.serialize_brush(item.brush()),
+                    'rotation': item.rotation(),
+                    'transform': self.serialize_transform(item.transform()),
+                    'x': item.pos().x(),
+                    'y': item.pos().y(),
+                    'name': item.toolTip(),
+                    'elements': self.serialize_path(item.path()),
+                }
+                items_data.append(path_data)
+
+        return items_data
+
+    def serialize_color(self, color: QColor):
+        return {
+            'red': color.red(),
+            'green': color.green(),
+            'blue': color.blue(),
+            'alpha': color.alpha(),
+        }
+
+    def serialize_pen(self, pen: QPen):
+        return {
+            'width': pen.width(),
+            'color': self.serialize_color(pen.color()),
+            'style': pen.style(),
+            'capstyle': pen.capStyle(),
+            'joinstyle': pen.joinStyle()
+        }
+
+    def serialize_brush(self, brush: QBrush):
+        return {
+            'color': self.serialize_color(brush.color()),
+            'style': brush.style()
+        }
+
+    def serialize_font(self, font: QFont):
+        return {
+            'family': font.family(),
+            'pointsize': font.pixelSize(),
+            'letterspacing': font.letterSpacing(),
+            'bold': font.bold(),
+            'italic': font.italic(),
+            'underline': font.underline(),
+        }
+
+    def serialize_transform(self, transform: QTransform):
+        return {
+            'm11': transform.m11(),
+            'm12': transform.m12(),
+            'm13': transform.m13(),
+            'm21': transform.m21(),
+            'm22': transform.m22(),
+            'm23': transform.m23(),
+            'm31': transform.m31(),
+            'm32': transform.m32(),
+            'm33': transform.m33()
+        }
+
+    def serialize_path(self, path: QPainterPath):
+        elements = []
+        for i in range(path.elementCount()):
+            element = path.elementAt(i)
+            if element.isMoveTo():
+                elements.append({'type': 'moveTo', 'x': element.x, 'y': element.y})
+            elif element.isLineTo():
+                elements.append({'type': 'lineTo', 'x': element.x, 'y': element.y})
+            elif element.isCurveTo():
+                elements.append({'type': 'curveTo', 'x': element.x, 'y': element.y})
+        return elements
+
+    def deserialize_items(self, items_data):
+        for item_data in items_data:
+            if item_data['type'] == 'TextBox':
+                item = self.deserialize_text_item(item_data)
+            elif item_data['type'] == 'QGraphicsPathItem':
+                item = self.deserialize_path_item(item_data)
+
+            # Add item
+            self.scene.addItem(item)
+
+    def deserialize_color(self, color):
+        return QColor(color['red'], color['green'], color['blue'], color['alpha'])
+
+    def deserialize_pen(self, data):
+        pen = QPen()
+        pen.setWidth(data['width'])
+        pen.setColor(self.deserialize_color(data['color']))
+        pen.setStyle(data['style'])
+        pen.setCapStyle(data['capstyle'])
+        pen.setJoinStyle(data['joinstyle'])
+        return pen
+
+    def deserialize_brush(self, data):
+        brush = QBrush()
+        brush.setColor(self.deserialize_color(data['color']))
+        brush.setStyle(data['style'])
+        return brush
+
+    def deserialize_font(self, data):
+        font = QFont()
+        font.setFamily(data['family'])
+        font.setPixelSize(data['pointsize'])
+        font.setLetterSpacing(QFont.AbsoluteSpacing, data['letterspacing'])
+        font.setBold(data['bold'])
+        font.setItalic(data['italic'])
+        font.setUnderline(data['underline'])
+        return font
+
+    def deserialize_transform(self, data):
+        transform = QTransform(
+            data['m11'], data['m12'], data['m13'],
+            data['m21'], data['m22'], data['m23'],
+            data['m31'], data['m32'], data['m33']
+        )
+        return transform
+
+    def deserialize_text_item(self, data):
+        text_item = TextBox()
+        text_item.setFont(self.deserialize_font(data['font']))
+        text_item.setDefaultTextColor(self.deserialize_color(data['color']))
+        text_item.setRotation(data['rotation'])
+        text_item.setTransform(self.deserialize_transform(data['transform']))
+        text_item.setPos(data['x'], data['y'])
+        text_item.setToolTip(data['name'])
+        text_item.setPlainText(data['text'])
+        return text_item
+
+    def deserialize_path_item(self, data):
+        sub_path = QPainterPath()
+        for element in data['elements']:
+            if element['type'] == 'moveTo':
+                sub_path.moveTo(element['x'], element['y'])
+            elif element['type'] == 'lineTo':
+                sub_path.lineTo(element['x'], element['y'])
+            elif element['type'] == 'curveTo':
+                sub_path.cubicTo(element['x'],
+                                 element['y'],
+                                 element['x'],
+                                 element['y'],
+                                 element['x'],
+                                 element['y'])
+
+        path_item = QGraphicsPathItem(sub_path)
+        path_item.setPen(self.deserialize_pen(data['pen']))
+        path_item.setBrush(self.deserialize_brush(data['brush']))
+        path_item.setRotation(data['rotation'])
+        path_item.setTransform(self.deserialize_transform(data['transform']))
+        path_item.setPos(data['x'], data['y'])
+        path_item.setToolTip(data['name'])
+
+        return path_item
 
 if __name__ == '__main__':
-    app = QApplication()
+    app = QApplication(sys.argv)
 
     window = MainWindow()
     window.show()
 
-    app.exec()
+    sys.exit(app.exec())
