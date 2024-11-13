@@ -7,6 +7,9 @@ import logo from './logo.svg';
 import './App.css';
 import {useEffect, useState} from 'react';
 
+/* Import axios for simpler GET requests */
+import axios from 'axios';
+
 
 function App() {
     const CLIENT_ID = "9f79956a03b04bcfb5df0ff2a5a78059"
@@ -15,6 +18,8 @@ function App() {
     const RESPONSE_TYPE = "token"
 
     const [token, setToken] = useState("");
+
+    const [profile, setProfile] = useState([]);
 
     useEffect(() => {
 	const hash = window.location.hash;
@@ -36,13 +41,23 @@ function App() {
 	window.localStorage.removeItem("token")
     }
 
+    const headers = { 'Authorization': `Bearer ${token}`}
+
+    async function getProfile() {
+	fetch("https://api.spotify.com/v1/me", {headers})
+	    .then(response => response.json())
+	    .then(data => console.log(data));
+    }
     
     return (
     <div className="App">
 	<header className="App-header"> 
 	    <h2>MusicMatcher</h2>
+	   
 	    <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>Login to Spotify</a>
-	    <p>testing</p>
+	    
+
+	    <button onClick={getProfile}>Get your profile data</button>
 	</header>
     </div>
   );
