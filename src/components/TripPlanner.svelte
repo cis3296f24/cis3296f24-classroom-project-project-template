@@ -5,26 +5,67 @@
     let subway  = true
     let trolley = true
     let rail    = true
+    
+    import { convertFilter } from "maplibre-gl";
+
+    // import { onMount } from "svelte";
+    // Auto suggest
+    const suggestLocation = (event) => {
+        console.log(`Pressed ${event.data}`)
+    };
     // Swap button
-        
+    const handleSwap = (event) => {
+        let start = document.getElementById("start")
+        let end = document.getElementById("end")
+        console.log(`Before: start: ${start.value}, end: ${end.value}`)
+        let tmp = end.value
+        end.value = start.value
+        start.value = tmp
+        console.log(`After: start: ${start.value}, end: ${end.value}`)
+        console.log("Swap Button Clicked!");
+    };
     // Go button
-    const handleClick = (event) => {
+    const handleFormSubmit = (event) => {
         // gather all data and store
         event.preventDefault();
-        let start   = document.getElementById("start")
-        let end     = document.getElementById("end")
-        let date    = document.getElementById("date")
-        let time    = document.getElementById("time")
+        let start = document.getElementById("start");
+        let end = document.getElementById("end");
+        let date = document.getElementById("date");
+        let time = document.getElementById("time");
         // validate input
-        console.log(`Start:${start.value}, End:${end.value}, Date:${date.value}, Time:${time.value}, Radio:${radio}, Bus:${bus}, Subway:${subway}, Trolley:${trolley}, Rail:${rail}`)
+        // refactor html to just use a calendar for date and create a MM/DD format for time
+        let data = {
+            start: start.value,
+            end: end.value,
+            radio: radio,
+            date: date.value,
+            time: time.value,
+            bus: bus,
+            subway: subway,
+            trolley: trolley,
+            rail: rail,
+        };
+        // send data to some function
+        createTrip(data);
     };
+
+    // create potential trips
+    function createTrip(data) {
+        // // convert locations to coordinates
+        // coords = getCoords()
+        // // pass to function to get trips
+        // routes = getTrips()
+        // // write to DOM
+        // displayTrips()
+        console.log(`Creating Trip!!! Payload: ${JSON.stringify(data)}`);
+    }
 </script>
 
 <div class="userInputBackground">
     <form action="">
-        <input type="text" id="start" name="start" placeholder="Start" /><br/><br/>
+        <input type="text" id="start" name="start" placeholder="Start" on:input={suggestLocation} />
         <input type="text" id="end" name="end" placeholder="End" />
-        <input type="submit" value="Swap" /><br/><br/>
+        <button id="swap" type="button" on:click={handleSwap}>Swap</button>
         <div class="inlineElements">
             <label>
                 <input type="radio" id="leave" name="button" value="leave" bind:group={radio} /> Leave
@@ -53,7 +94,7 @@
             </label>
         </div>
         <br/>
-        <input type="submit" value="Go" id="tp-submit" on:click={handleClick} />
+        <input type="submit" value="Go" id="tp-submit" on:click={handleFormSubmit} />
     </form>
 </div>
 
@@ -76,5 +117,6 @@
         flex-direction: row;
         justify-content: center;
         align-items: center;
+        text-align: right;
     }
 </style>
