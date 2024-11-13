@@ -1,64 +1,58 @@
 <script>
     // import { onMount } from "svelte";
+    let radio
+    let bus = true
+    let subway  = true
+    let trolley = true
+    let rail    = true
     // Swap button
-
+        
     // Go button
-        const handleClick = (event) => {
-            // gather all data and store
-            event.preventDefault();
-            let start = document.getElementById("start")
-            let end = document.getElementById("end")
-            // validate input
-            console.log(`Start:${start.value}, End:${end.value}`)
-        };
+    const handleClick = (event) => {
+        // gather all data and store
+        event.preventDefault();
+        let start   = document.getElementById("start")
+        let end     = document.getElementById("end")
+        let date    = document.getElementById("date")
+        let time    = document.getElementById("time")
+        // validate input
+        console.log(`Start:${start.value}, End:${end.value}, Date:${date.value}, Time:${time.value}, Radio:${radio}, Bus:${bus}, Subway:${subway}, Trolley:${trolley}, Rail:${rail}`)
+    };
 </script>
 
 <div class="userInputBackground">
     <form action="">
-        <input type="text" id="start" name="start" placeholder="Start" /><br /><br />
+        <input type="text" id="start" name="start" placeholder="Start" /><br/><br/>
         <input type="text" id="end" name="end" placeholder="End" />
-        <input type="submit" value="Swap" /><br /><br />
+        <input type="submit" value="Swap" /><br/><br/>
         <div class="inlineElements">
-            <div class="pairLabel">
-                <input
-                    type="radio"
-                    id="leave"
-                    name="button"
-                    value="leave"
-                    checked
-                />
-                <label for="leave">Leave</label>
-            </div>
-            <div class="pairLabel">
-                <input type="radio" id="arrive" name="button" value="arrive" />
-                <label for="arrive">Arrive</label>
-            </div>
+            <label>
+                <input type="radio" id="leave" name="button" value="leave" bind:group={radio} /> Leave
+            </label>
+            <label>
+                <input type="radio" id="arrive" name="button" value="arrive" bind:group={radio} /> Arrive
+            </label>
             <a href="">+Round Trip</a>
             <a href="">+Add Stop</a>
         </div>
         <br />
-        <input type="text" id="date" name="date" placeholder="Today" /><br /><br />
-        <input type="text" id="time" name="time" placeholder="at" /><br /><br />
+        <input type="text" id="date" name="date" placeholder="Today" /><br/><br/>
+        <input type="text" id="time" name="time" placeholder="At" /><br/><br/>
         <div class="inlineElements">
-            <div class="pairLabel">
-                <input type="checkbox" id="bus" name="bus" checked />
-                <label for="bus">Bus</label>
-            </div>
-            <div class="pairLabel">
-                <input type="checkbox" id="subway" name="subway" checked />
-                <label for="subway">Subway</label>
-            </div>
-            <div class="pairLabel">
-                <input type="checkbox" id="trolley" name="trolley" checked /><br
-                />
-                <label for="trolley">Trolley</label>
-            </div>
-            <div class="pairLabel">
-                <input type="checkbox" id="rail" name="rail" checked />
-                <label for="rail">Rail</label>
-            </div>
+            <label>
+                <input type="checkbox" id="bus" name="bus" bind:checked={bus} /> Bus
+            </label>
+            <label>
+                <input type="checkbox" id="subway" name="subway" bind:checked={subway} /> Subway
+            </label>
+            <label>
+                <input type="checkbox" id="trolley" name="trolley" bind:checked={trolley} /> Trolley
+            </label>
+            <label>
+                <input type="checkbox" id="rail" name="rail" bind:checked={rail} /> Rail
+            </label>
         </div>
-        <br />
+        <br/>
         <input type="submit" value="Go" id="tp-submit" on:click={handleClick} />
     </form>
 </div>
