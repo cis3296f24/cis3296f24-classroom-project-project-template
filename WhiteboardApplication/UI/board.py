@@ -271,6 +271,17 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addWidget(self.pb_Eraser)
 
+        self.pb_Highlighter = QPushButton(self.w_Tools)
+        self.pb_Highlighter.setObjectName(u"pb_Highlighter")
+        self.pb_Highlighter.setMinimumSize(QSize(0, 40))
+        self.pb_Highlighter.setMaximumSize(QSize(60, 60))
+        self.pb_Highlighter.setIcon(icon3)
+        self.pb_Highlighter.setIconSize(QSize(25, 25))
+        self.pb_Highlighter.setCheckable(True)
+        self.pb_Highlighter.setFlat(True)
+
+        self.verticalLayout.addWidget(self.pb_Highlighter)
+
         self.pb_Text_Button = QPushButton(self.w_Tools)
         self.pb_Text_Button.setObjectName(u"pb_Text_Button")
         self.pb_Text_Button.setMouseTracking(True)
