@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", function() {
     fetchTracks();
 });
@@ -33,6 +32,23 @@ async function loadTopTracks() {
         console.error("Error loading top tracks:", error);
     }
 }
+
+// Display Title on the page
+document.addEventListener("DOMContentLoaded", function() {
+    document.body.style.backgroundImage = "url('/sky-full-of-stars-space-4k_1540139420.jpg')";
+    document.body.style.backgroundSize = "cover";
+    document.body.style.backgroundPosition = "center center";
+    document.body.style.backgroundRepeat = "no-repeat";
+
+    // Change the font color for the title
+    const titleElement = document.querySelector('h1');
+    if (titleElement) {
+        titleElement.style.color = 'white';
+    }
+    // Check authentication and fetch tracks
+    checkAuthentication();
+    fetchTracks();
+});
 
 document.addEventListener('DOMContentLoaded', checkAuthentication);
 
@@ -113,11 +129,24 @@ function renderTracks(data) {
     const minSize = 5;
     const maxSize = 100;
 
+
+    const tooltip = d3.select("body").append("div")
+        .style("position", "absolute")
+        .style("background", "rgba(0, 0, 0, 0.7)")
+        .style("color", "#fff")
+        .style("padding", "5px")
+        .style("border-radius", "5px")
+        .style("pointer-events", "none")
+        .style("display", "none");
+
+    console.log("Tooltip element created:", tooltip.node());
+
+
     svg.selectAll("circle")
         .data(topArtists)
         .enter()
         .append("circle")
-        .attr("cx", d => xScale(d.value.avgPopularity))
+        .attr("cx", d => xScale((d.value.avgPopularity) * 2) - 1125)
         .attr("cy", d => yScale(d.value.avgDuration))
         .attr("r", d => {
             const radius = minSize + ((d.value.count / 10) * (maxSize - minSize));
@@ -125,14 +154,28 @@ function renderTracks(data) {
         })
         .attr("fill", (d, i) => planetColors[i % planetColors.length])
         .attr("stroke", "white")
-        .attr("stroke-width", 2);
+        .attr("stroke-width", 2)
+        .on("mouseover", (event, d) => {
+            tooltip.style("display", "block")
+
+                .html(`<strong>${d.key}</strong><br>Tracks: ${d.value.count}<br>Popularity: ${Math.round(d.value.avgPopularity)}`);
+        })
+        .on("mousemove", (event) => {
+            tooltip.style("top", `${event.pageY + 10}px`)
+                .style("left", `${event.pageX + 10}px`);
+
+        })
+        .on("mouseout", () => {
+            tooltip.style("display", "none");
+        });
 
     svg.selectAll(".artist-label")
         .data(topArtists)
         .enter()
         .append("text")
         .attr("class", "artist-label")
-        .attr("x", d => xScale(d.value.avgPopularity))
+
+        .attr("x", d => xScale((d.value.avgPopularity) * 2) - 1125)
         .attr("y", d => yScale(d.value.avgDuration) + 5)
         .attr("text-anchor", "middle")
         .text(d => d.key);
@@ -147,7 +190,8 @@ function displayTracks(tracks) {
         .map(([key, values]) => ({
             key,
             value: {
-                count: values.length
+                count: values.length,
+                tracks: values.map(track => track.name) // Get track names
             }
         }));
 
@@ -157,6 +201,16 @@ function displayTracks(tracks) {
     topArtists.forEach(artist => {
         const artistItem = document.createElement('div');
         artistItem.textContent = `${artist.key} (${artist.value.count} tracks)`;
+        artistItem.style.color = 'white';
         trackList.appendChild(artistItem);
+
+        const trackTitles = document.createElement('ul');
+        artist.value.tracks.forEach(track => {
+            const trackItem = document.createElement('li');
+            trackItem.textContent = track;
+            trackItem.style.color = 'blue';
+            trackTitles.appendChild(trackItem);
+        });
+        trackList.appendChild(trackTitles);
     });
 }
