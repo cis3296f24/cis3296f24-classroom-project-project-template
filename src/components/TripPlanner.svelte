@@ -1,23 +1,68 @@
 <script>
-    // import { onMount } from "svelte";
-    // Swap button
+    import { convertFilter } from "maplibre-gl";
 
+    // import { onMount } from "svelte";
+    // Auto suggest
+    const suggestLocation = (event) => {
+        console.log(`Pressed ${event.data}`)
+    };
+    // Swap button
+    const handleSwap = (event) => {
+        let start = document.getElementById("start")
+        let end = document.getElementById("end")
+        console.log(`Before: start: ${start.value}, end: ${end.value}`)
+        let tmp = end.value
+        end.value = start.value
+        start.value = tmp
+        console.log(`After: start: ${start.value}, end: ${end.value}`)
+        console.log("Swap Button Clicked!");
+    };
     // Go button
-        const handleClick = (event) => {
-            // gather all data and store
-            event.preventDefault();
-            let start = document.getElementById("start")
-            let end = document.getElementById("end")
-            // validate input
-            console.log(`Start:${start.value}, End:${end.value}`)
+    const handleFormSubmit = (event) => {
+        // gather all data and store
+        event.preventDefault();
+        let start = document.getElementById("start");
+        let end = document.getElementById("end");
+        let leave = document.getElementById("leave");
+        let arrive = document.getElementById("arrive");
+        let date = document.getElementById("date");
+        let time = document.getElementById("time");
+        // validate input
+        // refactor html to just use a calendar for date and create a MM/DD format for time
+        let data = {
+            start: start.value,
+            end: end.value,
+            leave: leave.value,
+            arrive: arrive.value,
+            date: date.value,
+            time: time.value,
+            round_trip: null,
+            bus: null,
+            subway: null,
+            trolley: null,
+            rail: null,
         };
+        // send data to some function
+        createTrip(data);
+    };
+
+    // create potential trips
+    function createTrip(data) {
+        // // convert locations to coordinates
+        // coords = getCoords()
+        // // pass to function to get trips
+        // routes = getTrips()
+        // // write to DOM
+        // displayTrips()
+        console.log(`Creating Trip!!! Payload: ${JSON.stringify(data)}`);
+    }
 </script>
 
 <div class="userInputBackground">
     <form action="">
-        <input type="text" id="start" name="start" placeholder="Start" /><br /><br />
+        <input type="text" id="start" name="start" placeholder="Start" on:input={suggestLocation} />
         <input type="text" id="end" name="end" placeholder="End" />
-        <input type="submit" value="Swap" /><br /><br />
+        <button id="swap" type="button" on:click={handleSwap}>Swap</button>
         <div class="inlineElements">
             <div class="pairLabel">
                 <input
@@ -36,9 +81,8 @@
             <a href="">+Round Trip</a>
             <a href="">+Add Stop</a>
         </div>
-        <br />
-        <input type="text" id="date" name="date" placeholder="Today" /><br /><br />
-        <input type="text" id="time" name="time" placeholder="at" /><br /><br />
+        <input type="date" id="date" name="date" placeholder="Today" />
+        <input type="text" id="time" name="time" placeholder="at" />
         <div class="inlineElements">
             <div class="pairLabel">
                 <input type="checkbox" id="bus" name="bus" checked />
@@ -49,8 +93,7 @@
                 <label for="subway">Subway</label>
             </div>
             <div class="pairLabel">
-                <input type="checkbox" id="trolley" name="trolley" checked /><br
-                />
+                <input type="checkbox" id="trolley" name="trolley" checked />
                 <label for="trolley">Trolley</label>
             </div>
             <div class="pairLabel">
@@ -58,8 +101,12 @@
                 <label for="rail">Rail</label>
             </div>
         </div>
-        <br />
-        <input type="submit" value="Go" id="tp-submit" on:click={handleClick} />
+        <input
+            type="submit"
+            value="Go"
+            id="tp-submit"
+            on:click={handleFormSubmit}
+        />
     </form>
 </div>
 
@@ -82,5 +129,6 @@
         flex-direction: row;
         justify-content: center;
         align-items: center;
+        text-align: right;
     }
 </style>
