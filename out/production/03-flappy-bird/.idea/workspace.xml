@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c83c8672-6949-40f8-918e-7e7c5d2f7c37" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/res/player_sprites.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FlappyGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/FlappyGame.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,7 +59,8 @@
       <workItem from="1731393776469" duration="17000" />
       <workItem from="1731393818145" duration="4471000" />
       <workItem from="1731441246398" duration="561000" />
-      <workItem from="1731460721154" duration="308000" />
+      <workItem from="1731460721154" duration="357000" />
+      <workItem from="1731461576062" duration="673000" />
     </task>
     <servers />
   </component>
