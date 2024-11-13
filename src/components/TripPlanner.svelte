@@ -1,6 +1,6 @@
 <script>
     // import { onMount } from "svelte";
-    let radio
+    let radio = "leave"
     let bus = true
     let subway  = true
     let trolley = true
