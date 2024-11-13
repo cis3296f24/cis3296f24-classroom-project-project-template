@@ -44,7 +44,14 @@ public class GamePanel extends JPanel {
             // reads in bee animation todo clean up animation it seems blurred.
             // idleAni[i] = img.getSubimage(i*37, 0, 37, 37);
             // Reads in HD bird with guessed dimensions.
-            idleAni[i] = img.getSubimage(i*127, 0, 127, 146);
+            // idleAni[i] = img.getSubimage(i*127, 0, 127, 146);
+            // idleAni[i] = img.getSubimage(i * 129, 0, 129, 117);
+           // idleAni[i] = img.getSubimage(i * 126, 0, 126, 146);
+            idleAni[i] = img.getSubimage((i * 126) + 1, 2, 125, 144);
+
+
+
+
         }
 
     }
