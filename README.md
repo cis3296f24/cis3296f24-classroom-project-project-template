@@ -19,7 +19,9 @@ To run the project locally, clone the repository and install dependencies:
 ```bash
 # Clone the repo
 git clone https://github.com/cis3296f24/MusicMatcher
-cd musicmatcher
+
+#move into directory
+cd MusicMatcher/musicmatcher
 
 # Install dependencies
 npm install
