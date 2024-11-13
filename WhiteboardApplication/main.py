@@ -10,13 +10,14 @@ from PySide6.QtWidgets import (
     QGraphicsPathItem,
     QColorDialog,
     QPushButton,
-    QGraphicsTextItem, 
+    QGraphicsTextItem,
     QToolBar,
     QFileDialog,
     QApplication,
     QLabel,
     QFileDialog,
-    QGraphicsPixmapItem
+    QGraphicsPixmapItem, QWidget, QTabWidget, QAbstractScrollArea, QSizePolicy, QGraphicsView, QHBoxLayout, QGridLayout,
+    QScrollArea
 )
 
 from PySide6.QtGui import (
@@ -26,7 +27,7 @@ from PySide6.QtGui import (
     QPainterPath,
     QColor,
     QAction,
-    QTransform, QBrush, QFont, QPixmap, QImageReader
+    QTransform, QBrush, QFont, QPixmap, QImageReader, QCursor
 )
 
 from PySide6.QtCore import (
@@ -34,6 +35,7 @@ from PySide6.QtCore import (
 )
 
 from WhiteboardApplication.UI.board import Ui_MainWindow
+from WhiteboardApplication.new_notebook import NewNotebook
 
 from text_box import TextBox
 
@@ -173,6 +175,9 @@ class BoardScene(QGraphicsScene):
                     print("Eraser tool active")
                     self.drawing = False
                     self.erase(event.scenePos())
+                elif self.active_tool == "cursor":
+                    print("Cursor active")
+                    self.drawing = False
 
 
         super().mousePressEvent(event)
@@ -228,32 +233,29 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         ############################################################################################################
         # Menus Bar: Files
-        self.actionSave_2.triggered.connect(self.save)
+        self.actionSave.triggered.connect(self.save)
         self.actionLoad.triggered.connect(self.load)
+        self.actionNew.triggered.connect(self.new_tab)
 
         ############################################################################################################
         # Ensure all buttons behave properly when clicked
-        self.list_of_buttons = [self.tb_Pen, self.pb_Eraser]
+        self.list_of_buttons = [self.tb_actionPen, self.tb_actionEraser]
 
-        self.tb_Pen.setChecked(True)
-        self.tb_Pen.clicked.connect(self.button_clicked)
-        self.pb_Eraser.clicked.connect(self.button_clicked)
-        #self.tb_Text.clicked.connect(self.add_text_box)
-       # self.tb_Text.clicked.connect(self.create_text_box)
+        self.tb_actionPen.setChecked(True)
+        self.tb_actionPen.triggered.connect(self.button_clicked)
+        self.tb_actionEraser.triggered.connect(self.button_clicked)
 
-        #sharron helped me out by showing this below
-        self.toolbar_actionText.triggered.connect(self.create_text_box)
+        #sharon helped me out by showing this below
+        self.tb_actionText.triggered.connect(self.create_text_box)
         #self.toolbar_actionLine.triggered.connect(self.tb_Line)
-        #self.toolbar_actionEraser.setChecked(True)
-        self.toolbar_actionEraser.triggered.connect(self.button_clicked)
-        self.toolbar_actionPen.triggered.connect(self.button_clicked)
-
+        self.tb_actionEraser.triggered.connect(self.button_clicked)
+        self.tb_actionPen.triggered.connect(self.button_clicked)
 
         self.current_color = QColor("#000000")
 
         ############################################################################################################
 
-        self.actionClear_2.triggered.connect(self.clear_canvas)
+        self.actionClear.triggered.connect(self.clear_canvas)
 
         # Define what the tool buttons do
         ###########################################################################################################
@@ -263,24 +265,21 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # I used an online tool to find out the proper color of the background and updated it below... - RS 10/30
         #self.pb_Eraser.clicked.connect(lambda e: self.color_changed(QColor("#F3F3F3")))
 
-        self.dial.sliderMoved.connect(self.change_size)
-        self.dial.setMinimum(1)
-        self.dial.setMaximum(100)
-        self.dial.setWrapping(False)
-
         #self.pb_Color.clicked.connect(self.color_dialog)
-        self.pb_Undo.clicked.connect(self.undo)
-        self.pb_Redo.clicked.connect(self.redo)
+        self.tb_actionUndo.triggered.connect(self.undo)
+        self.tb_actionRedo.triggered.connect(self.redo)
 
         # Image
-        self.tb_Images.clicked.connect(self.upload_image)
+        self.tb_actionImages.triggered.connect(self.upload_image)
         ###########################################################################################################
 
-        self.scene = BoardScene()
-        self.gv_Canvas.setScene(self.scene)
-        self.gv_Canvas.setRenderHint(QPainter.RenderHint.Antialiasing, True)
+        # self.scene = BoardScene()
+        # self.gv_Canvas.setScene(self.scene)
+        # self.gv_Canvas.setRenderHint(QPainter.RenderHint.Antialiasing, True)
 
         self.redo_list = []
+
+        self.new_tab()
 
     #Upload Image
     def upload_image(self):
@@ -293,22 +292,21 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 pixmap_item = QGraphicsPixmapItem(pixmap)
                 pixmap_item.setPos(0, 0)  # Adjust position as needed
                 pixmap_item.setFlag(QGraphicsPixmapItem.ItemIsMovable)
-                # add it to new method in boardscene self.scene.add_image(pixmap_item)
+                # add it to new method in board scene self.scene.add_image(pixmap_item)
                 self.scene.add_image(pixmap_item)
                 #self.scene.addItem(pixmap_item)  # Add the image to the scene
                 #self.add_item_to_undo(pixmap_item)
 
-    def change_size(self):
-        self.scene.change_size(self.dial.value())
-
+    # this finds the current tab and locates the canvas
+    # inside that tab to access its scene
     def undo(self):
-        self.scene.undo()
+        self.tabWidget.currentWidget().findChild(QGraphicsView, 'gv_Canvas').scene().undo()
 
     def redo(self):
-        self.scene.redo()
+        self.tabWidget.currentWidget().findChild(QGraphicsView, 'gv_Canvas').scene().redo()
 
     def clear_canvas(self):
-        self.scene.clear()
+        self.tabWidget.currentWidget().findChild(QGraphicsView, 'gv_Canvas').scene().clear()
 
     def color_dialog(self):
         color_dialog = QColorDialog()
@@ -318,9 +316,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def color_dialog_color_changed(self, current_color):
         self.color_changed(current_color)
-        if self.pb_Eraser.isChecked():
-            self.pb_Eraser.setChecked(False)
-            self.tb_Pen.setChecked(True)
+        if self.tb_actionEraser.isChecked():
+            self.tb_actionEraser.setChecked(False)
+            self.tb_actionPen.setChecked(True)
 
     def color_changed(self, color):
         self.scene.change_color(color)
@@ -330,54 +328,41 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def button_clicked(self):
         sender_button = self.sender()
 
+        # Toggle Cursor
+        if sender_button == self.tb_actionCursor:
+            if self.tb_actionCursor.isChecked():
+                # disable pen, disable eraser
+                print("Cursor activated")  # Debugging print
+                self.scene.set_active_tool("cursor")
+                self.tb_actionEraser.setChecked(False)
+                self.tb_actionPen.setChecked(False)
+
         # Toggle Pen
-        if sender_button == self.tb_Pen:
-            if self.tb_Pen.isChecked():
+        if sender_button == self.tb_actionPen:
+            if self.tb_actionPen.isChecked():
                 # Enable pen mode, disable eraser
                 print("Pen activated")  # Debugging print
                 self.color_changed(self.current_color)
                 self.scene.set_active_tool("pen")
-                self.pb_Eraser.setChecked(False)  # Ensure eraser is not active
+                self.tb_actionEraser.setChecked(False)  # Ensure eraser is not active
+                self.tb_actionCursor.setChecked(False)
             else:
                 # Deactivate drawing mode when button is clicked again
                 print("Pen deactivated")  # Debugging print
                 self.scene.set_active_tool(None)
 
         # Toggle Eraser
-        elif sender_button == self.pb_Eraser:
-            if self.pb_Eraser.isChecked():
+        elif sender_button == self.tb_actionEraser:
+            if self.tb_actionEraser.isChecked():
                 # Enable eraser mode, disable pen
                 print("Eraser activated")  # Debugging print
-                self.color_changed(QColor("#F3F3F3"))
+                # self.color_changed(QColor("#F3F3F3"))
                 self.scene.set_active_tool("eraser")
-                self.tb_Pen.setChecked(False)  # Ensure pen is not active
+                self.tb_actionPen.setChecked(False)  # Ensure pen is not active
+                self.tb_actionCursor.setChecked(False)
             else:
                 # Deactivate erasing mode when button is clicked again
                 print("Eraser deactivated")  # Debugging print
-                self.scene.set_active_tool(None)
-
-        #making sure toolbar button works with below copied from above - RS
-        elif sender_button == self.toolbar_actionEraser:
-            if self.toolbar_actionEraser.isChecked():
-                print("Eraser activated")
-                self.color_changed(QColor("#F3F3F3"))
-                self.scene.set_active_tool("eraser")
-                self.tb_Pen.setChecked(False)
-            else:
-                print("Eraser deactivated")
-                self.scene.set_active_tool(None)
-
-        #same as above just making sure toolbar button works....
-        elif sender_button == self.toolbar_actionPen:
-            if self.tb_Pen.isChecked():
-                # Enable pen mode, disable eraser
-                print("Pen activated")  # Debugging print
-                self.color_changed(self.current_color)
-                self.scene.set_active_tool("pen")
-                self.pb_Eraser.setChecked(False)  # Ensure eraser is not active
-            else:
-                # Deactivate drawing mode when button is clicked again
-                print("Pen deactivated")  # Debugging print
                 self.scene.set_active_tool(None)
 
     #Adds a text box using the method in BoardScene
@@ -589,6 +574,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         path_item.setToolTip(data['name'])
 
         return path_item
+
+    def new_tab(self):
+        #adds a new tab that contains the widget canvas
+        self.tabWidget.addTab(NewNotebook.add_new_notebook(NewNotebook), "Notebook %d" % (self.tabWidget.count()+1))
+
+        # attaches a new instance of scene to the new tab's canvas
+        self.scene = BoardScene()
+        NewNotebook.get_canvas(NewNotebook).setScene(self.scene)
+        NewNotebook.get_canvas(NewNotebook).setRenderHint(QPainter.RenderHint.Antialiasing, True)
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
