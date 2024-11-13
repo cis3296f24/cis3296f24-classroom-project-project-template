@@ -4,13 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c83c8672-6949-40f8-918e-7e7c5d2f7c37" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/FlappyGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/FlappyGame.java" afterDir="false" />
-    </list>
+    <list default="true" id="c83c8672-6949-40f8-918e-7e7c5d2f7c37" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -60,7 +65,7 @@
       <workItem from="1731393818145" duration="4471000" />
       <workItem from="1731441246398" duration="561000" />
       <workItem from="1731460721154" duration="357000" />
-      <workItem from="1731461576062" duration="673000" />
+      <workItem from="1731461576062" duration="5883000" />
     </task>
     <servers />
   </component>
