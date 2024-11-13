@@ -314,10 +314,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         ############################################################################################################
         # Ensure all buttons behave properly when clicked
+<<<<<<< Updated upstream
         self.list_of_buttons = [self.pb_Pen, self.pb_Eraser, self.pb_Line, self.pb_Ellipse, self.pb_Rectangle, self.pb_Highlighter]
+=======
+        self.list_of_buttons = [self.pb_Pen, self.pb_Highlighter, self.pb_Eraser, self.pb_Line, self.pb_Ellipse, self.pb_Rectangle]
+>>>>>>> Stashed changes
 
         self.pb_Pen.setChecked(True)
         self.pb_Pen.clicked.connect(self.button_clicked)
+        self.pb_Highlighter.clicked.connect(self.button_clicked)
         self.pb_Eraser.clicked.connect(self.button_clicked)
         self.pb_Highlighter.clicked.connect(self.button_clicked)
         self.pb_Line.clicked.connect(self.button_clicked)
@@ -339,9 +344,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         ###########################################################################################################
         self.current_color = QColor("#000000")
         self.pb_Pen.clicked.connect(lambda e: self.color_changed(self.current_color))
+        highlight_color = QColor(255, 255, 0, 30)
+        self.pb_Highlighter.clicked.connect(lambda e: self.color_changed(highlight_color))
         self.pb_Eraser.clicked.connect(lambda e: self.color_changed(QColor("#FFFFFF")))
         highlight_color = QColor(255, 255, 0, 30)
         self.pb_Highlighter.clicked.connect(lambda e: self.color_changed(highlight_color))
+
 
 
         self.dial.sliderMoved.connect(self.change_size)

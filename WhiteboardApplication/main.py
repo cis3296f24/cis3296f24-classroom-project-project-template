@@ -12,6 +12,8 @@ from PySide6.QtWidgets import (
     QPushButton,
     QGraphicsTextItem, 
     QToolBar,
+    QGraphicsTextItem,
+    QToolBar,
     QFileDialog,
     QApplication,
     QLabel,
@@ -162,7 +164,10 @@ class BoardScene(QGraphicsScene):
 
         for item in highlighter:
             if isinstance(item, QGraphicsPathItem):
+<<<<<<< Updated upstream
                 self.removeItem(item)
+=======
+>>>>>>> Stashed changes
                 item.setPen(highlight_pen)
 
     def mousePressEvent(self, event):
@@ -256,6 +261,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         ############################################################################################################
         # Ensure all buttons behave properly when clicked
+<<<<<<< Updated upstream
         self.list_of_buttons = [self.tb_Pen, self.pb_Eraser, self.pb_Highlighter]
 
         self.tb_Pen.setChecked(True)
@@ -264,6 +270,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.pb_Highlighter.clicked.connect(self.button_clicked)
         #self.tb_Text.clicked.connect(self.add_text_box)
        # self.tb_Text.clicked.connect(self.create_text_box)
+=======
+        self.list_of_buttons = [self.tb_Pen, self.tb_Highlighter, self.pb_Eraser]
+
+        self.tb_Pen.setChecked(True)
+        self.tb_Pen.clicked.connect(self.button_clicked)
+        self.tb_Highlighter.clicked.connect(self.button_clicked)
+        self.pb_Eraser.clicked.connect(self.button_clicked)
+        #self.tb_Text.clicked.connect(self.add_text_box)
+        #self.tb_Text.clicked.connect(self.create_text_box)
+>>>>>>> Stashed changes
 
         #sharron helped me out by showing this below
         self.toolbar_actionText.triggered.connect(self.create_text_box)
@@ -442,6 +458,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.highlighting_enabled = enable
         if enable:
             self.erasing_enabled = False
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
     def save(self):
         directory, _filter = QFileDialog.getSaveFileName(self, "Save as Pickle", '', "Pickle (*.pkl)")
 

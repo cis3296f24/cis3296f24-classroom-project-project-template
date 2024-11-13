@@ -252,8 +252,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.pb_Pen.setChecked(True)
         self.pb_Pen.clicked.connect(self.button_clicked)
+        self.pb_Highlighter.clicked.connect(self.button_clicked())
         self.pb_Eraser.clicked.connect(self.button_clicked)
         self.pb_Highlighter.clicked.connect(self.button_clicked())
+
 
         self.current_color = QColor("#000000")
 
