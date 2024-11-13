@@ -79,43 +79,22 @@ public class GamePanel extends JPanel {
 
     }
 
-    public void changeXDelta(int value) {
-        this.xDelta += value;
 
-    }
 
-    public void changeYDelta(int value) {
-        this.yDelta += value;
 
-    }
-
-    public void setRectPos(int x, int y) {
-        this.xDelta = x;
-        this.yDelta = y;
-    }
-
-    private void updateAnimationTick() {
-
-        aniTick++;
-        if (aniTick >= aniSpeed) {
-            aniTick = 0;
-            aniIndex++;
-            if (aniIndex >= idleAni.length) {
-                aniIndex = 0;
-            }
-        }
-    }
-
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
+    public void updateGame() {
         // g.fillRect(100, yDelta, 50, 50);
         // g.drawImage(img, 0, 0, this); This draws the whole png file
         // In order to pick which one to draw we use subImg to get the pic we need from the graphic.
 
         // subImg = img.getSubimage(1 * 64, 8 * 40, 64, 40);
         // g.drawImage(subImg, (int) xDelta, (int) yDelta, 128, 80, null);
-        updateAnimationTick();
-        g.drawImage(idleAni[aniIndex], (int) xDelta, (int) yDelta, 100, 110, null);
+        // updateAnimationTick();
+    }
+
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        // g.drawImage(idleAni[aniIndex], (int) xDelta, (int) yDelta, 100, 110, null);
 
     }
 

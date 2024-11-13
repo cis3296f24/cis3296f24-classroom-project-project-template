@@ -17,11 +17,17 @@ public class FlappyGame implements Runnable{
 
     }
 
+    // Game loop had issues and lost 1ms each interval, and it was solved with
+    // using delta variable that never gets reset.
+    //
     private void startGameLoop() {
         gameThread = new Thread(this);
         gameThread.start();
     }
 
+    public void update() {
+        gamePanel.updateGame();
+    }
 
     // Explained in detail in this video.
     // https://youtu.be/zRJAIDh7LH4?list=PL4rzdwizLaxYmltJQRjq18a9gsSyEQQ-0&t=556
@@ -49,6 +55,7 @@ public class FlappyGame implements Runnable{
             previousTime = currentTime;
 
             if(deltaU >= 1) {
+                update();
                 updates++;
                 deltaU--;
             }
