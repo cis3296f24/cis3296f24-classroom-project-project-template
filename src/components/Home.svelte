@@ -92,13 +92,6 @@
         margin: 0 auto;
     }
 
-    .userInputBackground {
-        background-color: #d9d9d9;
-        max-width: 360px;
-        padding: 1em;
-        margin-right: 20px;
-    }
-
     .map-container {
         flex-grow: 1;
         height: 500px;
