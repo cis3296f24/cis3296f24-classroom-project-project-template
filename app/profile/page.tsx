@@ -23,7 +23,7 @@ const userProfileData: UserProfile = {
     name: "Johnny Appleseed",
     email: "johnnyappleseed@gmail.com",
     profilePicture: "/images/johnny.jpg",
-    bio: "Farmer ~ Horse Rider ~ Apple Lover.",
+    bio: "Farmer ~ Horse Rider ~ Apple Lover",
     country: "United States",
     city: "Philadelphia",
     phone: "+1 (267) 541-7000",
