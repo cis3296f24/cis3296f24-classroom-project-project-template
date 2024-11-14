@@ -1,4 +1,9 @@
-// I decided not use package since our team wasn't using them.
+package main;
+
+import entities.Player;
+import levels.LevelManager;
+
+import java.awt.*;
 
 public class FlappyGame implements Runnable{
 
@@ -8,18 +13,47 @@ public class FlappyGame implements Runnable{
     private final int FPS_SET = 120;
     private final int UPS_SET = 200;
 
-    public FlappyGame() {
+    private Player player;
+    private LevelManager levelManager;
 
-        gamePanel = new GamePanel();
+    public final static int TILES_DEFAULT_SIZE = 32;
+    public final static float SCALE = 2f; // This value scales up the game depending on your screen resolution.
+    public final static int TILES_IN_WIDTH = 26; // For the tile sheet dimensions in x direction.
+    public final static int TILES_IN_HEIGHT = 14; // For the tile sheet dimensions in y direction.
+    public final static int TILE_SIZE = (int) (TILES_DEFAULT_SIZE * SCALE);
+    public final static int GAME_WIDTH = TILE_SIZE * TILES_IN_WIDTH;
+    public final static int GAME_HEIGHT = TILE_SIZE * TILES_IN_HEIGHT;
+
+    public FlappyGame() {
+        initClasses();
+
+        gamePanel = new GamePanel(this);
         gameWindow = new GameWindow(gamePanel);
         gamePanel.requestFocus();
+
         startGameLoop();
 
+    }
+
+    private void initClasses() {
+        levelManager = new LevelManager(this);
+        player = new Player(200, 200, (int) (64 * SCALE), (int) (40 * SCALE));
+        player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
     }
 
     private void startGameLoop() {
         gameThread = new Thread(this);
         gameThread.start();
+    }
+
+    public void update() {
+        levelManager.update();
+        player.update();
+    }
+
+    public void render(Graphics g) {
+        levelManager.draw(g);
+        player.render(g);
     }
 
 
@@ -49,6 +83,7 @@ public class FlappyGame implements Runnable{
             previousTime = currentTime;
 
             if(deltaU >= 1) {
+                update();
                 updates++;
                 deltaU--;
             }
@@ -66,6 +101,14 @@ public class FlappyGame implements Runnable{
                 updates = 0;
             }
         }
+    }
+
+    public void windowFocusLost() {
+        player.resetDirBooleans();
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 
 }

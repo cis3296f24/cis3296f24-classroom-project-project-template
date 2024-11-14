@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5b45b616-1c01-40f6-b838-de9f2eddfd06" name="Changes" comment="Bird only" />
+    <list default="true" id="5b45b616-1c01-40f6-b838-de9f2eddfd06" name="Changes" comment="Bird only">
+      <change beforePath="$PROJECT_DIR$/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/Entity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Level.java" beforeDir="false" afterPath="$PROJECT_DIR$/Level.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/Player.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -31,6 +35,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.FlappyBird.executor": "Run",
     "Application.FlappyMain.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "Shafiq-Branch-2DArrayAnim",
@@ -67,7 +72,13 @@
       <workItem from="1731518101462" duration="4217000" />
       <workItem from="1731524799168" duration="4502000" />
       <workItem from="1731550450165" duration="77000" />
-      <workItem from="1731550568603" duration="599000" />
+      <workItem from="1731550568603" duration="2896000" />
+      <workItem from="1731556103821" duration="230000" />
+      <workItem from="1731556367938" duration="370000" />
+      <workItem from="1731556799564" duration="84000" />
+      <workItem from="1731556925377" duration="161000" />
+      <workItem from="1731557172024" duration="1415000" />
+      <workItem from="1731559573523" duration="298000" />
     </task>
     <task id="LOCAL-00001" summary="Bird only">
       <option name="closed" value="true" />

@@ -1,4 +1,4 @@
-// package utilz;
+package utils;
 
 public class Constants {
 
