@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { Client } = require("@googlemaps/google-maps-services-js");
 
 router.get('/locations', async (req, res) => {
     console.log(`GET /api/locations`);
@@ -27,6 +28,15 @@ router.get('/bus_schedules', async (req, res) => {
         console.error('Error fetching bus schedule:', error);
         res.status(500).json({ error: 'Error fetching bus schedule' });
     }
+});
+
+router.post('/google_directions', async (req, res) => {
+    console.log(`POST /google_directions\n${req.body.start}`);
+    // create google client
+    const data = req.body;
+    // res.json(data);
+    // const client = new Client({});
+    // client.directions({})
 });
 
 module.exports = router;
