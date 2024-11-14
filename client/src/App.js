@@ -26,29 +26,19 @@ function App() {
     const fakeDataFetch = () => {
       setTimeout(() => {
         setIsLoading(false);
-        removePreloader();
+        
       }, 4000);
     };
 
     fakeDataFetch();
   }, []);
 
-  const removePreloader = () => {
-    const preloader = document.getElementById('preloader');
-    if (preloader) {
-      preloader.style.transition = 'opacity 1s ease';
-      preloader.style.opacity = '0';
-      setTimeout(() => {
-        preloader.remove();
-      }, 1000);
-    }
-  };
+  
 
-  return isLoading ? (
-    <Preloader />
-  ) : (
+  return (
     <div className="App h-screen">
       {!hideNavbar && <Header />}
+      <Preloader />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/task" element={<Task />}/>
