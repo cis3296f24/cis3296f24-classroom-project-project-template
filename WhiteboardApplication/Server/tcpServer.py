@@ -63,6 +63,7 @@ class BoardScene(QGraphicsScene):
 
         self.default_z_index = 0  # Set a default z-index
         self.eraser_z_index = None  # Store eraser's z-index
+        self.highlighter_z_index = None
 
     def get_topmost_z_index(self):
         highest_z = float("-inf")
@@ -76,6 +77,13 @@ class BoardScene(QGraphicsScene):
             if isinstance(item, QGraphicsPathItem):
                 if item.pen().color() == Qt.white:
                     item.setZValue(self.eraser_z_index)
+
+    def set_highlighter_z_index(self, z_index):
+        self.highlighter_z_index = z_index
+        for item in self.items():
+            if isinstance(item, QGraphicsPathItem):
+                if item.pen().color() == QColor(255, 255, 0, 30):
+                    item.setZValue(self.highlighter_z_index)
 
     def set_default_z_index(self):
         for item in self.items():
@@ -240,11 +248,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         ############################################################################################################
         # Ensure all buttons behave properly when clicked
-        self.list_of_buttons = [self.pb_Pen, self.pb_Eraser]
+        self.list_of_buttons = [self.pb_Pen, self.pb_Eraser, self.pb_Highlighter]
 
         self.pb_Pen.setChecked(True)
         self.pb_Pen.clicked.connect(self.button_clicked)
+        self.pb_Highlighter.clicked.connect(self.button_clicked())
         self.pb_Eraser.clicked.connect(self.button_clicked)
+        self.pb_Highlighter.clicked.connect(self.button_clicked())
+
 
         self.current_color = QColor("#000000")
 
@@ -261,6 +272,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.current_color = QColor("#000000")
         self.pb_Pen.clicked.connect(lambda e: self.color_changed(self.current_color))
         self.pb_Eraser.clicked.connect(lambda e: self.color_changed(QColor("#FFFFFF")))
+        highlight_color = QColor(255, 255, 0, 30)
+        self.pb_Highlighter.clicked.connect(lambda e: self.color_changed(highlight_color))
 
         self.dial.sliderMoved.connect(self.change_size)
         self.dial.setMinimum(1)
