@@ -38,7 +38,7 @@ public class GamePanel extends JPanel {
     }
 
     private void loadAnimations() {
-        idleAni = new BufferedImage[8];
+        idleAni = new BufferedImage[16];
 
         for (int i = 0; i < idleAni.length; i++) {
             // reads in bee animation todo clean up animation it seems blurred.
@@ -47,7 +47,12 @@ public class GamePanel extends JPanel {
             // idleAni[i] = img.getSubimage(i*127, 0, 127, 146);
             // idleAni[i] = img.getSubimage(i * 129, 0, 129, 117);
            // idleAni[i] = img.getSubimage(i * 126, 0, 126, 146);
-            idleAni[i] = img.getSubimage((i * 126) + 1, 2, 125, 144);
+
+            // Crow
+            // idleAni[i] = img.getSubimage((i * 126) + 1, 2, 125, 144);
+
+            // Original FB animated
+            idleAni[i] = img.getSubimage((i * 158) + 1, 2, 158, 122);
 
 
 
@@ -63,7 +68,7 @@ public class GamePanel extends JPanel {
     private void importImg() {
         // InputStream is = getClass().getResourceAsStream("/player_sprites.png");
         // InputStream is = getClass().getResourceAsStream("/bee_R.png");
-        InputStream is = getClass().getResourceAsStream("/HD_B-NoWM.png");
+        InputStream is = getClass().getResourceAsStream("/aniHDbird.png");
         try {
             img = ImageIO.read(is);
         } catch (IOException e) {
@@ -122,7 +127,7 @@ public class GamePanel extends JPanel {
         // subImg = img.getSubimage(1 * 64, 8 * 40, 64, 40);
         // g.drawImage(subImg, (int) xDelta, (int) yDelta, 128, 80, null);
         updateAnimationTick();
-        g.drawImage(idleAni[aniIndex], (int) xDelta, (int) yDelta, 100, 110, null);
+        g.drawImage(idleAni[aniIndex], (int) xDelta, (int) yDelta, 70, 60, null);
 
     }
 
