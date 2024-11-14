@@ -24,6 +24,7 @@
     "svelte": "^3.55.0"
   },
   "dependencies": {
+    "@googlemaps/google-maps-services-js": "^3.4.0",
     "express": "^4.21.1",
     "maplibre-gl": "^4.7.1",
     "node-fetch": "^2.7.0"
