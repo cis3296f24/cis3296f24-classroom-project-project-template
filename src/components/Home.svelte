@@ -1,9 +1,10 @@
 <script>
     import { onMount } from "svelte";
+    import TripPlanner from './TripPlanner.svelte';
     import mapboxgl from 'mapbox-gl';
     import 'mapbox-gl/dist/mapbox-gl.css';
     
-    mapboxgl.accessToken = 'pk.eyJ1Ijoia2hpdGNoIiwiYSI6ImNtM2d1cXN4MTA5YWIya3B4Y3didnBxM3QifQ.GPCb_j31HQhkDYmqvwKgLg';
+    mapboxgl.accessToken = 'pk.eyJ1Ijoia2hpdGNoIiwiYSI6ImNtM2d1cXN4MTA5YWIya3B4Y3didnBxM3QifQ.GPCb_j31HQhkDYmqvwKgLg'; // need to move this to a .env file or secrets manager
 
     onMount(() => {
         function getCurrentPosition() {
@@ -73,6 +74,7 @@
 </script>
 
 <main>
+    <TripPlanner/>
     <div class="userInputBackground">
         <form action="">
             <input type="text" id="start" name="start" value="Start" /><br /><br
@@ -167,21 +169,7 @@
         font-size: 4em;
         font-weight: 100;
     }
-
-    .inlineElements {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .pairLabel {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-    }
-
+  
     @media (min-width: 640px) {
         main {
             max-width: none;
