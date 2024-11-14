@@ -1,6 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const { Client } = require("@googlemaps/google-maps-services-js");
+const path = require('path')
+// require('dotenv').config({path: path.join(__dirname,'..', '..', 'keys.env')})
+require('dotenv').config({path: './keys.env'})
+
+// console.log(process.env.GOOGLE_API_KEY) for debugging
 
 router.get('/locations', async (req, res) => {
     console.log(`GET /api/locations`);
@@ -31,12 +36,32 @@ router.get('/bus_schedules', async (req, res) => {
 });
 
 router.post('/google_directions', async (req, res) => {
-    console.log(`POST /google_directions\n${req.body.start}`);
+    console.log(`POST /google_directions`);
+    apiKey = process.env.GOOGLE_API_KEY;
+    // console.log(apiKey);
     // create google client
     const data = req.body;
-    // res.json(data);
-    // const client = new Client({});
-    // client.directions({})
+    console.log(JSON.stringify(data));
+    const client = new Client({});
+    client.directions({ params: {
+        origin: data.start,
+        destination: data.end,
+        mode: "transit",
+        key: apiKey
+    },
+        timeout: 1000
+    }).then(r => {
+        // get the data needed into an object and send as response
+        // if (r.data.status != client.Status.OK){
+        //     console.log(`Error fetching directions ${r.data.status}`);
+        // }
+        // let results = {}
+        // list of routes 
+        const routes = r.data.routes
+        res.json(JSON.stringify(routes, null, 2));
+    }).catch(e => {
+        console.log(e); // may want to show this client side
+    });
 });
 
 module.exports = router;

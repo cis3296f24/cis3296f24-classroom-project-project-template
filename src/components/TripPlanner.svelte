@@ -46,7 +46,7 @@
     };
 
     // create potential trips
-    async function createTrip(data){
+    async function createTrip(data) {
         console.log(JSON.stringify(data))
         const res = await fetch("/api/google_directions", {
         method: "POST",
@@ -58,10 +58,10 @@
         if (!res.ok) {
             throw new Error(`HTTP error! Status: ${res.status} `);
         }
-        // routes = await req.json();
+        const routes = await res.json();
+        console.log(`Routes: ${routes}`)
         // write to DOM
         // displayTrips()
-        // console.log(`Creating Trip Payload: ${JSON.stringify(res)}`);
     }
         
         
@@ -155,12 +155,4 @@
         justify-content: space-between;
         align-items: center;
     }
-
-    /* .pairLabel {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        text-align: right;
-    } */
 </style>
