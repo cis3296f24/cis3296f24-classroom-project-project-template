@@ -5,9 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5b45b616-1c01-40f6-b838-de9f2eddfd06" name="Changes" comment="Bird only">
-      <change beforePath="$PROJECT_DIR$/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/Entity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Level.java" beforeDir="false" afterPath="$PROJECT_DIR$/Level.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/Player.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Bird.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FlappyBird.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SpaceBarReleaseExample.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/entities/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/entities/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inputs/KeyboardInputs.java" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/KeyboardInputs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/main/GamePanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/03-flappy-bird/entities/Player.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/03-flappy-bird/entities/Player.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/LoadSave.java" beforeDir="false" afterPath="$PROJECT_DIR$/utils/LoadSave.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,6 +42,7 @@
   "keyToString": {
     "Application.FlappyBird.executor": "Run",
     "Application.FlappyMain.executor": "Run",
+    "Application.SpaceBarReleaseExample.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "Shafiq-Branch-2DArrayAnim",
     "ignore.virus.scanning.warn.message": "true",
@@ -78,7 +84,7 @@
       <workItem from="1731556799564" duration="84000" />
       <workItem from="1731556925377" duration="161000" />
       <workItem from="1731557172024" duration="1415000" />
-      <workItem from="1731559573523" duration="298000" />
+      <workItem from="1731559573523" duration="14932000" />
     </task>
     <task id="LOCAL-00001" summary="Bird only">
       <option name="closed" value="true" />

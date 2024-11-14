@@ -124,8 +124,8 @@ public class Player extends Entity {
     }
 
     private void jump() {
-        if (inAir)
-            return;
+        //if (inAir) I removed these statements so the bird just falls if not pressing space bar.
+           // return; I removed these statements so the bird just falls if not pressing space bar.
         inAir = true;
         airSpeed = jumpSpeed;
 
@@ -150,10 +150,14 @@ public class Player extends Entity {
 
         BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.PLAYER_ATLAS);
 
-        animations = new BufferedImage[9][6];
+        animations = new BufferedImage[9][10];
         for (int j = 0; j < animations.length; j++)
             for (int i = 0; i < animations[j].length; i++)
-                animations[j][i] = img.getSubimage(i * 64, j * 40, 64, 124);
+                // Original player
+                // animations[j][i] = img.getSubimage(i * 64, j * 40, 64, 40);
+                // Flappy Bird
+                animations[j][i] = img.getSubimage(i * 158, (j * 0) + 2, 158, 122);
+
 
     }
 
