@@ -85,7 +85,7 @@
                     console.log(step.html_instructions)
                 })
             })
-        });
+        }); //
         document.getElementById("trip-container").appendChild(container)
     }
         
