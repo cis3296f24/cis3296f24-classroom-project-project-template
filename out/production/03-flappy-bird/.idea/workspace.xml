@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c83c8672-6949-40f8-918e-7e7c5d2f7c37" name="Changes" comment="" />
+    <list default="true" id="5b45b616-1c01-40f6-b838-de9f2eddfd06" name="Changes" comment="Bird only" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -24,28 +24,30 @@
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 0
 }</component>
-  <component name="ProjectId" id="2ojrLptZj3HwteI1IE8F3feJO6C" />
+  <component name="ProjectId" id="2onvLHBo2yJpx81X5vY74bHo0gQ" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.FlappyBird.executor&quot;: &quot;Run&quot;,
-    &quot;Application.FlappyMain.executor&quot;: &quot;Run&quot;,
-    &quot;Application.ReadInGraphics$PixelAnimation.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Shafiq-Branch-BirdOnly&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.FlappyMain.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "Shafiq-Branch-2DArrayAnim",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.31954023",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -57,22 +59,32 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="c83c8672-6949-40f8-918e-7e7c5d2f7c37" name="Changes" comment="" />
-      <created>1731393774095</created>
+      <changelist id="5b45b616-1c01-40f6-b838-de9f2eddfd06" name="Changes" comment="" />
+      <created>1731518099633</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1731393774095</updated>
-      <workItem from="1731393776469" duration="17000" />
-      <workItem from="1731393818145" duration="4471000" />
-      <workItem from="1731441246398" duration="561000" />
-      <workItem from="1731460721154" duration="357000" />
-      <workItem from="1731461576062" duration="5883000" />
-      <workItem from="1731478973190" duration="1354000" />
-      <workItem from="1731514063952" duration="1207000" />
+      <updated>1731518099633</updated>
+      <workItem from="1731518101462" duration="4217000" />
+      <workItem from="1731524799168" duration="4502000" />
+      <workItem from="1731550450165" duration="77000" />
+      <workItem from="1731550568603" duration="599000" />
     </task>
+    <task id="LOCAL-00001" summary="Bird only">
+      <option name="closed" value="true" />
+      <created>1731526058558</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1731526058558</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Bird only" />
+    <option name="LAST_COMMIT_MESSAGE" value="Bird only" />
   </component>
 </project>

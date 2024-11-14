@@ -1,6 +1,6 @@
 // package entities;
 
-mport static utilz.Constants.PlayerConstants.*;
+import static utilz.Constants.PlayerConstants.*;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
