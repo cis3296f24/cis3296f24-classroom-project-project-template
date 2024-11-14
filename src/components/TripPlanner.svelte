@@ -7,7 +7,7 @@
 
     // Auto suggest
     const suggestLocation = (event) => {
-        console.log(`Pressed ${event.data}`);
+        // console.log(`Pressed ${event.data}`);
     };
     // Swap button
     const handleSwap = (event) => {
@@ -56,12 +56,37 @@
         }
         });
         if (!res.ok) {
-            throw new Error(`HTTP error! Status: ${res.status} `);
+            throw new Error(`HTTP error! Status: ${res.status}`);
         }
-        const routes = await res.json();
-        console.log(`Routes: ${routes}`)
+        let routes = await res.json();
+        routes = JSON.parse(routes)
+        // const array = [{test: 0, test2: 1}, {ok: "lol"}]
+        // array.forEach((e) => {
+        //     console.log(e)
+        // })
         // write to DOM
-        // displayTrips()
+        displayTrips(routes)
+    }
+
+    function displayTrips(routes) {
+        const container = document.createElement("div")
+        container.setAttribute("class", "trip-data")
+        routes.forEach((route) => {
+            route.legs.forEach((leg) => {
+                console.log(leg)
+                container.innerHTML += leg.start_address + "<br><br>";
+                console.log(leg.start_address)
+                leg.steps.forEach((step) => {
+                    // check if step contains substeps
+                    // step.forEach((subStep) => {
+                    //     console.log(subStep)
+                    // })
+                    container.innerHTML += step.html_instructions + "<br><br>";
+                    console.log(step.html_instructions)
+                })
+            })
+        });
+        document.getElementById("trip-container").appendChild(container)
     }
         
         
@@ -140,6 +165,9 @@
             on:click={handleFormSubmit}
         />
     </form>
+</div>
+<div id="trip-container">
+
 </div>
 
 <style>
