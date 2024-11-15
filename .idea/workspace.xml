@@ -5,57 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8871c20a-dd66-40e4-9f47-137f0b9a01fb" name="Changes" comment="Update files">
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/.bin/nodemon~f5541bcc56d8ab88e183339c8411747484b4945c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/.bin/nodetouch~f5541bcc56d8ab88e183339c8411747484b4945c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/.bin/semver~f5541bcc56d8ab88e183339c8411747484b4945c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/crypto/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/crypto/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/fsevents/LICENSE" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/fsevents/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/fsevents/fsevents.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/fsevents/fsevents.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/fsevents/fsevents.node" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/fsevents/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/path/.npmignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/path/LICENSE" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/path/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/path/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/path/path.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/process/.eslintrc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/process/LICENSE" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/process/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/process/browser.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/process/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/process/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/process/test.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/util/LICENSE" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/util/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/util/node_modules/inherits/LICENSE" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/util/node_modules/inherits/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/util/node_modules/inherits/inherits.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/util/node_modules/inherits/inherits_browser.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/util/node_modules/inherits/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/util/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/util/support/isBuffer.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/util/support/isBufferBrowser.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/util/util.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/space-158081.mp3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_rebase_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_rebase__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/.bin/mime" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.bin/mime" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/.bin/nodemon" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.bin/nodemon" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/.bin/nodetouch" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.bin/nodetouch" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/.bin/semver" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.bin/semver" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/axios/CHANGELOG.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/simple-update-notifier/build/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/simple-update-notifier/build/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/style.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,7 +44,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "Merging Jen",
+    "git-widget-placeholder": "Jen",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/nathaliavalli/Development/Spaceify",
     "node.js.detected.package.eslint": "true",
