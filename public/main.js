@@ -132,12 +132,16 @@ function renderTracks(data) {
 
     const tooltip = d3.select("body").append("div")
         .style("position", "absolute")
-        .style("background", "rgba(0, 0, 0, 0.7)")
+        .style("background", "rgba(0, 0, 139, 1)")
         .style("color", "#fff")
-        .style("padding", "5px")
-        .style("border-radius", "5px")
+        .style("padding", "10px")
+        .style("border-radius", "0px")
+        .style("border-color", "white")
+        .style("border-style", "solid")
         .style("pointer-events", "none")
-        .style("display", "none");
+        .style("display", "none")
+        .style("font-size", "20px")
+        .style("font-family", "'Share Tech Mono', monospace");
 
     console.log("Tooltip element created:", tooltip.node());
 
