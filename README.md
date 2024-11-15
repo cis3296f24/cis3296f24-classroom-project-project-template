@@ -16,6 +16,8 @@ The application features an interactive, space-themed scatter plot that visualiz
 
 The project will utilize the Spotify Web API to fetch data regarding user listening habits.
 
+PLEASE BEFORE RUNNING OUR APPLICATION WE NEED TO ADD YOUR EMAIL TO OUR SPOTIFY DEVELOPERS ACCOUNT, PLEASE CONTACT US AT nathaliavalli@gmail.com
+
 ## How to Run
 
 To run the application locally, follow these steps:
