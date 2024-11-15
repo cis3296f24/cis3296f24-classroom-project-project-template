@@ -29,7 +29,7 @@ public class Player extends Entity {
     public Player(float x, float y, int width, int height) {
         super(x, y, width, height);
         loadAnimations();
-        initHitbox(x, y, 20 * FlappyGame.SCALE, 27 * FlappyGame.SCALE);
+        initHitbox(x, y, 27 * FlappyGame.SCALE, 27 * FlappyGame.SCALE);
 
     }
 
@@ -149,15 +149,16 @@ public class Player extends Entity {
     private void loadAnimations() {
 
         BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.PLAYER_ATLAS);
-
-        animations = new BufferedImage[9][10];
+        //               BufferedImage[i][j]
+        animations = new BufferedImage[4][8];
         for (int j = 0; j < animations.length; j++)
             for (int i = 0; i < animations[j].length; i++)
                 // Original player
                 // animations[j][i] = img.getSubimage(i * 64, j * 40, 64, 40);
                 // Flappy Bird
-                animations[j][i] = img.getSubimage(i * 158, (j * 0) + 2, 158, 122);
-
+                // animations[j][i] = img.getSubimage(i * 158, (j * 0) + 2, 158, 122);
+                // Crow Flappy Bird
+                animations[j][i] = img.getSubimage(i * 126, (j * 0) + 2, 125, 145);
 
     }
 

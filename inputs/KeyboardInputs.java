@@ -8,6 +8,7 @@ import main.GamePanel;
 public class KeyboardInputs implements KeyListener {
 
     private GamePanel gamePanel;
+    private boolean keyReleased = false;
 
     public KeyboardInputs(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
@@ -35,6 +36,8 @@ public class KeyboardInputs implements KeyListener {
                 break;
             case KeyEvent.VK_SPACE:
                 gamePanel.getGame().getPlayer().setJump(false);
+                keyReleased = true;
+                // System.out.println("Key released");
                 break;
         }
     }
@@ -55,7 +58,14 @@ public class KeyboardInputs implements KeyListener {
                 gamePanel.getGame().getPlayer().setRight(true);
                 break;
             case KeyEvent.VK_SPACE:
-                    gamePanel.getGame().getPlayer().setJump(true);
+                System.out.println(keyReleased);
+
+                // I added the if else so bird falls if space is pressed down.
+                if (keyReleased) {
+                        gamePanel.getGame().getPlayer().setJump(true);
+                    } else gamePanel.getGame().getPlayer().setJump(false);
+                // System.out.println("Key pressed");
+                keyReleased = false;
                 break;
         }
     }

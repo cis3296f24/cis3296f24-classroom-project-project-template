@@ -16,7 +16,9 @@ public class HelpMethods {
     }
 
     private static boolean IsSolid(float x, float y, int[][] lvlData) {
-        if (x < 0 || x >= FlappyGame.GAME_WIDTH)
+        int maxWidth = lvlData[0].length * FlappyGame.TILE_SIZE;
+        // if (x < 0 || x >= FlappyGame.GAME_WIDTH)
+        if (x < 0 || x >= maxWidth)
             return true;
         if (y < 0 || y >= FlappyGame.GAME_HEIGHT)
             return true;

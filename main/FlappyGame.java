@@ -19,7 +19,7 @@ public class FlappyGame implements Runnable{
     public final static int TILES_DEFAULT_SIZE = 32;
     public final static float SCALE = 2f; // This value scales up the game depending on your screen resolution.
     // public final static int TILES_IN_WIDTH = 26; // For the tile sheet dimensions in x direction.
-    public final static int TILES_IN_WIDTH = 274; // For the tile sheet dimensions in x direction.
+    public final static int TILES_IN_WIDTH = 26; // For the tile sheet dimensions in x direction.
     public final static int TILES_IN_HEIGHT = 14; // For the tile sheet dimensions in y direction.
     public final static int TILE_SIZE = (int) (TILES_DEFAULT_SIZE * SCALE);
     public final static int GAME_WIDTH = TILE_SIZE * TILES_IN_WIDTH;
