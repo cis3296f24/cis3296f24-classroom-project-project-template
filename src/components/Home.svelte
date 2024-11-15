@@ -8,16 +8,6 @@
 
 
     onMount(() => {
-        let map;
-
-        // Initialize Mapbox map 
-        map = new mapboxgl.Map({
-            container: 'map',
-            style: 'mapbox://styles/mapbox/streets-v11',
-            center: [-75.1652, 39.9526],
-            zoom: 13
-        });
-
         // Function to get the current position
         function getCurrentPosition() {
             return new Promise((resolve, reject) => {
