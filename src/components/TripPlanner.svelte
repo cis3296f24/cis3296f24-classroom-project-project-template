@@ -1,4 +1,6 @@
 <script>
+    import TripDirections from "./TripDirections.svelte";
+
     let radio = "leave";
     let bus = true;
     let subway = true;
@@ -65,24 +67,27 @@
     }
 
     function displayTrips(routes) {
-        const container = document.createElement("div");
-        container.setAttribute("class", "trip-data");
+        // const container = document.createElement("div");
+        // container.setAttribute("class", "trip-data");
         routes.forEach((route) => {
             route.legs.forEach((leg) => {
                 console.log(leg);
-                container.innerHTML += leg.start_address + "<br><br>";
+                // container.innerHTML += leg.start_address;
                 console.log(leg.start_address);
                 leg.steps.forEach((step) => {
                     // check if step contains substeps
-                    // step.forEach((subStep) => {
-                    //     console.log(subStep)
-                    // })
-                    container.innerHTML += step.html_instructions + "<br><br>";
+                    if (step.steps) {
+                        console.log(`contains substeps!`)
+                        step.steps.forEach((subStep) => {
+                            console.log(subStep.html_instructions);
+                        });
+                    }
+                    // container.innerHTML += step.html_instructions;
                     console.log(step.html_instructions);
                 });
             });
         });
-        document.getElementById("trip-container").appendChild(container);
+        // document.getElementById("trip-container").appendChild(container);
     }
 </script>
 
@@ -172,7 +177,9 @@
             />
         </form>
     </div>
-    <div id="trip-container"></div>
+    <div class="routes">
+        <!-- <TripDirections /> -->
+    </div>
 </div>
 
 <style>
