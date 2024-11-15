@@ -38,9 +38,9 @@ from PySide6.QtCore import (
 )
 
 from WhiteboardApplication.UI.board import Ui_MainWindow
+from WhiteboardApplication.text_box import TextBox
 from WhiteboardApplication.new_notebook import NewNotebook
-
-from text_box import TextBox
+from WhiteboardApplication.Collab_Functionality.client import Client
 
 class BoardScene(QGraphicsScene):
     def __init__(self):
@@ -256,17 +256,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
 
+        self.client = None
+
         if hasattr(self, 'actionImages'):
             print("actionImages is initialized.")
         else:
             print("actionImages is NOT initialized.")
 
-        # # Add pb_BackgroundColor button - Chloe
-        # self.pb_BackgroundColor = QPushButton("Change Background Color", self)
-        # self.pb_BackgroundColor.setGeometry(10, 195, 150, 30)
-        # self.pb_BackgroundColor.clicked.connect(self.change_background_color)
-
-        ############################################################################################################
         # Menus Bar: Files
         self.actionSave.triggered.connect(self.save)
         self.actionLoad.triggered.connect(self.load)
@@ -460,8 +456,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             items_data = pickle.load(file)
             self.deserialize_items(items_data)
 
-
-
     def serialize_items(self):
         items_data = []
         for item in self.scene.items():
@@ -599,6 +593,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         return transform
 
     def deserialize_text_item(self, data):
+        from text_box import TextBox
         text_item = TextBox()
         text_item.setFont(self.deserialize_font(data['font']))
         text_item.setDefaultTextColor(self.deserialize_color(data['color']))

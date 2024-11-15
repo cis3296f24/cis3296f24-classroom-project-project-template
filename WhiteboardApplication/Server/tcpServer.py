@@ -270,7 +270,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # Define what the tool buttons do
         ###########################################################################################################
         self.current_color = QColor("#000000")
-        self.pb_Pen.clicked.connect(lambda e: self.color_changed(self.current_color))
+        self.tb_Pen.clicked.connect(lambda e: self.color_changed(self.current_color))
         self.pb_Eraser.clicked.connect(lambda e: self.color_changed(QColor("#FFFFFF")))
         highlight_color = QColor(255, 255, 0, 30)
         self.pb_Highlighter.clicked.connect(lambda e: self.color_changed(highlight_color))
@@ -399,7 +399,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.color_changed(current_color)
         if self.pb_Eraser.isChecked():
             self.pb_Eraser.setChecked(False)
-            self.pb_Pen.setChecked(True)
+            self.tb_Pen.setChecked(True)
 
     def color_changed(self, color):
         self.scene.change_color(color)
