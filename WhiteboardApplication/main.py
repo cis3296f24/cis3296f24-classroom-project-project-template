@@ -17,7 +17,7 @@ from PySide6.QtWidgets import (
     QLabel,
     QFileDialog,
     QGraphicsPixmapItem, QWidget, QTabWidget, QAbstractScrollArea, QSizePolicy, QGraphicsView, QHBoxLayout, QGridLayout,
-    QScrollArea
+    QScrollArea, QMenu
 )
 
 from PySide6.QtGui import (
@@ -58,6 +58,9 @@ class BoardScene(QGraphicsScene):
         self.drawing_enabled = False
         self.erasing_enabled = False
         self.active_tool = None
+        #more flags for eraser menu buttons - RS
+        self.eraseObject_flag = False
+        self.penErase_flag = False
 
         self.undo_list = []
         self.redo_list = []
@@ -237,18 +240,27 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.actionLoad.triggered.connect(self.load)
         self.actionNew.triggered.connect(self.new_tab)
 
+        #create eraser menu stuff below
+        menu = QMenu()
+        menu.addAction("Erase Object", self.eraseObject_action)
+        menu.addAction("Pen Eraser", self.penEraser_action)
+
+
         ############################################################################################################
         # Ensure all buttons behave properly when clicked
         self.list_of_buttons = [self.tb_actionPen, self.tb_actionEraser]
 
         self.tb_actionPen.setChecked(True)
         self.tb_actionPen.triggered.connect(self.button_clicked)
-        self.tb_actionEraser.triggered.connect(self.button_clicked)
+        self.tb_actionEraser.setMenu(menu)
+        #self.tb_actionEraser.triggered.connect(self.button_clicked)
+
+
 
         #sharon helped me out by showing this below
         self.tb_actionText.triggered.connect(self.create_text_box)
         #self.toolbar_actionLine.triggered.connect(self.tb_Line)
-        self.tb_actionEraser.triggered.connect(self.button_clicked)
+        #self.tb_actionEraser.triggered.connect(self.button_clicked)
         self.tb_actionPen.triggered.connect(self.button_clicked)
 
         self.current_color = QColor("#000000")
@@ -272,7 +284,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # Image
         self.tb_actionImages.triggered.connect(self.upload_image)
         ###########################################################################################################
-
+        self.eraser_color = QColor("#F3F3F3")
         # self.scene = BoardScene()
         # self.gv_Canvas.setScene(self.scene)
         # self.gv_Canvas.setRenderHint(QPainter.RenderHint.Antialiasing, True)
@@ -323,6 +335,26 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def color_changed(self, color):
         self.scene.change_color(color)
 
+
+    def eraseObject_action(self):
+        print("Erase Object action")
+        print("Eraser activated")  # Debugging print
+        self.scene.set_active_tool("eraser")
+        self.tb_actionPen.setChecked(False)  # Ensure pen is not active
+        self.tb_actionCursor.setChecked(False)
+
+
+
+    def penEraser_action(self):
+        print("Pen Eraser action")
+            # Enable pen mode, disable eraser
+        print("Pen activated")  # Debugging print
+        self.color_changed(self.eraser_color)
+        self.scene.set_active_tool("pen")
+        self.tb_actionEraser.setChecked(False)  # Ensure eraser is not active
+        self.tb_actionCursor.setChecked(False)
+
+
     #Depending on which button is clicked, sets the appropriate flag so that operations
     #don't overlap
     def button_clicked(self):
@@ -352,6 +384,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.scene.set_active_tool(None)
 
         # Toggle Eraser
+        # add extra checks in here to figure out which eraser to use... - RS
         elif sender_button == self.tb_actionEraser:
             if self.tb_actionEraser.isChecked():
                 # Enable eraser mode, disable pen

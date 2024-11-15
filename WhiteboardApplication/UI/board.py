@@ -338,6 +338,6 @@ class Ui_MainWindow(object):
         self.menuOptions.setTitle(QCoreApplication.translate("MainWindow", u"Edit", None))
         self.menuCollab.setTitle(QCoreApplication.translate("MainWindow", u"Collab", None))
         self.menuHelp.setTitle(QCoreApplication.translate("MainWindow", u"Help", None))
-        self.tb_toolbar_main_window.setWindowTitle(QCoreApplication.translate("MainWindow", u"toolBar", None))
+        self.tb_toolbar_main_window.setWindowTitle(QCoreApplication.translate("MainWindow", u"rivs_toolBar", None))
     # retranslateUi
 
