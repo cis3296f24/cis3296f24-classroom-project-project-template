@@ -44,7 +44,7 @@ public class Player extends Entity {
     // Here is the original code
     //         g.drawImage(idleAni[aniIndex], (int) xDelta, (int) yDelta, 70, 60, null);
     public void render(Graphics g, int lvlOffset) {
-        int scaleBirdX = 0; // scale the bird in x direct by 50 pixels to correct the aspect ratio. -Shafiq.
+        int scaleBirdX = 50; // scale the bird in x direct by 50 pixels to correct the aspect ratio. -Shafiq.
         g.drawImage(animations[playerAction][aniIndex], (int) (hitbox.x - xDrawOffset) - lvlOffset, (int) (hitbox.y - yDrawOffset), width - scaleBirdX, height, null);
         // drawHitbox(g);
     }
@@ -66,7 +66,6 @@ public class Player extends Entity {
 
     private void setAnimation() {
         int startAni = playerAction;
-
         if (moving)
             playerAction = RUNNING;
         else

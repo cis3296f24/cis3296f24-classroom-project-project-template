@@ -97,6 +97,8 @@ public class Playing extends State implements Statemethods {
                 paused = !paused;
                 break;
         }
+        player.setRight(true); // I added this to replicate the forward motion of the bird.
+
     }
 
     @Override
