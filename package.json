@@ -24,6 +24,11 @@
   },
   "dependencies": {
     "express": "^4.21.1",
+<<<<<<< Updated upstream
+=======
+    "init": "^0.1.2",
+    "maplibre-gl": "^4.7.1",
+>>>>>>> Stashed changes
     "node-fetch": "^2.7.0"
   }
 }
