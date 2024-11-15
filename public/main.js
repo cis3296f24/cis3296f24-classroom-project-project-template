@@ -145,14 +145,33 @@ function renderTracks(data) {
     svg.selectAll("circle")
         .data(topArtists)
         .enter()
-        .append("circle")
-        .attr("cx", d => xScale((d.value.avgPopularity) * 2) - 1125)
+        .append('circle')
+        .attr("cx", d => xScale((d.value.avgPopularity) * 1) - 1125)
         .attr("cy", d => yScale(d.value.avgDuration))
         .attr("r", d => {
             const radius = minSize + ((d.value.count / 10) * (maxSize - minSize));
             return radius;
         })
-        .attr("fill", (d, i) => planetColors[i % planetColors.length])
+        //Iterate through each circle and create a pattern for it
+        .each(function (d, i) {
+            const radius = minSize + ((d.value.count / 10) * (maxSize - minSize));
+            const patternId = `earthpattern-${i}`;
+            svg.append("defs")
+                .append("pattern")
+                .attr("id", patternId)
+                .attr("patternUnits", "objectBoundingBox")
+                .attr("width", 1)
+                .attr("height", 1)
+                .append("image")
+                .attr("xlink:href", "earth.jpg")
+                .attr("x", 0)
+                .attr("y", 0)
+                .attr("width", radius * 2)
+                .attr("height", radius * 2);
+
+            d3.select(this)
+                .attr("fill", `url(#${patternId})`);
+        })
         .attr("stroke", "white")
         .attr("stroke-width", 2)
         .on("mouseover", (event, d) => {
@@ -175,7 +194,7 @@ function renderTracks(data) {
         .append("text")
         .attr("class", "artist-label")
 
-        .attr("x", d => xScale((d.value.avgPopularity) * 2) - 1125)
+        .attr("x", d => xScale((d.value.avgPopularity) * 1) - 1125)
         .attr("y", d => yScale(d.value.avgDuration) + 5)
         .attr("text-anchor", "middle")
         .text(d => d.key);
