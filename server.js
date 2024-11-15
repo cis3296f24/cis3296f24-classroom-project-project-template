@@ -6,8 +6,28 @@ const crypto = require('crypto');
 const app = express();
 const port = 3000;
 
+app.use(express.static('public')); //
+
 // Middleware for security headers
 app.use(helmet());
+
+//For cursor glow CSP
+app.use(
+    helmet({
+        contentSecurityPolicy: {
+            useDefaults: true,
+            directives: {
+                defaultSrc: ["'self'"],
+                scriptSrc: [
+                    "'self'",
+                    'https://cdnjs.cloudflare.com'
+                ],
+                styleSrc: ["'self'"],
+                imgSrc: ["'self'", 'data:']
+            },
+        },
+    })
+);
 
 // Middleware to set CSP and generate nonce
 app.use((req, res, next) => {

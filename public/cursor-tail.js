@@ -3,11 +3,6 @@
 //Original code sourced from Nick Sheffield at https://codepen.io/nicksheffield/pen/GgdNop
 
 
-//add cursor glow
-//Original code sourced from Nick Sheffield at https://codepen.io/nicksheffield/pen/GgdNop
-const express = require("express");
-const session = require("express-session");
-
 var canvas = document.querySelector('#c'),
     ctx = canvas.getContext('2d'),
     points = [],
