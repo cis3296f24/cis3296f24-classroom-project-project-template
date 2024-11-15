@@ -1,6 +1,7 @@
 <script>
     import { onMount } from "svelte";
     import TripPlanner from './TripPlanner.svelte';
+    import TimeTable from './TimeTable.svelte';
     import mapboxgl from 'mapbox-gl';
     import 'mapbox-gl/dist/mapbox-gl.css';
     
@@ -73,16 +74,58 @@
 </script>
 
 <main class="grid-container">
-  <!-- Form -->
-    <TripPlanner/>
-    <input type="button" id="fetch-button" value="Fetch Locations" />
-   <!-- Map -->
+    <!-- Form -->
+    <div class="userInputBackground">
+        <form action="">
+            <input type="text" id="start" name="start" value="Start" /><br /><br />
+            <input type="text" id="end" name="end" value="End" />
+            <input type="submit" value="Swap" /><br /><br />
+            <div class="inlineElements">
+                <div class="pairLabel">
+                    <input type="radio" id="leave" name="button" value="leave" checked />
+                    <label for="leave">Leave</label>
+                </div>
+                <div class="pairLabel">
+                    <input type="radio" id="arrive" name="button" value="arrive" />
+                    <label for="arrive">Arrive</label>
+                </div>
+                <a href="">+Round Trip</a>
+                <a href="">+Add Stop</a>
+            </div>
+            <br />
+            <input type="text" id="date" name="date" value="Today" /><br /><br />
+            <input type="text" id="time" name="time" value="ASAP" /><br /><br />
+            <div class="inlineElements">
+                <div class="pairLabel">
+                    <input type="checkbox" id="bus" name="bus" checked />
+                    <label for="bus">Bus</label>
+                </div>
+                <div class="pairLabel">
+                    <input type="checkbox" id="subway" name="subway" checked />
+                    <label for="subway">Subway</label>
+                </div>
+                <div class="pairLabel">
+                    <input type="checkbox" id="trolley" name="trolley" checked /><br />
+                    <label for="trolley">Trolley</label>
+                </div>
+                <div class="pairLabel">
+                    <input type="checkbox" id="rail" name="rail" checked />
+                    <label for="rail">Rail</label>
+                </div>
+            </div>
+            <br />
+            <input type="button" id="fetch-button" value="Fetch Locations" />
+        </form>
+    </div>
+
+    <!-- Map -->
     <div class="map-container">
         <div id="map" style="height: 500px; width: 100%;"></div>
     </div>
+
     <!-- schedule form-->
     <div class="scheduleFetchBackground">
-        <p>asdf</p>
+        <TimeTable />
     </div>
 </main>
 
@@ -111,11 +154,11 @@
     }
 
     .scheduleFetchBackground {
-        background-color: #ff0000;
+        background-color: #d9d9d9;
         padding: 1em;
         grid-column: 1 / span 2; 
         grid-row: 2; 
-        width: 50%
+        width:50%
     }
 
     h1 {
