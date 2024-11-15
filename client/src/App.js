@@ -57,8 +57,6 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path='/register' element={<Register />}/>
         <Route path='/challenge' element={<Challenge/>}/>
-        
-        
       </Routes>
       <BackgroundMusic/>
     </div>
