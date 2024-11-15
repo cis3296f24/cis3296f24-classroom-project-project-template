@@ -2,8 +2,9 @@ const User = require('../models/user');
 const Comment = require('../models/comment');
 const Challenge = require('../models/task');
 const express = require('express');
+const router = express.Router();
 
-router.get('/:id', async (req, res) => {
+router.get('/:userId', async (req, res) => {
     const { userId } = req.params;
 
     try {
@@ -31,8 +32,8 @@ router.get('/:id', async (req, res) => {
 
         res.json({message: "User information fetched successfully", user:userInfo});
 
-    } catch (e) {
-        console.error('Error fetching user details:', e);
+    } catch (error) {
+        console.error('Error fetching user details:', error);
         res.status(500).json({ error: 'Failed to retrieve user information' });
     }
 })

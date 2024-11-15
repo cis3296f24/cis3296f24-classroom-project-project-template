@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import MoonBg from '../assets/moon.png';
 
 
@@ -8,10 +8,12 @@ function Login() {
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
 
+    const navigate = useNavigate();
+
     const handleSubmit = async(e) => {
         e.preventDefault();
 
-        fetch('http://localhost:9000/login', {
+        fetch('http://localhost:9000/api/login', {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
@@ -29,6 +31,9 @@ function Login() {
                 localStorage.setItem('userId', data.userId);
                 localStorage.setItem('userName', data.userName);
                 localStorage.setItem('userEmail', data.userEmail);
+
+                navigate('/');
+                window.location.reload();
             }
             else {
                 console.log('Login failed:', data.error);

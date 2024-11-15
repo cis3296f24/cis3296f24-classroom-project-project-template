@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import EarthBg from '../assets/earth.png';
 
 
@@ -9,6 +9,8 @@ function Register() {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [message, setMessage] = useState('');
+
+    const navigate = useNavigate();
 
     const handlePassword = () => {
         if (password !== confirmPassword) {
@@ -26,7 +28,7 @@ function Register() {
             return;
         }
 
-        fetch('http://localhost:9000/register', {
+        fetch('http://localhost:9000/api/register', {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
@@ -43,6 +45,9 @@ function Register() {
                 localStorage.setItem('userId', data.userId);
                 localStorage.setItem('username', data.userName);
                 localStorage.setItem('email', data.userEmail);
+
+                navigate('/');
+                window.location.reload();
             }
             else {
                 console.log('Login failed:', data.error);
