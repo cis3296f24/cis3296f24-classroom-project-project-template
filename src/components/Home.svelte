@@ -8,6 +8,16 @@
 
 
     onMount(() => {
+
+        let map;
+        // Initialize Mapbox map 
+        map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center: [-75.1652, 39.9526],
+            zoom: 13
+        });
+
         // Function to get the current position
         function getCurrentPosition() {
             return new Promise((resolve, reject) => {
@@ -36,18 +46,9 @@
                 console.log("Latitude:", latitude);
                 console.log("Longitude:", longitude);
 
-                // Initialize Mapbox map
-                const map = new mapboxgl.Map({
-                    container: 'map',
-                    style: 'mapbox://styles/mapbox/streets-v11',
-                    center: [longitude, latitude],
-                    zoom: 13
-                });
-
                 // Center the map to the user's location
                 map.setCenter([longitude, latitude]);
                 map.setZoom(13); // Optionally adjust zoom level
-
 
                 // Create a marker for the user's current location
                 new mapboxgl.Marker({ color: 'blue' })
