@@ -97,13 +97,6 @@
         margin: 0 auto;
     }
 
-    .userInputBackground {
-        background-color: #d9d9d9;
-        padding: 1em;
-        grid-column: 1; 
-        grid-row: 1; 
-    }
-
     .map-container {
         grid-column: 2; 
         grid-row: 1; 
@@ -118,13 +111,6 @@
         width: 50%
     }
 
-    h1 {
-        color: #ff3e00;
-        text-transform: uppercase;
-        font-size: 4em;
-        font-weight: 100;
-    }
-  
     @media (min-width: 640px) {
         .grid-container {
             max-width: none;
