@@ -6,6 +6,7 @@ const app = express();
 const PORT = 9000;
 const loginRoute = require('./routes/login');
 const registerRoute = require('./routes/register');
+const userRoute = require('./routes/user');
 
 //MongoDB Connection:
 const mongoose = require('mongoose')
@@ -20,8 +21,10 @@ mongoose.connect(process.env.MONGODB_URI)
 .catch(error => console.error("MongoDB connection error:", error));
 
 //Router Area
-app.use('/login', loginRoute);
-app.use('/register', registerRoute);
+app.use('/api/login', loginRoute);
+app.use('/api/register', registerRoute);
+app.use('/api/user', userRoute);
+
 
 //for local test, change the URL after deploy to backend application
 app.listen(PORT, () => {
