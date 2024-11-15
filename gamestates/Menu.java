@@ -6,7 +6,6 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 import main.FlappyGame;
-import main.Game;
 import ui.MenuButton;
 import utils.LoadSave;
 

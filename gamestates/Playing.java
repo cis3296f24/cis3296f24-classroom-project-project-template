@@ -22,15 +22,15 @@ public class Playing extends State implements Statemethods {
     private int rightBorder = (int) (0.8 * FlappyGame.GAME_WIDTH);
     private int lvlTilesWide = LoadSave.GetLevelData()[0].length;
     private int maxTilesOffset = lvlTilesWide - FlappyGame.TILES_IN_WIDTH;
-    private int maxLvlOffsetX = maxTilesOffset * FlappyGame.TILES_SIZE;
+    private int maxLvlOffsetX = maxTilesOffset * FlappyGame.TILE_SIZE;
 
-    public Playing(FlappyGame game) {
-        super(game);
+    public Playing(FlappyGame flappyGame) {
+        super(flappyGame);
         initClasses();
     }
 
     private void initClasses() {
-        levelManager = new LevelManager(game);
+        levelManager = new LevelManager(flappyGame);
         player = new Player(200, 200, (int) (64 * FlappyGame.SCALE), (int) (40 * FlappyGame.SCALE));
         player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
         pauseOverlay = new PauseOverlay(this);

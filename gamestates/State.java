@@ -2,15 +2,15 @@ package gamestates;
 
 import java.awt.event.MouseEvent;
 
-import main.Game;
+import main.FlappyGame;
 import ui.MenuButton;
 
 public class State {
 
-    protected Game game;
+    protected FlappyGame flappyGame;
 
-    public State(Game game) {
-        this.game = game;
+    public State(FlappyGame game) {
+        this.flappyGame = game;
     }
 
     public boolean isIn(MouseEvent e, MenuButton mb) {
@@ -18,7 +18,7 @@ public class State {
     }
 
 
-    public Game getGame() {
-        return game;
+    public FlappyGame getGame() {
+        return flappyGame;
     }
 }

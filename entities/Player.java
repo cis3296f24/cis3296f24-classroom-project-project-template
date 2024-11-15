@@ -20,7 +20,7 @@ public class Player extends Entity {
     private float yDrawOffset = 4 * FlappyGame.SCALE;
 
     // Jumping / Gravity
-    private float airSpeed = 0f;
+    private float airSpeed = 10f;
     private float gravity = 0.04f * FlappyGame.SCALE;
     private float jumpSpeed = -2.25f * FlappyGame.SCALE;
     private float fallSpeedAfterCollision = 0.5f * FlappyGame.SCALE;
@@ -39,10 +39,16 @@ public class Player extends Entity {
         setAnimation();
     }
 
-    public void render(Graphics g) {
-        g.drawImage(animations[playerAction][aniIndex], (int) (hitbox.x - xDrawOffset), (int) (hitbox.y - yDrawOffset), width, height, null);
+//    public void render(Graphics g) {
+//        g.drawImage(animations[playerAction][aniIndex], (int) (hitbox.x - xDrawOffset), (int) (hitbox.y - yDrawOffset), width, height, null);
+//		drawHitbox(g);
+//    }
+    // Added second parameter for scrolling. - Shafiq
+    public void render(Graphics g, int lvlOffset) {
+        g.drawImage(animations[playerAction][aniIndex], (int) (hitbox.x - xDrawOffset) - lvlOffset, (int) (hitbox.y - yDrawOffset), width, height, null);
 //		drawHitbox(g);
     }
+
 
     private void updateAnimationTick() {
         aniTick++;

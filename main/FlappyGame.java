@@ -1,11 +1,11 @@
 package main;
 
-import entities.Player;
-import levels.LevelManager;
+import java.awt.Graphics;
+import gamestates.Gamestate;
+import gamestates.Menu;
+import gamestates.Playing;
 
-import java.awt.*;
-
-public class FlappyGame implements Runnable{
+public class FlappyGame implements Runnable {
 
     private GameWindow gameWindow;
     private GamePanel gamePanel;
@@ -13,14 +13,13 @@ public class FlappyGame implements Runnable{
     private final int FPS_SET = 120;
     private final int UPS_SET = 200;
 
-    private Player player;
-    private LevelManager levelManager;
+    private Playing playing;
+    private Menu menu;
 
     public final static int TILES_DEFAULT_SIZE = 32;
-    public final static float SCALE = 2f; // This value scales up the game depending on your screen resolution.
-    // public final static int TILES_IN_WIDTH = 26; // For the tile sheet dimensions in x direction.
-    public final static int TILES_IN_WIDTH = 26; // For the tile sheet dimensions in x direction.
-    public final static int TILES_IN_HEIGHT = 14; // For the tile sheet dimensions in y direction.
+    public final static float SCALE = 2f;
+    public final static int TILES_IN_WIDTH = 26;
+    public final static int TILES_IN_HEIGHT = 14;
     public final static int TILE_SIZE = (int) (TILES_DEFAULT_SIZE * SCALE);
     public final static int GAME_WIDTH = TILE_SIZE * TILES_IN_WIDTH;
     public final static int GAME_HEIGHT = TILE_SIZE * TILES_IN_HEIGHT;
@@ -37,9 +36,8 @@ public class FlappyGame implements Runnable{
     }
 
     private void initClasses() {
-        levelManager = new LevelManager(this);
-        player = new Player(200, 200, (int) (64 * SCALE), (int) (40 * SCALE));
-        player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
+        menu = new Menu(this);
+        playing = new Playing(this);
     }
 
     private void startGameLoop() {
@@ -48,24 +46,40 @@ public class FlappyGame implements Runnable{
     }
 
     public void update() {
-        levelManager.update();
-        player.update();
+        switch (Gamestate.state) {
+            case MENU:
+                menu.update();
+                break;
+            case PLAYING:
+                playing.update();
+                break;
+            case OPTIONS:
+            case QUIT:
+            default:
+                System.exit(0);
+                break;
+
+        }
     }
 
     public void render(Graphics g) {
-        levelManager.draw(g);
-        player.render(g);
+        switch (Gamestate.state) {
+            case MENU:
+                menu.draw(g);
+                break;
+            case PLAYING:
+                playing.draw(g);
+                break;
+            default:
+                break;
+        }
     }
 
-
-    // Explained in detail in this video.
-    // https://youtu.be/zRJAIDh7LH4?list=PL4rzdwizLaxYmltJQRjq18a9gsSyEQQ-0&t=556
-    //
     @Override
     public void run() {
 
-        double timePerFrame = 1000000000.0/ FPS_SET;
-        double timePerUpdate = 1000000000.0/ UPS_SET;
+        double timePerFrame = 1000000000.0 / FPS_SET;
+        double timePerUpdate = 1000000000.0 / UPS_SET;
 
         long previousTime = System.nanoTime();
 
@@ -76,20 +90,20 @@ public class FlappyGame implements Runnable{
         double deltaU = 0;
         double deltaF = 0;
 
-        while(true) {
+        while (true) {
             long currentTime = System.nanoTime();
 
             deltaU += (currentTime - previousTime) / timePerUpdate;
             deltaF += (currentTime - previousTime) / timePerFrame;
             previousTime = currentTime;
 
-            if(deltaU >= 1) {
+            if (deltaU >= 1) {
                 update();
                 updates++;
                 deltaU--;
             }
 
-            if(deltaF >= 1) {
+            if (deltaF >= 1) {
                 gamePanel.repaint();
                 frames++;
                 deltaF--;
@@ -100,16 +114,22 @@ public class FlappyGame implements Runnable{
                 System.out.println("FPS: " + frames + " | UPS: " + updates);
                 frames = 0;
                 updates = 0;
+
             }
         }
+
     }
 
     public void windowFocusLost() {
-        player.resetDirBooleans();
+        if (Gamestate.state == Gamestate.PLAYING)
+            playing.getPlayer().resetDirBooleans();
     }
 
-    public Player getPlayer() {
-        return player;
+    public Menu getMenu() {
+        return menu;
     }
 
+    public Playing getPlaying() {
+        return playing;
+    }
 }

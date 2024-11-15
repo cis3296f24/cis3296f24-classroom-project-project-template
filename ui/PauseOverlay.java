@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 
 import gamestates.Gamestate;
 import gamestates.Playing;
-import main.Game;
+import main.FlappyGame;
 import utils.Constants;
 import utils.LoadSave;
 import static utils.Constants.UI.PauseButtons.*;
@@ -32,16 +32,16 @@ public class PauseOverlay {
     }
 
     private void createVolumeButton() {
-        int vX = (int) (309 * Game.SCALE);
-        int vY = (int) (278 * Game.SCALE);
+        int vX = (int) (309 * FlappyGame.SCALE);
+        int vY = (int) (278 * FlappyGame.SCALE);
         volumeButton = new VolumeButton(vX, vY, SLIDER_WIDTH, VOLUME_HEIGHT);
     }
 
     private void createUrmButtons() {
-        int menuX = (int) (313 * Game.SCALE);
-        int replayX = (int) (387 * Game.SCALE);
-        int unpauseX = (int) (462 * Game.SCALE);
-        int bY = (int) (325 * Game.SCALE);
+        int menuX = (int) (313 * FlappyGame.SCALE);
+        int replayX = (int) (387 * FlappyGame.SCALE);
+        int unpauseX = (int) (462 * FlappyGame.SCALE);
+        int bY = (int) (325 * FlappyGame.SCALE);
 
         menuB = new UrmButton(menuX, bY, URM_SIZE, URM_SIZE, 2);
         replayB = new UrmButton(replayX, bY, URM_SIZE, URM_SIZE, 1);
@@ -50,9 +50,9 @@ public class PauseOverlay {
     }
 
     private void createSoundButtons() {
-        int soundX = (int) (450 * Game.SCALE);
-        int musicY = (int) (140 * Game.SCALE);
-        int sfxY = (int) (186 * Game.SCALE);
+        int soundX = (int) (450 * FlappyGame.SCALE);
+        int musicY = (int) (140 * FlappyGame.SCALE);
+        int sfxY = (int) (186 * FlappyGame.SCALE);
         musicButton = new SoundButton(soundX, musicY, SOUND_SIZE, SOUND_SIZE);
         sfxButton = new SoundButton(soundX, sfxY, SOUND_SIZE, SOUND_SIZE);
 
@@ -60,10 +60,10 @@ public class PauseOverlay {
 
     private void loadBackground() {
         backgroundImg = LoadSave.GetSpriteAtlas(LoadSave.PAUSE_BACKGROUND);
-        bgW = (int) (backgroundImg.getWidth() * Game.SCALE);
-        bgH = (int) (backgroundImg.getHeight() * Game.SCALE);
-        bgX = Game.GAME_WIDTH / 2 - bgW / 2;
-        bgY = (int) (25 * Game.SCALE);
+        bgW = (int) (backgroundImg.getWidth() * FlappyGame.SCALE);
+        bgH = (int) (backgroundImg.getHeight() * FlappyGame.SCALE);
+        bgX = FlappyGame.GAME_WIDTH / 2 - bgW / 2;
+        bgY = (int) (25 * FlappyGame.SCALE);
 
     }
 

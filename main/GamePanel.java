@@ -12,15 +12,16 @@ import static main.FlappyGame.GAME_HEIGHT;
 public class GamePanel extends JPanel {
 
     // private MouseInputs mouseInputs;  Per team remove mouse actions. Next group can add left click to fly the bird.
+    private MouseInputs mouseInputs;
     private final FlappyGame flappyGame;
 
     public GamePanel(FlappyGame flappyGame) {
-        // mouseInputs = new MouseInputs(this);
+        mouseInputs = new MouseInputs(this);
         this.flappyGame = flappyGame;
         setPanelSize();
         addKeyListener(new KeyboardInputs(this));
-        // addMouseListener(mouseInputs);
-        // addMouseMotionListener(mouseInputs);
+        addMouseListener(mouseInputs);
+        addMouseMotionListener(mouseInputs);
     }
 
 
