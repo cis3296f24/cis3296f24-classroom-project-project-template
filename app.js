@@ -8,6 +8,15 @@ const session = require('express-session');
 const app = express();
 const port = 3000; // Define the port variable
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static('public')); // Assuming your static files are in a 'public' directory
+app.use(session({
+  secret: 'your-secret-key', // Change this to a secure key
+  resave: false,
+  saveUninitialized: true
+}));
+
 // Middleware to generate a nonce for each request
 app.use((req, res, next) => {
   res.locals.nonce = crypto.randomBytes(16).toString('base64');
@@ -16,17 +25,17 @@ app.use((req, res, next) => {
 
 // Helmet configuration with CSP
 app.use(
-  helmet({
-    contentSecurityPolicy: {
-      useDefaults: true,
-      directives: {
-        defaultSrc: ["'self'"],
-        scriptSrc: ["'self'", (req, res) => `'nonce-${res.locals.nonce}'`, 'https://d3js.org'],
-        styleSrc: ["'self'", (req, res) => `'nonce-${res.locals.nonce}'`],
-        imgSrc: ["'self'", 'data:', 'https://www.pixel4k.com'],
+    helmet({
+      contentSecurityPolicy: {
+        useDefaults: true,
+        directives: {
+          defaultSrc: ["'self'"],
+          scriptSrc: ["'self'", (req, res) => `'nonce-${res.locals.nonce}'`, 'https://d3js.org', 'https://cdnjs.cloudflare.com'],
+          styleSrc: ["'self'", (req, res) => `'nonce-${res.locals.nonce}'`],
+          imgSrc: ["'self'", 'data:', 'https://www.pixel4k.com'],
+        },
       },
-    },
-  })
+    })
 );
 
 
