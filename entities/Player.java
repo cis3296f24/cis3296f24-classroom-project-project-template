@@ -39,14 +39,14 @@ public class Player extends Entity {
         setAnimation();
     }
 
-//    public void render(Graphics g) {
-//        g.drawImage(animations[playerAction][aniIndex], (int) (hitbox.x - xDrawOffset), (int) (hitbox.y - yDrawOffset), width, height, null);
-//		drawHitbox(g);
-//    }
     // Added second parameter for scrolling. - Shafiq
+    // This is where we can change the aspect ration of the animated object.
+    // Here is the original code
+    //         g.drawImage(idleAni[aniIndex], (int) xDelta, (int) yDelta, 70, 60, null);
     public void render(Graphics g, int lvlOffset) {
-        g.drawImage(animations[playerAction][aniIndex], (int) (hitbox.x - xDrawOffset) - lvlOffset, (int) (hitbox.y - yDrawOffset), width, height, null);
-//		drawHitbox(g);
+        int scaleBirdX = 0; // scale the bird in x direct by 50 pixels to correct the aspect ratio. -Shafiq.
+        g.drawImage(animations[playerAction][aniIndex], (int) (hitbox.x - xDrawOffset) - lvlOffset, (int) (hitbox.y - yDrawOffset), width - scaleBirdX, height, null);
+        // drawHitbox(g);
     }
 
 
@@ -164,7 +164,7 @@ public class Player extends Entity {
                 // Flappy Bird
                 // animations[j][i] = img.getSubimage(i * 158, (j * 0) + 2, 158, 122);
                 // Crow Flappy Bird
-                animations[j][i] = img.getSubimage(i * 126, (j * 0) + 2, 125, 145);
+                animations[j][i] = img.getSubimage(i * 126, (j * 0) + 2, 126, 145);
 
     }
 
