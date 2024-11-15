@@ -314,10 +314,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         ############################################################################################################
         # Ensure all buttons behave properly when clicked
-        self.list_of_buttons = [self.pb_Pen, self.pb_Eraser, self.pb_Line, self.pb_Ellipse, self.pb_Rectangle]
+        self.list_of_buttons = [self.tb_Pen, self.pb_Eraser, self.pb_Line, self.pb_Ellipse, self.pb_Rectangle]
 
-        self.pb_Pen.setChecked(True)
-        self.pb_Pen.clicked.connect(self.button_clicked)
+        self.tb_Pen.setChecked(True)
+        self.tb_Pen.clicked.connect(self.button_clicked)
         self.pb_Eraser.clicked.connect(self.button_clicked)
         self.pb_Line.clicked.connect(self.button_clicked)
         self.pb_Ellipse.clicked.connect(self.button_clicked)
@@ -337,7 +337,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # Define what the tool buttons do
         ###########################################################################################################
         self.current_color = QColor("#000000")
-        self.pb_Pen.clicked.connect(lambda e: self.color_changed(self.current_color))
+        self.tb_Pen.clicked.connect(lambda e: self.color_changed(self.current_color))
         self.pb_Eraser.clicked.connect(lambda e: self.color_changed(QColor("#FFFFFF")))
 
         self.dial.sliderMoved.connect(self.change_size)
