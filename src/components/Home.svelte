@@ -1,6 +1,7 @@
 <script>
     import { onMount } from "svelte";
     import TripPlanner from './TripPlanner.svelte';
+    import TimeTable from './TimeTable.svelte';
     import mapboxgl from 'mapbox-gl';
     import 'mapbox-gl/dist/mapbox-gl.css';
 
@@ -68,16 +69,17 @@
 </script>
 
 <main class="grid-container">
-  <!-- Form -->
-    <TripPlanner/>
-    <input type="button" id="fetch-button" value="Fetch Locations" />
-   <!-- Map -->
+     <!-- Form -->
+     <TripPlanner/>
+     <input type="button" id="fetch-button" value="Fetch Locations" />
+    <!-- Map -->
     <div class="map-container">
         <div id="map" style="height: 500px; width: 100%;"></div>
     </div>
+
     <!-- schedule form-->
     <div class="scheduleFetchBackground">
-        <p>asdf</p>
+        <TimeTable />
     </div>
 </main>
 
@@ -99,11 +101,11 @@
     }
 
     .scheduleFetchBackground {
-        background-color: #ff0000;
+        background-color: #d9d9d9;
         padding: 1em;
         grid-column: 1 / span 2; 
         grid-row: 2; 
-        width: 50%
+        width:50%
     }
 
     @media (min-width: 640px) {
