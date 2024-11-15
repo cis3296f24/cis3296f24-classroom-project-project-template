@@ -47,127 +47,132 @@
 
     // create potential trips
     async function createTrip(data) {
-        console.log(JSON.stringify(data))
+        console.log(JSON.stringify(data));
         const res = await fetch("/api/google_directions", {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: {
-            "Content-type": "application/json; charset=UTF-8",
-        }
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8",
+            },
         });
         if (!res.ok) {
             throw new Error(`HTTP error! Status: ${res.status}`);
         }
         let routes = await res.json();
-        routes = JSON.parse(routes)
-        // const array = [{test: 0, test2: 1}, {ok: "lol"}]
-        // array.forEach((e) => {
-        //     console.log(e)
-        // })
+        routes = JSON.parse(routes);
         // write to DOM
-        displayTrips(routes)
+        displayTrips(routes);
     }
 
     function displayTrips(routes) {
-        const container = document.createElement("div")
-        container.setAttribute("class", "trip-data")
+        const container = document.createElement("div");
+        container.setAttribute("class", "trip-data");
         routes.forEach((route) => {
             route.legs.forEach((leg) => {
-                console.log(leg)
+                console.log(leg);
                 container.innerHTML += leg.start_address + "<br><br>";
-                console.log(leg.start_address)
+                console.log(leg.start_address);
                 leg.steps.forEach((step) => {
                     // check if step contains substeps
                     // step.forEach((subStep) => {
                     //     console.log(subStep)
                     // })
                     container.innerHTML += step.html_instructions + "<br><br>";
-                    console.log(step.html_instructions)
-                })
-            })
-        }); //
-        document.getElementById("trip-container").appendChild(container)
+                    console.log(step.html_instructions);
+                });
+            });
+        });
+        document.getElementById("trip-container").appendChild(container);
     }
-        
-        
 </script>
 
-<div class="userInputBackground">
-    <form action="">
-        <input
-            type="text"
-            id="start"
-            name="start"
-            placeholder="Start"
-            autocomplete="off"
-            on:input={suggestLocation}
-        />
-        <input type="text" id="end" name="end" placeholder="End" autocomplete="off" />
-        <button id="swap" type="button" on:click={handleSwap}>Swap</button>
-        <div class="inlineElements">
-            <label>
-                <input
-                    type="radio"
-                    id="leave"
-                    name="button"
-                    value="leave"
-                    bind:group={radio}
-                /> Leave
-            </label>
-            <label>
-                <input
-                    type="radio"
-                    id="arrive"
-                    name="button"
-                    value="arrive"
-                    bind:group={radio}
-                /> Arrive
-            </label>
-            <a href="">+Round Trip</a>
-            <a href="">+Add Stop</a>
-        </div>
-        <input type="date" id="date" name="date" placeholder="Today" />
-        <input type="time" id="time" name="time" placeholder="At" />
-        <div class="inlineElements">
-            <label>
-                <input type="checkbox" id="bus" name="bus" bind:checked={bus} />
-                Bus
-            </label>
-            <label>
-                <input
-                    type="checkbox"
-                    id="subway"
-                    name="subway"
-                    bind:checked={subway}
-                /> Subway
-            </label>
-            <label>
-                <input
-                    type="checkbox"
-                    id="trolley"
-                    name="trolley"
-                    bind:checked={trolley}
-                /> Trolley
-            </label>
-            <label>
-                <input
-                    type="checkbox"
-                    id="rail"
-                    name="rail"
-                    bind:checked={rail}
-                /> Rail
-            </label>
-        </div>
-        <input
-            type="submit"
-            value="Go"
-            id="tp-submit"
-            on:click={handleFormSubmit}
-        />
-    </form>
-</div>
-<div id="trip-container">
-
+<div id="tp-body">
+    <div class="userInputBackground">
+        <form action="">
+            <input
+                type="text"
+                id="start"
+                name="start"
+                placeholder="Start"
+                autocomplete="off"
+                on:input={suggestLocation}
+            />
+            <input
+                type="text"
+                id="end"
+                name="end"
+                placeholder="End"
+                autocomplete="off"
+            />
+            <button id="swap" type="button" on:click={handleSwap}>Swap</button>
+            <div class="inlineElements">
+                <label>
+                    <input
+                        type="radio"
+                        id="leave"
+                        name="button"
+                        value="leave"
+                        bind:group={radio}
+                    /> Leave
+                </label>
+                <label>
+                    <input
+                        type="radio"
+                        id="arrive"
+                        name="button"
+                        value="arrive"
+                        bind:group={radio}
+                    /> Arrive
+                </label>
+                <a href="">+Round Trip</a>
+                <a href="">+Add Stop</a>
+            </div>
+            <input type="date" id="date" name="date" placeholder="Today" />
+            <input type="time" id="time" name="time" placeholder="At" />
+            <div class="inlineElements">
+                <label>
+                    <input
+                        type="checkbox"
+                        id="bus"
+                        name="bus"
+                        bind:checked={bus}
+                    />
+                    Bus
+                </label>
+                <label>
+                    <input
+                        type="checkbox"
+                        id="subway"
+                        name="subway"
+                        bind:checked={subway}
+                    /> Subway
+                </label>
+                <label>
+                    <input
+                        type="checkbox"
+                        id="trolley"
+                        name="trolley"
+                        bind:checked={trolley}
+                    /> Trolley
+                </label>
+                <label>
+                    <input
+                        type="checkbox"
+                        id="rail"
+                        name="rail"
+                        bind:checked={rail}
+                    /> Rail
+                </label>
+            </div>
+            <input
+                type="submit"
+                value="Go"
+                id="tp-submit"
+                on:click={handleFormSubmit}
+            />
+        </form>
+    </div>
+    <div id="trip-container"></div>
 </div>
 
 <style>
@@ -182,5 +187,10 @@
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
+    }
+
+    #trip-container {
+        border: 2px;
+        border-radius: 25%;
     }
 </style>
