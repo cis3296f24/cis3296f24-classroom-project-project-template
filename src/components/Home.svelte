@@ -23,7 +23,6 @@
                 }
             });
         }
-
         let map;
 
         document.getElementById("fetch-button").addEventListener("click", async function () {
@@ -36,7 +35,7 @@
                 console.log("Longitude:", longitude);
 
                 // Initialize Mapbox map
-                map = new mapboxgl.Map({
+                const map = new mapboxgl.Map({
                     container: 'map',
                     style: 'mapbox://styles/mapbox/streets-v11',
                     center: [longitude, latitude],
@@ -73,28 +72,50 @@
     });
 </script>
 
-<main>
+<main class="grid-container">
+  <!-- Form -->
     <TripPlanner/>
     <input type="button" id="fetch-button" value="Fetch Locations" />
+   <!-- Map -->
     <div class="map-container">
         <div id="map" style="height: 500px; width: 100%;"></div>
     </div>
-    <div id="response-container"></div>
+    <!-- schedule form-->
+    <div class="scheduleFetchBackground">
+        <p>asdf</p>
+    </div>
 </main>
 
 <style>
-    main {
-        display: flex;
-        flex-direction: row;
-        text-align: left;
+    .grid-container {
+        display: grid;
+        grid-template-columns: 1fr 2fr; 
+        grid-template-rows: auto auto; 
+        gap: 20px; 
         padding: 1em;
         max-width: 1000px;
         margin: 0 auto;
     }
 
+    .userInputBackground {
+        background-color: #d9d9d9;
+        padding: 1em;
+        grid-column: 1; 
+        grid-row: 1; 
+    }
+
     .map-container {
-        flex-grow: 1;
-        height: 500px;
+        grid-column: 2; 
+        grid-row: 1; 
+        height: 500px; 
+    }
+
+    .scheduleFetchBackground {
+        background-color: #ff0000;
+        padding: 1em;
+        grid-column: 1 / span 2; 
+        grid-row: 2; 
+        width: 50%
     }
 
     h1 {
@@ -105,7 +126,7 @@
     }
   
     @media (min-width: 640px) {
-        main {
+        .grid-container {
             max-width: none;
         }
     }
