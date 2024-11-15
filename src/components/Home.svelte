@@ -3,10 +3,26 @@
     import TripPlanner from './TripPlanner.svelte';
     import mapboxgl from 'mapbox-gl';
     import 'mapbox-gl/dist/mapbox-gl.css';
+<<<<<<< HEAD
     
     mapboxgl.accessToken = 'pk.eyJ1Ijoia2hpdGNoIiwiYSI6ImNtM2d1cXN4MTA5YWIya3B4Y3didnBxM3QifQ.GPCb_j31HQhkDYmqvwKgLg'; // need to move this to a .env file or secrets manager
+=======
+
+    mapboxgl.accessToken = 'pk.eyJ1Ijoia2hpdGNoIiwiYSI6ImNtM2d1cXN4MTA5YWIya3B4Y3didnBxM3QifQ.GPCb_j31HQhkDYmqvwKgLg';
+>>>>>>> 072be0d42fc07d6e9945f87b1f3f97e73bb0240d
 
     onMount(() => {
+        let map;
+
+        // Initialize Mapbox map 
+        map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center: [-75.1652, 39.9526],
+            zoom: 13
+        });
+
+        // Function to get the current position
         function getCurrentPosition() {
             return new Promise((resolve, reject) => {
                 if ("geolocation" in navigator) {
@@ -23,8 +39,13 @@
                 }
             });
         }
+<<<<<<< HEAD
         let map;
 
+=======
+
+        // Event listener for the "Fetch Locations" button
+>>>>>>> 072be0d42fc07d6e9945f87b1f3f97e73bb0240d
         document.getElementById("fetch-button").addEventListener("click", async function () {
             try {
                 const position = await getCurrentPosition();
@@ -34,6 +55,7 @@
                 console.log("Latitude:", latitude);
                 console.log("Longitude:", longitude);
 
+<<<<<<< HEAD
                 // Initialize Mapbox map
                 const map = new mapboxgl.Map({
                     container: 'map',
@@ -41,6 +63,11 @@
                     center: [longitude, latitude],
                     zoom: 13
                 });
+=======
+                // Center the map to the user's location
+                map.setCenter([longitude, latitude]);
+                map.setZoom(13); // Optionally adjust zoom level
+>>>>>>> 072be0d42fc07d6e9945f87b1f3f97e73bb0240d
 
                 // Create a marker for the user's current location
                 new mapboxgl.Marker({ color: 'blue' })
@@ -51,19 +78,6 @@
                     .setLngLat([longitude, latitude])
                     .setHTML('<h3>You are here</h3>')
                     .addTo(map);
-
-                // Add a Mapbox GL JS control for street view
-                const marker = new mapboxgl.Marker()
-                    .setLngLat([longitude, latitude])
-                    .addTo(map);
-
-                // Add a click event to the marker to open street view
-                marker.getElement().addEventListener('click', () => {
-                    // Open street view at the user's location
-                    const streetViewUrl = `https://www.mapbox.com/streetview/?lat=${latitude}&lon=${longitude}`;
-                    window.open(streetViewUrl, '_blank');
-                });
-
             } catch (error) {
                 console.error("Error:", error);
                 document.getElementById("response-container").innerText = error.message;
@@ -72,11 +86,73 @@
     });
 </script>
 
+<<<<<<< HEAD
 <main class="grid-container">
   <!-- Form -->
     <TripPlanner/>
     <input type="button" id="fetch-button" value="Fetch Locations" />
    <!-- Map -->
+=======
+<main>
+    <div class="userInputBackground">
+        <form action="">
+            <input type="text" id="start" name="start" value="Start" /><br /><br />
+            <input type="text" id="end" name="end" value="End" />
+            <input type="submit" value="Swap" /><br /><br />
+            <div class="inlineElements">
+                <div class="pairLabel">
+                    <input
+                        type="radio"
+                        id="leave"
+                        name="button"
+                        value="leave"
+                        checked
+                    />
+                    <label for="leave">Leave</label>
+                </div>
+                <div class="pairLabel">
+                    <input
+                        type="radio"
+                        id="arrive"
+                        name="button"
+                        value="arrive"
+                    />
+                    <label for="arrive">Arrive</label>
+                </div>
+                <a href="">+Round Trip</a>
+                <a href="">+Add Stop</a>
+            </div>
+            <br />
+            <input type="text" id="date" name="date" value="Today" /><br /><br />
+            <input type="text" id="time" name="time" value="ASAP" /><br /><br />
+            <div class="inlineElements">
+                <div class="pairLabel">
+                    <input type="checkbox" id="bus" name="bus" checked />
+                    <label for="bus">Bus</label>
+                </div>
+                <div class="pairLabel">
+                    <input type="checkbox" id="subway" name="subway" checked />
+                    <label for="subway">Subway</label>
+                </div>
+                <div class="pairLabel">
+                    <input
+                        type="checkbox"
+                        id="trolley"
+                        name="trolley"
+                        checked
+                    /><br />
+                    <label for="trolley">Trolley</label>
+                </div>
+                <div class="pairLabel">
+                    <input type="checkbox" id="rail" name="rail" checked />
+                    <label for="rail">Rail</label>
+                </div>
+            </div>
+            <br />
+            <input type="button" id="fetch-button" value="Fetch Locations" />
+        </form>
+    </div>
+>>>>>>> 072be0d42fc07d6e9945f87b1f3f97e73bb0240d
     <div class="map-container">
         <div id="map" style="height: 500px; width: 100%;"></div>
     </div>
