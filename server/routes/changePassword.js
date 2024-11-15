@@ -34,13 +34,13 @@ router.post('/', async (req, res) => {
             const transporter = nodemailer.createTransport({
                 service: 'Gmail',
                 auth: {
-                    user: process.env.EMAIL_USER,
-                    pass: process.env.EMAIL_PASS  
+                    user: 'grinddaily2024fall@gmail.com',
+                    pass: 'Grinddaily2024',
                 }
             });
 
             const mailOptions = {
-                from: process.env.EMAIL_USER,
+                from: 'grinddaily2024fall@gmail.com',
                 to: email,
                 subject: 'Password Change Verification Code',
                 text: `Your verification code is ${code}. It will expire in 10 minutes.`
