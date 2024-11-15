@@ -45,6 +45,23 @@ async function loadTopTracks() {
     }
 }
 
+// Display Title on the page
+document.addEventListener("DOMContentLoaded", function() {
+    document.body.style.backgroundImage = "url('/sky-full-of-stars-space-4k_1540139420.jpg')";
+    document.body.style.backgroundSize = "cover";
+    document.body.style.backgroundPosition = "center center";
+    document.body.style.backgroundRepeat = "no-repeat";
+
+    // Change the font color for the title
+    const titleElement = document.querySelector('h1');
+    if (titleElement) {
+        titleElement.style.color = 'white';
+    }
+    // Check authentication and fetch tracks
+    checkAuthentication();
+    fetchTracks();
+});
+
 document.addEventListener('DOMContentLoaded', checkAuthentication);
 
 async function fetchTracks() {
@@ -98,57 +115,114 @@ function renderTracks(data) {
         .attr("width", width)
         .attr("height", height);
 
+    // Aggregate data by artist
+    const artistData = d3.groups(data, d => d.artists[0].name)
+        .map(([key, values]) => ({
+            key,
+            value: {
+                avgPopularity: d3.mean(values, d => d.popularity),
+                avgDuration: d3.mean(values, d => d.duration_ms),
+                count: values.length
+            }
+        }));
+
+    // Sort artists by the number of tracks and take the top 10
+    const topArtists = artistData.sort((a, b) => b.value.count - a.value.count).slice(0, 10);
+    console.log('Top artists data:', topArtists);
+
     const xScale = d3.scaleLinear()
         .domain([0, 100])
-        .range([0, 1000]);
+        .range([0, width]);
 
     const yScale = d3.scaleLinear()
-        .domain(d3.extent(data, d => d.duration_ms))  // Use min and max of duration
-        .range([height -50 , 50]);  // Top and bottom padding
+        .domain(d3.extent(topArtists, d => d.value.avgDuration))
+        .range([height - 50, 50]);
 
     const minSize = 5;
     const maxSize = 100;
 
-    // Filtering valid data entries to avoid errors
-    const validData = data.filter(d => typeof d.popularity === 'number' && typeof d.duration_ms === 'number');
-    console.log("Filtered data for valid entries:", validData);
+
+    const tooltip = d3.select("body").append("div")
+        .style("position", "absolute")
+        .style("background", "rgba(0, 0, 0, 0.7)")
+        .style("color", "#fff")
+        .style("padding", "5px")
+        .style("border-radius", "5px")
+        .style("pointer-events", "none")
+        .style("display", "none");
+
+    console.log("Tooltip element created:", tooltip.node());
+
 
     svg.selectAll("circle")
-        .data(validData)
+        .data(topArtists)
         .enter()
         .append("circle")
-        .attr("cx", d => xScale(d.popularity))
-        .attr("cy", d => yScale(d.duration_ms))
+        .attr("cx", d => xScale((d.value.avgPopularity) * 2) - 1125)
+        .attr("cy", d => yScale(d.value.avgDuration))
         .attr("r", d => {
-            const radius = minSize + ((d.popularity / 100) * (maxSize - minSize));
-            console.log(`Radius for track "${d.name}":`, radius); // Debug radius calculation
+            const radius = minSize + ((d.value.count / 10) * (maxSize - minSize));
             return radius;
-        }) // Dynamic radius based on popularity
+        })
         .attr("fill", (d, i) => planetColors[i % planetColors.length])
         .attr("stroke", "white")
-        .attr("stroke-width", 2);
+        .attr("stroke-width", 2)
+        .on("mouseover", (event, d) => {
+            tooltip.style("display", "block")
+
+                .html(`<strong>${d.key}</strong><br>Tracks: ${d.value.count}<br>Popularity: ${Math.round(d.value.avgPopularity)}`);
+        })
+        .on("mousemove", (event) => {
+            tooltip.style("top", `${event.pageY + 10}px`)
+                .style("left", `${event.pageX + 10}px`);
+
+        })
+        .on("mouseout", () => {
+            tooltip.style("display", "none");
+        });
 
     svg.selectAll(".artist-label")
-        .data(validData)
+        .data(topArtists)
         .enter()
         .append("text")
         .attr("class", "artist-label")
-        .attr("x", d => xScale(d.popularity))
-        .attr("y", d => yScale(d.duration_ms) + 5)
-        .attr("text-anchor", "middle")
-        .text(d => d.artists[0].name);
-}
 
+        .attr("x", d => xScale((d.value.avgPopularity) * 2) - 1125)
+        .attr("y", d => yScale(d.value.avgDuration) + 5)
+        .attr("text-anchor", "middle")
+        .text(d => d.key);
+}
 
 function displayTracks(tracks) {
     const trackList = document.getElementById('track-list');
     trackList.innerHTML = '';
 
-    tracks.forEach(track => {
-        const trackItem = document.createElement('div');
-        trackItem.textContent = `${track.name} by ${track.artists.map(artist => artist.name).join(', ')}`;
-        trackList.appendChild(trackItem);
+    // Aggregate data by artist
+    const artistData = d3.groups(tracks, d => d.artists[0].name)
+        .map(([key, values]) => ({
+            key,
+            value: {
+                count: values.length,
+                tracks: values.map(track => track.name) // Get track names
+            }
+        }));
+
+    // Sort artists by the number of tracks and take the top 10
+    const topArtists = artistData.sort((a, b) => b.value.count - a.value.count).slice(0, 10);
+
+    topArtists.forEach(artist => {
+        const artistItem = document.createElement('div');
+        artistItem.textContent = `${artist.key} (${artist.value.count} tracks)`;
+        artistItem.style.color = 'white';
+        trackList.appendChild(artistItem);
+
+        const trackTitles = document.createElement('ul');
+        artist.value.tracks.forEach(track => {
+            const trackItem = document.createElement('li');
+            trackItem.textContent = track;
+            trackItem.style.color = 'blue';
+            trackTitles.appendChild(trackItem);
+        });
+        trackList.appendChild(trackTitles);
     });
 }
-
-
