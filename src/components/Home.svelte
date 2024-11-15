@@ -23,7 +23,6 @@
                 }
             });
         }
-
         let map;
 
         document.getElementById("fetch-button").addEventListener("click", async function () {
@@ -36,7 +35,7 @@
                 console.log("Longitude:", longitude);
 
                 // Initialize Mapbox map
-                map = new mapboxgl.Map({
+                const map = new mapboxgl.Map({
                     container: 'map',
                     style: 'mapbox://styles/mapbox/streets-v11',
                     center: [longitude, latitude],
@@ -73,40 +72,27 @@
     });
 </script>
 
-<main>
-    <TripPlanner/>
+<main class="grid-container">
+    <!-- Form -->
     <div class="userInputBackground">
         <form action="">
-            <input type="text" id="start" name="start" value="Start" /><br /><br
-            />
+            <input type="text" id="start" name="start" value="Start" /><br /><br />
             <input type="text" id="end" name="end" value="End" />
             <input type="submit" value="Swap" /><br /><br />
             <div class="inlineElements">
                 <div class="pairLabel">
-                    <input
-                        type="radio"
-                        id="leave"
-                        name="button"
-                        value="leave"
-                        checked
-                    />
+                    <input type="radio" id="leave" name="button" value="leave" checked />
                     <label for="leave">Leave</label>
                 </div>
                 <div class="pairLabel">
-                    <input
-                        type="radio"
-                        id="arrive"
-                        name="button"
-                        value="arrive"
-                    />
+                    <input type="radio" id="arrive" name="button" value="arrive" />
                     <label for="arrive">Arrive</label>
                 </div>
                 <a href="">+Round Trip</a>
                 <a href="">+Add Stop</a>
             </div>
             <br />
-            <input type="text" id="date" name="date" value="Today" /><br /><br
-            />
+            <input type="text" id="date" name="date" value="Today" /><br /><br />
             <input type="text" id="time" name="time" value="ASAP" /><br /><br />
             <div class="inlineElements">
                 <div class="pairLabel">
@@ -118,12 +104,7 @@
                     <label for="subway">Subway</label>
                 </div>
                 <div class="pairLabel">
-                    <input
-                        type="checkbox"
-                        id="trolley"
-                        name="trolley"
-                        checked
-                    /><br />
+                    <input type="checkbox" id="trolley" name="trolley" checked /><br />
                     <label for="trolley">Trolley</label>
                 </div>
                 <div class="pairLabel">
@@ -135,17 +116,24 @@
             <input type="button" id="fetch-button" value="Fetch Locations" />
         </form>
     </div>
+
+    <!-- Map -->
     <div class="map-container">
         <div id="map" style="height: 500px; width: 100%;"></div>
     </div>
-    <div id="response-container"></div>
+
+    <!-- schedule form-->
+    <div class="scheduleFetchBackground">
+        <p>asdf</p>
+    </div>
 </main>
 
 <style>
-    main {
-        display: flex;
-        flex-direction: row;
-        text-align: left;
+    .grid-container {
+        display: grid;
+        grid-template-columns: 1fr 2fr; 
+        grid-template-rows: auto auto; 
+        gap: 20px; 
         padding: 1em;
         max-width: 1000px;
         margin: 0 auto;
@@ -153,14 +141,23 @@
 
     .userInputBackground {
         background-color: #d9d9d9;
-        max-width: 360px;
         padding: 1em;
-        margin-right: 20px;
+        grid-column: 1; 
+        grid-row: 1; 
     }
 
     .map-container {
-        flex-grow: 1;
-        height: 500px;
+        grid-column: 2; 
+        grid-row: 1; 
+        height: 500px; 
+    }
+
+    .scheduleFetchBackground {
+        background-color: #ff0000;
+        padding: 1em;
+        grid-column: 1 / span 2; 
+        grid-row: 2; 
+        width: 50%
     }
 
     h1 {
@@ -171,7 +168,7 @@
     }
   
     @media (min-width: 640px) {
-        main {
+        .grid-container {
             max-width: none;
         }
     }
