@@ -1,9 +1,7 @@
 <script>
-
     let radio = "leave";
     let bus = true;
     let subway = true;
-    let trolley = true;
     let rail = true;
 
     // Auto suggest
@@ -34,10 +32,11 @@
             radio: radio,
             date: date.value,
             time: time.value,
-            bus: bus,
-            subway: subway,
-            trolley: trolley,
-            rail: rail,
+            transitModes: {
+                Bus: bus,
+                Subway: subway,
+                Rail: rail
+            }
         };
         // send data to trip creation function
         createTrip(data);
@@ -70,7 +69,7 @@
         routes.forEach((route) => {
             const routeContainer = document.createElement("div");
             routeContainer.setAttribute("class", "route");
-            
+
             route.legs.forEach((leg) => {
                 const legContainer = document.createElement("div");
                 legContainer.setAttribute("class", "leg");
@@ -90,9 +89,10 @@
                         subStepContainer.setAttribute("class", "substep");
 
                         step.steps.forEach((subStep) => {
-                            if(containsHTML(subStep)){
+                            if (containsHTML(subStep)) {
                                 console.log(subStep.html_instructions);
-                                subStepContainer.innerHTML = subStep.html_instructions;
+                                subStepContainer.innerHTML =
+                                    subStep.html_instructions;
                             }
                         });
                         stepContainer.appendChild(subStepContainer);
@@ -102,13 +102,13 @@
             });
             document.querySelector(".routes").appendChild(routeContainer);
         });
-        
-        container.style.display = "block";
+
+        container.style.display = "block"; // makes routes div visible
     }
 
     // checks whether object has key "html_instructions"
     function containsHTML(step) {
-        return step.hasOwnProperty('html_instructions');
+        return step.hasOwnProperty("html_instructions");
     }
 </script>
 
@@ -172,14 +172,6 @@
                         name="subway"
                         bind:checked={subway}
                     /> Subway
-                </label>
-                <label>
-                    <input
-                        type="checkbox"
-                        id="trolley"
-                        name="trolley"
-                        bind:checked={trolley}
-                    /> Trolley
                 </label>
                 <label>
                     <input

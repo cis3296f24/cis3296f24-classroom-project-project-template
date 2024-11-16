@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { Client, Status } = require("@googlemaps/google-maps-services-js");
 const path = require('path')
+const fs = require('node:fs'); // for debug
 // require('dotenv').config({path: path.join(__dirname,'..', '..', 'keys.env')})
 require('dotenv').config({ path: './keys.env' })
 
@@ -37,30 +38,46 @@ router.get('/bus_schedules', async (req, res) => {
 
 router.post('/google_directions', async (req, res) => {
     console.log(`POST /google_directions`);
-    apiKey = process.env.GOOGLE_API_KEY;
+    const apiKey = process.env.GOOGLE_API_KEY;
     // create google client
     const data = req.body;
     console.log(JSON.stringify(data)); // for debug
+    // sanitize data
+
+    // check transit modes
+    let transitModes = [];
+    const selections = data.transitModes;
+    for (mode in selections) {
+        // console.log(`${mode}: ${selections[mode]}`); for debug
+        if (selections[mode] === true)
+            transitModes.push(mode.toLowerCase());
+    }
+    console.log(transitModes);
+
+    // send req
     const client = new Client({});
     client.directions({
         params: {
+            alternatives: true,
             origin: data.start,
             destination: data.end,
             mode: "transit",
+            transit_mode: transitModes,
+            region: "us",
             key: apiKey
         },
         timeout: 1000
     }).then(r => {
-        // get the data needed into an object and send as response
-        if (r.data.status !== Status.OK) {
-            console.log(`Error fetching directions ${r.data.status}`);
-        }
-        // let results = {}
-        // list of routes 
+        fs.writeFile("./directions_output.json", JSON.stringify(r.data, null, 2), (err) => {
+            if (err) {
+                console.error(err);
+            }
+        }); // comment this out if you dont want response output written to disk
         const routes = r.data.routes
-        res.json(JSON.stringify(routes, null, 2));
+        res.json(JSON.stringify(routes));
     }).catch(e => {
-        console.log(e); // may want to show this client side
+        console.error(e);
+        res.status(e.status).json({e: `Error fetching directions`});
     });
 });
 
