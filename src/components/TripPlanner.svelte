@@ -67,27 +67,56 @@
     }
 
     function displayTrips(routes) {
-        // const container = document.createElement("div");
+        const container = document.querySelector(".routes");
         // container.setAttribute("class", "trip-data");
+        // const container = new TripDirections({
+        //     target: document.querySelector(".routes"),
+        //     routes: routes,
+        // });
+        // clear previous html
+        container.innerHTML = "";
         routes.forEach((route) => {
+            const routeContainer = document.createElement("div");
+            routeContainer.setAttribute("class", "route");
             route.legs.forEach((leg) => {
+                const legContainer = document.createElement("div");
+                legContainer.setAttribute("class", "leg");
                 console.log(leg);
-                // container.innerHTML += leg.start_address;
+                legContainer.innerHTML += leg.start_address;
                 console.log(leg.start_address);
+                routeContainer.appendChild(legContainer);
                 leg.steps.forEach((step) => {
+                    const stepContainer = document.createElement("div");
+                    stepContainer.setAttribute("class", "step");
                     // check if step contains substeps
+                    console.log(step.html_instructions);
+                    stepContainer.innerHTML = step.html_instructions;
                     if (step.steps) {
-                        console.log(`contains substeps!`)
+                        const subStepContainer = document.createElement("div");
+                        subStepContainer.setAttribute("class", "substep");
                         step.steps.forEach((subStep) => {
-                            console.log(subStep.html_instructions);
+                            if(containsHTML(subStep)){
+                                // console.log(`${subStep} Has html_instructions`);
+                                console.log(subStep.html_instructions);
+                                subStepContainer.innerHTML = subStep.html_instructions;
+                            }
+                            // console.log(`${subStep} does not have html_instructions`);
                         });
+                        stepContainer.appendChild(subStepContainer);
                     }
                     // container.innerHTML += step.html_instructions;
-                    console.log(step.html_instructions);
+                    legContainer.appendChild(stepContainer);
                 });
             });
+            document.querySelector(".routes").appendChild(routeContainer);
         });
-        // document.getElementById("trip-container").appendChild(container);
+        
+        container.style.display = "block";
+    }
+
+    // checks whether object has key "html_instructions"
+    function containsHTML(step) {
+        return step.hasOwnProperty('html_instructions');
     }
 </script>
 
@@ -194,6 +223,10 @@
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
+    }
+
+    .routes {
+        display: none;
     }
 
     #trip-container {
