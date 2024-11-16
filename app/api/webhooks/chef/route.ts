@@ -4,11 +4,9 @@ import { WebhookEvent } from '@clerk/nextjs/server'
 import { NextResponse } from 'next/server'
 import { clerkClient } from "@clerk/clerk-sdk-node";
 
-
 import { CreateUser } from '@/libs/actions/user.action'
+
 export async function POST(req:Request) {
-
-
 
     // You can find this in the Clerk Dashboard -> Webhooks -> choose the endpoint
   const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET
@@ -65,29 +63,31 @@ export async function POST(req:Request) {
 
     const user = {
         chefID : id,
-        firstName : first_name,
-        lastName :last_name,
+        firstName : first_name ?? "Unknown First Name",// default value for MONGO DB
+        lastName :last_name ?? "Unknown Last Name",
         email : email_addresses[0].email_address,
-        username : username
+        username : username ?? "Unknown Username",
     };
 
     console.log(user);
-    const newUser = await CreateUser(user);
 
-    if (newUser){
+    try{
+      const newUser = await CreateUser(user);
+
+      if (newUser){
         await clerkClient.users.updateUserMetadata(id,{
-            publicMetadata:{
-                userId: newUser._id,
-            },
+          publicMetadata:{
+            userId: newUser._id,
+          },
         });
+      }
+      return NextResponse.json( {message: "New user created",user: newUser});
+    }catch (error) {
+      console.error("Error creating user:", error);
+      return new Response('User creation failed', { status: 500 });
     }
-    return NextResponse.json( {message: "New user created",user: newUser});
-
-
   }
   console.log(`Webhook with and ID of ${id} and type of ${eventType}`)
   console.log('Webhook body:', body)
-
-  return new Response('', { status: 200 })
 }
-    
+

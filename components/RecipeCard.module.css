@@ -1,0 +1,76 @@
+/* RecipeCard.module.css */
+
+.recipeCard {
+    padding: 1rem;
+    border: 1px solid #f0d9b5;
+    background-color: #fffaf0; /* Light cream color */
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.recipeHeader {
+    background-color: #f0d9b5; /* Slightly darker cream for the header */
+    color: #333;
+    font-size: 1.2rem;
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
+    padding: 0.5rem;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+
+.recipeImage {
+    width: 100%;
+    border-radius: 8px;
+    margin-top: 0.5rem;
+}
+
+.buttonGroup {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    width: 100%;
+    justify-content: center;
+}
+
+.viewButton,
+.saveButton,
+.mealPlanButton,
+.confirmButton {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.viewButton {
+    background-color: #4caf50;
+    color: white;
+}
+
+.saveButton {
+    background-color: #2196f3;
+    color: white;
+}
+
+.mealPlanButton {
+    background-color: #ff9800;
+    color: white;
+}
+
+.confirmButton {
+    background-color: #ff5722;
+    color: white;
+    margin-top: 5px;
+}
+
+.datePickerContainer {
+    margin-top: 10px;
+}
