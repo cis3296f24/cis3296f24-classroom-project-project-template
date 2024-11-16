@@ -1,5 +1,4 @@
 <script>
-    import TripDirections from "./TripDirections.svelte";
 
     let radio = "leave";
     let bus = true;
@@ -12,15 +11,12 @@
         // console.log(`Pressed ${event.data}`);
     };
     // Swap button
-    const handleSwap = (event) => {
+    const handleSwap = () => {
         let start = document.getElementById("start");
         let end = document.getElementById("end");
-        console.log(`Before: start: ${start.value}, end: ${end.value}`);
         let tmp = end.value;
         end.value = start.value;
         start.value = tmp;
-        console.log(`After: start: ${start.value}, end: ${end.value}`);
-        console.log("Swap Button Clicked!");
     };
     // Go button
     const handleFormSubmit = (event) => {
@@ -68,43 +64,39 @@
 
     function displayTrips(routes) {
         const container = document.querySelector(".routes");
-        // container.setAttribute("class", "trip-data");
-        // const container = new TripDirections({
-        //     target: document.querySelector(".routes"),
-        //     routes: routes,
-        // });
         // clear previous html
         container.innerHTML = "";
+
         routes.forEach((route) => {
             const routeContainer = document.createElement("div");
             routeContainer.setAttribute("class", "route");
+            
             route.legs.forEach((leg) => {
                 const legContainer = document.createElement("div");
                 legContainer.setAttribute("class", "leg");
-                console.log(leg);
                 legContainer.innerHTML += leg.start_address;
                 console.log(leg.start_address);
                 routeContainer.appendChild(legContainer);
+
                 leg.steps.forEach((step) => {
                     const stepContainer = document.createElement("div");
                     stepContainer.setAttribute("class", "step");
-                    // check if step contains substeps
                     console.log(step.html_instructions);
                     stepContainer.innerHTML = step.html_instructions;
+
+                    // check if step contains substeps
                     if (step.steps) {
                         const subStepContainer = document.createElement("div");
                         subStepContainer.setAttribute("class", "substep");
+
                         step.steps.forEach((subStep) => {
                             if(containsHTML(subStep)){
-                                // console.log(`${subStep} Has html_instructions`);
                                 console.log(subStep.html_instructions);
                                 subStepContainer.innerHTML = subStep.html_instructions;
                             }
-                            // console.log(`${subStep} does not have html_instructions`);
                         });
                         stepContainer.appendChild(subStepContainer);
                     }
-                    // container.innerHTML += step.html_instructions;
                     legContainer.appendChild(stepContainer);
                 });
             });
