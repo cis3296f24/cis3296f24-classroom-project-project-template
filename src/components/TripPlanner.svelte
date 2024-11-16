@@ -68,25 +68,28 @@
 
         routes.forEach((route) => {
             const routeContainer = document.createElement("div");
-            routeContainer.setAttribute("class", "route");
+            routeContainer.className = "route";
 
             route.legs.forEach((leg) => {
                 const legContainer = document.createElement("div");
-                legContainer.setAttribute("class", "leg");
-                legContainer.innerHTML += leg.start_address;
+                legContainer.className = "leg";
+                const startContainer = document.createElement("div");
+                startContainer.className = "start-location";
+                startContainer.innerHTML = leg.start_address;
+                legContainer.appendChild(startContainer);
                 console.log(leg.start_address);
                 routeContainer.appendChild(legContainer);
 
                 leg.steps.forEach((step) => {
                     const stepContainer = document.createElement("div");
-                    stepContainer.setAttribute("class", "step");
+                    stepContainer.className = "step";
                     console.log(step.html_instructions);
                     stepContainer.innerHTML = step.html_instructions;
 
                     // check if step contains substeps
                     if (step.steps) {
                         const subStepContainer = document.createElement("div");
-                        subStepContainer.setAttribute("class", "substep");
+                        subStepContainer.className = "substep";
 
                         step.steps.forEach((subStep) => {
                             if (containsHTML(subStep)) {
@@ -211,10 +214,6 @@
 
     .routes {
         display: none;
-    }
-
-    #trip-container {
-        border: 2px;
-        border-radius: 25%;
+        
     }
 </style>
