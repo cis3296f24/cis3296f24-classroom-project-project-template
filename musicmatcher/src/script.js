@@ -1,8 +1,24 @@
+/* for Spotify  */
 const clientID = "9f79956a03b04bcfb5df0ff2a5a78059";
 const params = new URLSearchParams(window.location.search);
 const code = params.get("code");
 
+/* for Firebase  */
+import { initializeApp } from "firebase/app";
+import { getDatabase, ref, set } from "firebase/database"
 
+const firebaseConfig = {
+    apiKey: "AIzaSyDraqYDDgFC5TW6EQCiSyFTVinLvJ3UvPc",
+    authDomain: "musicmatcherdb.firebaseapp.com",
+    databaseURL: "https://musicmatcherdb-default-rtdb.firebaseio.com/",
+    projectId: "musicmatcherdb",
+    storageBucket: "musicmatcherdb.appspot.com",
+};
+
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
+
+/* Getting and displaying user's Spotify stats  */
 if (!code) {
     redirectToAuthCodeFlow(clientID);
 } else {
@@ -13,6 +29,10 @@ if (!code) {
     populateUI(profile);
     showTopArtists(topArtists);
     showTopSongs(topSongs);
+
+    /* Store data in firebase  */
+    const userID = profile.id;
+    await storeTopLists(userID, topArtists, topSongs);
 }
 
 export async function redirectToAuthCodeFlow(clientID) {
@@ -142,7 +162,6 @@ function showTopSongs(topSongs) {
     }
 }
 
-
 function populateUI(profile) {
     /* display user's data in UI*/
 
@@ -153,3 +172,19 @@ function populateUI(profile) {
 	document.getElementById("avatar").appendChild(profileImage);
     }
 }
+
+/* Store data in firebase database  */
+async function storeTopLists(userID, topArtistList, topSongList) {
+    const userReference = ref(database, 'users/' + userID);
+
+    await set(userReference, {
+	topArtistList: topArtistList.items.map(artist => ({ name: artist.name })),
+	topSongList: topSongList.items.map(song => ({
+	    name: song.name,
+	    artist: song.artists[0].name
+	}))
+    });
+    console.log("stored top artists and songs in firebase.");
+}
+
+	   
