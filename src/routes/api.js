@@ -37,13 +37,25 @@ router.get('/bus_schedules', async (req, res) => {
 });
 
 router.post('/google_directions', async (req, res) => {
-    console.log(`POST /google_directions`);
+    console.log(`POST /api/google_directions`);
     const apiKey = process.env.GOOGLE_API_KEY;
-    // create google client
+    
     const data = req.body;
     console.log(JSON.stringify(data)); // for debug
     // sanitize data
 
+    // check leave/depart choice + time
+    // 
+    time = (Date.parse(data.date + "T" + data.time) / 1000); // conversion to seconds
+    // console.log(time);
+    travel_time = "";
+    if (data.radio === "leave") {
+        travel_time = "departure_time";
+    }
+    else {
+        travel_time = "arrival_time";
+    }
+    console.log(`${travel_time} at ${time.toString()}`)
     // check transit modes
     let transitModes = [];
     const selections = data.transitModes;
@@ -52,7 +64,7 @@ router.post('/google_directions', async (req, res) => {
         if (selections[mode] === true)
             transitModes.push(mode.toLowerCase());
     }
-    console.log(transitModes);
+    // console.log(transitModes); for debug
 
     // send req
     const client = new Client({});
@@ -61,6 +73,7 @@ router.post('/google_directions', async (req, res) => {
             alternatives: true,
             origin: data.start,
             destination: data.end,
+            [travel_time]: time,
             mode: "transit",
             transit_mode: transitModes,
             region: "us",
@@ -73,7 +86,7 @@ router.post('/google_directions', async (req, res) => {
                 console.error(err);
             }
         }); // comment this out if you dont want response output written to disk
-        const routes = r.data.routes
+        const routes = r.data.routes;
         res.json(JSON.stringify(routes));
     }).catch(e => {
         console.error(e);
