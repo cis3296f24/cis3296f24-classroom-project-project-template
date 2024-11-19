@@ -20,7 +20,7 @@ To run the project locally, clone the repository and install dependencies:
 # Clone the repo
 git clone https://github.com/cis3296f24/MusicMatcher
 
-#Navigate into the project directory
+# Navigate into the project directory
 cd MusicMatcher/musicmatcher
 
 # Install dependencies
@@ -29,6 +29,8 @@ npm install
 # Start the development server
 npm run dev
 ```
+# Open the WebApp
+In your browser, visit: http://localhost:5173/
 
 ## License
 This project is open-source and available under the MIT License.
