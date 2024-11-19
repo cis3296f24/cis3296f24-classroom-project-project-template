@@ -5,7 +5,7 @@ const code = params.get("code");
 
 /* for Firebase  */
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, set } from "firebase/database"
+import { getDatabase, ref, set, get } from "firebase/database"
 
 const firebaseConfig = {
     apiKey: "AIzaSyDraqYDDgFC5TW6EQCiSyFTVinLvJ3UvPc",
@@ -18,21 +18,24 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
+let accessToken, profile, topArtists, topSongs, userID, displayName;
+
 /* Getting and displaying user's Spotify stats  */
 if (!code) {
     redirectToAuthCodeFlow(clientID);
 } else {
-    const accessToken = await getAccessToken(clientID, code);
-    const profile = await fetchProfile(accessToken);
-    const topArtists = await getTopArtists(accessToken);
-    const topSongs = await getTopSongs(accessToken);
+    accessToken = await getAccessToken(clientID, code);
+    profile = await fetchProfile(accessToken);
+    topArtists = await getTopArtists(accessToken);
+    topSongs = await getTopSongs(accessToken);
     populateUI(profile);
     showTopArtists(topArtists);
     showTopSongs(topSongs);
 
     /* Store data in firebase  */
-    const userID = profile.id;
-    await storeTopLists(userID, topArtists, topSongs);
+    userID = profile.id;
+    displayName = profile.display_name;
+    await storeTopLists(userID, displayName, topArtists, topSongs);
 }
 
 export async function redirectToAuthCodeFlow(clientID) {
@@ -174,12 +177,13 @@ function populateUI(profile) {
 }
 
 /* Store data in firebase database  */
-async function storeTopLists(userID, topArtistList, topSongList) {
+async function storeTopLists(userID, displayName, topArtistsList, topSongsList) {
     const userReference = ref(database, 'users/' + userID);
 
     await set(userReference, {
-	topArtistList: topArtistList.items.map(artist => ({ name: artist.name })),
-	topSongList: topSongList.items.map(song => ({
+	displayName: displayName,
+	topArtistsList: topArtistsList.items.map(artist => ({ name: artist.name })),
+	topSongsList: topSongsList.items.map(song => ({
 	    name: song.name,
 	    artist: song.artists[0].name
 	}))
@@ -187,4 +191,60 @@ async function storeTopLists(userID, topArtistList, topSongList) {
     console.log("stored top artists and songs in firebase.");
 }
 
-	   
+/* Find matches in the database who like the same song(s) and/or artist(s)  */
+document.getElementById("findMatchesButton").addEventListener("click", async () => {
+    const userID = profile.id;
+
+    await findMatches(userID, topArtists, topSongs);
+});
+
+async function findMatches(userID, topArtists, topSongs) {
+    const usersReference = ref(database, 'users');
+    const snapshot = await get(usersReference);
+
+    if (!snapshot.exists()) {
+	console.log("Could not get snapshot of user data");
+	return;
+    }
+
+    const allUserData = snapshot.val();
+
+    for (let userKey in allUserData) {
+	const user = allUserData[userKey];
+
+	if (userKey == userID) {
+	    continue;
+	}
+
+	let artistsInCommon = [];
+	let songsInCommon = [];
+
+	for (let artist of topArtists.items) {
+	    if (user.topArtistsList && user.topArtistsList.some(item => item.name == artist.name)) {
+		artistsInCommon.push(artist.name);
+	    }
+	}
+
+	for (let song of topSongs.items) {
+	    if (user.topSongsList && user.topSongsList.some(item => item.name == song.name && item.artist == song.artists[0].name)) {
+		songsInCommon.push(`${song.name} by ${song.artists[0].name}`);
+	    }
+	}
+
+	if (artistsInCommon.length > 0 || songsInCommon.length > 0) {
+	    let matchInfo = `${user.displayName} also likes:\n `;
+
+	    if (artistsInCommon.length > 0) {
+		matchInfo += `\n - ${artistsInCommon.join(", ")} `;
+	    }
+	    
+	    if (songsInCommon.length > 0) {
+		matchInfo += `\n - ${songsInCommon.join(", ")} `;
+	    }
+
+	    document.getElementById("displaymatches").innerText += matchInfo + "\n";
+	}
+    }
+}
+
+
