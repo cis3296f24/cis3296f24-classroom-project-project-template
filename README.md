@@ -16,6 +16,8 @@ The application features an interactive, space-themed scatter plot that visualiz
 
 The project will utilize the Spotify Web API to fetch data regarding user listening habits.
 
+PLEASE BEFORE RUNNING OUR APPLICATION WE NEED TO ADD YOUR EMAIL TO OUR SPOTIFY DEVELOPERS ACCOUNT, PLEASE CONTACT US AT nathaliavalli@gmail.com
+
 ## How to Run
 
 To run the application locally, follow these steps:
@@ -27,10 +29,11 @@ To run the application locally, follow these steps:
    cd spaceify
    ```
 
-2. Install the necessary dependencies:
+2. Install the necessary dependencies and packages:
 
    ```bash
    npm install
+   npm install express path helmet crypto axios express-session
    ```
 
 3. Set up your environment variables. Create a `.env` file in the root directory and add your Spotify API credentials:
@@ -46,7 +49,7 @@ To run the application locally, follow these steps:
    npm start
    ```
 
-5. Open your browser and navigate to `http://localhost:3000`.
+5. Open your browser and navigate to `http://localhost:3000/login`.
 
 ## How to Contribute
 
