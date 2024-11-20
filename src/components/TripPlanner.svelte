@@ -1,9 +1,13 @@
 <script>
+    import { each } from "svelte/internal";
+
+    //  Form default values
     let radio = "leave";
     let bus = true;
     let subway = true;
     let trolley = true;
     let rail = true;
+    let stops = ["", ""];
 
     // Auto suggest
     const suggestLocation = (event) => {
@@ -11,21 +15,17 @@
     };
     // Swap button
     const handleSwap = (event) => {
-        let start = document.getElementById("start");
-        let end = document.getElementById("end");
-        console.log(`Before: start: ${start.value}, end: ${end.value}`);
-        let tmp = end.value;
-        end.value = start.value;
-        start.value = tmp;
-        console.log(`After: start: ${start.value}, end: ${end.value}`);
-        console.log("Swap Button Clicked!");
+        let tmp = stops[1]
+        stops[1] = stops[0]
+        stops[0] = tmp
+        updateStopsText()
     };
     // Go button
     const handleFormSubmit = (event) => {
         // gather all data and store
         event.preventDefault();
-        let start = document.getElementById("start");
-        let end = document.getElementById("end");
+        let start = document.getElementById("stop0");
+        let end = document.getElementById("stop" + stops.length-1);
         let date = document.getElementById("date");
         let time = document.getElementById("time");
         // validate input
@@ -88,22 +88,59 @@
         });
         document.getElementById("trip-container").appendChild(container)
     }
-        
-        
+
+    function updateStopsArray() {
+        //  Keeps array up to date with user input
+        for (let index = 0; index < stops.length; index++)
+            stops[index] = document.getElementById("stop" + index).value;
+    }
+
+    const addStop = (event) => {
+        //  Shift last position in stops[] and clear value
+        stops[stops.length] = stops[stops.length-1]
+        stops[stops.length-2] = ""
+        updateStopsText()
+    }
+
+    function removeStop(index) {
+        //  Remove requested index from stops[]
+        stops.splice(index, 1)
+        updateStopsArray()
+        //updateStopsText()
+    }
+
+    function roundTrip() {
+        //  Add start destination to end of stops[] as a new stop
+        if (stops[stops.length-1] != stops[0]) stops[stops.length] = stops[0]
+    }
+    function updateStopsText() {
+        for (let index = 0; index < stops.length; index++)
+            document.getElementById("stop"+index).value = stops[index]
+    }
 </script>
 
 <div class="userInputBackground">
     <form action="">
-        <input
-            type="text"
-            id="start"
-            name="start"
-            placeholder="Start"
-            autocomplete="off"
-            on:input={suggestLocation}
-        />
-        <input type="text" id="end" name="end" placeholder="End" autocomplete="off" />
-        <button id="swap" type="button" on:click={handleSwap}>Swap</button>
+        {#each stops as stop, i}
+            <!-- Text boxes for each stop -->
+            {#if (i == 0)}
+                <input type="text" id="stop{i}" name="stop{i}" placeholder="Start" autocomplete="off" on:input={suggestLocation, updateStopsArray}/>
+            {:else if (i==stops.length-1)}
+                <input type="text" id="stop{i}" name="stop{i}" placeholder="End" autocomplete="off" on:input={suggestLocation, updateStopsArray}/>
+            {:else}
+                <input type="text" id="stop{i}" name="stop{i}" placeholder="Stop {i}" autocomplete="off" on:input={suggestLocation, updateStopsArray}/>
+            {/if}
+
+            <!-- Delete option for each stop -->
+            {#if (stops.length > 2)}
+                <a href="#" on:click={() => (removeStop(i))}>X</a>
+            {/if}
+        {/each}
+
+        {#if (stops.length == 2)}
+            <button id="swap" type="button" on:click={handleSwap}>Swap</button>
+        {/if}
+
         <div class="inlineElements">
             <label>
                 <input
@@ -123,8 +160,8 @@
                     bind:group={radio}
                 /> Arrive
             </label>
-            <a href="">+Round Trip</a>
-            <a href="">+Add Stop</a>
+            <a href="#" on:click={() => (roundTrip())}>+Round Trip</a>
+            <a href="#" on:click={() => (addStop())}>+Add Stop</a>
         </div>
         <input type="date" id="date" name="date" placeholder="Today" />
         <input type="time" id="time" name="time" placeholder="At" />
