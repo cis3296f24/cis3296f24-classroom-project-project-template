@@ -5,6 +5,7 @@
 
     export let latitude;
     export let longitude;
+    var markers = [];
 
     let mapContainer;
 
@@ -34,19 +35,27 @@
 
     // Function to update the map's position
     function updateMap(longitude, latitude) {
+        if (markers!==null) {
+            for (var i = markers.length - 1; i >= 0; i--) {
+                markers[i].remove();
+            }
+        }
+
         if (map) {
             map.setCenter([longitude, latitude]);
-            map.setZoom(13); // Optionally adjust zoom level
+            map.setZoom(13);
 
             // Create a marker for the user's current location
-            new mapboxgl.Marker({ color: 'blue' })
+            var homemarker = new mapboxgl.Marker({ color: 'blue' })
                 .setLngLat([longitude, latitude])
                 .addTo(map);
+                markers.push(homemarker);
 
-            new mapboxgl.Popup({ offset: 25 })
+            var homepopup = new mapboxgl.Popup({ offset: 25 })
                 .setLngLat([longitude, latitude])
                 .setHTML('<h3>You are here</h3>')
                 .addTo(map);
+                markers.push(homepopup);
         }
     }
 </script>
