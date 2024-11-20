@@ -12,8 +12,8 @@ public class LevelManager {
     private BufferedImage[] levelSprite;
     private Level levelOne;
 
-    public LevelManager(FlappyGame game) {
-        this.flappyGame = game;
+    public LevelManager(FlappyGame flappyGame) {
+        this.flappyGame = flappyGame;
         importOutsideSprites();
         levelOne = new Level(LoadSave.GetLevelData());
     }
@@ -35,7 +35,6 @@ public class LevelManager {
 //                g.drawImage(levelSprite[index], FlappyGame.TILE_SIZE * i, FlappyGame.TILE_SIZE * j, FlappyGame.TILE_SIZE, FlappyGame.TILE_SIZE, null);
 //            }
 //    }
-
 
     public void draw(Graphics g, int lvlOffset) {
         for (int j = 0; j < FlappyGame.TILES_IN_HEIGHT; j++)

@@ -11,6 +11,7 @@ import levels.LevelManager;
 import main.FlappyGame;
 import ui.PauseOverlay;
 import utils.LoadSave;
+import static utils.Constants.FlappyWorldConstants.*;
 
 public class Playing extends State implements Statemethods {
     private Player player;
@@ -25,12 +26,13 @@ public class Playing extends State implements Statemethods {
     private int maxTilesOffset = lvlTilesWide - FlappyGame.TILES_IN_WIDTH;
     private int maxLvlOffsetX = maxTilesOffset * FlappyGame.TILE_SIZE;
 
-    private BufferedImage backgroundImg;
+    private BufferedImage backgroundImg, flappyGroundImg;
 
     public Playing(FlappyGame flappyGame) {
         super(flappyGame);
         initClasses();
-        backgroundImg = LoadSave.GetSpriteAtlas(LoadSave.PLAYING_BG_IMG); // This line loads the background.
+        backgroundImg = LoadSave.GetSpriteAtlas(LoadSave.FlappyCity_BG_IMG); // This line loads the flappy background.
+        flappyGroundImg = LoadSave.GetSpriteAtlas(LoadSave.GROUND_IMG); // This will create the floor or flappy ground.
     }
 
     private void initClasses() {
@@ -67,18 +69,30 @@ public class Playing extends State implements Statemethods {
 
     }
 
+    // Everytime we draw something for Flappy Bird we need to add it here.
     @Override
     public void draw(Graphics g) {
-       // g.drawImage(backgroundImg, 0, 0,FlappyGame.GAME_WIDTH, FlappyGame.GAME_HEIGHT, null); // This will load the image with the dimensions of the game.
-
+        g.drawImage(backgroundImg, 0 - (int) (xLvlOffset * 0.7), 0,FlappyGame.GAME_WIDTH, FlappyGame.GAME_HEIGHT, null); // This will load the image with the dimensions of the game.
+        g.drawImage(backgroundImg, FlappyGame.GAME_WIDTH - (int) (xLvlOffset * 0.7), 0,FlappyGame.GAME_WIDTH, FlappyGame.GAME_HEIGHT, null); // This will load the image with the dimensions of the game.
+        drawGround(g);
         levelManager.draw(g, xLvlOffset);
         player.render(g, xLvlOffset);
-
         if (paused) {
             g.setColor(new Color(0, 0, 0, 150));
             g.fillRect(0, 0, FlappyGame.GAME_WIDTH, FlappyGame.GAME_HEIGHT);
             pauseOverlay.draw(g);
         }
+    }
+
+    // This method will draw the ground, grass, water etc.
+    // I have trouble in this section to append and repeat.
+    private void drawGround(Graphics g) {
+        // System.out.println("xLvlOffset " + xLvlOffset);
+        // for (int i = 0; i < 20; i++)  {
+        for (int y = 0; y < 10; y++) {
+            g.drawImage(flappyGroundImg, y * (int) (GROUND_WIDTH / 10) - (int) (xLvlOffset * 0.7), 850, (int) (GROUND_WIDTH / 10), (int) (GROUND_HEIGHT / 10), null);
+        }
+        
     }
 
     @Override

@@ -11,11 +11,22 @@ import main.FlappyGame;
 
 public class LoadSave {
 
+    ///***********************************************************************************
+    ///                          IMPORTANT NOTES
+    ///                          - by Shafiq
+    /// - This game uses a pixel level map to load graphics for the background
+    /// - Explanation for collisions.
+    ///   https://youtu.be/PrAmaeQF4f0?list=PL4rzdwizLaxYmltJQRjq18a9gsSyEQQ-0&t=70
+    ///
+    /// - Moving the background images
+    ///   https://youtu.be/JmcBRVz2Voo?list=PL4rzdwizLaxYmltJQRjq18a9gsSyEQQ-0&t=913
+    ///
+
     // public static final String PLAYER_ATLAS = "player_sprites.png";
     // public static final String PLAYER_ATLAS = "UD_FB.png";
     public static final String PLAYER_ATLAS = "HD_B-NoWM.png";
     public static final String LEVEL_ATLAS = "outside_sprites.png";
-    public static final String LEVEL_ONE_DATA = "bird_one_data.png";
+    public static final String LEVEL_ONE_DATA = "bird_clear_bk_ground.png";
 
     // public static final String PLAYER_ATLAS = "player_sprites.png";
     // public static final String LEVEL_ATLAS = "outside_sprites.png";
@@ -30,8 +41,9 @@ public class LoadSave {
     public static final String VOLUME_BUTTONS = "volume_buttons.png";
     public static final String MENU_BACKGROUND_IMG = "background_menu.png";
     // Start adding backgrounds in this class.
-    public static final String PLAYING_BG_IMG = "scene_chatGPT.png";  // This is the background created by CHAT_GPT.
-    public static final String PLAYING_BG_IMG = "scene_chatGPT.png";  // This is the background created by CHAT_GPT.
+    // See Playing.java
+    public static final String FlappyCity_BG_IMG = "scene_chatGPT.png";  // This is the background created by CHAT_GPT.
+    public static final String GROUND_IMG = "seamless_ground.png";  // This is the background created by CHAT_GPT.
 
 
     public static BufferedImage GetSpriteAtlas(String fileName) {
