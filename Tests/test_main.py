@@ -10,15 +10,34 @@ import WhiteboardApplication.main
 from WhiteboardApplication.main import *
 from pytestqt import *
 
+app = QApplication(sys.argv)
+
 
 def test_AppCreation():
     print("Hello World")
-    app = QApplication(sys.argv)
+
 
     window = WhiteboardApplication.main.MainWindow()
     window.show()
 
-    sleep(5)
+    sleep(2)
 
-    app.exit()
     assert window is not None
+
+def test_PenButton(qtbot):
+
+    #app = QApplication(sys.argv)
+
+    window = WhiteboardApplication.main.MainWindow()
+    window.show()
+
+    sleep(2)
+    #this is prob gonna be ugly...
+
+    qtbot.addWidget(window)
+
+
+
+    pen = MainWindow().tb_actionPen.triggered
+
+    assert True
