@@ -283,6 +283,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.tb_actionEraser.triggered.connect(self.button_clicked)
         self.tb_actionPen.triggered.connect(self.button_clicked)
 
+        #fixing the eraser shit I messed up - RS
+
+
         self.current_color = QColor("#000000")
 
         ############################################################################################################
