@@ -38,9 +38,9 @@ from PySide6.QtCore import (
 )
 
 from WhiteboardApplication.UI.board import Ui_MainWindow
+from WhiteboardApplication.text_box import TextBox
 from WhiteboardApplication.new_notebook import NewNotebook
-
-from text_box import TextBox
+from WhiteboardApplication.Collab_Functionality.client import Client
 
 class BoardScene(QGraphicsScene):
     def __init__(self):
@@ -257,17 +257,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
 
+        self.client = None
+
         if hasattr(self, 'actionImages'):
             print("actionImages is initialized.")
         else:
             print("actionImages is NOT initialized.")
 
-        # # Add pb_BackgroundColor button - Chloe
-        # self.pb_BackgroundColor = QPushButton("Change Background Color", self)
-        # self.pb_BackgroundColor.setGeometry(10, 195, 150, 30)
-        # self.pb_BackgroundColor.clicked.connect(self.change_background_color)
-
-        ############################################################################################################
         # Menus Bar: Files
         self.actionSave.triggered.connect(self.save)
         self.actionLoad.triggered.connect(self.load)
@@ -310,7 +306,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.tb_actionImages.triggered.connect(self.upload_image)
         ###########################################################################################################
 
-        # self.scene = BoardScene()
+        # self.scene = self.tabWidget.currentWidget().findChild(QGraphicsView, 'gv_Canvas').scene()
         # self.gv_Canvas.setScene(self.scene)
         # self.gv_Canvas.setRenderHint(QPainter.RenderHint.Antialiasing, True)
 
@@ -330,7 +326,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 pixmap_item.setPos(0, 0)  # Adjust position as needed
                 pixmap_item.setFlag(QGraphicsPixmapItem.ItemIsMovable)
                 # add it to new method in board scene self.scene.add_image(pixmap_item)
-                self.scene.add_image(pixmap_item)
+                self.tabWidget.currentWidget().findChild(QGraphicsView, 'gv_Canvas').scene().add_image(pixmap_item)
                 #self.scene.addItem(pixmap_item)  # Add the image to the scene
                 #self.add_item_to_undo(pixmap_item)
 
@@ -345,20 +341,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def clear_canvas(self):
         self.tabWidget.currentWidget().findChild(QGraphicsView, 'gv_Canvas').scene().clear()
 
-    def color_dialog(self):
-        color_dialog = QColorDialog()
-        color_dialog.show()
-        color_dialog.currentColorChanged.connect(lambda e: self.color_dialog_color_changed(color_dialog.currentColor()))
-        self.current_color = color_dialog.currentColor()
+    # def color_dialog(self):
+    #     color_dialog = QColorDialog()
+    #     color_dialog.show()
+    #     color_dialog.currentColorChanged.connect(lambda e: self.color_dialog_color_changed(color_dialog.currentColor()))
+    #     self.current_color = color_dialog.currentColor()
 
-    def color_dialog_color_changed(self, current_color):
-        self.color_changed(current_color)
-        if self.tb_actionEraser.isChecked():
-            self.tb_actionEraser.setChecked(False)
-            self.tb_actionPen.setChecked(True)
-
-    def color_changed(self, color):
-        self.scene.change_color(color)
+    # def color_dialog_color_changed(self, current_color):
+    #     self.color_changed(current_color)
+    #     if self.tb_actionEraser.isChecked():
+    #         self.tb_actionEraser.setChecked(False)
+    #         self.tb_actionPen.setChecked(True)
+    #
+    # def color_changed(self, color):
+    #     self.tabWidget.currentWidget().findChild(QGraphicsView, 'gv_Canvas').scene().change_color(color)
 
     #Depending on which button is clicked, sets the appropriate flag so that operations
     #don't overlap
@@ -370,7 +366,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             if self.tb_actionCursor.isChecked():
                 # disable pen, disable eraser
                 print("Cursor activated")  # Debugging print
-                self.scene.set_active_tool("cursor")
+                self.tabWidget.currentWidget().findChild(QGraphicsView, 'gv_Canvas').scene().set_active_tool("cursor")
                 self.tb_actionEraser.setChecked(False)
                 self.tb_actionPen.setChecked(False)
                 self.tb_actionHighlighter.setChecked(False)
@@ -380,15 +376,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             if self.tb_actionPen.isChecked():
                 # Enable pen mode, disable eraser
                 print("Pen activated")  # Debugging print
-                self.color_changed(self.current_color)
-                self.scene.set_active_tool("pen")
+                # self.color_changed(self.current_color)
+                self.tabWidget.currentWidget().findChild(QGraphicsView, 'gv_Canvas').scene().set_active_tool("pen")
                 self.tb_actionEraser.setChecked(False)  # Ensure eraser is not active
                 self.tb_actionCursor.setChecked(False)
                 self.tb_actionHighlighter.setChecked(False)
             else:
                 # Deactivate drawing mode when button is clicked again
                 print("Pen deactivated")  # Debugging print
-                self.scene.set_active_tool(None)
+                self.tabWidget.currentWidget().findChild(QGraphicsView, 'gv_Canvas').scene().set_active_tool(None)
 
         # Toggle Eraser
         elif sender_button == self.tb_actionEraser:
@@ -396,14 +392,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 # Enable eraser mode, disable pen
                 print("Eraser activated")  # Debugging print
                 # self.color_changed(QColor("#F3F3F3"))
-                self.scene.set_active_tool("eraser")
+                self.tabWidget.currentWidget().findChild(QGraphicsView, 'gv_Canvas').scene().set_active_tool("eraser")
                 self.tb_actionPen.setChecked(False)  # Ensure pen is not active
                 self.tb_actionCursor.setChecked(False)
                 self.tb_actionHighlighter.setChecked(False)
             else:
                 # Deactivate erasing mode when button is clicked again
                 print("Eraser deactivated")  # Debugging print
-                self.scene.set_active_tool(None)
+                self.tabWidget.currentWidget().findChild(QGraphicsView, 'gv_Canvas').scene().set_active_tool(None)
 
         elif sender_button == self.tb_actionHighlighter:
             if self.tb_actionHighlighter.isChecked():
@@ -422,7 +418,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def create_text_box(self):
         # Create a text box item and add it to the scene
         text_box_item = TextBox()
-        self.scene.add_text_box(text_box_item)
+        self.tabWidget.currentWidget().findChild(QGraphicsView, 'gv_Canvas').scene().add_text_box(text_box_item)
 
     # def change_background_color(self):
     #     # Open a color board and set the background color
@@ -455,17 +451,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             pickle.dump(self.serialize_items(), file, protocol=pickle.HIGHEST_PROTOCOL)
 
     def load(self):
-        self.scene.clear()
+        self.tabWidget.currentWidget().findChild(QGraphicsView, 'gv_Canvas').scene().clear()
         directory, _filter = QFileDialog.getOpenFileName()
         with open(directory, 'rb') as file:
             items_data = pickle.load(file)
             self.deserialize_items(items_data)
 
-
-
     def serialize_items(self):
         items_data = []
-        for item in self.scene.items():
+        for item in self.tabWidget.currentWidget().findChild(QGraphicsView, 'gv_Canvas').scene().items():
             if isinstance(item, TextBox):
                 items_data.append({
                     'type': 'TextBox',
@@ -561,7 +555,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 item = self.deserialize_path_item(item_data)
 
             # Add item
-            self.scene.addItem(item)
+            self.tabWidget.currentWidget().findChild(QGraphicsView, 'gv_Canvas').scene().addItem(item)
 
     def deserialize_color(self, color):
         return QColor(color['red'], color['green'], color['blue'], color['alpha'])
@@ -600,6 +594,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         return transform
 
     def deserialize_text_item(self, data):
+        from text_box import TextBox
         text_item = TextBox()
         text_item.setFont(self.deserialize_font(data['font']))
         text_item.setDefaultTextColor(self.deserialize_color(data['color']))
