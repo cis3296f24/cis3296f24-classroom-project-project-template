@@ -15,14 +15,10 @@
     };
     // Swap button
     const handleSwap = (event) => {
-        let start = document.getElementById("stop0");
-        let end = document.getElementById("stop" + stops.length-1);
-        console.log(`Before: start: ${start.value}, end: ${end.value}`);
-        let tmp = end.value;
-        end.value = start.value;
-        start.value = tmp;
-        console.log(`After: start: ${start.value}, end: ${end.value}`);
-        console.log("Swap Button Clicked!");
+        let tmp = stops[1]
+        stops[1] = stops[0]
+        stops[0] = tmp
+        updateStopsText()
     };
     // Go button
     const handleFormSubmit = (event) => {
@@ -103,17 +99,23 @@
         //  Shift last position in stops[] and clear value
         stops[stops.length] = stops[stops.length-1]
         stops[stops.length-2] = ""
+        updateStopsText()
     }
 
     function removeStop(index) {
         //  Remove requested index from stops[]
         stops.splice(index, 1)
         updateStopsArray()
+        //updateStopsText()
     }
 
     function roundTrip() {
         //  Add start destination to end of stops[] as a new stop
         if (stops[stops.length-1] != stops[0]) stops[stops.length] = stops[0]
+    }
+    function updateStopsText() {
+        for (let index = 0; index < stops.length; index++)
+            document.getElementById("stop"+index).value = stops[index]
     }
 </script>
 
