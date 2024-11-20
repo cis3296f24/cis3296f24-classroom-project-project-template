@@ -31,7 +31,7 @@ public class LoadSave {
     public static final String MENU_BACKGROUND_IMG = "background_menu.png";
     // Start adding backgrounds in this class.
     public static final String PLAYING_BG_IMG = "scene_chatGPT.png";  // This is the background created by CHAT_GPT.
-    public static final String PLAYING_BG_IMG = "scene_chatGPT.png";  // This is the background created by CHAT_GPT.
+    public static final String GROUND_SPRING = "ground_spring.png";  // This is the background created by CHAT_GPT.
 
 
     public static BufferedImage GetSpriteAtlas(String fileName) {
