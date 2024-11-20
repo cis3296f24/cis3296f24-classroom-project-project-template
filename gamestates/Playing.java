@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 
 import entities.Player;
 import levels.LevelManager;
@@ -24,9 +25,12 @@ public class Playing extends State implements Statemethods {
     private int maxTilesOffset = lvlTilesWide - FlappyGame.TILES_IN_WIDTH;
     private int maxLvlOffsetX = maxTilesOffset * FlappyGame.TILE_SIZE;
 
+    private BufferedImage backgroundImg;
+
     public Playing(FlappyGame flappyGame) {
         super(flappyGame);
         initClasses();
+        backgroundImg = LoadSave.GetSpriteAtlas(LoadSave.PLAYING_BG_IMG); // This line loads the background.
     }
 
     private void initClasses() {
@@ -65,6 +69,8 @@ public class Playing extends State implements Statemethods {
 
     @Override
     public void draw(Graphics g) {
+       // g.drawImage(backgroundImg, 0, 0,FlappyGame.GAME_WIDTH, FlappyGame.GAME_HEIGHT, null); // This will load the image with the dimensions of the game.
+
         levelManager.draw(g, xLvlOffset);
         player.render(g, xLvlOffset);
 
