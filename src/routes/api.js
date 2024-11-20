@@ -48,7 +48,7 @@ router.post('/google_directions', async (req, res) => {
     // 
     time = (Date.parse(data.date + "T" + data.time) / 1000); // conversion to seconds
     // console.log(time);
-    travel_time = "";
+    let travel_time = "";
     if (data.radio === "leave") {
         travel_time = "departure_time";
     }
