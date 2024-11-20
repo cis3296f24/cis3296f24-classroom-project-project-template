@@ -66,6 +66,8 @@ class BoardScene(QGraphicsScene):
         self.undo_list = []
         self.redo_list = []
         self.highlight_items = []
+        self.highlight_radius_options = [10,15,20]
+        self.highlight_radius = 10
 
     #Adds an action to the undo list (or a list of items in the case of textbox), by treating every action as a list
     def add_item_to_undo(self, item):
@@ -166,8 +168,7 @@ class BoardScene(QGraphicsScene):
     def highlight(self, position):
         highlight_color = QColor(255, 255, 0, 10)
         highlight_brush = QBrush(highlight_color)
-        highlight_radius = 18
-        highlight_circle = QGraphicsEllipseItem(position.x() - highlight_radius,position.y() - highlight_radius,highlight_radius * 2,highlight_radius * 2)
+        highlight_circle = QGraphicsEllipseItem(position.x() - self.highlight_radius,position.y() - self.highlight_radius,self.highlight_radius * 2,self.highlight_radius * 2)
 
         highlight_circle.setBrush(highlight_brush)
         highlight_circle.setPen(Qt.NoPen)
