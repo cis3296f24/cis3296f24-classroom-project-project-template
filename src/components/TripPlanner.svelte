@@ -11,7 +11,7 @@
     // Auto suggest
     const suggestLocation = async (event) => {
         const str = event.target.value;
-        console.log(str)
+        console.log(str);
         const res = await fetch("/api/autocomplete", {
             method: "POST",
             body: JSON.stringify({ input: str }),
@@ -168,7 +168,8 @@
                         name="stop{i}"
                         placeholder="Start"
                         autocomplete="off"
-                        on:input={(suggestLocation, updateStopsArray)}
+                        on:input={suggestLocation}
+                        on:input={updateStopsArray}
                     />
                 {:else if i == stops.length - 1}
                     <input
@@ -177,7 +178,8 @@
                         name="stop{i}"
                         placeholder="End"
                         autocomplete="off"
-                        on:input={(suggestLocation, updateStopsArray)}
+                        on:input={suggestLocation}
+                        on:input={updateStopsArray}
                     />
                 {:else}
                     <input
@@ -186,7 +188,8 @@
                         name="stop{i}"
                         placeholder="Stop {i}"
                         autocomplete="off"
-                        on:input={(suggestLocation, updateStopsArray)}
+                        on:input={suggestLocation}
+                        on:input={updateStopsArray}
                     />
                 {/if}
 
