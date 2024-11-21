@@ -25,10 +25,12 @@ public class LoadSave {
     // public static final String PLAYER_ATLAS = "player_sprites.png";
     // public static final String PLAYER_ATLAS = "UD_FB.png";
     public static final String PLAYER_ATLAS = "HD_B-NoWM.png";
+
     // public static final String LEVEL_ATLAS = "outside_sprites.png";
-    public static final String LEVEL_ATLAS = "outside_sprites_auto_gen.png";
+    public static final String LEVEL_ATLAS = "outside_sprites_new.png";
+
     // public static final String LEVEL_ONE_DATA = "bird_clear_bk_ground.png";
-    public static final String LEVEL_ONE_DATA = "generated_red_bars_image.png";
+    public static final String LEVEL_ONE_DATA = "gen_red_bars_image.png";
 
     // public static final String PLAYER_ATLAS = "player_sprites.png";
     // public static final String LEVEL_ATLAS = "outside_sprites.png";

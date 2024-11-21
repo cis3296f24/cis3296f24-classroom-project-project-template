@@ -6,6 +6,11 @@ import main.FlappyGame;
 
 public class HelpMethods {
 
+    boolean birdScored = false;
+    private static int birdScore = 0;
+    private static int previousValue = 0;
+
+
     public static boolean CanMoveHere(float x, float y, float width, float height, int[][] lvlData) {
         if (!IsSolid(x, y, lvlData))
             if (!IsSolid(x + width, y + height, lvlData))
@@ -27,9 +32,21 @@ public class HelpMethods {
         float yIndex = y / FlappyGame.TILE_SIZE;
 
         int value = lvlData[(int) yIndex][(int) xIndex];
-
-        if (value >= 48 || value < 0 || value != 11 || value != 23)
+        System.out.println(" x, y = " + x + ", " + y + previousValue + " <--- Previous Value and lvlData value -----> " + value + "  birdScore  > " + birdScore);
+        // This checks for bird entering and increments the score.
+        if ((previousValue == 0) & (lvlData[(int) yIndex][(int) xIndex] == 23) & (lvlData[(int) yIndex][(int) xIndex + FlappyGame.TILE_SIZE + 1] == 11)) {
+            System.out.println("Entered score loop ////////////////////////////////////////");
+            birdScore += 1;
+            System.out.println("birdScore: " + birdScore);
+            previousValue = 255; // nonzero value
+        }
+        if (value == 23) {
+            if (previousValue == 255) previousValue = 0; // zero value
+            return false;
+        }
+        if (value >= 48 || value < 0 || value != 11) {
             return true;
+        }
         return false;
     }
 
@@ -67,5 +84,4 @@ public class HelpMethods {
         return true;
 
     }
-
 }
