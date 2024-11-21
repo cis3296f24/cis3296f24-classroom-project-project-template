@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import MoonBg from '../assets/moon.png';
-
+import { AuthContext } from './helper/auth';
 
 function Login() {
+    const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
@@ -32,8 +34,8 @@ function Login() {
                 localStorage.setItem('userName', data.userName);
                 localStorage.setItem('userEmail', data.userEmail);
 
+                setIsLoggedIn(true);
                 navigate('/');
-                window.location.reload();
             }
             else {
                 console.log('Login failed:', data.error);
