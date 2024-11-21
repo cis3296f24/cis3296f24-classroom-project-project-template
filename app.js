@@ -32,7 +32,8 @@ app.use(
         defaultSrc: ["'self'"],
         scriptSrc: ["'self'", (req, res) => `'nonce-${res.locals.nonce}'`, 'https://d3js.org'],
         styleSrc: ["'self'", (req, res) => `'nonce-${res.locals.nonce}'`],
-        imgSrc: ["'self'", 'data:', 'https://www.pixel4k.com'],
+        imgSrc: ["'self'", 'data:', 'https://i.scdn.co', 'https://www.pixel4k.com'],
+        connectSrc: ["'self'", 'https://api.spotify.com'],
       },
     },
   })
