@@ -1,13 +1,16 @@
 import { Dialog, DialogPanel } from '@headlessui/react';
 import { Bars3Icon, UserIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import Lottie from "lottie-react";
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import pixelAnimation from "./assets/pixel.json";
+import { AuthContext } from './components/helper/auth';
 
-export default function Header({ isLoggedIn, setIsLoggedIn }) {
+export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [dropDown, setDropDown] = useState(false);
+
+  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
