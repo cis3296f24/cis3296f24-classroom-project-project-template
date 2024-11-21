@@ -17,6 +17,8 @@ This program also has a collaboration feature that allows users to work together
 [BestNotes Project Board](https://github.com/orgs/cis3296f24/projects/94/)
 
 ### Windows instructions
+PDF Instructions: [Best Notes Windows Set Up Instructions.pdf](https://github.com/user-attachments/files/17594508/BestNotes.Instruction.pdf)
+
 -	First if you don't have IntelliJ, download the IDE IntelliJ, then clone the project into IntelliJ using the repository URL
 -	Ensure you have the python plugin downloaded in the IDE
 -	When you try to run main.py, it will give a warning about a missing translator. So, click configure python interpreter and then add a new local interpreter.
@@ -28,10 +30,9 @@ This program also has a collaboration feature that allows users to work together
 -	After it’s installed, you can exit the command prompt and go back to IntelliJ
 -	Finally, run main.py and the application should pop up.
 
-PDF Instructions: [Best Notes Windows Set Up Instructions.pdf](https://github.com/user-attachments/files/17594508/BestNotes.Instruction.pdf)
-
-
 ### Mac Instructions
+PDF Instructions: [Best Notes Mac Set Up Instructions.pdf](https://github.com/user-attachments/files/17577744/Best.Notes.Mac.Set.Up.Instructions.pdf)
+
 For mac, you will need to download the IntelliJ IDE. You can download it from the following link:
 https://www.jetbrains.com/idea/download/?section=mac
 
@@ -48,8 +49,6 @@ Once that is completed, do the following:
 - Once you have navigated to BestNotes, type "source venv/bin/activate" to activate the virtual environment. It should say (venv) (base) <rest of command line>
 - Now type the command "pip3 install pyside6"
 - Once the download has completed, return to IntelliJ and hit the play button to run main.py and use the application.
-
-PDF Instructions: [Best Notes Mac Set Up Instructions.pdf](https://github.com/user-attachments/files/17577744/Best.Notes.Mac.Set.Up.Instructions.pdf)
 
 Credits: Contributing on the code from [WhiteBoard](https://github.com/Shabbar10/PySide-Whiteboard)
 
