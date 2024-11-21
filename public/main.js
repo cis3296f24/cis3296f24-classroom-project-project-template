@@ -194,12 +194,13 @@ function renderTracks(data) {
 
     console.log("Tooltip element created:", tooltip.node());
 
-
+    let planetPosition = 1;
+    let textPosition = 1;
     svg.selectAll("circle")
         .data(topArtists)
         .enter()
         .append("circle")
-        .attr("cx", d => xScale((d.value.avgPopularity) * 2) - 1125)
+        .attr("cx", d => xScale(planetPosition++ * 10))
         .attr("cy", d => yScale(d.value.avgDuration))
         .attr("r", d => {
             const radius = minSize + ((d.value.count / 10) * (maxSize - minSize));
@@ -227,8 +228,7 @@ function renderTracks(data) {
         .enter()
         .append("text")
         .attr("class", "artist-label")
-
-        .attr("x", d => xScale((d.value.avgPopularity) * 2) - 1125)
+        .attr("x", d => xScale(textPosition++ * 10))
         .attr("y", d => yScale(d.value.avgDuration) + 5)
         .attr("text-anchor", "middle")
         .text(d => d.key);
