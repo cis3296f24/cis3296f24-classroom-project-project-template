@@ -1,3 +1,15 @@
+document.addEventListener('mousemove', function(e) {
+    const cursor = document.createElement('div');
+    cursor.classList.add('cursor-glow');
+    cursor.style.left = e.pageX + 'px';
+    cursor.style.top = e.pageY + 'px';
+    document.body.appendChild(cursor);
+
+    setTimeout(() => {
+        cursor.remove();
+    }, 500); // Adjust duration as needed
+});
+
 document.addEventListener("DOMContentLoaded", function() {
     fetchTracks();
 });
@@ -44,10 +56,47 @@ document.addEventListener("DOMContentLoaded", function() {
     const titleElement = document.querySelector('h1');
     if (titleElement) {
         titleElement.style.color = 'white';
+        titleElement.style.textAlign = 'center';
+        titleElement.style.fontFamily = "'Arial', sans-serif";
     }
+    const loginTitle = document.querySelector('h2');
+    if (loginTitle) {
+        loginTitle.style.color = 'white';
+        loginTitle.style.textAlign = 'center';
+        loginTitle.style.fontFamily = "'Arial', sans-serif";
+    }
+    const loginForm = document.querySelector('form');
+    if (loginForm) {
+        loginForm.style.color = 'white';
+        loginForm.style.textAlign = 'center';
+        loginForm.style.fontFamily = "'Arial', sans-serif";
+    }
+    const loginMessage = document.querySelector('p');
+    if (loginMessage) {
+        loginMessage.style.color = 'white';
+        loginMessage.style.textAlign = 'center';
+        loginMessage.style.fontFamily = "'Arial', sans-serif";
+    }
+    const spinner = document.getElementById('spinner');
+    if (spinner) {
+        spinner.style.color = 'white'; // Change spinner font color
+        spinner.style.textAlign = 'center';
+        spinner.style.fontFamily = "'Arial', sans-serif";
+    }
+    const errorMessage = document.getElementById('error-message');
+    if (errorMessage) {
+        errorMessage.style.color = 'white'; // Change error message font color
+        errorMessage.style.textAlign = 'center';
+        errorMessage.style.fontFamily = "'Arial', sans-serif";
+    }
+
     // Check authentication and fetch tracks
-    checkAuthentication();
-    fetchTracks();
+    if (window.location.pathname === "/profile.html") {
+        console.log("Skipping authentication for profile page.");
+    } else {
+        checkAuthentication(); // Perform authentication for other pages
+        fetchTracks();
+    }
 });
 
 document.addEventListener('DOMContentLoaded', checkAuthentication);
@@ -120,14 +169,14 @@ function renderTracks(data) {
 
     const xScale = d3.scaleLinear()
         .domain([0, 100])
-        .range([0, width]);
+        .range([100, width - 100]);
 
     const yScale = d3.scaleLinear()
-        .domain(d3.extent(topArtists, d => d.value.avgDuration)
-        .range([height - 50, 50]);
+        .domain(d3.extent(topArtists, d => d.value.avgDuration))
+        .range([height - 150, 150]);
 
-    const minSize = 5;
-    const maxSize = 100;
+    const minSize = 30;
+    const maxSize = 130;
 
 
     const tooltip = d3.select("body").append("div")
@@ -150,7 +199,7 @@ function renderTracks(data) {
         .data(topArtists)
         .enter()
         .append("circle")
-        .attr("cx", d => xScale((d.value.avgPopularity) * 1.5) - 1000)
+        .attr("cx", d => xScale((d.value.avgPopularity) * 2) - 1125)
         .attr("cy", d => yScale(d.value.avgDuration))
         .attr("r", d => {
             const radius = minSize + ((d.value.count / 10) * (maxSize - minSize));
@@ -179,12 +228,10 @@ function renderTracks(data) {
         .append("text")
         .attr("class", "artist-label")
 
-        .attr("x", d => xScale((d.value.avgPopularity) * 1.5) - 1000)
+        .attr("x", d => xScale((d.value.avgPopularity) * 2) - 1125)
         .attr("y", d => yScale(d.value.avgDuration) + 5)
         .attr("text-anchor", "middle")
         .text(d => d.key);
-
-
 }
 
 function displayTracks(tracks) {

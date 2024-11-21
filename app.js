@@ -25,17 +25,17 @@ app.use((req, res, next) => {
 
 // Helmet configuration with CSP
 app.use(
-  helmet({
-    contentSecurityPolicy: {
-      useDefaults: true,
-      directives: {
-        defaultSrc: ["'self'"],
-        scriptSrc: ["'self'", (req, res) => `'nonce-${res.locals.nonce}'`, 'https://d3js.org'],
-        styleSrc: ["'self'", (req, res) => `'nonce-${res.locals.nonce}'`],
-        imgSrc: ["'self'", 'data:', 'https://www.pixel4k.com'],
+    helmet({
+      contentSecurityPolicy: {
+        useDefaults: true,
+        directives: {
+          defaultSrc: ["'self'"],
+          scriptSrc: ["'self'", (req, res) => `'nonce-${res.locals.nonce}'`, 'https://d3js.org', 'https://cdnjs.cloudflare.com'],
+          styleSrc: ["'self'", (req, res) => `'nonce-${res.locals.nonce}'`],
+          imgSrc: ["'self'", 'data:', 'https://www.pixel4k.com'],
+        },
       },
-    },
-  })
+    })
 );
 
 
