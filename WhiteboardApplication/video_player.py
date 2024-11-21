@@ -1,3 +1,9 @@
+####
+# This video player code was written by GitHub user BBC-esq
+# The repository link is here:
+# https://github.com/BBC-Esq/Pyside6_PyQt6_video_audio_player
+####
+
 import os
 import sys
 from PySide6.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QApplication, QSlider, QPushButton, QFileDialog, QHBoxLayout, QFrame
