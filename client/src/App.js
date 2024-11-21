@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import BackgroundMusic from './BackgroundMusic';
 import Challenge from './components/Challenge';
+import { AuthProvider } from "./components/helper/auth";
 import Home from './components/Home';
 import Login from './components/Login';
 import Preloader from './components/Preloader';
@@ -13,18 +14,6 @@ import './styles/index.css';
 
 
 function App() {
-
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if(token) {
-      setIsLoggedIn(true);
-    }
-    else {
-      setIsLoggedIn(false);
-    }
-  }, []);
 
   const location = useLocation();
   let hideNavbar = false;
@@ -48,8 +37,9 @@ function App() {
   
 
   return (
+    <AuthProvider>
     <div className="App h-screen">
-      {!hideNavbar && <Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>}
+      {!hideNavbar && <Header />}
       <Preloader />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -60,6 +50,7 @@ function App() {
       </Routes>
       <BackgroundMusic/>
     </div>
+    </AuthProvider>
   );
 }
 
