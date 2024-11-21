@@ -4,22 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5b45b616-1c01-40f6-b838-de9f2eddfd06" name="Changes" comment="Bird only">
-      <change beforePath="$PROJECT_DIR$/GenerateRedBarsImage.java" beforeDir="false" afterPath="$PROJECT_DIR$/GenerateRedBarsImage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/03-flappy-bird/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/03-flappy-bird/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/03-flappy-bird/GenerateRedBarsImage.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/03-flappy-bird/GenerateRedBarsImage.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/03-flappy-bird/generated_red_bars_image.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/03-flappy-bird/levels/LevelManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/03-flappy-bird/levels/LevelManager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/03-flappy-bird/outside_sprites_auto_gen.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/03-flappy-bird/res/generated_red_bars_image.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/03-flappy-bird/res/outside_sprites_auto_gen.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/03-flappy-bird/utils/HelpMethods.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/03-flappy-bird/utils/HelpMethods.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/03-flappy-bird/utils/LoadSave.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/03-flappy-bird/utils/LoadSave.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/generated_red_bars_image.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/outside_sprites_auto_gen.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/HelpMethods.java" beforeDir="false" afterPath="$PROJECT_DIR$/utils/HelpMethods.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/LoadSave.java" beforeDir="false" afterPath="$PROJECT_DIR$/utils/LoadSave.java" afterDir="false" />
-    </list>
+    <list default="true" id="5b45b616-1c01-40f6-b838-de9f2eddfd06" name="Changes" comment="Bird only" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -116,6 +101,8 @@
       <workItem from="1732176261814" duration="1764000" />
       <workItem from="1732178306920" duration="1054000" />
       <workItem from="1732179739371" duration="1544000" />
+      <workItem from="1732181422454" duration="8943000" />
+      <workItem from="1732220774741" duration="809000" />
     </task>
     <task id="LOCAL-00001" summary="Bird only">
       <option name="closed" value="true" />
