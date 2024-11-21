@@ -123,7 +123,7 @@ function renderTracks(data) {
         .range([0, width]);
 
     const yScale = d3.scaleLinear()
-        .domain(d3.extent(topArtists, d => d.value.avgDuration))
+        .domain(d3.extent(topArtists, d => d.value.avgDuration)
         .range([height - 50, 50]);
 
     const minSize = 5;
@@ -150,7 +150,7 @@ function renderTracks(data) {
         .data(topArtists)
         .enter()
         .append("circle")
-        .attr("cx", d => xScale((d.value.avgPopularity) * 2) - 1125)
+        .attr("cx", d => xScale((d.value.avgPopularity) * 1.5) - 1000)
         .attr("cy", d => yScale(d.value.avgDuration))
         .attr("r", d => {
             const radius = minSize + ((d.value.count / 10) * (maxSize - minSize));
@@ -179,10 +179,12 @@ function renderTracks(data) {
         .append("text")
         .attr("class", "artist-label")
 
-        .attr("x", d => xScale((d.value.avgPopularity) * 2) - 1125)
+        .attr("x", d => xScale((d.value.avgPopularity) * 1.5) - 1000)
         .attr("y", d => yScale(d.value.avgDuration) + 5)
         .attr("text-anchor", "middle")
         .text(d => d.key);
+
+
 }
 
 function displayTracks(tracks) {
