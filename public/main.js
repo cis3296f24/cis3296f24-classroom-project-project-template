@@ -56,10 +56,47 @@ document.addEventListener("DOMContentLoaded", function() {
     const titleElement = document.querySelector('h1');
     if (titleElement) {
         titleElement.style.color = 'white';
+        titleElement.style.textAlign = 'center';
+        titleElement.style.fontFamily = "'Arial', sans-serif";
     }
+    const loginTitle = document.querySelector('h2');
+    if (loginTitle) {
+        loginTitle.style.color = 'white';
+        loginTitle.style.textAlign = 'center';
+        loginTitle.style.fontFamily = "'Arial', sans-serif";
+    }
+    const loginForm = document.querySelector('form');
+    if (loginForm) {
+        loginForm.style.color = 'white';
+        loginForm.style.textAlign = 'center';
+        loginForm.style.fontFamily = "'Arial', sans-serif";
+    }
+    const loginMessage = document.querySelector('p');
+    if (loginMessage) {
+        loginMessage.style.color = 'white';
+        loginMessage.style.textAlign = 'center';
+        loginMessage.style.fontFamily = "'Arial', sans-serif";
+    }
+    const spinner = document.getElementById('spinner');
+    if (spinner) {
+        spinner.style.color = 'white'; // Change spinner font color
+        spinner.style.textAlign = 'center';
+        spinner.style.fontFamily = "'Arial', sans-serif";
+    }
+    const errorMessage = document.getElementById('error-message');
+    if (errorMessage) {
+        errorMessage.style.color = 'white'; // Change error message font color
+        errorMessage.style.textAlign = 'center';
+        errorMessage.style.fontFamily = "'Arial', sans-serif";
+    }
+
     // Check authentication and fetch tracks
-    checkAuthentication();
-    fetchTracks();
+    if (window.location.pathname === "/profile.html") {
+        console.log("Skipping authentication for profile page.");
+    } else {
+        checkAuthentication(); // Perform authentication for other pages
+        fetchTracks();
+    }
 });
 
 document.addEventListener('DOMContentLoaded', checkAuthentication);
@@ -132,14 +169,14 @@ function renderTracks(data) {
 
     const xScale = d3.scaleLinear()
         .domain([0, 100])
-        .range([0, width]);
+        .range([100, width - 100]);
 
     const yScale = d3.scaleLinear()
         .domain(d3.extent(topArtists, d => d.value.avgDuration))
-        .range([height - 50, 50]);
+        .range([height - 150, 150]);
 
-    const minSize = 5;
-    const maxSize = 100;
+    const minSize = 30;
+    const maxSize = 130;
 
 
     const tooltip = d3.select("body").append("div")

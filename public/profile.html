@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <title>User Profile</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Share Tech Mono', monospace;
+            background: #121212; /* Dark background */
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .profile-container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1); /* Slightly transparent background */
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+        }
+
+        .profile-pic {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+        }
+
+        .username {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .friends-list {
+            text-align: left;
+            padding: 0;
+            list-style: none;
+        }
+
+        .friends-list li {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <!-- Profile picture -->
+        <img src="https://via.placeholder.com/100" alt="Profile Picture" class="profile-pic">
+        
+        <!-- Username -->
+        <div class="username" id="username-display">User123</div>
+        
+        <!-- Friends list -->
+        <ul class="friends-list" id="friends-list">
+            <li>Friend 1</li>
+            <li>Friend 2</li>
+            <li>Friend 3</li>
+        </ul>
+    </div>
+
+    <script>
+        if (window.location.pathname === "/profile.html") {
+            console.log("Profile page loaded. No access token required.");
+        } else {
+            // Existing token logic if required
+            const token = getAccessToken();
+            if (!token) {
+            alert("Access token is not in URL. Redirecting to login.");
+            window.location.href = "/login";
+            }
+        }
+
+        // Retrieve the username from localStorage
+        const username = localStorage.getItem('username') || 'Guest';
+
+        // Update the username display
+        document.getElementById('username-display').textContent = username;
+
+        // Example: Dynamically add friends to the list (if needed)
+        const friends = ["Alice", "Bob", "Charlie"]; // Example friends
+        const friendsListElement = document.getElementById('friends-list');
+        
+        // Clear the static list and populate dynamically
+        friendsListElement.innerHTML = "";
+        friends.forEach(friend => {
+            const li = document.createElement('li');
+            li.textContent = friend;
+            friendsListElement.appendChild(li);
+        })
+    </script>
+</body>
+</html>
