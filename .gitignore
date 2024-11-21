@@ -4,3 +4,4 @@ public/build/
 *.txt
 directions_output.json
 autocomplete_suggestions.json
+.DS_Store
