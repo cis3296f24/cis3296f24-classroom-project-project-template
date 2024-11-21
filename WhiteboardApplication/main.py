@@ -3,6 +3,7 @@ import pickle
 import sys
 from os.path import expanduser
 
+
 from PySide6.QtWidgets import (
     QMainWindow,
     QGraphicsScene,
@@ -40,6 +41,7 @@ from PySide6.QtCore import (
 from WhiteboardApplication.UI.board import Ui_MainWindow
 from WhiteboardApplication.text_box import TextBox
 from WhiteboardApplication.new_notebook import NewNotebook
+from WhiteboardApplication.video_player import MediaPlayer
 from WhiteboardApplication.Collab_Functionality.client import Client
 
 class BoardScene(QGraphicsScene):
@@ -175,6 +177,12 @@ class BoardScene(QGraphicsScene):
         self.addItem(highlight_circle)
         self.highlight_items.append(highlight_circle)
 
+    def open_video_player(self):
+        print("Video button clicked")
+        self.player = MediaPlayer()
+        self.player.show()
+        self.player.resize(640, 480)
+
     def mousePressEvent(self, event):
         item = self.itemAt(event.scenePos(), QTransform())
         print(f"Active Tool: {self.active_tool}")  # Debugging print
@@ -270,7 +278,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         ############################################################################################################
         # Ensure all buttons behave properly when clicked
-        self.list_of_buttons = [self.tb_actionPen, self.tb_actionHighlighter, self.tb_actionEraser]
+        self.list_of_buttons = [self.tb_actionPen, self.tb_actionHighlighter, self.tb_actionEraser, self.tb_actionVideos]
 
         self.tb_actionPen.setChecked(True)
         self.tb_actionPen.triggered.connect(self.button_clicked)
@@ -282,6 +290,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         #self.toolbar_actionLine.triggered.connect(self.tb_Line)
         self.tb_actionEraser.triggered.connect(self.button_clicked)
         self.tb_actionPen.triggered.connect(self.button_clicked)
+
+        self.tb_actionVideos.triggered.connect(self.open_video_player)
 
         self.current_color = QColor("#000000")
 
@@ -328,6 +338,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.tabWidget.currentWidget().findChild(QGraphicsView, 'gv_Canvas').scene().add_image(pixmap_item)
                 #self.scene.addItem(pixmap_item)  # Add the image to the scene
                 #self.add_item_to_undo(pixmap_item)
+
+    def open_video_player(self):
+        # print("video button clicked")   #debug
+        #create the player from board scene
+        self.scene.open_video_player()
 
     # this finds the current tab and locates the canvas
     # inside that tab to access its scene
