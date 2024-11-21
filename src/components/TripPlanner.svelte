@@ -35,14 +35,14 @@
         // gather all data and store
         event.preventDefault();
         let start = document.getElementById("stop0");
-        let end = document.getElementById("stop" + stops.length - 1);
+        let end = document.getElementById(`stop${stops.length - 1}`);
         let date = document.getElementById("date");
         let time = document.getElementById("time");
         // validate input
         // refactor html to just use a calendar for date and create a MM/DD format for time
         const data = {
             start: start.value,
-            end: stops[stops.length - 1],
+            end: end.value,
             radio: radio,
             date: date.value,
             time: time.value,
