@@ -15,19 +15,63 @@
     body {
       margin: 0;
       padding: 0;
-      font-family: "Gill Sans", sans-serif;
+      font-family: "Arial Black", sans-serif;
       letter-spacing: 0.1em;
       background: url('https://www.pixel4k.com/wp-content/uploads/2018/10/sky-full-of-stars-space-4k_1540139420.jpg') no-repeat center center;
       background-size: cover;
       color: #fff;
       overflow: hidden;
+
+      display: flex; /* Use flexbox */
+      flex-direction: column; /* Arrange elements vertically */
+      align-items: center; /* Center elements horizontally */
+      justify-content: start; /* Align elements at the top */
+      min-height: 100vh; /* Ensure full height for proper alignment */
     }
 
     h1 {
-      text-align: center;
+      margin: 20px 0;
       color: #fff;
-      margin-top: 50px;
       font-size: 2.5em;
+      font-family: 'Share Tech Mono', monospace;
+      text-align: center;
+    }
+
+    .login-page {
+      margin-top: 20px; /* Add spacing below the header */
+      background: rgba(0, 0, 0, 0.7); /* Slightly transparent background */
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center; /* Center form elements */
+      width: 300px; /* Fixed width for the form */
+    }
+
+    .login-page .form input {
+      display: block; /* Stack inputs vertically */
+      width: 100%; /* Full width inside the container */
+      margin-bottom: 10px;
+      padding: 10px;
+      border: 1px solid #fff;
+      background: none;
+      color: white;
+      font-family: 'Share Tech Mono', monospace;
+    }
+
+    .login-page .form button {
+      color: white;
+      background-color: #333;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-family: 'Share Tech Mono', monospace;
+      width: 100%;
+    }
+
+    .login-page .form button:hover {
+      background-color: #555; /* Add a hover effect */
+    }
+
+    .login-page .form p {
       font-family: 'Share Tech Mono', monospace;
     }
 
@@ -56,15 +100,30 @@
     }
   </style>
 </head>
-<body>
 
-<!--To add cursor glow... not working yet-->
+
+<body>
+<!--To add cursor glow... not working yet
 <canvas id="c"></canvas>
 <script src="/cursor-glow.js"></script>
-<!---->
-
-
+-->
 <h1>Spaceify</h1>
+
+<div class="login-page">
+  <div name="login" class="form">
+    <div class="title login" style="font-size: 25px; font-family: Share Tech Mono; padding-bottom: 25px;">
+      Login Form
+    </div>
+    <form class="login-form" action="login.php" method="post">
+      <input type="username" id="user" placeholder="Username"/>
+      <input type="password" id="pass" placeholder="Password"/>
+      <button id="login_button">Login</button>
+      <p class="message" style="font-family: Share Tech Mono, monospace;">Not registered? 
+        <a href="register.html">Create an account</a>
+      </p>
+    </form>
+  </div>
+</div>
 
 <div id="chart"></div>
 <div id="error-message" style="color: red;"></div>
@@ -77,4 +136,16 @@
 </audio>
 
 </body>
+
+<script type="text/javascript">
+  document.getElementById("login_button").onclick = function () {
+    const username = document.getElementById("user").value
+    const password = document.getElementById("pass").value
+
+    if (username === 'Admin' && password === 'Password123') {
+      location.href = "placeholder.html";
+    }
+  }
+</script>
+
 </html>
