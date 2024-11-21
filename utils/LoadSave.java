@@ -25,8 +25,10 @@ public class LoadSave {
     // public static final String PLAYER_ATLAS = "player_sprites.png";
     // public static final String PLAYER_ATLAS = "UD_FB.png";
     public static final String PLAYER_ATLAS = "HD_B-NoWM.png";
-    public static final String LEVEL_ATLAS = "outside_sprites.png";
-    public static final String LEVEL_ONE_DATA = "bird_clear_bk_ground.png";
+    // public static final String LEVEL_ATLAS = "outside_sprites.png";
+    public static final String LEVEL_ATLAS = "outside_sprites_auto_gen.png";
+    // public static final String LEVEL_ONE_DATA = "bird_clear_bk_ground.png";
+    public static final String LEVEL_ONE_DATA = "generated_red_bars_image.png";
 
     // public static final String PLAYER_ATLAS = "player_sprites.png";
     // public static final String LEVEL_ATLAS = "outside_sprites.png";
@@ -65,10 +67,12 @@ public class LoadSave {
         return img;
     }
 
+    // This method loads the level and uses getHeight and getWidth of the small pixel board.
     public static int[][] GetLevelData() {
         BufferedImage img = GetSpriteAtlas(LEVEL_ONE_DATA);
         int[][] lvlData = new int[img.getHeight()][img.getWidth()];
-
+        System.out.println("img height: " + img.getHeight());
+        System.out.println("img width: " + img.getWidth());
         for (int j = 0; j < img.getHeight(); j++)
             for (int i = 0; i < img.getWidth(); i++) {
                 Color color = new Color(img.getRGB(i, j));
