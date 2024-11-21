@@ -11,6 +11,7 @@ import Task from './components/Task';
 import Header from './Header';
 import './styles/home.css';
 import './styles/index.css';
+import Profile from './components/Profile';
 
 
 function App() {
@@ -47,6 +48,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path='/register' element={<Register />}/>
         <Route path='/challenge' element={<Challenge/>}/>
+        <Route path='/profile' element={<Profile/>}/>
       </Routes>
       <BackgroundMusic/>
     </div>
