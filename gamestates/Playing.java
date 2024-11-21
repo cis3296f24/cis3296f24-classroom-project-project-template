@@ -60,7 +60,7 @@ public class Playing extends State implements Statemethods {
         if (diff > rightBorder)
             xLvlOffset += diff - rightBorder;
         else if (diff < leftBorder)
-            xLvlOffset += diff - leftBorder;
+            xLvlOffset += diff - leftBorder; // <--------------------------------- center bird
 
         if (xLvlOffset > maxLvlOffsetX)
             xLvlOffset = maxLvlOffsetX;
@@ -73,9 +73,9 @@ public class Playing extends State implements Statemethods {
     @Override
     public void draw(Graphics g) {
 
-       // g.drawImage(backgroundImg, 0 - (int) (xLvlOffset * 0.07), 0,FlappyGame.GAME_WIDTH, FlappyGame.GAME_HEIGHT, null); // This will load the image with the dimensions of the game.
+       g.drawImage(backgroundImg, 0 - (int) (xLvlOffset * 0.07), 0,FlappyGame.GAME_WIDTH, FlappyGame.GAME_HEIGHT, null); // This will load the image with the dimensions of the game.
        // g.drawImage(backgroundImg, FlappyGame.GAME_WIDTH - (int) (xLvlOffset * 0.07), 0,FlappyGame.GAME_WIDTH, FlappyGame.GAME_HEIGHT, null); // This will load the image with the dimensions of the game.
-       // drawGround(g);
+        drawGround(g);
         levelManager.draw(g, xLvlOffset);
         player.render(g, xLvlOffset);
         if (paused) {
