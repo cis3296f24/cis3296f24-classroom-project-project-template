@@ -102,7 +102,7 @@ router.post('/autocomplete', async (req, res) => {
         params: {
             components: ["country:us"],
             language: "en",
-            location: [39.9526, 75.1652], //philly coords
+            location: [39.9526, -75.1652], //philly coords
             radius: 20000, // entirety of philly + room for error
             input: req.body.input,
             key: apiKey
