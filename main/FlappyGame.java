@@ -26,7 +26,6 @@ public class FlappyGame implements Runnable {
 
     public FlappyGame() {
         initClasses();
-
         gamePanel = new GamePanel(this);
         gameWindow = new GameWindow(gamePanel);
         gamePanel.requestFocus();

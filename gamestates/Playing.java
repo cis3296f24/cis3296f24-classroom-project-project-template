@@ -1,6 +1,6 @@
 package gamestates;
 
-import java.awt.Color;
+import java.awt.*;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -9,6 +9,7 @@ import entities.Player;
 import levels.LevelManager;
 import main.FlappyGame;
 import ui.PauseOverlay;
+import utils.HelpMethods;
 import utils.LoadSave;
 
 public class Playing extends State implements Statemethods {
@@ -23,6 +24,28 @@ public class Playing extends State implements Statemethods {
     private int lvlTilesWide = LoadSave.GetLevelData()[0].length;
     private int maxTilesOffset = lvlTilesWide - FlappyGame.TILES_IN_WIDTH;
     private int maxLvlOffsetX = maxTilesOffset * FlappyGame.TILE_SIZE;
+    private int score = 0;
+    private int count = 0;
+    int counter =0;
+    // Getter for the score
+    public int getScore() {
+        return score;
+    }
+
+    // Method to increment the score
+    public void incrementScore() {
+        score++;
+    }
+
+    // Reset the score when the game starts or resets
+    public void resetScore() {
+        score = 0;
+    }
+    public int increaseCount (){//count is used as a timer since it will increment by 1 every millisecond
+        count++;
+        return count;
+    }
+
 
     public Playing(FlappyGame flappyGame) {
         super(flappyGame);
@@ -42,9 +65,14 @@ public class Playing extends State implements Statemethods {
             levelManager.update();
             player.update();
             checkCloseToBorder();
-        } else {
-            pauseOverlay.update();
+            increaseCount();
         }
+        else {
+            pauseOverlay.update();
+        } if(counter==0) {
+          System.out.println();
+        } else if (increaseCount() % 400 ==0){ //this checks if count reaches 300 once it does it increases the score by 1- Brian Nguyen
+        incrementScore();}
     }
 
     private void checkCloseToBorder() {
@@ -54,7 +82,7 @@ public class Playing extends State implements Statemethods {
         if (diff > rightBorder)
             xLvlOffset += diff - rightBorder;
         else if (diff < leftBorder)
-            xLvlOffset += diff - leftBorder;
+            xLvlOffset += diff - leftBorder +3;
 
         if (xLvlOffset > maxLvlOffsetX)
             xLvlOffset = maxLvlOffsetX;
@@ -73,6 +101,9 @@ public class Playing extends State implements Statemethods {
             g.fillRect(0, 0, FlappyGame.GAME_WIDTH, FlappyGame.GAME_HEIGHT);
             pauseOverlay.draw(g);
         }
+        g.setColor(Color.BLACK);
+        g.setFont(new Font("Arial", Font.BOLD, 30));
+        g.drawString("Score: " + score, 50, 50);
     }
 
     @Override
@@ -92,6 +123,7 @@ public class Playing extends State implements Statemethods {
                 break;
             case KeyEvent.VK_SPACE:
                 player.setJump(true);
+                counter++;
                 break;
             case KeyEvent.VK_ESCAPE:
                 paused = !paused;

@@ -14,8 +14,8 @@ public class LoadSave {
     // public static final String PLAYER_ATLAS = "player_sprites.png";
     // public static final String PLAYER_ATLAS = "UD_FB.png";
     public static final String PLAYER_ATLAS = "HD_B-NoWM.png";
-    public static final String LEVEL_ATLAS = "outside_sprites.png";
-    public static final String LEVEL_ONE_DATA = "bird_one_data.png";
+    public static final String LEVEL_ATLAS = "outside_sprites_fb_Pipes_Tile23.png";
+    public static final String LEVEL_ONE_DATA = "gen_red_bars_image.png";
 
     // public static final String PLAYER_ATLAS = "player_sprites.png";
     // public static final String LEVEL_ATLAS = "outside_sprites.png";
