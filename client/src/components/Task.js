@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight, Plus } from 'lucide-react';
 import '../styles/task.css';
+import ProgressTracker from './ProgressTracker';
+
 
 const Task = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -213,7 +215,9 @@ const Task = () => {
               Cancel
             </button>
           </form>
+
         )}
+        <ProgressTracker tasks={tasks} />
 
         {/* Display tasks for the next 12 hours below the calendar */}
         <div className="upcoming-tasks mt-6">

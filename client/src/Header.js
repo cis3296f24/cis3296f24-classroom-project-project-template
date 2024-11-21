@@ -77,6 +77,15 @@ export default function Header({ isLoggedIn, setIsLoggedIn }) {
           >
             Calendar
           </NavLink>
+
+          <NavLink
+            to="/progresstracker"
+            className={({ isActive }) => 
+              isActive ? "text-sm font-semibold text-indigo-400" : "text-sm font-semibold text-link"
+            }
+          >
+            Progress Tracker
+          </NavLink>
         </div>
 
         {/* User Dropdown or Login Link */}
@@ -143,6 +152,9 @@ export default function Header({ isLoggedIn, setIsLoggedIn }) {
                 </NavLink>
                 <NavLink to="/yourChallenge" onClick={() => setMobileMenuOpen(false)} className="-mx-3 block rounded-lg px-3 py-2 text-base text-link font-semibold hover:bg-gray-700">
                   Create Challenges
+                </NavLink>
+                <NavLink to="/progresstracker" onClick={() => setMobileMenuOpen(false)} className="block rounded-lg px-3 py-2 text-base font-semibold text-link hover:bg-gray-700">
+                  Progress Tracker
                 </NavLink>
               </div>
               {!isLoggedIn && (
