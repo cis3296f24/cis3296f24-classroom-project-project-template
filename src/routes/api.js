@@ -4,9 +4,9 @@ const { Client, Status } = require("@googlemaps/google-maps-services-js");
 const path = require('path')
 const fs = require('node:fs'); // for debug
 // require('dotenv').config({path: path.join(__dirname,'..', '..', 'keys.env')})
-require('dotenv').config({ path: './keys.env' })
+require('dotenv').config({ path: './keys.env' });
 
-// console.log(process.env.GOOGLE_API_KEY) for debugging
+const apiKey = process.env.GOOGLE_API_KEY;
 
 router.get('/locations', async (req, res) => {
     console.log(`GET /api/locations`);
@@ -38,7 +38,7 @@ router.get('/bus_schedules', async (req, res) => {
 
 router.post('/google_directions', async (req, res) => {
     console.log(`POST /api/google_directions`);
-    const apiKey = process.env.GOOGLE_API_KEY;
+    
     
     const data = req.body;
     console.log(JSON.stringify(data)); // for debug
@@ -94,4 +94,29 @@ router.post('/google_directions', async (req, res) => {
     });
 });
 
+router.post('/autocomplete', async (req, res) => {
+    console.log(`POST /api/autocomplete`);
+    console.log(`Input: ${req.body.input}`);
+    const client = new Client({});
+    client.placeAutocomplete({
+        params: {
+            components: ["country:us"],
+            language: "en",
+            location: [39.9526, 75.1652], //philly coords
+            radius: 20000, // entirety of philly + room for error
+            input: req.body.input,
+            key: apiKey
+        }
+    }).then(r => {
+        fs.writeFile("./autocomplete_suggestions.json", JSON.stringify(r.data, null, 2), (err) => {
+            if (err) {
+                console.error(err);
+            }
+        }); // comment this out if you dont want response output written to disk
+        res.json(r.data);
+    }).catch(e => {
+        console.error(e);
+        res.status(e.status).json({e: `${e.error_message}`});
+    });
+});
 module.exports = router;
