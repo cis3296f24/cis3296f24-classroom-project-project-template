@@ -16,7 +16,17 @@ The application features an interactive, space-themed scatter plot that visualiz
 
 The project will utilize the Spotify Web API to fetch data regarding user listening habits.
 
-PLEASE BEFORE RUNNING OUR APPLICATION WE NEED TO ADD YOUR EMAIL TO OUR SPOTIFY DEVELOPERS ACCOUNT, PLEASE CONTACT US AT nathaliavalli@gmail.com
+## BEFORE RUNNING OUR APPLICATION
+
+You will need to register your app and get your own credentials from the Spotify for Developers Dashboard.
+
+To do so, go to your Spotify for Developers Dashboard and create your application. Here (https://developer.spotify.com/)
+
+Once you have created your app, change the client_id and client_secret on .env file to your own Spotify Developer credentials.
+
+OR 
+
+contact us to add your email to our dashboard (if you prefer that skip step 3)
 
 ## How to Run
 
@@ -25,7 +35,7 @@ To run the application locally, follow these steps:
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/yourusername/spaceify.git
+   git clone (https://github.com/cis3296f24/Spaceify.git)
    cd spaceify
    ```
 
@@ -46,10 +56,10 @@ To run the application locally, follow these steps:
 4. Start the server:
 
    ```bash
-   npm start
+   node app.js
    ```
 
-5. Open your browser and navigate to `http://localhost:3000/login`.
+5. Open your browser and navigate to `http://localhost:3000`.
 
 ## How to Contribute
 
