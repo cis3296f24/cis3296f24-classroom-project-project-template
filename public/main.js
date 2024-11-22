@@ -153,9 +153,10 @@ function renderTracks(data) {
         .attr("height", height);
 
     // Aggregate data by artist
-    const artistData = d3.groups(data, d => d.artists[0].name)
-        .map(([key, values]) => ({
-            key,
+    const artistData = d3.groups(data, d => d.artists[0].id)
+        .map(([id, values]) => ({
+            key: values[0].artists[0].name, // Use artist name for display
+            id, // Use artist ID for API calls
             value: {
                 avgPopularity: d3.mean(values, d => d.popularity),
                 avgDuration: d3.mean(values, d => d.duration_ms),
@@ -190,7 +191,11 @@ function renderTracks(data) {
         .style("pointer-events", "none")
         .style("display", "none")
         .style("font-size", "20px")
-        .style("font-family", "'Share Tech Mono', monospace");
+        .style("font-family", "'Share Tech Mono', monospace")
+        .style("max-width", "300px")
+        .style("height", "auto")
+        .style("overflow", "visible")
+        .style("white-space", "normal");
 
     console.log("Tooltip element created:", tooltip.node());
 
@@ -209,10 +214,46 @@ function renderTracks(data) {
         .attr("fill", (d, i) => planetColors[i % planetColors.length])
         .attr("stroke", "white")
         .attr("stroke-width", 2)
-        .on("mouseover", (event, d) => {
-            tooltip.style("display", "block")
-
-                .html(`<strong>${d.key}</strong><br>Tracks: ${d.value.count}<br>Popularity: ${Math.round(d.value.avgPopularity)}`);
+        .on("mouseover", async (event, d) => {
+            try {
+                // Show the tooltip immediately with basic info
+                tooltip.style("display", "block")
+                    .html(`<strong>${d.key}</strong><br>Tracks: ${d.value.count}<br>Popularity: ${Math.round(d.value.avgPopularity)}<br>Loading more info...`);
+        
+                // Fetch additional artist details using the Spotify Web API
+                const response = await fetch(`https://api.spotify.com/v1/artists/${d.id}`, {
+                    headers: {
+                        'Authorization': `Bearer ${getAccessToken()}`
+                    }
+                });
+        
+                if (!response.ok) {
+                    throw new Error('Failed to fetch artist details');
+                }
+        
+                const artistDetails = await response.json();
+                const imageUrl = artistDetails.images[0]?.url || '';
+        
+                // Update the tooltip with additional details
+                tooltip.html(`
+                    <strong>${d.key}</strong><br>
+                    <div style="display: flex; justify-content: center; align-items: center; text-align: center; margin-top: 10px;">
+                        <img src="${imageUrl}" alt="Artist Image"
+                            style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%;">
+                    </div>
+                    Genres: ${artistDetails.genres.join(', ')}<br>
+                    Followers: ${artistDetails.followers.total.toLocaleString()}<br>
+                `);
+                tooltip.select('img')
+                    .style('width', '100px')
+                    .style('height', '100px')
+                    .style('object-fit', 'cover')
+                    .style('border-radius', '0%');
+        
+            } catch (error) {
+                console.error('Error fetching artist details:', error);
+                tooltip.html(`<strong>${d.key}</strong><br>Error loading details.`);
+            }
         })
         .on("mousemove", (event) => {
             tooltip.style("top", `${event.pageY + 10}px`)
