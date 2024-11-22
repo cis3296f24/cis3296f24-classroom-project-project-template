@@ -1,8 +1,10 @@
 import { useRouter } from 'next/navigation';
 import { RecipeResult } from "@/types/RecipeResponseType";
 import styles from "@/app/styles.module.css";
+import Image from "next/image";
 //import {Promise} from "es6-promise";
-import { useState} from "react";
+//import { useState} from "react";
+
 
 const RecipeCard = ({
                         recipe,
@@ -12,15 +14,11 @@ const RecipeCard = ({
     onSave: (recipe: RecipeResult) => void,
     onAddToMealPlan?: (recipe: RecipeResult) => Promise<void>
 }) => {
-    const [showVideo, setShowVideo] = useState(false);//video visibility toggle
-    const [videoId, setVideoId] = useState<string | null>(null); //youtube video id
-    const [loadingVideo, setLoadingVideo] = useState<boolean>(false);
     const router = useRouter();
-
     const recipeId = recipe.uri?.split("recipe_")[1]
 
     const viewRecipeDetails = () => {
-        router.push(`/recipeDetails/${recipeId}`);
+        router.push(`/recipeDetails/${recipeId}?label=${encodeURIComponent(recipe.label)}`);
     };
 
     return (
