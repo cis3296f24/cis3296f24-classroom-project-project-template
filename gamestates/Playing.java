@@ -33,8 +33,8 @@ public class Playing extends State implements Statemethods {
 
     private BufferedImage backgroundImg, flappyGroundImg;
     private int backgroundImgWidth = FlappyGame.GAME_WIDTH;
-    private int backgroundImgMoved = xLvlOffset;
-    private int backgroundImgSpeed = 2;
+    private float backgroundImgMoved = xLvlOffset;
+    private float backgroundImgSpeed = 0.07f;
 
     public Playing(FlappyGame flappyGame) {
         super(flappyGame);
@@ -81,11 +81,13 @@ public class Playing extends State implements Statemethods {
     // I added (int) (xLvlOffset * 0.07) to subtract from the back ground so it appears to be moving.
     @Override
     public void draw(Graphics g) {
-
-        System.out.println("Drawing " + player.getHitbox().x + " " + player.getHitbox().y);
-        g.drawImage(backgroundImg, 0 - (int) (xLvlOffset * backgroundImgSpeed), 0,FlappyGame.GAME_WIDTH, FlappyGame.GAME_HEIGHT, null); // This will load the image with the dimensions of the game.
-        g.drawImage(backgroundImg, backgroundImgMoved + FlappyGame.GAME_WIDTH - (int) (xLvlOffset * backgroundImgSpeed), 0,FlappyGame.GAME_WIDTH, FlappyGame.GAME_HEIGHT, null); // This will load the image with the dimensions of the game.
-        if (backgroundImgMoved >= FlappyGame.GAME_WIDTH) {
+        backgroundImgMoved -= xLvlOffset * backgroundImgSpeed;
+        // System.out.println("Drawing " + player.getHitbox().x + " " + player.getHitbox().y);
+        System.out.println("xLvlOffset: " + xLvlOffset);
+        g.drawImage(backgroundImg, (int) backgroundImgMoved, 0,FlappyGame.GAME_WIDTH, FlappyGame.GAME_HEIGHT, null); // This will load the image with the dimensions of the game.
+        g.drawImage(backgroundImg, (int) backgroundImgMoved + FlappyGame.GAME_WIDTH, 0,FlappyGame.GAME_WIDTH, FlappyGame.GAME_HEIGHT, null); // This will load the image with the dimensions of the game.
+        if (backgroundImgMoved <= -FlappyGame.GAME_WIDTH) {
+            System.out.println("Entered if > game width");
             backgroundImgMoved = 0;
         }
         drawGround(g);
