@@ -35,8 +35,7 @@ app.use(
         imgSrc: ["'self'", 'data:', 'https://i.scdn.co', 'https://www.pixel4k.com'],
         connectSrc: ["'self'", 'https://api.spotify.com'],
       },
-    },
-  })
+    })
 );
 
 
@@ -54,6 +53,8 @@ app.get('/login', (req, res) => {
 // Handle Spotify callback
 app.get('/callback', async (req, res) => {
   const code = req.query.code;
+  const redirectTo = req.query.redirect || '/'; // Default to homepage if no redirect specified
+
   const authOptions = {
     url: 'https://accounts.spotify.com/api/token',
     form: {
@@ -74,11 +75,16 @@ app.get('/callback', async (req, res) => {
     req.session.access_token = accessToken; // Store the access token in session
 
     // Redirect to frontend with the access token as a query parameter
-    res.redirect(`/?access_token=${accessToken}`);
+    res.redirect(`${redirectTo}?access_token=${accessToken}`);
   } catch (error) {
     console.error('Error getting access token:', error);
     res.status(500).send('Authentication failed');
   }
+});
+
+// Serve profile.html in app.js
+app.get('/profile.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'profile.html'));
 });
 
 

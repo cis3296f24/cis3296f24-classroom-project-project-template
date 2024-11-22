@@ -11,6 +11,13 @@ document.addEventListener('mousemove', function(e) {
 });
 
 document.addEventListener("DOMContentLoaded", function() {
+    if (window.location.pathname === "http://localhost:3000/profile.html") {
+        console.log("Skipping authentication and track fetching for profile page.");
+        return; // Exit early for profile.html
+    }
+
+    // Perform authentication and fetch tracks for other pages
+    checkAuthentication();
     fetchTracks();
 });
 
@@ -91,7 +98,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     // Check authentication and fetch tracks
-    if (window.location.pathname === "/profile.html") {
+    if (window.location.pathname === "http://localhost:3000/profile.html") {
         console.log("Skipping authentication for profile page.");
     } else {
         checkAuthentication(); // Perform authentication for other pages
@@ -102,6 +109,12 @@ document.addEventListener("DOMContentLoaded", function() {
 document.addEventListener('DOMContentLoaded', checkAuthentication);
 
 async function fetchTracks() {
+    // Skip track fetching if on profile.html
+    if (window.location.pathname === "http://localhost:3000/profile.html") {
+        console.log("No need to fetch tracks on profile.html.");
+        return;
+    }
+
     const accessToken = getAccessToken();
     const spinner = document.getElementById('spinner');
 
@@ -296,15 +309,52 @@ function displayTracks(tracks) {
         const artistItem = document.createElement('div');
         artistItem.textContent = `${artist.key} (${artist.value.count} tracks)`;
         artistItem.style.color = 'white';
+        artistItem.style.fontWeight = 'bold';
         trackList.appendChild(artistItem);
 
         const trackTitles = document.createElement('ul');
         artist.value.tracks.forEach(track => {
             const trackItem = document.createElement('li');
             trackItem.textContent = track;
-            trackItem.style.color = 'blue';
+            trackItem.style.color = 'white';
             trackTitles.appendChild(trackItem);
         });
         trackList.appendChild(trackTitles);
     });
 }
+
+// functionality for redirection to profile page
+document.addEventListener("DOMContentLoaded", () => {
+    // Handle Login Form Submission
+    const loginForm = document.getElementById("login-form");
+  
+    if (loginForm) {
+      loginForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        
+        const username = document.getElementById("user").value;
+        const password = document.getElementById("pass").value;
+  
+        // Temporary hardcoded check (to be replaced with server-side logic)
+        if (username === "Admin" && password === "Password123") {
+          localStorage.setItem("username", username);
+          window.location.href = "/login"; // Redirect to start server-side authentication
+        } else {
+          document.getElementById("error-message").textContent = "Invalid username or password.";
+        }
+      })
+    }
+    // Example: Handle logic for other pages (e.g., profile.html)
+  const currentPage = window.location.pathname;
+
+  if (currentPage === "/profile.html") {
+    const accessToken = new URLSearchParams(window.location.search).get("access_token");
+    if (!accessToken) {
+      alert("Access token missing! Redirecting to login.");
+      window.location.href = "/";
+    } else {
+      console.log("Access token found:", accessToken);
+      // Perform authenticated actions here (e.g., fetch user data)
+    }
+  }
+})

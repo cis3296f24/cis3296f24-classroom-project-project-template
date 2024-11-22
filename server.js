@@ -6,6 +6,8 @@ const crypto = require('crypto');
 const app = express();
 const port = 3000;
 
+app.use(express.static('public')); //jen
+
 // Middleware for security headers
 app.use(helmet());
 

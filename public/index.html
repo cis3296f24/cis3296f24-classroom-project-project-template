@@ -7,7 +7,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <script nonce="${res.locals.nonce}" src="/main.js"></script>
   <script nonce="${res.locals.nonce}" src="https://d3js.org/d3.v6.min.js"></script>
-  <style nonce="${res.locals.nonce}">
+  <!--To add cursor glow... not working yet-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.14.2/TweenMax.min.js"></script>
+  <script src="/cursor-tail.js"></script>
+  <!---->
+  <style nonce="${res.locals.nonce}">  
     body {
       margin: 0;
       padding: 0;
@@ -19,24 +23,10 @@
       overflow: hidden;
     }
 
-    h1 {
-      text-align: center;
-      color: #fff;
-      margin-top: 50px;
-      font-size: 2.5em;
-      font-family: 'Share Tech Mono', monospace;
-    }
-
     #chart {
       display: block;
-      margin: auto;
+      margin: 0 auto;
     }
-
-    text {
-      font-size: 15px;
-      fill: #fff;
-    }
-
 
     #error-message {
       text-align: center;
@@ -53,19 +43,37 @@
 
   </style>
 </head>
-<body>
 
-<h1>Spotify Top Artists and Tracks List  </h1>
+
+<body>
+<!--To add cursor glow... not working yet
+<canvas id="c"></canvas>
+<script src="/cursor-glow.js"></script>
+-->
+<h1>Spaceify</h1>
+<div class="login-container">
+  <h2>Login Form</h2>
+  <form id="login-form">
+    <input type="text" id="user" placeholder="Username" required/>
+    <input type="password" id="pass" placeholder="Password" required/>
+    <button type="submit">Login</button>
+    <p class="message">Not registered? 
+      <a href="register.html">Create an account</a>
+    </p>
+  </form>
+</div>
 
 <div id="chart"></div>
 <div id="error-message" style="color: red;"></div>
-<div id="spinner" style="display: flex;">Loading...</div>
+<div id="spinner"><p>Loading...</p></div>
 <div id="track-list"></div>
 
 <!--Adding audio to the website-->
 <audio controls autoplay loop>
   <source src = "space-158081.mp3" type = "audio/mpeg">
 </audio>
+
+<script src="main.js"></script>
 
 </body>
 </html>
