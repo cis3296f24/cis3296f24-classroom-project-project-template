@@ -104,6 +104,15 @@ function Login() {
                             Register
                         </button>
                     </NavLink>
+
+                    <NavLink to="/change-password">
+                        <button
+                            type="button"
+                            className="w-full py-2 mt-4 bg-gradient-to-r from-gray-700 to-gray-500 text-white font-bold rounded-md transition-transform duration-500 transform hover:scale-105"
+                        >
+                            Forgot Password
+                        </button>
+                    </NavLink>              
     
                     <p className="mt-2 text-sm text-gray-300 text-center h-4">{message}</p>
                 </form>

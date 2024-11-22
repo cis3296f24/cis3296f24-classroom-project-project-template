@@ -8,6 +8,7 @@ const loginRoute = require('./routes/login');
 const registerRoute = require('./routes/register');
 const challengeRoute = require('./routes/challenge');
 const userRoute = require('./routes/user');
+const changePasswordRouter = require('./routes/changePassword');
 
 //MongoDB Connection:
 const mongoose = require('mongoose');
@@ -26,6 +27,8 @@ app.use('/api/login', loginRoute);
 app.use('/api/register', registerRoute);
 app.use('/api/user', userRoute);
 app.use('/api/challenge', challengeRoute);
+app.use('/api/change-password', changePasswordRouter);
+
 
 //for local test, change the URL after deploy to backend application
 app.listen(PORT, () => {

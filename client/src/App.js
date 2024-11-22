@@ -16,13 +16,14 @@ import ProgressTracker from './components/ProgressTracker';
 
 import Profile from './components/Profile';
 
+import ChangePassword from './components/ChangePassword';
 
 
 function App() {
 
   const location = useLocation();
   let hideNavbar = false;
-  if(location.pathname === '/login' || location.pathname === '/register') {
+  if(location.pathname === '/login' || location.pathname === '/register' || location.pathname === '/ChangePassword') {
     hideNavbar = true;
   }
 
@@ -52,6 +53,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path='/register' element={<Register />}/>
         <Route path='/challenge' element={<Challenge/>}/>
+        <Route path="/change-password" element={<ChangePassword />} />
         <Route path='/progresstracker' element={<ProgressTracker/>} />
         <Route path='/profile' element={<Profile/>}/>
       </Routes>
