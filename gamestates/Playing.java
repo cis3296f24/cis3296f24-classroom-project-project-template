@@ -32,15 +32,25 @@ public class Playing extends State implements Statemethods {
     private int maxLvlOffsetX = maxTilesOffset * FlappyGame.TILE_SIZE;
 
     private BufferedImage backgroundImg, flappyGroundImg;
+    private BufferedImage flappyBKGLayer1, flappyBKGLayer2, flappyBKGLayer3;
+
     private int backgroundImgWidth = FlappyGame.GAME_WIDTH;
     private float backgroundImgMoved = xLvlOffset;
-    private float backgroundImgSpeed = 0.07f;
+    // private float backgroundImgSpeed = 0.07f;
+    private float backgroundImgSpeed = .07f;
 
+    private int backgroundImgCounter = 0;
+
+
+    // I am loading the background here also.
     public Playing(FlappyGame flappyGame) {
         super(flappyGame);
         initClasses();
-        backgroundImg = LoadSave.GetSpriteAtlas(LoadSave.FlappyCity_BG_IMG); // This line loads the flappy background.
-        flappyGroundImg = LoadSave.GetSpriteAtlas(LoadSave.GROUND_IMG); // This will create the floor or flappy ground.
+        backgroundImg = LoadSave.GetSpriteAtlas(LoadSave.FlappyCity_BG_IMG);    // This line loads the flappy background.
+        flappyGroundImg = LoadSave.GetSpriteAtlas(LoadSave.GROUND_IMG);         // This will create the floor or flappy ground.
+        flappyBKGLayer1 = LoadSave.GetSpriteAtlas(LoadSave.FlappyLayer_1);
+        flappyBKGLayer2 = LoadSave.GetSpriteAtlas(LoadSave.FlappyLayer_2);
+        flappyBKGLayer3 = LoadSave.GetSpriteAtlas(LoadSave.FlappyLayer_3);
     }
 
     private void initClasses() {
@@ -77,18 +87,41 @@ public class Playing extends State implements Statemethods {
 
     }
 
+    // Please see LoadSave.java to input or load your images.
     // Everytime we draw something for Flappy Bird we need to add it here.
-    // I added (int) (xLvlOffset * 0.07) to subtract from the back ground so it appears to be moving.
+    // I added (int) (xLvlOffset * 0.07) to subtract from the background so it appears to be moving.
     @Override
     public void draw(Graphics g) {
-        backgroundImgMoved -= xLvlOffset * backgroundImgSpeed;
+//        backgroundImgMoved = -xLvlOffset * backgroundImgSpeed;
+//
+//        // Calculate the position where the background needs to reset/loop
+//        int bgLoopPoint = FlappyGame.GAME_WIDTH;
+//
+//        // Draw the first instance of the background image
+//        g.drawImage(backgroundImg, (int) backgroundImgMoved, 0, FlappyGame.GAME_WIDTH, FlappyGame.GAME_HEIGHT, null);
+//
+//        // Check if a second instance needs to be drawn for smooth looping
+//        if (backgroundImgMoved + bgLoopPoint < bgLoopPoint) {
+//            g.drawImage(backgroundImg, (int) backgroundImgMoved + bgLoopPoint, 0, FlappyGame.GAME_WIDTH, FlappyGame.GAME_HEIGHT, null);
+//        }
+
+        backgroundImgCounter += 1;
+        backgroundImgMoved = -xLvlOffset * backgroundImgSpeed;
         // System.out.println("Drawing " + player.getHitbox().x + " " + player.getHitbox().y);
-        System.out.println("xLvlOffset: " + xLvlOffset);
-        g.drawImage(backgroundImg, (int) backgroundImgMoved, 0,FlappyGame.GAME_WIDTH, FlappyGame.GAME_HEIGHT, null); // This will load the image with the dimensions of the game.
-        g.drawImage(backgroundImg, (int) backgroundImgMoved + FlappyGame.GAME_WIDTH, 0,FlappyGame.GAME_WIDTH, FlappyGame.GAME_HEIGHT, null); // This will load the image with the dimensions of the game.
-        if (backgroundImgMoved <= -FlappyGame.GAME_WIDTH) {
+        System.out.println("xLvlOffset: " + xLvlOffset + "       backgroundImgCounter" + backgroundImgCounter);
+        // g.drawImage(backgroundImg, (int) backgroundImgMoved, 0,FlappyGame.GAME_WIDTH, FlappyGame.GAME_HEIGHT, null); // This will load the image with the dimensions of the game.
+        // g.drawImage(backgroundImg, (int) backgroundImgMoved + FlappyGame.GAME_WIDTH, 0,FlappyGame.GAME_WIDTH, FlappyGame.GAME_HEIGHT, null); // This will load the image with the dimensions of the game.
+        g.drawImage(flappyBKGLayer1, (int) backgroundImgMoved, 0,FlappyGame.GAME_WIDTH, FlappyGame.GAME_HEIGHT, null); // This will load the image with the dimensions of the game.
+        g.drawImage(flappyBKGLayer2, (int) backgroundImgMoved, 0,FlappyGame.GAME_WIDTH, FlappyGame.GAME_HEIGHT, null); // This will load the image with the dimensions of the game.
+       // g.drawImage(flappyBKGLayer3, (int) backgroundImgMoved, 0,FlappyGame.GAME_WIDTH, FlappyGame.GAME_HEIGHT, null); // This will load the image with the dimensions of the game.
+
+        g.drawImage(flappyBKGLayer1, (int) backgroundImgMoved + FlappyGame.GAME_WIDTH, 0,FlappyGame.GAME_WIDTH, FlappyGame.GAME_HEIGHT, null); // This will load the image with the dimensions of the game.
+        g.drawImage(flappyBKGLayer2, (int) backgroundImgMoved + FlappyGame.GAME_WIDTH, 0,FlappyGame.GAME_WIDTH, FlappyGame.GAME_HEIGHT, null); // This will load the image with the dimensions of the game.
+      //  g.drawImage(flappyBKGLayer3, (int) backgroundImgMoved + FlappyGame.GAME_WIDTH, 0,FlappyGame.GAME_WIDTH, FlappyGame.GAME_HEIGHT, null); // This will load the image with the dimensions of the game.
+
+        if (xLvlOffset > FlappyGame.GAME_WIDTH) {
             System.out.println("Entered if > game width");
-            backgroundImgMoved = 0;
+            // backgroundImgMoved = 0;
         }
         drawGround(g);
         levelManager.draw(g, xLvlOffset);
@@ -105,8 +138,10 @@ public class Playing extends State implements Statemethods {
     private void drawGround(Graphics g) {
         // System.out.println("xLvlOffset " + xLvlOffset);
         // for (int i = 0; i < 20; i++)  {
-        for (int y = 0; y < 10; y++) {
-            g.drawImage(flappyGroundImg, y * (int) (GROUND_WIDTH / 10) - (int) (xLvlOffset * 0.7), 850, (int) (GROUND_WIDTH / 10), (int) (GROUND_HEIGHT / 10), null);
+        for (int j = 0; j < 100; j++) {
+            // g.drawImage(flappyGroundImg, j * (int) (GROUND_WIDTH / 10) - (int) (xLvlOffset * 0.7), 850, (int) (GROUND_WIDTH / 10), (int) (GROUND_HEIGHT / 10), null);
+            g.drawImage(flappyBKGLayer3, j * (int) (GROUND_WIDTH / 10) - (int) (xLvlOffset * 0.1), 840, (int) (GROUND_WIDTH / 10), (int) (GROUND_HEIGHT / 10), null);
+
         }
         
     }

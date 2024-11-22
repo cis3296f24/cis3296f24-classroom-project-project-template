@@ -5,9 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5b45b616-1c01-40f6-b838-de9f2eddfd06" name="Changes" comment="Bird only">
-      <change beforePath="$PROJECT_DIR$/entities/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/entities/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamestates/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/gamestates/Menu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gamestates/Playing.java" beforeDir="false" afterPath="$PROJECT_DIR$/gamestates/Playing.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/levels/LevelManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/levels/LevelManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/03-flappy-bird/gamestates/Playing.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/03-flappy-bird/gamestates/Playing.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/LoadSave.java" beforeDir="false" afterPath="$PROJECT_DIR$/utils/LoadSave.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,7 +109,8 @@
       <workItem from="1732181422454" duration="8943000" />
       <workItem from="1732220774741" duration="4948000" />
       <workItem from="1732231399801" duration="628000" />
-      <workItem from="1732276727742" duration="2337000" />
+      <workItem from="1732276727742" duration="8474000" />
+      <workItem from="1732287161259" duration="143000" />
     </task>
     <task id="LOCAL-00001" summary="Bird only">
       <option name="closed" value="true" />

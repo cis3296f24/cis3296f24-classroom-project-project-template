@@ -40,12 +40,15 @@ public class HelpMethods {
 //            System.out.println("birdScore: " + birdScore);
 //            previousValue = 255; // nonzero value
 //        }
+
         if (value == 23) {
 //            if (previousValue == 255) previousValue = 0; // zero value
             return false;
         }
         if (value >= 48 || value < 0 || value != 11) {
-            return true;
+            return false;
+
+          //  return true;
         }
         return false;
     }
