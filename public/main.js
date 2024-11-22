@@ -195,7 +195,7 @@ function renderTracks(data) {
 
     const tooltip = d3.select("body").append("div")
         .style("position", "absolute")
-        .style("background", "rgba(0, 0, 139, 1)")
+        .style("background", "rgba(0, 0, 100, 1)")
         .style("color", "#fff")
         .style("padding", "10px")
         .style("border-radius", "0px")

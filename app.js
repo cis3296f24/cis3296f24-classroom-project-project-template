@@ -35,7 +35,8 @@ app.use(
         imgSrc: ["'self'", 'data:', 'https://i.scdn.co', 'https://www.pixel4k.com'],
         connectSrc: ["'self'", 'https://api.spotify.com'],
       },
-    })
+    },
+  })
 );
 
 
