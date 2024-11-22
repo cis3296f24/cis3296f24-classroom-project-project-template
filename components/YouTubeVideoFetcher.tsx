@@ -30,7 +30,7 @@ const YouTubeVideoFetcher: React.FC<YouTubeVideoFetcherProps> = ({ query }) => {
                 // Build request URL
                 const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(
                     searchQuery
-                )}key=apiKey&type=video&maxResults=1&regionCode=US`;
+                )}&key=${apiKey}&type=video&maxResults=1&regionCode=US`;
 
                 console.log('Request URL:', url);
 
@@ -38,8 +38,9 @@ const YouTubeVideoFetcher: React.FC<YouTubeVideoFetcherProps> = ({ query }) => {
                 const response = await fetch(url);
 
                 if (!response.ok) {
-                    throw new Error(`YouTube API responded with status: ${response.status}`);
-                }
+                    const errorData = await response.json();
+                    console.error(`YouTube API responded with status: ${response.status}`, errorData);
+                    return;                }
 
                 const data = await response.json();
                 console.log('YouTube API response:', data);
@@ -67,7 +68,7 @@ const YouTubeVideoFetcher: React.FC<YouTubeVideoFetcherProps> = ({ query }) => {
         <div>
             {video ? (
                 <div>
-                    <h2>z</h2>
+                    <h2>Watch Related Recipe Video</h2>
                     <a
                         href={`https://www.youtube.com/watch?v=${video.id}`}
                         target="_blank"

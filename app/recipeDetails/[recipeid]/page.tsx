@@ -1,7 +1,7 @@
 "use client";
 import { RecipeResult } from '@/types/RecipeResponseType';
 import { fetchRecipeByID } from '@/utils/fetchRecipes';
-import { useRouter, useParams } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { useEffect, useState, useRef } from 'react';
 
 declare global{
@@ -14,12 +14,10 @@ declare global{
 export default function RecipeDetails() {
     const [recipe, setRecipe] = useState<RecipeResult>()
     const [loading, setLoading] = useState(true)
-    const router = useRouter();
     const recipeId = useParams().recipeid as string
     const [videoId, setVideoId] = useState<string | null>(null);//yt video ID
     const [playerReady, setPlayerReady] = useState<boolean>(false);//tracks if yt api is ready
     const playerRef = useRef<HTMLDivElement | null>(null);
-    const [videoDetails, setVideoDetails] = useState<any>(null);
 
 
     console.log(recipeId)
@@ -36,23 +34,15 @@ export default function RecipeDetails() {
 
 
     useEffect(() => {
-        //load the yt IFrame Api
         const loadYoutubeAPI = () => {
-            const script = document.createElement('script');
-            script.src = 'https://www.youtube.com/iframe_api';//cifnrim the url since this is just from webstorm
-            script.async = true;
-            document.body.appendChild(script);
-
-            window.onYouTubeIframeAPIReady = () =>{
-                setPlayerReady(true);
-            };
+            if (!document.getElementById('youtube-iframe-api')) {
+                const script = document.createElement('script');
+                script.id = 'youtube-iframe-api';
+                script.src = 'https://www.youtube.com/iframe_api';
+                document.body.appendChild(script);
+            }
         };
-
-        if (!window.YT){
-            loadYoutubeAPI();
-        } else{
-            setPlayerReady(true);
-        }
+        loadYoutubeAPI();
     }, []);
 
     const fetchVideo = async () => {
@@ -65,6 +55,7 @@ export default function RecipeDetails() {
         )}&key=${apiKey}`;
 
         console.log("Line 66) YouTube API Request URL: ", url);
+        console.log("Fetching YouTube video for query:", query);
 
         try {
             const response = await fetch(url);
@@ -79,14 +70,8 @@ export default function RecipeDetails() {
             console.log("YouTube API Response:", data);
 
             if (data.items && data.items.length > 0) {
-                const fetchedVideoId = data.items[0].id.videoId;
-                console.log("Fetched video ID:", fetchedVideoId);
-                setVideoId(fetchedVideoId);
-
-                // Fetch additional details
-                fetchVideoDetails(fetchedVideoId);
+                setVideoId(data.items[0].id.videoId);
             } else {
-                console.warn("No video found for query:", query);
                 setVideoId(null);
             }
         } catch (error) {
@@ -94,34 +79,11 @@ export default function RecipeDetails() {
         }
     };
 
-
-    const fetchVideoDetails = async (videoId: string) => {
-        const apiKey = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY;
-        const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&id=${videoId}&key=${apiKey}`;
-
-        try {
-            const response = await fetch(url);
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                console.error("YouTube API Error (list):", errorData, "Status Code:", response.status);
-                return;
-            }
-
-            const data = await response.json();
-            console.log("YouTube Video Details:", data);
-
-            if (data.items && data.items.length > 0) {
-                setVideoDetails(data.items[0]); // Store the video details
-            } else {
-                console.warn("No details found for videoId:", videoId);
-                setVideoDetails(null);
-            }
-        } catch (error) {
-            console.error("Error fetching YouTube video details:", error);
-            setVideoDetails(null);
+    useEffect(() => {
+        if (recipe){
+            fetchVideo();
         }
-    };
+    }, []);
 
 
     const playVideo = () => {
@@ -135,11 +97,6 @@ export default function RecipeDetails() {
             playerVars: {
                 playsinline: 1,
             },
-            events: {
-                onReady: (event: any) => {
-                    event.target.playVideo();
-                },
-            },
         });
     };
 
@@ -150,23 +107,13 @@ export default function RecipeDetails() {
     }, [videoId, playerReady]);
 
 
-    //useEffect(() => {
-      //  const effect = async () => {
-        //    const recipeResult = await fetchRecipeByID(recipeId);
-          //  setRecipe(recipeResult)
-            //setLoading(false)
-            //}
-    
-        //effect();
-    //}, []);
-
     console.log(recipe)
     if (loading) return <div>RECIPE IS LOADING!!</div>;
     if (!recipe) return <div>No recipe Found</div>;
 
     return (
-        <div style={{ color: "black", fontSize: "20px", padding: "20px" }}>
-            <img src={recipe.image} alt="Recipe" style={{ maxWidth: "100%", borderRadius: "8px" }} />
+        <div style={{color: "black", fontSize: "20px", padding: "20px"}}>
+            <img src={recipe.image} alt="Recipe" style={{maxWidth: "100%", borderRadius: "8px"}}/>
             <h1>{recipe.label}</h1>
             <h2>Ingredients</h2>
             <ul>
@@ -174,10 +121,26 @@ export default function RecipeDetails() {
                     <li key={index}>{ingredient}</li>
                 ))}
             </ul>
+
             <h2>Source</h2>
-            <a href={recipe.url} target="_blank" rel="noopener noreferrer" style={{ color: "blue", textDecoration: "underline" }}>
+            <a href={recipe.url} target="_blank" rel="noopener noreferrer"
+               style={{color: "blue", textDecoration: "underline"}}>
                 View Full Recipe on {recipe.source}
             </a>
+
+            <h2>Recipe Video</h2>
+            <a href={`https://www.youtube.com/watch?v=${videoId}`} target="_blank" rel="noopener noreferrer">
+                <iframe
+                    width="560"
+                    height="315"
+                    src={`https://www.youtube.com/embed/${videoId}`}
+                    title="YouTube video player"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                ></iframe>
+            </a>
+
         </div>
     );
 }

@@ -1,10 +1,6 @@
 import { useRouter } from 'next/navigation';
 import { RecipeResult } from "@/types/RecipeResponseType";
 import styles from "@/app/styles.module.css";
-import Image from "next/image";
-//import {Promise} from "es6-promise";
-//import { useState} from "react";
-
 
 const RecipeCard = ({
                         recipe,
