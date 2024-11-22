@@ -68,7 +68,8 @@ class BoardScene(QGraphicsScene):
         self.undo_list = []
         self.redo_list = []
         self.highlight_items = []
-        self.highlight_radius_options = [10,15,20]
+        self.i = 1
+        self.highlight_radius_options = [10, 20, 30, 40]
         self.highlight_radius = 10
 
     #Adds an action to the undo list (or a list of items in the case of textbox), by treating every action as a list
@@ -219,7 +220,16 @@ class BoardScene(QGraphicsScene):
                 elif self.active_tool == "cursor":
                     print("Cursor active")
                     self.drawing = False
+        elif event.button() == Qt.RightButton:
+            self.active_tool = "highlighter"
+            self.drawing = False
+            self.highlight(event.scenePos())
 
+            self.highlight_radius = self.highlight_radius_options[self.i]
+            self.i += 1
+
+            if self.i >= len(self.highlight_radius_options):
+                self.i = 0
 
         super().mousePressEvent(event)
 
@@ -249,6 +259,9 @@ class BoardScene(QGraphicsScene):
                 self.dragging_text_box = False
             elif self.drawing:
                 # Add the completed path to the undo stack when drawing is finished so it can be deleted or added back with undo
+                self.add_item_to_undo(self.pathItem)
+                print("Path item added to undo stack:", self.pathItem)
+            elif self.highlight:
                 self.add_item_to_undo(self.pathItem)
                 print("Path item added to undo stack:", self.pathItem)
             self.drawing = False
