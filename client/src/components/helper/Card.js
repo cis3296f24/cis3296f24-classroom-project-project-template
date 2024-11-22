@@ -162,7 +162,11 @@ function Card({ image, task, handleGenerateCard }) {
         <div>
             <Tilt options={defaultOptions}>
                 <div
-                    className={`relative shadow-xl w-[250px] h-[400px] sm:w-72 sm:h-[450px] lg:w-[350px] lg:h-[500px] rounded-3xl transition-transform duration-700 ease-in-out ${
+                    className={`relative shadow-xl w-[300px] h-[450px] 
+  sm:w-[350px] sm:h-[500px] 
+  lg:w-[400px] lg:h-[550px]
+  xl:w-[450px] xl:h-[600px]
+  max-w-[95%] max-h-[95%] rounded-3xl transition-transform duration-700 ease-in-out ${
                         isFlipped ? 'rotate-y-180' : ''
                     }`}
                     onMouseEnter={handleMouseOver}
