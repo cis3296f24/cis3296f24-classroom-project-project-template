@@ -104,10 +104,10 @@ function renderTracks(data) {
         .attr("height", height);
 
     // Aggregate data by artist
-    const artistData = d3.groups(data, d => d.artists[0])
-        .map(([artist, values]) => ({
-            key: artist.name,
-            id: artist.id, //Spotify artist ID
+    const artistData = d3.groups(data, d => d.artists[0].id)
+        .map(([id, values]) => ({
+            key: values[0].artists[0].name, // Use artist name for display
+            id, // Use artist ID for API calls
             value: {
                 avgPopularity: d3.mean(values, d => d.popularity),
                 avgDuration: d3.mean(values, d => d.duration_ms),
@@ -189,7 +189,7 @@ function renderTracks(data) {
                     Popularity: ${Math.round(d.value.avgPopularity)}<br>
                     Genres: ${artistDetails.genres.join(', ')}<br>
                     Followers: ${artistDetails.followers.total.toLocaleString()}<br>
-                    <img src="${imageUrl}" alt="Artist Image" style="width: 100%; border-radius: 5px;">
+                    <img src="${imageUrl}" alt="Artist Image" style="width: 10px; height: auto; border-radius: 5px;">
                 `);
         
             } catch (error) {
