@@ -11,6 +11,13 @@ document.addEventListener('mousemove', function(e) {
 });
 
 document.addEventListener("DOMContentLoaded", function() {
+    if (window.location.pathname === "http://localhost:3000/profile.html") {
+        console.log("Skipping authentication and track fetching for profile page.");
+        return; // Exit early for profile.html
+    }
+
+    // Perform authentication and fetch tracks for other pages
+    checkAuthentication();
     fetchTracks();
 });
 
@@ -91,7 +98,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     // Check authentication and fetch tracks
-    if (window.location.pathname === "/profile.html") {
+    if (window.location.pathname === "http://localhost:3000/profile.html") {
         console.log("Skipping authentication for profile page.");
     } else {
         checkAuthentication(); // Perform authentication for other pages
@@ -102,6 +109,12 @@ document.addEventListener("DOMContentLoaded", function() {
 document.addEventListener('DOMContentLoaded', checkAuthentication);
 
 async function fetchTracks() {
+    // Skip track fetching if on profile.html
+    if (window.location.pathname === "http://localhost:3000/profile.html") {
+        console.log("No need to fetch tracks on profile.html.");
+        return;
+    }
+
     const accessToken = getAccessToken();
     const spinner = document.getElementById('spinner');
 
@@ -153,9 +166,10 @@ function renderTracks(data) {
         .attr("height", height);
 
     // Aggregate data by artist
-    const artistData = d3.groups(data, d => d.artists[0].name)
-        .map(([key, values]) => ({
-            key,
+    const artistData = d3.groups(data, d => d.artists[0].id)
+        .map(([id, values]) => ({
+            key: values[0].artists[0].name, // Use artist name for display
+            id, // Use artist ID for API calls
             value: {
                 avgPopularity: d3.mean(values, d => d.popularity),
                 avgDuration: d3.mean(values, d => d.duration_ms),
@@ -181,7 +195,7 @@ function renderTracks(data) {
 
     const tooltip = d3.select("body").append("div")
         .style("position", "absolute")
-        .style("background", "rgba(0, 0, 139, 1)")
+        .style("background", "rgba(0, 0, 100, 1)")
         .style("color", "#fff")
         .style("padding", "10px")
         .style("border-radius", "0px")
@@ -190,7 +204,11 @@ function renderTracks(data) {
         .style("pointer-events", "none")
         .style("display", "none")
         .style("font-size", "20px")
-        .style("font-family", "'Share Tech Mono', monospace");
+        .style("font-family", "'Share Tech Mono', monospace")
+        .style("max-width", "300px")
+        .style("height", "auto")
+        .style("overflow", "visible")
+        .style("white-space", "normal");
 
     console.log("Tooltip element created:", tooltip.node());
 
@@ -206,13 +224,104 @@ function renderTracks(data) {
             const radius = minSize + ((d.value.count / 10) * (maxSize - minSize));
             return radius;
         })
-        .attr("fill", (d, i) => planetColors[i % planetColors.length])
+        //Iterate through each circle and create a pattern for it
+        .each(function (d, i) {
+            const radius = minSize + ((d.value.count / 10) * (maxSize - minSize));
+            const patternId = `earthpattern-${i}`;
+            let planet;
+            //Choose image for planet
+            switch(i) {
+                case 0:
+                    planet = "sun.jpg"
+                    break;
+                case 1:
+                    planet = "mercury.jpg"
+                    break;
+                case 2:
+                    planet = "venus.jpg"
+                    break;
+                case 3:
+                    planet = "earth.jpg"
+                    break;
+                case 4:
+                    planet = "mars.jpg"
+                    break;
+                case 5:
+                    planet = "jupiter.jpg"
+                    break;
+                case 6:
+                    planet = "saturn.jpg"
+                    break;
+                case 7:
+                    planet = "uranus.jpg"
+                    break;
+                case 8:
+                    planet = "neptune.jpg"
+                    break;
+                case 9:
+                    planet = "pluto.jpg"
+                    break;
+                default:
+                    break;
+            }
+            svg.append("defs")
+                .append("pattern")
+                .attr("id", patternId)
+                .attr("patternUnits", "objectBoundingBox")
+                .attr("width", 1)
+                .attr("height", 1)
+                .append("image")
+                .attr("xlink:href", planet)
+                .attr("x", 0)
+                .attr("y", 0)
+                .attr("width", radius * 2)
+                .attr("height", radius * 2);
+
+            d3.select(this)
+                .attr("fill", `url(#${patternId})`);
+        })
         .attr("stroke", "white")
         .attr("stroke-width", 2)
-        .on("mouseover", (event, d) => {
-            tooltip.style("display", "block")
-
-                .html(`<strong>${d.key}</strong><br>Tracks: ${d.value.count}<br>Popularity: ${Math.round(d.value.avgPopularity)}`);
+        .on("mouseover", async (event, d) => {
+            try {
+                // Show the tooltip immediately with basic info
+                tooltip.style("display", "block")
+                    .html(`<strong>${d.key}</strong><br>Tracks: ${d.value.count}<br>Popularity: ${Math.round(d.value.avgPopularity)}<br>Loading more info...`);
+        
+                // Fetch additional artist details using the Spotify Web API
+                const response = await fetch(`https://api.spotify.com/v1/artists/${d.id}`, {
+                    headers: {
+                        'Authorization': `Bearer ${getAccessToken()}`
+                    }
+                });
+        
+                if (!response.ok) {
+                    throw new Error('Failed to fetch artist details');
+                }
+        
+                const artistDetails = await response.json();
+                const imageUrl = artistDetails.images[0]?.url || '';
+        
+                // Update the tooltip with additional details
+                tooltip.html(`
+                    <strong>${d.key}</strong><br>
+                    <div style="display: flex; justify-content: center; align-items: center; text-align: center; margin-top: 10px;">
+                        <img src="${imageUrl}" alt="Artist Image"
+                            style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%;">
+                    </div>
+                    Genres: ${artistDetails.genres.join(', ')}<br>
+                    Followers: ${artistDetails.followers.total.toLocaleString()}<br>
+                `);
+                tooltip.select('img')
+                    .style('width', '100px')
+                    .style('height', '100px')
+                    .style('object-fit', 'cover')
+                    .style('border-radius', '0%');
+        
+            } catch (error) {
+                console.error('Error fetching artist details:', error);
+                tooltip.html(`<strong>${d.key}</strong><br>Error loading details.`);
+            }
         })
         .on("mousemove", (event) => {
             tooltip.style("top", `${event.pageY + 10}px`)
@@ -255,15 +364,52 @@ function displayTracks(tracks) {
         const artistItem = document.createElement('div');
         artistItem.textContent = `${artist.key} (${artist.value.count} tracks)`;
         artistItem.style.color = 'white';
+        artistItem.style.fontWeight = 'bold';
         trackList.appendChild(artistItem);
 
         const trackTitles = document.createElement('ul');
         artist.value.tracks.forEach(track => {
             const trackItem = document.createElement('li');
             trackItem.textContent = track;
-            trackItem.style.color = 'blue';
+            trackItem.style.color = 'white';
             trackTitles.appendChild(trackItem);
         });
         trackList.appendChild(trackTitles);
     });
 }
+
+// functionality for redirection to profile page
+document.addEventListener("DOMContentLoaded", () => {
+    // Handle Login Form Submission
+    const loginForm = document.getElementById("login-form");
+  
+    if (loginForm) {
+      loginForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        
+        const username = document.getElementById("user").value;
+        const password = document.getElementById("pass").value;
+  
+        // Temporary hardcoded check (to be replaced with server-side logic)
+        if (username === "Admin" && password === "Password123") {
+          localStorage.setItem("username", username);
+          window.location.href = "/login"; // Redirect to start server-side authentication
+        } else {
+          document.getElementById("error-message").textContent = "Invalid username or password.";
+        }
+      })
+    }
+    // Example: Handle logic for other pages (e.g., profile.html)
+  const currentPage = window.location.pathname;
+
+  if (currentPage === "/profile.html") {
+    const accessToken = new URLSearchParams(window.location.search).get("access_token");
+    if (!accessToken) {
+      alert("Access token missing! Redirecting to login.");
+      window.location.href = "/";
+    } else {
+      console.log("Access token found:", accessToken);
+      // Perform authenticated actions here (e.g., fetch user data)
+    }
+  }
+})

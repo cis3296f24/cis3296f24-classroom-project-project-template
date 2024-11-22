@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'nonce-${res.locals.nonce}' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' 'nonce-${res.locals.nonce}' https://d3js.org;">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https://i.scdn.co; style-src 'self' 'nonce-${res.locals.nonce}' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' 'nonce-${res.locals.nonce}' https://d3js.org; connect-src 'self' https://api.spotify.com;">
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <script nonce="${res.locals.nonce}" src="/main.js"></script>
   <script nonce="${res.locals.nonce}" src="https://d3js.org/d3.v6.min.js"></script>
@@ -40,6 +40,7 @@
       text-align: center;
       margin-top: 20px;
     }
+
   </style>
 </head>
 
@@ -72,25 +73,7 @@
   <source src = "space-158081.mp3" type = "audio/mpeg">
 </audio>
 
-<script>
-  document.getElementById("login-form").addEventListener("submit", function (event) {
-    event.preventDefault(); // Prevent form submission and page reload
-
-    const username = document.getElementById("user").value;
-    const password = document.getElementById("pass").value;
-
-    // Validate login credentials
-    if (username === "Admin" && password === "Password123") {
-      // Save the username to localStorage
-      localStorage.setItem("username", username);
-
-      // Redirect to profile.html
-      window.location.href = "profile.html";
-    } else {
-      alert("Invalid username or password.");
-    }
-  })
-</script>
+<script src="main.js"></script>
 
 </body>
 </html>
