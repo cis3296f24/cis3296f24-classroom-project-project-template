@@ -1,14 +1,17 @@
 <script>
+    import { bus, subway, trolley, rail } from './transportStore';
     let radio = "leave";
-    let bus = true;
+
+    /*let bus = true;
     let subway = true;
     let trolley = true;
-    let rail = true;
+    let rail = true;*/
 
     // Auto suggest
     const suggestLocation = (event) => {
         // console.log(`Pressed ${event.data}`);
     };
+
     // Swap button
     const handleSwap = (event) => {
         let start = document.getElementById("start");
@@ -130,7 +133,7 @@
         <input type="time" id="time" name="time" placeholder="At" />
         <div class="inlineElements">
             <label>
-                <input type="checkbox" id="bus" name="bus" bind:checked={bus} />
+                <input type="checkbox" id="bus" name="bus" bind:checked={$bus} />
                 Bus
             </label>
             <label>
@@ -138,7 +141,7 @@
                     type="checkbox"
                     id="subway"
                     name="subway"
-                    bind:checked={subway}
+                    bind:checked={$subway}
                 /> Subway
             </label>
             <label>
@@ -146,7 +149,7 @@
                     type="checkbox"
                     id="trolley"
                     name="trolley"
-                    bind:checked={trolley}
+                    bind:checked={$trolley}
                 /> Trolley
             </label>
             <label>
@@ -154,7 +157,7 @@
                     type="checkbox"
                     id="rail"
                     name="rail"
-                    bind:checked={rail}
+                    bind:checked={$rail}
                 /> Rail
             </label>
         </div>
