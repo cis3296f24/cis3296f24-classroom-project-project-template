@@ -19,7 +19,7 @@ from PySide6.QtWidgets import (
     QLabel,
     QFileDialog,
     QGraphicsPixmapItem, QWidget, QTabWidget, QAbstractScrollArea, QSizePolicy, QGraphicsView, QHBoxLayout, QGridLayout,
-    QScrollArea
+    QScrollArea, QMenu
 )
 
 from PySide6.QtGui import (
@@ -280,8 +280,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         #sharon helped me out by showing this below
         self.tb_actionText.triggered.connect(self.create_text_box)
         #self.toolbar_actionLine.triggered.connect(self.tb_Line)
-        self.tb_actionEraser.triggered.connect(self.button_clicked)
+        #self.tb_actionEraser.triggered.connect(self.button_clicked)
         self.tb_actionPen.triggered.connect(self.button_clicked)
+
+        #fixing the eraser shit I messed up - RS
+        menu = QMenu()
+        menu.addAction("Erase Object", self.eraseObject_action)
+        menu.addAction("Pen Eraser", self.penEraser_action)
+        self.tb_actionEraser.setMenu(menu)
+
+        self.eraser_color = QColor("#F3F3F3")
+
+
 
         self.current_color = QColor("#000000")
 
@@ -352,11 +362,33 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #         self.tb_actionEraser.setChecked(False)
     #         self.tb_actionPen.setChecked(True)
     #
-    # def color_changed(self, color):
-    #     self.tabWidget.currentWidget().findChild(QGraphicsView, 'gv_Canvas').scene().change_color(color)
+    def color_changed(self, color):
+         self.tabWidget.currentWidget().findChild(QGraphicsView, 'gv_Canvas').scene().change_color(color)
 
     #Depending on which button is clicked, sets the appropriate flag so that operations
     #don't overlap
+
+
+    #adding back in eraser menu functions - RS
+    def eraseObject_action(self):
+        print("Erase Object action")
+        print("Eraser activated")  # Debugging print
+        self.scene.set_active_tool("eraser")
+        self.tb_actionPen.setChecked(False)  # Ensure pen is not active
+        self.tb_actionCursor.setChecked(False)
+
+
+
+    def penEraser_action(self):
+        print("Pen Eraser action")
+            # Enable pen mode, disable eraser
+        print("Pen activated")  # Debugging print
+        self.color_changed(self.eraser_color)
+        self.scene.set_active_tool("pen")
+        self.tb_actionEraser.setChecked(False)  # Ensure eraser is not active
+        self.tb_actionCursor.setChecked(False)
+
+
     def button_clicked(self):
         sender_button = self.sender()
 
