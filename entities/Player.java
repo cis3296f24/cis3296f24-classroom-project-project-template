@@ -154,16 +154,19 @@ public class Player extends Entity {
     private void loadAnimations() {
 
         BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.PLAYER_ATLAS);
-        //               BufferedImage[i][j]
-        animations = new BufferedImage[4][8];
+        //               BufferedImage[i Row][j columns]
+        animations = new BufferedImage[12][1];
+        System.out.println("BufferedImage[] []" + animations.length);
         for (int j = 0; j < animations.length; j++)
-            for (int i = 0; i < animations[j].length; i++)
+            for (int i = 0; i < animations[j].length; i++) {
                 // Original player
                 // animations[j][i] = img.getSubimage(i * 64, j * 40, 64, 40);
                 // Flappy Bird
                 // animations[j][i] = img.getSubimage(i * 158, (j * 0) + 2, 158, 122);
                 // Crow Flappy Bird
-                animations[j][i] = img.getSubimage(i * 126, (j * 0) + 2, 126, 145);
+                animations[j][i] = img.getSubimage(i * 151, 0 + 2, 151, 185);
+                System.out.println();
+            }
     }
 
     public void loadLvlData(int[][] lvlData) {
