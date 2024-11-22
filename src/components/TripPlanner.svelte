@@ -7,22 +7,41 @@
     let subway = true;
     let rail = true;
     let stops = ["", ""];
+    let suggestions = [];
 
     // Auto suggest
     const suggestLocation = async (event) => {
         const str = event.target.value;
-        console.log(str);
-        const res = await fetch("/api/autocomplete", {
-            method: "POST",
-            body: JSON.stringify({ input: str }),
-            headers: {
-                "Content-type": "application/json; charset=UTF-8",
-            },
-        });
-        let results = await res.json();
-        console.log(`current string: ${str}`);
-        console.log(`Suggestion: ${JSON.stringify(results)}`);
+        if (str === "") {
+            suggestions = [];
+        } else {
+            console.log(str);
+            const res = await fetch("/api/autocomplete", {
+                method: "POST",
+                body: JSON.stringify({ input: str }),
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8",
+                },
+            });
+            let results = await res.json();
+            // console.log(`current string: ${str}`);
+            // console.log(`Suggestion: ${JSON.stringify(results)}`);
+            suggestions = results.predictions;
+            console.log(suggestions);
+        }
     };
+
+    // print <= 3 suggestions
+    function displaySuggestions(data) {
+        // create a dropdown displaying <=3 suggestions
+        const container = document
+            .createElement("div")
+            .className("suggestions");
+        data.predictions.forEach((prediction) => {
+            console.log(prediction);
+        });
+    }
+
     // Swap button
     const handleSwap = () => {
         let tmp = stops[1];
@@ -171,6 +190,24 @@
                         on:input={suggestLocation}
                         on:input={updateStopsArray}
                     />
+                    {#if suggestions.length > 0}
+                        <div class="autocomplete-suggestions">
+                            {#each suggestions as suggestion}
+                                <button
+                                    class="suggestion"
+                                    on:click={(event) => {
+                                        event.preventDefault();
+                                        document.getElementById(
+                                            `stop${0}`,
+                                        ).value = suggestion.description;
+                                        suggestions = [];
+                                    }}
+                                >
+                                    {suggestion.description}
+                                </button>
+                            {/each}
+                        </div>
+                    {/if}
                 {:else if i == stops.length - 1}
                     <input
                         type="text"
@@ -204,6 +241,8 @@
                     >Swap</button
                 >
             {/if}
+
+            <!-- autocomplete suggestions dropdown -->
 
             <div class="inlineElements">
                 <label>
@@ -283,5 +322,31 @@
 
     .routes {
         display: none;
+    }
+
+    .autocomplete-suggestions {
+        position: absolute;
+        border: 1px solid #ccc;
+        background-color: white;
+        width: 100%;
+        max-width: 300px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        z-index: 10;
+        margin-top: 4px;
+    }
+
+    .suggestion {
+        width: 100%;
+        padding: 8px;
+        text-align: left;
+        cursor: pointer;
+        border: none;
+        background: none;
+        font-size: 14px;
+        display: block;
+    }
+
+    .suggestion:hover {
+        background-color: #f0f0f0;
     }
 </style>

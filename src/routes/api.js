@@ -41,11 +41,10 @@ router.post('/google_directions', async (req, res) => {
     
     
     const data = req.body;
-    console.log(JSON.stringify(data)); // for debug
+    // console.log(JSON.stringify(data)); // for debug
     // sanitize data
 
     // check leave/depart choice + time
-    // 
     time = (Date.parse(data.date + "T" + data.time) / 1000); // conversion to seconds
     // console.log(time);
     let travel_time = "";
@@ -96,7 +95,6 @@ router.post('/google_directions', async (req, res) => {
 
 router.post('/autocomplete', async (req, res) => {
     console.log(`POST /api/autocomplete`);
-    console.log(`Input: ${req.body.input}`);
     const client = new Client({});
     client.placeAutocomplete({
         params: {
