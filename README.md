@@ -17,6 +17,19 @@ This program also has a collaboration feature that allows users to work together
 [BestNotes Project Board](https://github.com/orgs/cis3296f24/projects/94/)
 
 ### Windows instructions
+#### PyCharm instructions
+PDF Instructions for PyCharm: [BestNotes PyCharm Run Instructions.pdf](https://github.com/user-attachments/files/17853496/BestNotes.PyCharm.Run.Instructions.pdf)
+
+- You need to download Python. You can do this from the Command Prompt by just typing ‘python’. The Microsoft store will open to the software page and you can click ‘Get’ to start a download. **If you downloaded Python through python.org before, please download it again through the Windows store anyway.**
+- Next, download and install PyCharm
+- Then download and install VLC media player: https://www.videolan.org/vlc/
+- Clone the repository link into PyCharm
+- Once in PyCharm, when you try to run main.py, you will get an error message stating that there is no Python Interpreter configured for the project. Click “Configure Python Interpreter > Add New Interpreter >Add Local Interpreter”
+- The ‘Add Python Interpreter’ window should appear. Choose your Python Interpreter (for example: "Base Python: Python 3.11.4") and click ‘Okay’. A virtual Environment should be created.
+- In the terminal in PyCharm, you want to install pyside6 using the command ‘pip install pyside6’ and then ‘pip install python-vlc’
+- Once installed, you should be able to run BestNotes.
+
+#### IntelliJ instructions
 PDF Instructions: [Best Notes Windows Set Up Instructions.pdf](https://github.com/user-attachments/files/17594508/BestNotes.Instruction.pdf)
 
 -	First if you don't have IntelliJ, download the IDE IntelliJ, then clone the project into IntelliJ using the repository URL
