@@ -224,7 +224,62 @@ function renderTracks(data) {
             const radius = minSize + ((d.value.count / 10) * (maxSize - minSize));
             return radius;
         })
-        .attr("fill", (d, i) => planetColors[i % planetColors.length])
+        //Iterate through each circle and create a pattern for it
+        .each(function (d, i) {
+            const radius = minSize + ((d.value.count / 10) * (maxSize - minSize));
+            const patternId = `earthpattern-${i}`;
+            let planet;
+            //Choose image for planet
+            switch(i) {
+                case 0:
+                    planet = "sun.jpg"
+                    break;
+                case 1:
+                    planet = "mercury.jpg"
+                    break;
+                case 2:
+                    planet = "venus.jpg"
+                    break;
+                case 3:
+                    planet = "earth.jpg"
+                    break;
+                case 4:
+                    planet = "mars.jpg"
+                    break;
+                case 5:
+                    planet = "jupiter.jpg"
+                    break;
+                case 6:
+                    planet = "saturn.jpg"
+                    break;
+                case 7:
+                    planet = "uranus.jpg"
+                    break;
+                case 8:
+                    planet = "neptune.jpg"
+                    break;
+                case 9:
+                    planet = "pluto.jpg"
+                    break;
+                default:
+                    break;
+            }
+            svg.append("defs")
+                .append("pattern")
+                .attr("id", patternId)
+                .attr("patternUnits", "objectBoundingBox")
+                .attr("width", 1)
+                .attr("height", 1)
+                .append("image")
+                .attr("xlink:href", planet)
+                .attr("x", 0)
+                .attr("y", 0)
+                .attr("width", radius * 2)
+                .attr("height", radius * 2);
+
+            d3.select(this)
+                .attr("fill", `url(#${patternId})`);
+        })
         .attr("stroke", "white")
         .attr("stroke-width", 2)
         .on("mouseover", async (event, d) => {
