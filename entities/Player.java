@@ -164,7 +164,6 @@ public class Player extends Entity {
                 // animations[j][i] = img.getSubimage(i * 158, (j * 0) + 2, 158, 122);
                 // Crow Flappy Bird
                 animations[j][i] = img.getSubimage(i * 126, (j * 0) + 2, 126, 145);
-
     }
 
     public void loadLvlData(int[][] lvlData) {
