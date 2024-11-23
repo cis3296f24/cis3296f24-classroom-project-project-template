@@ -7,7 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
-public class SpriteAnimation extends JPanel implements KeyListener {
+public class CenterSpriteTool extends JPanel implements KeyListener {
     private BufferedImage spriteSheet;
     private BufferedImage[] sprites;
 
@@ -22,7 +22,7 @@ public class SpriteAnimation extends JPanel implements KeyListener {
     private boolean keyRel = true;
     private int findOffset = 0; // Initially calculated by Shafiq. You can start with zero.
 
-    public SpriteAnimation() {
+    public CenterSpriteTool() {
         try {
             // Load the sprite sheet
             spriteSheet = ImageIO.read(new File("res/eagle_Linear_Sheet_Fixed.png")); // Replace with your file path
@@ -119,7 +119,7 @@ public class SpriteAnimation extends JPanel implements KeyListener {
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("Sprite Animation");
-        SpriteAnimation animation = new SpriteAnimation();
+        CenterSpriteTool animation = new CenterSpriteTool();
         frame.add(animation);
         frame.setSize(1000, 1000);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

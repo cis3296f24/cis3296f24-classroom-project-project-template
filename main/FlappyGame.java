@@ -10,14 +10,14 @@ public class FlappyGame implements Runnable {
     private GameWindow gameWindow;
     private GamePanel gamePanel;
     private Thread gameThread;
-    private final int FPS_SET = 120;
-    private final int UPS_SET = 200;
+    private final int FPS_SET = 120;  // Frames per second
+    private final int UPS_SET = 200;  // Updates per second
 
     private Playing playing;
     private Menu menu;
 
     public final static int TILES_DEFAULT_SIZE = 32;
-    public final static float SCALE = 2f;
+    public final static float SCALE = 2.0f;
     public final static int TILES_IN_WIDTH = 26;
     public final static int TILES_IN_HEIGHT = 14;
     public final static int TILE_SIZE = (int) (TILES_DEFAULT_SIZE * SCALE);

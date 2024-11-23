@@ -1,3 +1,5 @@
+// Tool created by Shafiq Rahman 11/22/2024
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -6,7 +8,7 @@ import java.io.IOException;
 import java.util.Random;
 import javax.imageio.ImageIO;
 
-public class GenerateRedBarsImage {
+public class LevelCreateTool {
     public static void main(String[] args) {
         try {
             // Define dimensions for the new image
@@ -90,7 +92,7 @@ public class GenerateRedBarsImage {
             g.dispose();
 
             // Save the generated image
-            File outputFile = new File("res/gen_red_bars_image.png");
+            File outputFile = new File("res/flappy_bird_level.png");
             ImageIO.write(image, "png", outputFile);
 
             System.out.println("Image created: gen_red_bars_image.png");

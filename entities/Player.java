@@ -37,6 +37,7 @@ public class Player extends Entity {
         updatePos();
         updateAnimationTick();
         setAnimation();
+        // state = DEAD;
     }
 
     // Added second parameter for scrolling. - Shafiq
@@ -52,6 +53,11 @@ public class Player extends Entity {
 
     private void updateAnimationTick() {
         aniTick++;
+//        if (aniTick >= GetSpriteAmount(playerAction)) {
+//            // aniTick = 0;
+//           // aniIndex = 0;
+//            // aniIndex = 5;
+//        }
         if (aniTick >= aniSpeed) {
             aniTick = 0;
             aniIndex++;
@@ -66,23 +72,26 @@ public class Player extends Entity {
 
     private void setAnimation() {
         int startAni = playerAction;
-        if (moving)
-            playerAction = RUNNING;
-        else
-            playerAction = IDLE;
+        if (moving) {
+            // playerAction = RUNNING;
+        }
+        else {}
+          //  playerAction = IDLE;
 
         if (inAir) {
-            if (airSpeed < 0)
-                playerAction = JUMP;
-            else
-                playerAction = FALLING;
+//            if (airSpeed < 0)
+//                playerAction = JUMP;
+//            else
+//                playerAction = FALLING;
         }
 
-        if (attacking)
-            playerAction = ATTACK_1;
+        if (attacking) {
+          //  playerAction = ATTACK_1;
+        }
 
-        if (startAni != playerAction)
-            resetAniTick();
+        if (startAni != playerAction) {
+            // resetAniTick();
+        }
     }
 
     private void resetAniTick() {
@@ -166,7 +175,7 @@ public class Player extends Entity {
                 // animations[j][i] = img.getSubimage(i * 158, (j * 0) + 2, 158, 122);
                 // Crow Flappy Bird
 
-                animations[j][i] = img.getSubimage(i * 150, 0, 150, 185);
+                animations[j][i] = img.getSubimage(i * 180 + 30, 0, 200, 185);
                 System.out.println("animations " + animations[j].length);
 
             }

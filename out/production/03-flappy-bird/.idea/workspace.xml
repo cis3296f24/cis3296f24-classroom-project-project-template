@@ -5,15 +5,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5b45b616-1c01-40f6-b838-de9f2eddfd06" name="Changes" comment="Bird only">
-      <change afterPath="$PROJECT_DIR$/SpriteAnimation.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SpriteAnimation1.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GenerateRedBarsImage.java" beforeDir="false" afterPath="$PROJECT_DIR$/LevelCreateTool.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SpriteAnimation.java" beforeDir="false" afterPath="$PROJECT_DIR$/CenterSpriteTool.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/entities/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/entities/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamestates/Playing.java" beforeDir="false" afterPath="$PROJECT_DIR$/gamestates/Playing.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generated_red_bars_image.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/FlappyGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/main/FlappyGame.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/03-flappy-bird/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/03-flappy-bird/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/03-flappy-bird/GenerateRedBarsImage.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/03-flappy-bird/SpriteAnimation.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/03-flappy-bird/SpriteAnimation1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/03-flappy-bird/eagle_Linear_Sheet_Fixed.png" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/03-flappy-bird/eagle_Linear_Sheet_Fixed.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/03-flappy-bird/entities/Player.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/03-flappy-bird/entities/Player.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/03-flappy-bird/flyingeagle_Linear_Sheet.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/03-flappy-bird/res/flyingeagle_Linear_Sheet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/03-flappy-bird/gamestates/Playing.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/03-flappy-bird/gamestates/Playing.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/03-flappy-bird/gen_red_bars_image.png" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/03-flappy-bird/gen_red_bars_image.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/03-flappy-bird/generated_red_bars_image.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/03-flappy-bird/res/eagle_Linear_Sheet_Fixed.png" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/03-flappy-bird/res/eagle_Linear_Sheet_Fixed.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/03-flappy-bird/res/gen_red_bars_image.png" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/03-flappy-bird/res/gen_red_bars_image.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/03-flappy-bird/utils/HelpMethods.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/03-flappy-bird/utils/HelpMethods.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/03-flappy-bird/utils/LoadSave.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/03-flappy-bird/utils/LoadSave.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/flyingeagle_Linear_Sheet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/eagle_Linear_Sheet_Fixed.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/eagle_Linear_Sheet_Fixed.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/gen_red_bars_image.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/gen_red_bars_image.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/HelpMethods.java" beforeDir="false" afterPath="$PROJECT_DIR$/utils/HelpMethods.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/LoadSave.java" beforeDir="false" afterPath="$PROJECT_DIR$/utils/LoadSave.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -42,10 +55,12 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;Application.CenterSpriteTool.executor&quot;: &quot;Run&quot;,
     &quot;Application.FlappyBird.executor&quot;: &quot;Run&quot;,
     &quot;Application.FlappyMain.executor&quot;: &quot;Run&quot;,
     &quot;Application.GenerateAlignedRedBarsImage.executor&quot;: &quot;Run&quot;,
     &quot;Application.GenerateRedBarsImage.executor&quot;: &quot;Run&quot;,
+    &quot;Application.LevelCreateTool.executor&quot;: &quot;Run&quot;,
     &quot;Application.RedBarsImage.executor&quot;: &quot;Run&quot;,
     &quot;Application.ScrollingForeground.executor&quot;: &quot;Run&quot;,
     &quot;Application.SpaceBarReleaseExample.executor&quot;: &quot;Run&quot;,
@@ -124,6 +139,8 @@
       <workItem from="1732301103224" duration="10595000" />
       <workItem from="1732311803847" duration="4011000" />
       <workItem from="1732316851363" duration="5450000" />
+      <workItem from="1732324194091" duration="8512000" />
+      <workItem from="1732386600459" duration="798000" />
     </task>
     <task id="LOCAL-00001" summary="Bird only">
       <option name="closed" value="true" />
