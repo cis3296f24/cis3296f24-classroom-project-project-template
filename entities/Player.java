@@ -155,17 +155,20 @@ public class Player extends Entity {
 
         BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.PLAYER_ATLAS);
         //               BufferedImage[i Row][j columns]
-        animations = new BufferedImage[12][1];
+        animations = new BufferedImage[4][11];
         System.out.println("BufferedImage[] []" + animations.length);
-        for (int j = 0; j < animations.length; j++)
+        System.out.println("BufferedImage[] []" + animations[0].length);
+          for (int j = 0; j < animations.length; j++)
             for (int i = 0; i < animations[j].length; i++) {
                 // Original player
                 // animations[j][i] = img.getSubimage(i * 64, j * 40, 64, 40);
                 // Flappy Bird
                 // animations[j][i] = img.getSubimage(i * 158, (j * 0) + 2, 158, 122);
                 // Crow Flappy Bird
-                animations[j][i] = img.getSubimage(i * 151, 0 + 2, 151, 185);
-                System.out.println();
+
+                animations[j][i] = img.getSubimage(i * 150, 0, 150, 185);
+                System.out.println("animations " + animations[j].length);
+
             }
     }
 

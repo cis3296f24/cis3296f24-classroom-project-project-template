@@ -5,7 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5b45b616-1c01-40f6-b838-de9f2eddfd06" name="Changes" comment="Bird only">
-      <change beforePath="$PROJECT_DIR$/flyingeagle (1).png" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/SpriteAnimation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SpriteAnimation1.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/entities/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/entities/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/03-flappy-bird/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/03-flappy-bird/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/03-flappy-bird/entities/Player.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/03-flappy-bird/entities/Player.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/03-flappy-bird/flyingeagle_Linear_Sheet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/03-flappy-bird/res/flyingeagle_Linear_Sheet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/03-flappy-bird/utils/LoadSave.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/03-flappy-bird/utils/LoadSave.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/flyingeagle_Linear_Sheet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/LoadSave.java" beforeDir="false" afterPath="$PROJECT_DIR$/utils/LoadSave.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,6 +49,8 @@
     &quot;Application.RedBarsImage.executor&quot;: &quot;Run&quot;,
     &quot;Application.ScrollingForeground.executor&quot;: &quot;Run&quot;,
     &quot;Application.SpaceBarReleaseExample.executor&quot;: &quot;Run&quot;,
+    &quot;Application.SpriteAnimation.executor&quot;: &quot;Run&quot;,
+    &quot;Application.SpriteAnimation1.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;Shafiq-Branch-2DArrayAnim&quot;,
@@ -50,7 +61,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;SDKs&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.31954023&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
@@ -110,7 +121,9 @@
       <workItem from="1732287161259" duration="143000" />
       <workItem from="1732287312289" duration="4702000" />
       <workItem from="1732300070813" duration="4000" />
-      <workItem from="1732301103224" duration="305000" />
+      <workItem from="1732301103224" duration="10595000" />
+      <workItem from="1732311803847" duration="4011000" />
+      <workItem from="1732316851363" duration="5450000" />
     </task>
     <task id="LOCAL-00001" summary="Bird only">
       <option name="closed" value="true" />
