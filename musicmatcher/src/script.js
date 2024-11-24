@@ -124,19 +124,32 @@ async function getTopArtists(token) {
 }
 
 function showTopArtists(topArtists) {
-    const topArtistsList = document.getElementById("topArtistsList");
-    topArtistsList.innerHTML = "";
+    const topArtistsContainer = document.getElementById("topArtistsScrollable");
+    topArtistsContainer.innerHTML = ""; // Clear any existing content
 
-    if (topArtists.items.length == 0) {
-	document.getElementById("topArtistsList").innerText = "No artists found";
+    if (topArtists.items.length === 0) {
+        topArtistsContainer.innerText = "No artists found";
     } else {
-	const artistCount = Math.min(topArtists.items.length, 10);
-	for (let i = 0; i < artistCount; i++) {
-	    const artist = topArtists.items[i];
-	    const listItem = document.createElement("li");
-	    listItem.innerText = artist.name;
-	    topArtistsList.appendChild(listItem);
-	}
+        topArtists.items.forEach(artist => {
+            // Create container for each artist
+            const artistItem = document.createElement("div");
+            artistItem.classList.add("artist-item");
+
+            // Create image element for the artist profile
+            const artistImage = document.createElement("img");
+            artistImage.classList.add("artist-image");
+            artistImage.src = artist.images[0]?.url || 'placeholder.jpg'; // Use artist image or placeholder
+            artistItem.appendChild(artistImage);
+
+            // Create a span for the artist name
+            const artistName = document.createElement("span");
+            artistName.classList.add("artist-name");
+            artistName.textContent = artist.name;
+            artistItem.appendChild(artistName);
+
+            // Append the artist item to the container
+            topArtistsContainer.appendChild(artistItem);
+        });
     }
 }
 
@@ -148,22 +161,54 @@ async function getTopSongs(token) {
     return await result.json();
 }
 
-function showTopSongs(topSongs) {
-    const topSongsList = document.getElementById("topSongsList");
-    topSongsList.innerHTML = "";
+async function showTopSongs(topSongs) {
+    const topSongsContainer = document.getElementById("topSongsScrollable");
+    topSongsContainer.innerHTML = ""; // Clear any existing content
 
-    if (topSongs.items.length == 0) {
-	document.getElementById("topSongsList").innerText = "No songs found";
+    if (topSongs.items.length === 0) {
+        topSongsContainer.innerText = "No songs found";
     } else {
-	const songCount = Math.min(topSongs.items.length, 10);
-	for (let i = 0; i < songCount; i++) {
-	    const song = topSongs.items[i];
-	    const listItem = document.createElement("li");
-	    listItem.innerText = `${song.name} by ${song.artists[0].name}`;
-	    topSongsList.appendChild(listItem);
-	}
+        topSongs.items.forEach(song => {
+            // Create container for each song item
+            const songItem = document.createElement("div");
+            songItem.classList.add("song-item");
+
+            // Create image element for the song cover
+            const songCover = document.createElement("img");
+            songCover.classList.add("song-cover");
+            songCover.src = song.album.images[0]?.url || 'placeholder.jpg'; // Use song cover image or placeholder
+            songItem.appendChild(songCover);
+
+            // Create container for song information
+            const songInfo = document.createElement("div");
+            songInfo.classList.add("song-info");
+
+            // Create a span for the song name
+            const songName = document.createElement("span");
+            songName.classList.add("song-name");
+            songName.textContent = song.name;
+            songInfo.appendChild(songName);
+
+            // Create a span for the artist name
+            const artistName = document.createElement("span");
+            artistName.classList.add("artist-name");
+            artistName.textContent = song.artists[0].name;
+            songInfo.appendChild(artistName);
+
+            // Create a span for the "Song" pill label
+            const songPill = document.createElement("span");
+            songPill.classList.add("song-pill");
+            songPill.textContent = "Song";
+            songInfo.appendChild(songPill);
+
+            // Append the song information to the song item
+            songItem.appendChild(songInfo);
+
+            // Append the song item to the container
+            topSongsContainer.appendChild(songItem);
+        });
     }
-}
+  }
 
 function populateUI(profile) {
     /* display user's data in UI*/

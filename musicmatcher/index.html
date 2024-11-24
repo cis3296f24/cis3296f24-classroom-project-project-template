@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <title>MusicMatcher</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <script src="src/script.js" type="module"></script>
 
     <style>
@@ -11,23 +12,24 @@
 	  color: lightgray;
 	  align-items: center;
 	  justify-content: left;
+    font-family: 'Inter', sans-serif;
+    position: relative;
       }
 
-      h1, h2, h3 {
-	  text-align: center;
-	  color: white;
-      }
-
-      h1 {
-	  font-size: 2.5rem;
-      }
+  
+        .header-container h1, .header-container h2 {
+        margin: 0; /* Remove default margin */
+        font-family: 'Inter', sans-serif; /* Ensure both use the Inter font */
+        }
+       
+        h1 {
+       font-size: 2.5rem;
+        color: white;
+        }
 
       h2 {
-	  font-size: 2rem;
-      }
-
-      h3 {
-	  font-size: 1.5rem;
+      font-size: 1.5rem;
+      color: lightgray; /* Lighter color for "Logged in as" */
       }
 
       p {
@@ -50,31 +52,201 @@
       li {
 	  font-size: 1.5rem;
       }
-      
-		  
+      /* Body Styling - Update to remove central alignment */
+body {
+  background-color: black;
+  color: lightgray;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;  /* Align items to the left */
+  justify-content: flex-start;  /* Start elements from the top */
+  padding: 1rem;  /* Add padding for spacing */
+}
+
+/* Section Heading Styling */
+.section-heading {
+  text-align: left;  /* Ensure section headings are aligned left */
+  font-size: 64px;   /* Set the size */
+  font-weight: bold; /* Set bold weight */
+  margin: 0;               /* Remove default margin */
+  padding-bottom: 0.2rem;
+}
+
+/* Divider Styling */
+.divider {
+  display: block;
+  width: 1590px;  /* Set the width to 1590 pixels */
+  height: 1px;    /* Line width of 1 pixel */
+  background-color: rgba(132, 128, 128, 1); /* #848080 color with 75% opacity */
+  margin-bottom: 2rem; /* Space below the divider */
+  position: relative;
+  z-index: 1;
+}
+
+ol {
+  margin-bottom: 2rem;  /* Space between list and cover art image */
+}
+.cover-art {
+  width: 200px;   /* Size of the cover art */
+  height: 200px;  /* Ensures cover art is a square */
+  margin-bottom: 3rem; /* Increase spacing after cover art for better separation */
+}
+
+#stats {
+  padding-top: 3rem; /* Adds spacing at the top to fit the cover art comfortably */
+}
+h1, h2, h3, p, ol, li {
+  font-family: 'Inter', sans-serif;
+}
+
+
+.scrollable-songs-container {
+        max-height: 400px; /* Set max height to control the visible area */
+        overflow-y: auto;  /* Enable vertical scrolling */
+        padding: 1rem;     /* Padding for better visual spacing */
+        margin-top: 1rem;  /* Add space above the container */
+        border: 1px solid rgba(132, 128, 128, 0.5); /* Optional: light border for separation */
+        width: 100%;       /* Make it take full width of the parent container */
+      }
+
+      .song-item {
+        display: flex;      /* Flexbox to align cover and text side by side */
+        align-items: center; /* Align cover and text vertically centered */
+        margin-bottom: 1rem; /* Space between songs */
+      }
+
+      .song-cover {
+        width: 50px;        /* Set cover image width */
+        height: 50px;       /* Set cover image height */
+        margin-right: 1rem; /* Space between image and song name */
+      }
+
+      .song-name {
+        font-size: 1.5rem;  /* Set song name font size */
+        color: white;       /* Song text color */
+      }
+
+.song-pill {
+  display: inline-block;
+  background-color: #646cff; /* Example color, adjust to fit your Figma design */
+  color: white;
+  font-size: 16px;
+  padding: 0.2rem 0.6rem;
+  border-radius: 16px; /* Rounded corners to make it look like a pill */
+  margin-top: 0.5rem;  /* Space between the artist name and the pill */
+}
+
+
+
+/* Styling for Individual Artist Items */
+.artist-item {
+  width:150px;
+  display:flex;
+  flex-direction: column;
+  display: flex;      /* Flexbox to align cover and text side by side */
+  align-items: center; /* Align cover and text vertically centered */
+  margin-bottom: 1rem; /* Space between artists */
+}
+
+.artist-image {
+  width: 120px;        /* Set artist image width */
+  height: 120px;       /* Set artist image height */
+  margin-right: 1rem; /* Space between image and artist name */
+  object-fit: cover;
+  margin-bottom:0.5rem;
+  border-radius: 50%;
+}
+
+.artist-name {
+  font-size: 24px;             /* Set font size */
+  font-weight: 600;            /* Semi-bold for Inter */
+  color: white;                /* White color */
+  font-family: 'Inter', sans-serif;
+  text-align: center;          /* Center the text below the image */
+  margin: 0; 
+}
+
+.scrollable-artists-container {
+  max-height: 400px;    /* Set max height to control the visible area */
+  overflow-y: auto;     /* Enable vertical scrolling */
+  padding: 1rem;        /* Padding for better visual spacing */
+  margin-top: 1rem;     /* Add space above the container */
+  width: 100%;          /* Make it take full width of the parent container */
+  display: flex;        /* Use flex to allow a horizontal scrollable display if needed */
+  flex-wrap: wrap;      /* Allow the items to wrap in multiple rows */
+}
+
+.heading-and-button {
+  display: flex;              /* Use flexbox to align items horizontally */
+  align-items: center;        /* Vertically center align items */
+  gap: 1rem;                  /* Add some space between the heading and button */
+  margin-bottom: 1rem;        /* Add margin below for spacing */
+}
+
+/* Styling for the Pill Button */
+.pill-button {
+  background-color: #646cff;  /* Button background color */
+  color: white;               /* Button text color */
+  font-size: 16px;            /* Button font size */
+  padding: 0.5rem 1.5rem;     /* Padding for top/bottom and left/right */
+  border: none;               /* Remove default border */
+  border-radius: 25px;        /* Rounded corners for the pill shape */
+  cursor: pointer;            /* Pointer cursor on hover */
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;           /* Semi-bold text */
+  transition: background-color 0.3s ease; /* Smooth color transition */
+}
+
+/* Button Hover Effect */
+.pill-button:hover {
+  background-color: #535bf2;  /* Darken button on hover */
+}
+
+
+
+
     </style>
     
   </head>
   <body>
+    <header clas="header-container">
     <h1>MusicMatcher: Make new connections</h1>
     <section id="profile">
-    <h2>Logged in as <span id="displayName"></span></h2>
-    <span id="avatar"></span>
+    <h2 id="logged-in">Logged in as<span id="displayName"></span></h2>
+    <header>
+    <section id="profile">
+      <span id="avatar"></span>
     <p>
       <!-- Profile Link: <a id="url" href="#"></a> -->
     </p>
     </section>
 
     <section id="stats">
-      <h3>Your Top Artists:</h3>
-      <ol id="topArtistsList"></ol>
+      <h3 class= "section-heading">Your Top Artists</h3>
+      <div class="divider"></div>
+      
+      <div id="topArtistsScrollable" class="scrollable-artists-container">
+        <!-- Placeholder for Top Artists -->
+      </div>
 
-      <h3>Your Top Songs:</h3>
-      <ol id="topSongsList"></ol>
+      <h3 class="section-heading">Your Top Songs</h3>
+      <div class="divider"></div>
+      <div id="topSongsScrollable" class="scrollable-songs-container">
+        <!-- Placeholder for Top Songs -->
+      </div>
+
+     
+      <h3 class="section-heading">Your Listening Stats</h3>
+      <div class="divider"></div>
+      <ol id="stats"></ol>
     </section>
 
     <section id="findmatches">
-      <button id="findMatchesButton">Find Matches!</button>
+      <div class="heading-and-button">
+        <h3 class="section-heading">MusicMatches</h3>
+        <button id="findMatchesButton" class="pill-button">Find Matches!</button>
+      </div>
+      <div class="divider"></div>
       <div id="displaymatches"></div>
     </section>
     
