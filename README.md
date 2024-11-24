@@ -25,6 +25,9 @@ cd MusicMatcher/musicmatcher
 
 # Install dependencies
 npm install
+npm install firebase
+If Vite is not installed globally (optional), install it:
+npm install -g vite
 
 # Start the development server
 npm run dev
