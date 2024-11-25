@@ -66,6 +66,7 @@ public class Constants {
 
         public static final int DEAD = 4;
         public static final int ANI_SPEED = 25;
+        public static final int COLLIDED = 0;
 
         public static int GetSpriteAmount(int player_action) {
             switch (player_action) {

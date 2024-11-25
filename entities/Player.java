@@ -85,6 +85,10 @@ public class Player extends Entity {
         healthBarWidth = (int)((currentHealth /  maxHealth) * healthBarWidth);
     }
 
+    public void setUpdateHealthBar(int birdHealth) {
+        currentHealth = birdHealth;
+    }
+
     // Added second parameter for scrolling. - Shafiq
     // This is where we can change the aspect ration of the animated object.
     // Here is the original code
@@ -165,7 +169,7 @@ public class Player extends Entity {
                 updateXPos(xSpeed);
             } else {
                 // This section is true if the bird collides with an area not allowed.
-                currentHealth = 0; // Collide the bird and end game.
+                setUpdateHealthBar(COLLIDED);  // Collide the bird and end game.
 
                 hitbox.y = GetEntityYPosUnderRoofOrAboveFloor(hitbox, airSpeed);
                 if (airSpeed > 0)
@@ -178,9 +182,7 @@ public class Player extends Entity {
         } else {
             // If the bird hits the floor it will die.
             // System.out.println("Not in air");
-            currentHealth = 0; // Kill Player
-
-
+            setUpdateHealthBar(COLLIDED);
         }
 
         updateXPos(xSpeed);
@@ -208,7 +210,7 @@ public class Player extends Entity {
             hitbox.x = GetEntityXPosNextToWall(hitbox, xSpeed);
             // This check only sees the collision into the pipes. Please see above
             // where the bird hits the ceiling an floor to set health to 0;
-            currentHealth = 0; // Setting bird collision here since it cannot move here.
+            setUpdateHealthBar(COLLIDED);  // Setting bird collision here since it cannot move here.
 
         }
     }
@@ -221,10 +223,6 @@ public class Player extends Entity {
             currentHealth = 0;
         else if (currentHealth >= maxHealth)
             currentHealth = maxHealth;
-    }
-
-    public void kill() {
-        currentHealth = 0;
     }
 
     // We will not be using this feature, If someone would like the bird to gain health eating pills,

@@ -14,6 +14,7 @@ import ui.GameOverOverlay;
 import ui.PauseOverlay;
 import utils.LoadSave;
 import static utils.Constants.FlappyWorldConstants.*;
+import static utils.Constants.PlayerConstants.COLLIDED;
 
 public class Playing extends State implements Statemethods {
     private Player player;
@@ -81,6 +82,8 @@ public class Playing extends State implements Statemethods {
     private void checkCloseToBorder() {
         int playerX = (int) player.getHitbox().x;
         int diff = playerX - xLvlOffset;
+
+        // Important score keeping constans are here. We can use these to measure score.
         // System.out.println("Player getHitbox().x = " + player.getHitbox().x);
 //        System.out.println("rightBorder = " + rightBorder);
 //        System.out.println("xLvlOffset = " + xLvlOffset / 3);
@@ -94,7 +97,6 @@ public class Playing extends State implements Statemethods {
             xLvlOffset = maxLvlOffsetX;
         else if (xLvlOffset < 0)
             xLvlOffset = 0;
-
     }
 
     // Please see LoadSave.java to input or load your images.
@@ -259,8 +261,10 @@ public class Playing extends State implements Statemethods {
 
     public void setPlayerDying(boolean playerDying) {
         this.playerDying = playerDying;
-
     }
 
+    public void setBirdCollision(boolean birdCollision) {
+        if (birdCollision) { player.setUpdateHealthBar(COLLIDED); }
+    }
 
 }
