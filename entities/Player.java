@@ -78,6 +78,7 @@ public class Player extends Entity {
             }
         }
         updateAnimationTick();
+       // updateHitbox();
     }
 
 
@@ -87,6 +88,7 @@ public class Player extends Entity {
 
     public void setUpdateHealthBar(int birdHealth) {
         currentHealth = birdHealth;
+        currentHealth = maxHealth; // Resetting this for testing.
     }
 
     // Added second parameter for scrolling. - Shafiq
@@ -96,8 +98,8 @@ public class Player extends Entity {
     public void render(Graphics g, int lvlOffset) {
         int scaleBirdX = 50; // scale the bird in x direct by 50 pixels to correct the aspect ratio. -Shafiq.
         g.drawImage(animations[playerAction][aniIndex], (int) (hitbox.x - xDrawOffset) - lvlOffset, (int) (hitbox.y - yDrawOffset), width - scaleBirdX, height, null);
-        drawHitbox(g);
         drawUI(g);  // Draws the health. We can remove this once the bird dies works.
+        drawHitbox(g, lvlOffset);
     }
 
     // This method draws the health bar in the upper left corner.
@@ -190,7 +192,7 @@ public class Player extends Entity {
     }
 
     private void jump() {
-        //if (inAir) I removed these statements so the bird just falls if not pressing space bar.
+        //if (inAir)
            // return; I removed these statements so the bird just falls if not pressing space bar.
         inAir = true;
         airSpeed = jumpSpeed;
