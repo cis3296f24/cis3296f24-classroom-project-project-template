@@ -1,12 +1,11 @@
 <script>
+    import { bus, subway, rail } from './transportStore';
     import { each } from "svelte/internal";
 
     //  Form default values
     let radio = "leave";
-    let bus = true;
-    let subway = true;
-    let rail = true;
     let stops = ["", ""];
+
 
     // Auto suggest
     const suggestLocation = async (event) => {
@@ -23,6 +22,7 @@
         console.log(`current string: ${str}`);
         console.log(`Suggestion: ${JSON.stringify(results)}`);
     };
+
     // Swap button
     const handleSwap = () => {
         let tmp = stops[1];
@@ -155,7 +155,6 @@
             document.getElementById("stop" + index).value = stops[index];
     }
 </script>
-
 <div id="tp-body">
     <div class="userInputBackground">
         <form action="">
@@ -235,7 +234,7 @@
                         type="checkbox"
                         id="bus"
                         name="bus"
-                        bind:checked={bus}
+                        bind:checked={$bus}
                     />
                     Bus
                 </label>
@@ -244,7 +243,7 @@
                         type="checkbox"
                         id="subway"
                         name="subway"
-                        bind:checked={subway}
+                        bind:checked={$subway}
                     /> Subway
                 </label>
                 <label>
@@ -252,7 +251,7 @@
                         type="checkbox"
                         id="rail"
                         name="rail"
-                        bind:checked={rail}
+                        bind:checked={$rail}
                     /> Rail
                 </label>
             </div>
