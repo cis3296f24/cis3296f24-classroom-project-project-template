@@ -11,6 +11,16 @@ public class HelpMethods {
     private static int previousValue = 0;
 
 
+
+    public static boolean CanMoveHereNew(float x, float y, float width, float height, int[][] lvlData) {
+        if (!IsSolid(x, y, lvlData))
+            if (!IsSolid(x + width, y + height, lvlData))
+                if (!IsSolid(x + width, y, lvlData))
+                    if (!IsSolid(x, y + height, lvlData))
+                        return true;
+        return false;
+    }
+
     public static boolean CanMoveHere(float x, float y, float width, float height, int[][] lvlData) {
         if (!IsSolid(x, y, lvlData))
             if (!IsSolid(x + width, y + height, lvlData))
