@@ -1,6 +1,6 @@
 <script>
-    import { onMount } from "svelte";
     import TripPlanner from './TripPlanner.svelte';
+    import TimeTable from "./TimeTable.svelte";
     import Map from './Map.svelte';
 
     let latitude, longitude;
