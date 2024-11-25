@@ -8,6 +8,6 @@ package main;
 public class  FlappyMain {
     public static void main(String[] args) {
         //System.out.println("Hello World!");
-        new FlappyGame();
+        new  FlappyGame();
     }
 }

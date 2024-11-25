@@ -6,9 +6,11 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
+// import entities.EnemyManager;
 import entities.Player;
 import levels.LevelManager;
 import main.FlappyGame;
+import ui.GameOverOverlay;
 import ui.PauseOverlay;
 import utils.LoadSave;
 import static utils.Constants.FlappyWorldConstants.*;
@@ -16,24 +18,21 @@ import static utils.Constants.FlappyWorldConstants.*;
 public class Playing extends State implements Statemethods {
     private Player player;
     private LevelManager levelManager;
+
     private PauseOverlay pauseOverlay;
+    private GameOverOverlay gameOverOverlay;     // Added for the bird when it collides.
     private boolean paused = false;
 
     private int xLvlOffset;
 
-    //private int leftBorder = (int) (0.2 * FlappyGame.GAME_WIDTH);
-    //private int rightBorder = (int) (0.8 * FlappyGame.GAME_WIDTH);
-
     private int leftBorder = (int) (0.2 * FlappyGame.GAME_WIDTH) / 2;
     private int rightBorder = (int) (0.8 * FlappyGame.GAME_WIDTH) / 2;
-
     private int lvlTilesWide = LoadSave.GetLevelData()[0].length;
     private int maxTilesOffset = lvlTilesWide - FlappyGame.TILES_IN_WIDTH;
     private int maxLvlOffsetX = maxTilesOffset * FlappyGame.TILE_SIZE;
 
     private BufferedImage backgroundImg, flappyGroundImg;
     private BufferedImage flappyBKGLayer1, flappyBKGLayer2, flappyBKGLayer3;
-
     private int backgroundImgWidth = FlappyGame.GAME_WIDTH;
     private float backgroundImgL1Speed, backgroundImgL2Speed = xLvlOffset;
 
@@ -44,8 +43,12 @@ public class Playing extends State implements Statemethods {
 
     private int backgroundImgCounter = 0;
 
+    // added for collision and bird health etc.
+    private boolean gameOver;
+    private boolean lvlCompleted;
+    private boolean playerDying;
 
-    // I am loading the background here also.
+    // get the background.
     public Playing(FlappyGame flappyGame) {
         super(flappyGame);
         initClasses();
@@ -58,14 +61,15 @@ public class Playing extends State implements Statemethods {
 
     private void initClasses() {
         levelManager = new LevelManager(flappyGame);
-        player = new Player(200, 100, (int) (64 * FlappyGame.SCALE), (int) (40 * FlappyGame.SCALE));
+        player = new Player(200, 100, (int) (64 * FlappyGame.SCALE), (int) (40 * FlappyGame.SCALE), this);
         player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
         pauseOverlay = new PauseOverlay(this);
+        gameOverOverlay = new GameOverOverlay(this);    // Added for when the bird dies after collision.
     }
 
     @Override
     public void update() {
-        if (!paused) {
+        if (!paused && !gameOver) {
             levelManager.update();
             player.update();
             checkCloseToBorder();
@@ -77,7 +81,10 @@ public class Playing extends State implements Statemethods {
     private void checkCloseToBorder() {
         int playerX = (int) player.getHitbox().x;
         int diff = playerX - xLvlOffset;
-
+        // System.out.println("Player getHitbox().x = " + player.getHitbox().x);
+//        System.out.println("rightBorder = " + rightBorder);
+//        System.out.println("xLvlOffset = " + xLvlOffset / 3);
+//        System.out.println("maxLvlOffsetX " + maxLvlOffsetX);
         if (diff > rightBorder)
             xLvlOffset += diff - rightBorder;
         else if (diff < leftBorder)
@@ -112,7 +119,7 @@ public class Playing extends State implements Statemethods {
         backgroundImgL1Speed = -xLvlOffset * backLayer1Speed;
         backgroundImgL2Speed = -xLvlOffset * backLayer2Speed;
         // System.out.println("Drawing " + player.getHitbox().x + " " + player.getHitbox().y);
-        System.out.println("xLvlOffset: " + xLvlOffset + "       backgroundImgCounter" + backgroundImgCounter);
+        //System.out.println("xLvlOffset: " + xLvlOffset + "       backgroundImgCounter" + backgroundImgCounter);
         // g.drawImage(backgroundImg, (int) backgroundImgMoved, 0,FlappyGame.GAME_WIDTH, FlappyGame.GAME_HEIGHT, null); // This will load the image with the dimensions of the game.
         // g.drawImage(backgroundImg, (int) backgroundImgMoved + FlappyGame.GAME_WIDTH, 0,FlappyGame.GAME_WIDTH, FlappyGame.GAME_HEIGHT, null); // This will load the image with the dimensions of the game.
         g.drawImage(flappyBKGLayer1, (int) backgroundImgL1Speed, 0,FlappyGame.GAME_WIDTH, FlappyGame.GAME_HEIGHT, null); // This will load the image with the dimensions of the game.
@@ -128,7 +135,7 @@ public class Playing extends State implements Statemethods {
         //  g.drawImage(flappyBKGLayer3, (int) backgroundImgMoved + FlappyGame.GAME_WIDTH, 0,FlappyGame.GAME_WIDTH, FlappyGame.GAME_HEIGHT, null); // This will load the image with the dimensions of the game.
 
         if (xLvlOffset > FlappyGame.GAME_WIDTH) {
-            System.out.println("Entered if > game width");
+            //System.out.println("Entered if > game width");
             // backgroundImgMoved = 0;
         }
         drawGround(g);
@@ -138,6 +145,8 @@ public class Playing extends State implements Statemethods {
             g.setColor(new Color(154, 15, 15, 255));
             g.fillRect(0, 0, FlappyGame.GAME_WIDTH, FlappyGame.GAME_HEIGHT);
             pauseOverlay.draw(g);
+        } else if (gameOver) {
+            gameOverOverlay.draw(g);
         }
     }
 
@@ -152,6 +161,19 @@ public class Playing extends State implements Statemethods {
 
         }
         
+    }
+
+    // *********************************************************************************
+    // Adding ResetAll() and setGameOver for the bird.
+
+    public void resetAll() {
+        gameOver = false;
+        paused = false;
+        player.resetAll();
+    }
+
+    public void setGameOver(boolean gameOver) {
+        this.gameOver = gameOver;
     }
 
     @Override
@@ -176,23 +198,24 @@ public class Playing extends State implements Statemethods {
                 paused = !paused;
                 break;
         }
-        player.setRight(true); // I added this to replicate the forward motion of the bird.
+        player.setRight(true); // I added this to set the forward motion of the bird.
 
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        switch (e.getKeyCode()) {
-            case KeyEvent.VK_A:
-                player.setLeft(false);
-                break;
-            case KeyEvent.VK_D:
-                player.setRight(false);
-                break;
-            case KeyEvent.VK_SPACE:
-                player.setJump(false);
-                break;
-        }
+        if (!gameOver)
+            switch (e.getKeyCode()) {
+                case KeyEvent.VK_A:
+                    player.setLeft(false);
+                    break;
+                case KeyEvent.VK_D:
+                    player.setRight(false);
+                    break;
+                case KeyEvent.VK_SPACE:
+                    player.setJump(false);
+                    break;
+            }
 
     }
 
@@ -233,5 +256,11 @@ public class Playing extends State implements Statemethods {
     public Player getPlayer() {
         return player;
     }
+
+    public void setPlayerDying(boolean playerDying) {
+        this.playerDying = playerDying;
+
+    }
+
 
 }

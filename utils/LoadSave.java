@@ -45,16 +45,17 @@ public class LoadSave {
     public static final String URM_BUTTONS = "urm_buttons.png";
     public static final String VOLUME_BUTTONS = "volume_buttons.png";
     public static final String MENU_BACKGROUND_IMG = "background_menu.png";
-
+    public static final String STATUS_BAR = "health_power_bar.png";
     // Start adding backgrounds in this class.
     // See Playing.java
 
     public static final String FlappyCity_BG_IMG = "scene_chatGPT.png";  // This is the background created by CHAT_GPT.
     public static final String GROUND_IMG = "seamless_ground.png";  // This is the background created by CHAT_GPT.
-
-    public static final String FlappyLayer_1 = "Layer_1.png";  // This is the background downloaded from free sites.
-    public static final String FlappyLayer_2 = "Layer_2.png";  // This is the background downloaded from free sites.
-    public static final String FlappyLayer_3 = "Layer_3.png";  // This is the background downloaded from free sites.
+    // Halloween theme backgrounds
+    public static final String Folder = "HalloweenThemes/";
+    public static final String FlappyLayer_1 = Folder + "Layer_1.png";  // This is the background downloaded from free sites.
+    public static final String FlappyLayer_2 = Folder + "Layer_2.png";  // This is the background downloaded from free sites.
+    public static final String FlappyLayer_3 = Folder + "Layer_3.png";  // This is the background downloaded from free sites.
 
 
     public static BufferedImage GetSpriteAtlas(String fileName) {

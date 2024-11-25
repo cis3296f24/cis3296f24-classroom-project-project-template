@@ -2,9 +2,13 @@ package entities;
 
 import static utils.Constants.PlayerConstants.*;
 import static utils.HelpMethods.*;
-import java.awt.Graphics;
+import static utils.Constants.FlappyWorldConstants.*;
+import static utils.Constants.PlayerConstants.*;
+
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
+import gamestates.Playing;
 import main.FlappyGame;
 import utils.LoadSave;
 
@@ -14,7 +18,7 @@ public class Player extends Entity {
     private int playerAction = IDLE;
     private boolean moving = false, attacking = false;
     private boolean left, up, right, down, jump;
-    private float playerSpeed = 2.0f;
+    private float playerSpeed = 1.50f;
     private int[][] lvlData;
     private float xDrawOffset = 21 * FlappyGame.SCALE;
     private float yDrawOffset = 4 * FlappyGame.SCALE;
@@ -26,18 +30,59 @@ public class Player extends Entity {
     private float fallSpeedAfterCollision = 0.5f * FlappyGame.SCALE;
     private boolean inAir = false;
 
-    public Player(float x, float y, int width, int height) {
+    // Status UI Bird Health bar. We will be using all or nothing type of health.
+    // StatusBarUI
+    private BufferedImage statusBarImg;
+
+    private int statusBarWidth = (int) (192 * FlappyGame.SCALE);
+    private int statusBarHeight = (int) (58 * FlappyGame.SCALE);
+    private int statusBarX = (int) (10 * FlappyGame.SCALE);
+    private int statusBarY = (int) (10 * FlappyGame.SCALE);
+
+    private int healthBarWidth = (int) (150 * FlappyGame.SCALE);
+    private int healthBarHeight = (int) (4 * FlappyGame.SCALE);
+    private int healthBarXStart = (int) (34 * FlappyGame.SCALE);
+    private int healthBarYStart = (int) (14 * FlappyGame.SCALE);
+    private int healthWidth = healthBarWidth;
+
+    private int maxHealth = 100;
+    private int currentHealth = maxHealth;
+    private Playing playing;
+
+    public Player(float x, float y, int width, int height, Playing playing) {
         super(x, y, width, height);
+        this.playing = playing;
+        this.state = IDLE;
+        this.maxHealth = 100;
+        this.currentHealth = 35;
+        // this.walkSpeed = FlappyGame.SCALE;
         loadAnimations();
+        //initHitbox(20, 27);
         initHitbox(x, y, 27 * FlappyGame.SCALE, 27 * FlappyGame.SCALE);
+        this.currentHealth = 35;
+
 
     }
 
     public void update() {
+        updateHealthBar();
         updatePos();
+        if (currentHealth <= 0) {
+            if (state != DEAD) {
+                state = DEAD;
+                aniTick = 0;
+                aniIndex = 0;
+                playing.setPlayerDying(true);
+            } else if (aniIndex == GetSpriteAmount(DEAD) - 1 && aniTick >= ANI_SPEED - 1) {
+                playing.setGameOver(true);
+            }
+        }
         updateAnimationTick();
-        setAnimation();
-        // state = DEAD;
+    }
+
+
+    private void updateHealthBar() {
+        healthBarWidth = (int)((currentHealth /  maxHealth) * healthBarWidth);
     }
 
     // Added second parameter for scrolling. - Shafiq
@@ -47,17 +92,22 @@ public class Player extends Entity {
     public void render(Graphics g, int lvlOffset) {
         int scaleBirdX = 50; // scale the bird in x direct by 50 pixels to correct the aspect ratio. -Shafiq.
         g.drawImage(animations[playerAction][aniIndex], (int) (hitbox.x - xDrawOffset) - lvlOffset, (int) (hitbox.y - yDrawOffset), width - scaleBirdX, height, null);
-        // drawHitbox(g);
+        drawHitbox(g);
+        drawUI(g);  // Draws the health. We can remove this once the bird dies works.
+    }
+
+    // This method draws the health bar in the upper left corner.
+    // We can discuss if we need to keep this. Since there is also an energy bar.
+    private void drawUI(Graphics g) {
+        g.drawImage(statusBarImg, statusBarX, statusBarY, statusBarWidth, statusBarHeight, null);
+        g.setColor(Color.red);
+        g.fillRect(healthBarXStart + statusBarX, healthBarYStart + statusBarY, healthWidth, healthBarHeight);
     }
 
 
+    // This method makes sure that the bird animations are cycled completely.
     private void updateAnimationTick() {
         aniTick++;
-//        if (aniTick >= GetSpriteAmount(playerAction)) {
-//            // aniTick = 0;
-//           // aniIndex = 0;
-//            // aniIndex = 5;
-//        }
         if (aniTick >= aniSpeed) {
             aniTick = 0;
             aniIndex++;
@@ -70,30 +120,14 @@ public class Player extends Entity {
 
     }
 
+    // Start the bird flying.
+    // I removed all other if then statements because our bird doesn't jump, move left etc.
     private void setAnimation() {
         int startAni = playerAction;
-        if (moving) {
-            // playerAction = RUNNING;
-        }
-        else {}
-          //  playerAction = IDLE;
-
-        if (inAir) {
-//            if (airSpeed < 0)
-//                playerAction = JUMP;
-//            else
-//                playerAction = FALLING;
-        }
-
-        if (attacking) {
-          //  playerAction = ATTACK_1;
-        }
-
-        if (startAni != playerAction) {
-            // resetAniTick();
-        }
     }
 
+    // Animation tick is the index for cycling the ImgArray animations [1, 2, 3, ...]
+    // and this is how the bird appears to fly.
     private void resetAniTick() {
         aniTick = 0;
         aniIndex = 0;
@@ -118,12 +152,21 @@ public class Player extends Entity {
             if (!IsEntityOnFloor(hitbox, lvlData))
                 inAir = true;
 
+        // Adding this to collide bird into pipe and set health to zero.
+        if (!CanMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, lvlData)) {
+            // System.out.println("Bird touching someting");
+            // currentHealth = 0; // Kill Player
+        }
+
         if (inAir) {
             if (CanMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, lvlData)) {
                 hitbox.y += airSpeed;
                 airSpeed += gravity;
                 updateXPos(xSpeed);
             } else {
+                // This section is true if the bird collides with an area not allowed.
+                currentHealth = 0; // Collide the bird and end game.
+
                 hitbox.y = GetEntityYPosUnderRoofOrAboveFloor(hitbox, airSpeed);
                 if (airSpeed > 0)
                     resetInAir();
@@ -132,8 +175,15 @@ public class Player extends Entity {
                 updateXPos(xSpeed);
             }
 
-        } else
-            updateXPos(xSpeed);
+        } else {
+            // If the bird hits the floor it will die.
+            // System.out.println("Not in air");
+            currentHealth = 0; // Kill Player
+
+
+        }
+
+        updateXPos(xSpeed);
         moving = true;
     }
 
@@ -156,17 +206,43 @@ public class Player extends Entity {
             hitbox.x += xSpeed;
         } else {
             hitbox.x = GetEntityXPosNextToWall(hitbox, xSpeed);
-        }
+            // This check only sees the collision into the pipes. Please see above
+            // where the bird hits the ceiling an floor to set health to 0;
+            currentHealth = 0; // Setting bird collision here since it cannot move here.
 
+        }
     }
+
+
+    public void changeHealth(int value) {
+        currentHealth += value;
+
+        if (currentHealth <= 0)
+            currentHealth = 0;
+        else if (currentHealth >= maxHealth)
+            currentHealth = maxHealth;
+    }
+
+    public void kill() {
+        currentHealth = 0;
+    }
+
+    // We will not be using this feature, If someone would like the bird to gain health eating pills,
+    // this can be used to make the bird invincible for x hits before it dies.
+    // for example ghost pills that allow the bird to fly through the pipes but keeping score will need
+    // also work. -Shafiq
+    public void changePower(int value) {
+        System.out.println("Added power!");
+    }
+
 
     private void loadAnimations() {
 
         BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.PLAYER_ATLAS);
         //               BufferedImage[i Row][j columns]
         animations = new BufferedImage[4][11];
-        System.out.println("BufferedImage[] []" + animations.length);
-        System.out.println("BufferedImage[] []" + animations[0].length);
+       // System.out.println("BufferedImage[] []" + animations.length);
+       // System.out.println("BufferedImage[] []" + animations[0].length);
           for (int j = 0; j < animations.length; j++)
             for (int i = 0; i < animations[j].length; i++) {
                 // Original player
@@ -176,9 +252,11 @@ public class Player extends Entity {
                 // Crow Flappy Bird
 
                 animations[j][i] = img.getSubimage(i * 180 + 30, 0, 200, 185);
-                System.out.println("animations " + animations[j].length);
+              //  System.out.println("animations " + animations[j].length);
 
             }
+        statusBarImg = LoadSave.GetSpriteAtlas(LoadSave.STATUS_BAR);
+
     }
 
     public void loadLvlData(int[][] lvlData) {
@@ -233,6 +311,22 @@ public class Player extends Entity {
 
     public void setJump(boolean jump) {
         this.jump = jump;
+    }
+
+    public void resetAll() {
+        resetDirBooleans();
+        inAir = true; // I changed this to true on 11/24/2024 because bird should be in the air.
+        attacking = false;
+        moving = false;
+        playerAction = IDLE;
+
+        currentHealth = maxHealth;
+
+        hitbox.x = x;
+        hitbox.y = y;
+
+        if (!IsEntityOnFloor(hitbox, lvlData))
+            inAir = true;
     }
 
 }
