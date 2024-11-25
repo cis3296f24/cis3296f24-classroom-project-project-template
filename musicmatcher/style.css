@@ -1,5 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+/* Existing Root Styles */
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Inter', sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -13,34 +15,46 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
+/* Body Styling - Update to remove central alignment */
 body {
-  margin: 0;
+  background-color: black;
+  color: lightgray;
   display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  flex-direction: column;
+  align-items: flex-start;  /* Align items to the left */
+  justify-content: flex-start;  /* Start elements from the top */
+  padding: 1rem;  /* Add padding for spacing */
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+/* Section Heading Styling */
+.section-heading {
+  font-size: 64px;
+  font-weight: bold;
+  text-align: left;
+  margin: 0;
+  padding: 1rem 0; /* Space below the heading */
+  width: 100%; /* Ensure it takes the full width */
 }
 
+/* Divider Styling */
+.divider {
+  display: block;
+  width: 1590px;  /* Set the width to 1590 pixels */
+  height: 1px;    /* Line width of 1 pixel */
+  background-color: rgba(132, 128, 128, 1); /* #848080 color with 75% opacity */
+  margin-bottom: 2rem; /* Space below the divider */
+  position: relative;
+  z-index: 1;
+}
+
+/* Reset #app Styling */
 #app {
   max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  margin: 0;
+  padding: 0; /* Remove padding to allow left alignment */
 }
+
+/* The rest of the existing styles follow here unchanged... */
 
 .logo {
   height: 6em;
