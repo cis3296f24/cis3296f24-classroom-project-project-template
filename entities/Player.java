@@ -81,7 +81,6 @@ public class Player extends Entity {
        // updateHitbox();
     }
 
-
     private void updateHealthBar() {
         healthBarWidth = (int)((currentHealth /  maxHealth) * healthBarWidth);
     }
