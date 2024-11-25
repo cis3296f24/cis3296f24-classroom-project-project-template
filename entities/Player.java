@@ -55,12 +55,39 @@ public class Player extends Entity {
         this.state = IDLE;
         this.maxHealth = 100;
         this.currentHealth = 35;
-        // this.walkSpeed = FlappyGame.SCALE;
-        loadAnimations();
-        //initHitbox(20, 27);
-        initHitbox(x, y, 27 * FlappyGame.SCALE, 27 * FlappyGame.SCALE);
-        this.currentHealth = 35;
 
+        // this.walkSpeed = FlappyGame.SCALE;
+
+        loadBirdAnimations();
+
+        // To center the box over the bird this is the initHitbox stage
+        // to get the dimensions correct.
+        // Each bird will be different depending on the resolution.
+        // We may need to create several variables for different birds, eagle, crow etc.
+        initHitbox(x, y, (0 * FlappyGame.SCALE) + 1, 15 * FlappyGame.SCALE);
+        this.currentHealth = 35;
+    }
+
+    private void loadBirdAnimations() {
+
+        BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.PLAYER_ATLAS);
+        //               BufferedImage[i Row][j columns]
+        animations = new BufferedImage[4][11];
+        // System.out.println("BufferedImage[] []" + animations.length);
+        // System.out.println("BufferedImage[] []" + animations[0].length);
+        for (int j = 0; j < animations.length; j++)
+            for (int i = 0; i < animations[j].length; i++) {
+                // Original player
+                // animations[j][i] = img.getSubimage(i * 64, j * 40, 64, 40);
+                // Flappy Bird
+                // animations[j][i] = img.getSubimage(i * 158, (j * 0) + 2, 158, 122);
+                // Crow Flappy Bird
+
+                animations[j][i] = img.getSubimage(i * 180 + 30, 0, 200, 185);
+                //  System.out.println("animations " + animations[j].length);
+
+            }
+        statusBarImg = LoadSave.GetSpriteAtlas(LoadSave.STATUS_BAR);
 
     }
 
@@ -87,7 +114,7 @@ public class Player extends Entity {
 
     public void setUpdateHealthBar(int birdHealth) {
         currentHealth = birdHealth;
-        currentHealth = maxHealth; // Resetting this for testing.
+       // currentHealth = maxHealth; // Resetting this for testing.
     }
 
     // Added second parameter for scrolling. - Shafiq
@@ -235,28 +262,6 @@ public class Player extends Entity {
     }
 
 
-    private void loadAnimations() {
-
-        BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.PLAYER_ATLAS);
-        //               BufferedImage[i Row][j columns]
-        animations = new BufferedImage[4][11];
-       // System.out.println("BufferedImage[] []" + animations.length);
-       // System.out.println("BufferedImage[] []" + animations[0].length);
-          for (int j = 0; j < animations.length; j++)
-            for (int i = 0; i < animations[j].length; i++) {
-                // Original player
-                // animations[j][i] = img.getSubimage(i * 64, j * 40, 64, 40);
-                // Flappy Bird
-                // animations[j][i] = img.getSubimage(i * 158, (j * 0) + 2, 158, 122);
-                // Crow Flappy Bird
-
-                animations[j][i] = img.getSubimage(i * 180 + 30, 0, 200, 185);
-              //  System.out.println("animations " + animations[j].length);
-
-            }
-        statusBarImg = LoadSave.GetSpriteAtlas(LoadSave.STATUS_BAR);
-
-    }
 
     public void loadLvlData(int[][] lvlData) {
         this.lvlData = lvlData;
