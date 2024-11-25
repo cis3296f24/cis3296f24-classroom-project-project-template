@@ -4,6 +4,18 @@ import main.FlappyGame;
 
 public class Constants {
 
+    // Background and other scenery constants for Flappy Bird
+    public static class FlappyWorldConstants {
+
+        public static final int GROUND_HEIGHT_DEFAULT = 320; // Length of the grass or floor picture.
+        public static final int GROUND_WIDTH_DEFAULT = 2048; // Height or width of the grass or floor picture.
+
+        // The constants need to be scaled to the Flappy Game scale defined in FlappyGame.java
+        // See the usage in Playing.java
+        public static final int GROUND_HEIGHT = (int) (GROUND_HEIGHT_DEFAULT * FlappyGame.SCALE);
+        public static final int GROUND_WIDTH = (int) (GROUND_WIDTH_DEFAULT * FlappyGame.SCALE);
+    }
+
     public static class UI {
         public static class Buttons {
             public static final int B_WIDTH_DEFAULT = 140;
@@ -51,6 +63,10 @@ public class Constants {
         public static final int ATTACK_1 = 6;
         public static final int ATTACK_JUMP_1 = 7;
         public static final int ATTACK_JUMP_2 = 8;
+
+        public static final int DEAD = 4;
+        public static final int ANI_SPEED = 25;
+        public static final int COLLIDED = 0;
 
         public static int GetSpriteAmount(int player_action) {
             switch (player_action) {

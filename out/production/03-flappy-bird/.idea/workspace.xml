@@ -4,135 +4,142 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fe361217-b22a-4b0f-b984-cc1e58438192" name="Changes" comment="created a score and used jacks idea to move camera">
+    <list default="true" id="5b45b616-1c01-40f6-b838-de9f2eddfd06" name="Changes" comment="Bird only">
       <change beforePath="$PROJECT_DIR$/out/production/03-flappy-bird/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/03-flappy-bird/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/03-flappy-bird/gamestates/Playing.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/03-flappy-bird/gamestates/Playing.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="Git.Settings">
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="main" />
-      </map>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
     </option>
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
-  <component name="GitHubPullRequestSearchHistory">{
-  &quot;lastFilter&quot;: {
-    &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;BNguyen0617&quot;
-  }
-}</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;git@github.com:cis3296f24/03-flappy-bird.git&quot;,
-    &quot;accountId&quot;: &quot;dc8e57d7-92e1-43d7-b3e3-d40ed11ee43e&quot;
-  }
-}</component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
-  &quot;associatedIndex&quot;: 5
+  &quot;associatedIndex&quot;: 0
 }</component>
-  <component name="ProjectId" id="2otaosdN2JsgiXQ7MWWgDT2UDe0" />
+  <component name="ProjectId" id="2onvLHBo2yJpx81X5vY74bHo0gQ" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;Application.CenterSpriteTool.executor&quot;: &quot;Run&quot;,
     &quot;Application.FlappyBird.executor&quot;: &quot;Run&quot;,
     &quot;Application.FlappyMain.executor&quot;: &quot;Run&quot;,
+    &quot;Application.GenerateAlignedRedBarsImage.executor&quot;: &quot;Run&quot;,
     &quot;Application.GenerateRedBarsImage.executor&quot;: &quot;Run&quot;,
+    &quot;Application.LevelCreateTool.executor&quot;: &quot;Run&quot;,
+    &quot;Application.RedBarsImage.executor&quot;: &quot;Run&quot;,
+    &quot;Application.ScrollingForeground.executor&quot;: &quot;Run&quot;,
+    &quot;Application.SpaceBarReleaseExample.executor&quot;: &quot;Run&quot;,
+    &quot;Application.SpriteAnimation.executor&quot;: &quot;Run&quot;,
+    &quot;Application.SpriteAnimation1.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Brian's-new-branch&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Shafiq-Branch-2DArrayAnim&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/briannguyen/03-flappy-bird&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;SDKs&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.31954023&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager">
-    <configuration name="FlappyMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="main.FlappyMain" />
-      <module name="03-flappy-bird" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="main.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Application.FlappyMain" />
-        <item itemvalue="Application.FlappyMain" />
-        <item itemvalue="Application.FlappyMain" />
-        <item itemvalue="Application.FlappyMain" />
-        <item itemvalue="Application.FlappyMain" />
-      </list>
-    </recent_temporary>
-  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-b114ca120d71-intellij.indexing.shared.core-IU-242.21829.142" />
-        <option value="bundled-js-predefined-d6986cc7102b-7c0b70fcd90d-JavaScript-IU-242.21829.142" />
+        <option value="bundled-jdk-9823dce3aa75-fdfe4dae3a2d-intellij.indexing.shared.core-IU-243.21565.193" />
+        <option value="bundled-js-predefined-d6986cc7102b-e768b9ed790e-JavaScript-IU-243.21565.193" />
       </set>
     </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="fe361217-b22a-4b0f-b984-cc1e58438192" name="Changes" comment="" />
-      <created>1731691504714</created>
+      <changelist id="5b45b616-1c01-40f6-b838-de9f2eddfd06" name="Changes" comment="" />
+      <created>1731518099633</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1731691504714</updated>
-      <workItem from="1731691506064" duration="721000" />
-      <workItem from="1731944980395" duration="8085000" />
-      <workItem from="1731965995571" duration="3976000" />
-      <workItem from="1732018187009" duration="504000" />
-      <workItem from="1732027249003" duration="1971000" />
-      <workItem from="1732070157167" duration="18437000" />
-      <workItem from="1732189405269" duration="7594000" />
-      <workItem from="1732294236471" duration="243000" />
+      <updated>1731518099633</updated>
+      <workItem from="1731518101462" duration="4217000" />
+      <workItem from="1731524799168" duration="4502000" />
+      <workItem from="1731550450165" duration="77000" />
+      <workItem from="1731550568603" duration="2896000" />
+      <workItem from="1731556103821" duration="230000" />
+      <workItem from="1731556367938" duration="370000" />
+      <workItem from="1731556799564" duration="84000" />
+      <workItem from="1731556925377" duration="161000" />
+      <workItem from="1731557172024" duration="1415000" />
+      <workItem from="1731559573523" duration="15568000" />
+      <workItem from="1731611538580" duration="9918000" />
+      <workItem from="1731642439060" duration="13239000" />
+      <workItem from="1731686620100" duration="244000" />
+      <workItem from="1731696276188" duration="1092000" />
+      <workItem from="1731780603574" duration="2789000" />
+      <workItem from="1731789824317" duration="818000" />
+      <workItem from="1731790691431" duration="4704000" />
+      <workItem from="1731990548614" duration="79000" />
+      <workItem from="1732007955756" duration="2000" />
+      <workItem from="1732055530965" duration="855000" />
+      <workItem from="1732067551503" duration="2245000" />
+      <workItem from="1732071640315" duration="4000" />
+      <workItem from="1732080809896" duration="13874000" />
+      <workItem from="1732130043452" duration="309000" />
+      <workItem from="1732132019437" duration="19263000" />
+      <workItem from="1732171204129" duration="2804000" />
+      <workItem from="1732174428231" duration="1656000" />
+      <workItem from="1732176261814" duration="1764000" />
+      <workItem from="1732178306920" duration="1054000" />
+      <workItem from="1732179739371" duration="1544000" />
+      <workItem from="1732181422454" duration="8943000" />
+      <workItem from="1732220774741" duration="4948000" />
+      <workItem from="1732231399801" duration="628000" />
+      <workItem from="1732276727742" duration="8474000" />
+      <workItem from="1732287161259" duration="143000" />
+      <workItem from="1732287312289" duration="4702000" />
+      <workItem from="1732300070813" duration="4000" />
+      <workItem from="1732301103224" duration="10595000" />
+      <workItem from="1732311803847" duration="4011000" />
+      <workItem from="1732316851363" duration="5450000" />
+      <workItem from="1732324194091" duration="8512000" />
+      <workItem from="1732386600459" duration="10303000" />
+      <workItem from="1732413238533" duration="2307000" />
+      <workItem from="1732494384954" duration="21062000" />
+      <workItem from="1732516568417" duration="2000" />
+      <workItem from="1732520295150" duration="21000" />
     </task>
-    <task id="LOCAL-00001" summary="created a score and used jacks idea to move camera">
+    <task id="LOCAL-00001" summary="Bird only">
       <option name="closed" value="true" />
-      <created>1732223546298</created>
+      <created>1731526058558</created>
       <option name="number" value="00001" />
       <option name="presentableId" value="LOCAL-00001" />
       <option name="project" value="LOCAL" />
-      <updated>1732223546298</updated>
+      <updated>1731526058558</updated>
     </task>
-    <task id="LOCAL-00002" summary="created a score and used jacks idea to move camera">
-      <option name="closed" value="true" />
-      <created>1732223858410</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1732223858410</updated>
-    </task>
-    <option name="localTasksCounter" value="3" />
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="created a score and used jacks idea to move camera" />
-    <option name="LAST_COMMIT_MESSAGE" value="created a score and used jacks idea to move camera" />
+    <MESSAGE value="Bird only" />
+    <option name="LAST_COMMIT_MESSAGE" value="Bird only" />
   </component>
 </project>

@@ -6,6 +6,21 @@ import main.FlappyGame;
 
 public class HelpMethods {
 
+    boolean birdScored = false;
+    private static int birdScore = 0;
+    private static int previousValue = 0;
+
+
+
+    public static boolean CanMoveHereNew(float x, float y, float width, float height, int[][] lvlData) {
+        if (!IsSolid(x, y, lvlData))
+            if (!IsSolid(x + width, y + height, lvlData))
+                if (!IsSolid(x + width, y, lvlData))
+                    if (!IsSolid(x, y + height, lvlData))
+                        return true;
+        return false;
+    }
+
     public static boolean CanMoveHere(float x, float y, float width, float height, int[][] lvlData) {
         if (!IsSolid(x, y, lvlData))
             if (!IsSolid(x + width, y + height, lvlData))
@@ -15,7 +30,7 @@ public class HelpMethods {
         return false;
     }
 
-   private static boolean IsSolid(float x, float y, int[][] lvlData) {
+    public static boolean IsSolid(float x, float y, int[][] lvlData) {
         int maxWidth = lvlData[0].length * FlappyGame.TILE_SIZE;
         // if (x < 0 || x >= FlappyGame.GAME_WIDTH)
         if (x < 0 || x >= maxWidth)
@@ -27,9 +42,24 @@ public class HelpMethods {
         float yIndex = y / FlappyGame.TILE_SIZE;
 
         int value = lvlData[(int) yIndex][(int) xIndex];
+//        System.out.println(" x, y = " + x + ", " + y + previousValue + " <--- Previous Value and lvlData value -----> " + value + "  birdScore  > " + birdScore);
+        // This checks for bird entering and increments the score.
+//        if ((previousValue == 0) & (lvlData[(int) yIndex][(int) xIndex] == 23) & (lvlData[(int) yIndex][(int) xIndex + FlappyGame.TILE_SIZE + 1] == 11)) {
+//            System.out.println("Entered score loop ////////////////////////////////////////");
+//            birdScore += 1;
+//            System.out.println("birdScore: " + birdScore);
+//            previousValue = 255; // nonzero value
+//        }
 
-        if (value >= 48 || value < 0 || value != 11)
+        if (value == 23) {
+//            if (previousValue == 255) previousValue = 0; // zero value
+            return false;
+        }
+        if (value >= 48 || value < 0 || value != 11) {
             return true;
+
+          //  return true;
+        }
         return false;
     }
 
