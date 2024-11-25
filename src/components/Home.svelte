@@ -46,10 +46,9 @@
   <div class="map-container">
       <Map {latitude} {longitude} />
   </div>
-
-  <!-- schedule form -->
+  <!-- schedule form-->
   <div class="scheduleFetchBackground">
-      <p>asdf</p>
+      <TimeTable />
   </div>
 </main>
 
@@ -71,7 +70,7 @@
     }
 
     .scheduleFetchBackground {
-        background-color: #ff0000;
+        background-color: #d9d9d9;
         padding: 1em;
         grid-column: 1 / span 2; 
         grid-row: 2; 
