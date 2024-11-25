@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fe361217-b22a-4b0f-b984-cc1e58438192" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/out/production/03-flappy-bird/.idea/workspace.xml" beforeDir="false" />
+    <list default="true" id="fe361217-b22a-4b0f-b984-cc1e58438192" name="Changes" comment="created a score and used jacks idea to move camera">
+      <change beforePath="$PROJECT_DIR$/out/production/03-flappy-bird/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/03-flappy-bird/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/03-flappy-bird/gamestates/Playing.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/03-flappy-bird/gamestates/Playing.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -13,7 +14,13 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
@@ -40,8 +47,9 @@
   &quot;keyToString&quot;: {
     &quot;Application.FlappyBird.executor&quot;: &quot;Run&quot;,
     &quot;Application.FlappyMain.executor&quot;: &quot;Run&quot;,
+    &quot;Application.GenerateRedBarsImage.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Brian's-new-branch&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;/Users/briannguyen/03-flappy-bird&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -52,6 +60,30 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RunManager">
+    <configuration name="FlappyMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="main.FlappyMain" />
+      <module name="03-flappy-bird" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="main.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.FlappyMain" />
+        <item itemvalue="Application.FlappyMain" />
+        <item itemvalue="Application.FlappyMain" />
+        <item itemvalue="Application.FlappyMain" />
+        <item itemvalue="Application.FlappyMain" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -69,11 +101,38 @@
       <option name="presentableId" value="Default" />
       <updated>1731691504714</updated>
       <workItem from="1731691506064" duration="721000" />
-      <workItem from="1731944980395" duration="1640000" />
+      <workItem from="1731944980395" duration="8085000" />
+      <workItem from="1731965995571" duration="3976000" />
+      <workItem from="1732018187009" duration="504000" />
+      <workItem from="1732027249003" duration="1971000" />
+      <workItem from="1732070157167" duration="18437000" />
+      <workItem from="1732189405269" duration="7594000" />
+      <workItem from="1732294236471" duration="243000" />
     </task>
+    <task id="LOCAL-00001" summary="created a score and used jacks idea to move camera">
+      <option name="closed" value="true" />
+      <created>1732223546298</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1732223546298</updated>
+    </task>
+    <task id="LOCAL-00002" summary="created a score and used jacks idea to move camera">
+      <option name="closed" value="true" />
+      <created>1732223858410</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1732223858410</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="created a score and used jacks idea to move camera" />
+    <option name="LAST_COMMIT_MESSAGE" value="created a score and used jacks idea to move camera" />
   </component>
 </project>
