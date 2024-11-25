@@ -1,13 +1,12 @@
 <script>
-    import { bus, subway, rail } from './transportStore';
-    import { each } from "svelte/internal";
+    import { bus, subway, rail } from "./transportStore";
 
     //  Form default values
     let radio = "leave";
     let stops = ["", ""];
     let suggestions = [];
 
-
+    // clears auto suggest when user clicks out of text box
     document.body.addEventListener("click", () => {
         suggestions = [];
     });
@@ -32,6 +31,7 @@
                     { description: "filler val 2" },
                 ],
             };
+            console.log(event.target.id);
             // console.log(`current string: ${str}`);
             // console.log(`Suggestion: ${JSON.stringify(results)}`);
             suggestions = results.predictions;
@@ -82,7 +82,8 @@
             },
         });
         if (!res.ok) {
-            throw new Error(`HTTP error! Status: ${res.status}`);
+            console.log(`${res.status}: ${res.statusText}`);
+            return;
         }
         let routes = await res.json();
         routes = JSON.parse(routes);
@@ -170,22 +171,46 @@
             document.getElementById("stop" + index).value = stops[index];
     }
 </script>
+
 <div id="tp-body">
     <div class="userInputBackground">
         <form action="">
             <div class="input-field">
                 {#each stops as stop, i}
                     <!-- Text boxes for each stop -->
-                    {#if i == 0}
-                        <input
-                            type="text"
-                            id="stop{i}"
-                            name="stop{i}"
-                            placeholder="Start"
-                            autocomplete="off"
-                            on:input={suggestLocation}
-                            on:input={updateStopsArray}
-                        />
+                    <div class="container">
+                        {#if i == 0}
+                            <input
+                                type="text"
+                                id="stop{i}"
+                                name="stop{i}"
+                                placeholder="Start"
+                                autocomplete="off"
+                                on:input={suggestLocation}
+                                on:input={updateStopsArray}
+                            />
+                        {:else if i == stops.length - 1}
+                            <input
+                                type="text"
+                                id="stop{i}"
+                                name="stop{i}"
+                                placeholder="End"
+                                autocomplete="off"
+                                on:input={suggestLocation}
+                                on:input={updateStopsArray}
+                            />
+                        {:else}
+                            <input
+                                type="text"
+                                id="stop{i}"
+                                name="stop{i}"
+                                placeholder="Stop {i}"
+                                autocomplete="off"
+                                on:input={suggestLocation}
+                                on:input={updateStopsArray}
+                            />
+                        {/if}
+
                         {#if suggestions.length > 0}
                             <div class="autocomplete-suggestions">
                                 {#each suggestions as suggestion}
@@ -204,27 +229,7 @@
                                 {/each}
                             </div>
                         {/if}
-                    {:else if i == stops.length - 1}
-                        <input
-                            type="text"
-                            id="stop{i}"
-                            name="stop{i}"
-                            placeholder="End"
-                            autocomplete="off"
-                            on:input={suggestLocation}
-                            on:input={updateStopsArray}
-                        />
-                    {:else}
-                        <input
-                            type="text"
-                            id="stop{i}"
-                            name="stop{i}"
-                            placeholder="Stop {i}"
-                            autocomplete="off"
-                            on:input={suggestLocation}
-                            on:input={updateStopsArray}
-                        />
-                    {/if}
+                    </div>
                     <!-- Delete option for each stop -->
                     {#if stops.length > 2}
                         <a href="" on:click={() => removeStop(i)}>X</a>
@@ -237,7 +242,6 @@
                     >
                 {/if}
             </div>
-            <!-- autocomplete suggestions dropdown -->
 
             <div class="inlineElements">
                 <label>
