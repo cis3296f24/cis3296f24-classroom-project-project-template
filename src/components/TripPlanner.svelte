@@ -9,38 +9,36 @@
     let stops = ["", ""];
     let suggestions = [];
 
+    document.body.addEventListener("click", () => {
+        suggestions = [];
+    });
     // Auto suggest
     const suggestLocation = async (event) => {
         const str = event.target.value;
         if (str === "") {
             suggestions = [];
         } else {
-            console.log(str);
-            const res = await fetch("/api/autocomplete", {
-                method: "POST",
-                body: JSON.stringify({ input: str }),
-                headers: {
-                    "Content-type": "application/json; charset=UTF-8",
-                },
-            });
-            let results = await res.json();
+            // console.log(str);
+            // const res = await fetch("/api/autocomplete", {
+            //     method: "POST",
+            //     body: JSON.stringify({ input: str }),
+            //     headers: {
+            //         "Content-type": "application/json; charset=UTF-8",
+            //     },
+            // });
+            // let results = await res.json();
+            const results = {
+                predictions: [
+                    { description: "filler value 1" },
+                    { description: "filler val 2" },
+                ],
+            };
             // console.log(`current string: ${str}`);
             // console.log(`Suggestion: ${JSON.stringify(results)}`);
             suggestions = results.predictions;
-            console.log(suggestions);
+            // console.log(suggestions);
         }
     };
-
-    // print <= 3 suggestions
-    function displaySuggestions(data) {
-        // create a dropdown displaying <=3 suggestions
-        const container = document
-            .createElement("div")
-            .className("suggestions");
-        data.predictions.forEach((prediction) => {
-            console.log(prediction);
-        });
-    }
 
     // Swap button
     const handleSwap = () => {
@@ -178,70 +176,70 @@
 <div id="tp-body">
     <div class="userInputBackground">
         <form action="">
-            {#each stops as stop, i}
-                <!-- Text boxes for each stop -->
-                {#if i == 0}
-                    <input
-                        type="text"
-                        id="stop{i}"
-                        name="stop{i}"
-                        placeholder="Start"
-                        autocomplete="off"
-                        on:input={suggestLocation}
-                        on:input={updateStopsArray}
-                    />
-                    {#if suggestions.length > 0}
-                        <div class="autocomplete-suggestions">
-                            {#each suggestions as suggestion}
-                                <button
-                                    class="suggestion"
-                                    on:click={(event) => {
-                                        event.preventDefault();
-                                        document.getElementById(
-                                            `stop${0}`,
-                                        ).value = suggestion.description;
-                                        suggestions = [];
-                                    }}
-                                >
-                                    {suggestion.description}
-                                </button>
-                            {/each}
-                        </div>
+            <div class="input-field">
+                {#each stops as stop, i}
+                    <!-- Text boxes for each stop -->
+                    {#if i == 0}
+                        <input
+                            type="text"
+                            id="stop{i}"
+                            name="stop{i}"
+                            placeholder="Start"
+                            autocomplete="off"
+                            on:input={suggestLocation}
+                            on:input={updateStopsArray}
+                        />
+                        {#if suggestions.length > 0}
+                            <div class="autocomplete-suggestions">
+                                {#each suggestions as suggestion}
+                                    <button
+                                        class="suggestion"
+                                        on:click={(event) => {
+                                            event.preventDefault();
+                                            document.getElementById(
+                                                `stop${i}`,
+                                            ).value = suggestion.description;
+                                            suggestions = [];
+                                        }}
+                                    >
+                                        {suggestion.description}
+                                    </button>
+                                {/each}
+                            </div>
+                        {/if}
+                    {:else if i == stops.length - 1}
+                        <input
+                            type="text"
+                            id="stop{i}"
+                            name="stop{i}"
+                            placeholder="End"
+                            autocomplete="off"
+                            on:input={suggestLocation}
+                            on:input={updateStopsArray}
+                        />
+                    {:else}
+                        <input
+                            type="text"
+                            id="stop{i}"
+                            name="stop{i}"
+                            placeholder="Stop {i}"
+                            autocomplete="off"
+                            on:input={suggestLocation}
+                            on:input={updateStopsArray}
+                        />
                     {/if}
-                {:else if i == stops.length - 1}
-                    <input
-                        type="text"
-                        id="stop{i}"
-                        name="stop{i}"
-                        placeholder="End"
-                        autocomplete="off"
-                        on:input={suggestLocation}
-                        on:input={updateStopsArray}
-                    />
-                {:else}
-                    <input
-                        type="text"
-                        id="stop{i}"
-                        name="stop{i}"
-                        placeholder="Stop {i}"
-                        autocomplete="off"
-                        on:input={suggestLocation}
-                        on:input={updateStopsArray}
-                    />
+                    <!-- Delete option for each stop -->
+                    {#if stops.length > 2}
+                        <a href="" on:click={() => removeStop(i)}>X</a>
+                    {/if}
+                {/each}
+
+                {#if stops.length == 2}
+                    <button id="swap" type="button" on:click={handleSwap}
+                        >Swap</button
+                    >
                 {/if}
-
-                <!-- Delete option for each stop -->
-                {#if stops.length > 2}
-                    <a href="#" on:click={() => removeStop(i)}>X</a>
-                {/if}
-            {/each}
-
-            {#if stops.length == 2}
-                <button id="swap" type="button" on:click={handleSwap}
-                    >Swap</button
-                >
-            {/if}
-
+            </div>
             <!-- autocomplete suggestions dropdown -->
 
             <div class="inlineElements">
@@ -348,5 +346,10 @@
 
     .suggestion:hover {
         background-color: #f0f0f0;
+    }
+
+    .input-field {
+        position: relative;
+        margin-bottom: 16px;
     }
 </style>
