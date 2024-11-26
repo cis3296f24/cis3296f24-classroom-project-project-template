@@ -304,6 +304,8 @@ async function findMatches(userID, topArtists, topSongs) {
 
     const allUserData = snapshot.val();
 
+    document.getElementById("displaymatches").innerText = "";
+
     for (let userKey in allUserData) {
 	const user = allUserData[userKey];
 
