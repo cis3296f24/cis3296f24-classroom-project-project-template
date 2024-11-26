@@ -1,6 +1,7 @@
 package utils;
 
 import java.awt.geom.Rectangle2D;
+import java.util.Arrays;
 
 import main.FlappyGame;
 
@@ -31,8 +32,38 @@ public class HelpMethods {
                     }
         return false;
     }
+    public static void updateBirdScore(float x, float y, int[][] lvlData) {
+        int xIndex = (int) (x / FlappyGame.TILE_SIZE);
+        int yIndex = (int) (y / FlappyGame.TILE_SIZE);
+        int value = lvlData[yIndex][xIndex];
+
+        // Check if bird enters the score tile
+        if (value == 23 && !birdEntered) {
+            birdEntered = true;
+            birdExited = false;
+            System.out.println("Bird entered the scoring zone");
+        }
+        // Check if bird exits the score tile by moving to a non score tile
+        if (birdEntered && !birdExited) {
+            if (xIndex > 0 && xIndex < lvlData[0].length - 1) {
+                int nextValue = lvlData[yIndex][xIndex + 1];
+                int previousValue = lvlData[yIndex][xIndex - 1];
+
+                // If the bird moves from the tile 23 to another tile
+                if (nextValue == 11 || previousValue == 11) {
+                    birdExited = true;
+                    birdEntered = false;
+                    birdScore++;
+                    System.out.println("Bird exited the scoring zone. Current score: " + birdScore);
+                }
+            }
+        }
+    }
 
     public static boolean IsSolid(float x, float y, int[][] lvlData) {
+        //System.out.println("lvlData[1][1]: " + lvlData[1][1]);
+        //System.out.println("lvlData: " + Arrays.stream(lvlData).allMatch(23));
+
         int maxWidth = lvlData[0].length * FlappyGame.TILE_SIZE;
         // if (x < 0 || x >= FlappyGame.GAME_WIDTH)
         if (x < 0 || x >= maxWidth)
@@ -40,9 +71,12 @@ public class HelpMethods {
         if (y < 0 || y >= FlappyGame.GAME_HEIGHT)
             return true;
 
+        // updateBirdScore2(x, y, lvlData);
+
         float xIndex = x / FlappyGame.TILE_SIZE;
         float yIndex = y / FlappyGame.TILE_SIZE;
         int value = lvlData[(int) yIndex][(int) xIndex];
+
 //        int nextValue = lvlData[(int) yIndex][(int) xIndex + 1];
  //       int previousValue = lvlData[(int) yIndex][(int) xIndex - 1];
 
@@ -69,8 +103,8 @@ public class HelpMethods {
         }
 
         if (value >= 48 || value < 0 || value != 11) {
-            //return true;
-            return false;
+            return true;
+            // return false;
         }
         return false;
     }

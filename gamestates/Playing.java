@@ -64,9 +64,10 @@ public class Playing extends State implements Statemethods {
         flappyBKGLayer3 = LoadSave.GetSpriteAtlas(LoadSave.FlappyLayer_3);
     }
 
+    // To change the initial location of the bird change new Player (x, y ..............
     private void initClasses() {
         levelManager = new LevelManager(flappyGame);
-        player = new Player(200, 100, (int) (64 * FlappyGame.SCALE), (int) (40 * FlappyGame.SCALE), this);
+        player = new Player(25, (int)(FlappyGame.GAME_HEIGHT / 2), (int) (64 * FlappyGame.SCALE), (int) (40 * FlappyGame.SCALE), this);
         player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
         pauseOverlay = new PauseOverlay(this);
         gameOverOverlay = new GameOverOverlay(this);    // Added for when the bird dies after collision.
@@ -127,7 +128,7 @@ public class Playing extends State implements Statemethods {
         backgroundImgCounter += 1;
         backgroundImgL1Speed = -xLvlOffset * backLayer1Speed;
         backgroundImgL2Speed = -xLvlOffset * backLayer2Speed;
-
+        System.out.println("xLvlOffset: " + xLvlOffset / 3);
         g.drawImage(flappyBKGLayer1, (int) backgroundImgL1Speed, 0,FlappyGame.GAME_WIDTH, FlappyGame.GAME_HEIGHT, null); // This will load the image with the dimensions of the game.
         g.drawImage(flappyBKGLayer2, (int) backgroundImgL2Speed, 0,FlappyGame.GAME_WIDTH, FlappyGame.GAME_HEIGHT, null); // This will load the image with the dimensions of the game.
 

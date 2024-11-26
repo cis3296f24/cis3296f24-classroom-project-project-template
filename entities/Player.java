@@ -18,7 +18,7 @@ public class Player extends Entity {
     private int playerAction = IDLE;
     private boolean moving = false, attacking = false;
     private boolean left, up, right, down, jump;
-    private float playerSpeed = 2.5f; // Change this for bird speed fast or slow
+    private float playerSpeed = .5000000000000000000f; // Change this for bird speed fast or slow
     private int[][] lvlData;
     private float xDrawOffset = 21 * FlappyGame.SCALE;
     private float yDrawOffset = 4 * FlappyGame.SCALE;
@@ -26,7 +26,7 @@ public class Player extends Entity {
     // Jumping / Gravity
     private float airSpeed = 10f;
     private float gravity = 0.01111111111111114f * FlappyGame.SCALE; // Change this for gravity
-    private float jumpSpeed = -1.25f * FlappyGame.SCALE;   // Change this for how high to jump
+    private float jumpSpeed = -1.250000000000000f * FlappyGame.SCALE;   // Change this for how high to jump
     private float fallSpeedAfterCollision = 0.5f * FlappyGame.SCALE;
     private boolean inAir = false;
 
@@ -49,6 +49,10 @@ public class Player extends Entity {
     private int currentHealth = maxHealth;
     private Playing playing;
 
+    private  int birdScore = 0;
+    private  boolean birdEntered = false;
+    private  boolean birdExited = true;
+
     public Player(float x, float y, int width, int height, Playing playing) {
         super(x, y, width, height);
         this.playing = playing;
@@ -67,6 +71,31 @@ public class Player extends Entity {
         initHitbox(x, y, (0 * FlappyGame.SCALE) + 1, 15 * FlappyGame.SCALE);
         this.currentHealth = 35;
     }
+
+
+    public void updateBirdScore2(float x, float y, int[][] lvlData) {
+        int xIndex = (int) (x / FlappyGame.TILE_SIZE);
+        int yIndex = (int) (y / FlappyGame.TILE_SIZE);
+        int currentValue = lvlData[yIndex][xIndex];
+
+        if (currentValue == 23) {
+            // Bird is on the scoring tile
+            if (!birdEntered) {
+                birdEntered = true;
+                birdExited = false;
+                System.out.println("Bird entered the scoring zone");
+            }
+        } else {
+            // Bird is not on the scoring tile
+            if (birdEntered && !birdExited) {
+                birdExited = true;
+                birdEntered = false;
+                birdScore++;
+                System.out.println("Bird exited the scoring zone. Current score: " + birdScore);
+            }
+        }
+    }
+
 
     private void loadBirdAnimations() {
 
@@ -162,7 +191,7 @@ public class Player extends Entity {
     }
 
     // Start the bird flying.
-    // I removed all other if then statements because our bird doesn't jump, move left etc.
+    // Removed all other if then statements because bird doesn't jump, move left, or attack etc.
     private void setAnimation() {
         int startAni = playerAction;
     }
@@ -196,7 +225,7 @@ public class Player extends Entity {
         // Adding this to collide bird into pipe and set health to zero.
         if (!CanMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, lvlData)) {
             // System.out.println("Bird touching something");
-            // currentHealth = 0; // Kill Player
+            setUpdateHealthBar(COLLIDED);  // Collide the bird and end game.
         }
 
         if (inAir) {
@@ -219,7 +248,7 @@ public class Player extends Entity {
         } else {
             // If the bird hits the floor it will die.
             // System.out.println("Not in air");
-            setUpdateHealthBar(COLLIDED);
+            setUpdateHealthBar(COLLIDED);   // Collide the bird and end game.
         }
 
         updateXPos(xSpeed);
@@ -275,7 +304,8 @@ public class Player extends Entity {
     public void loadLvlData(int[][] lvlData) {
         this.lvlData = lvlData;
         if (!IsEntityOnFloor(hitbox, lvlData))
-            inAir = true;
+            inAir = false;
+        System.out.println("Loading lvl data in player.java");
 
     }
 
