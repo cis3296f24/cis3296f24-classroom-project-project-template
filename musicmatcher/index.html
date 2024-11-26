@@ -101,42 +101,82 @@ h1, h2, h3, p, ol, li {
 
 
 .scrollable-songs-container {
-        max-height: 400px; /* Set max height to control the visible area */
-        overflow-y: auto;  /* Enable vertical scrolling */
-        padding: 1rem;     /* Padding for better visual spacing */
-        margin-top: 1rem;  /* Add space above the container */
-        border: 1px solid rgba(132, 128, 128, 0.5); /* Optional: light border for separation */
-        width: 100%;       /* Make it take full width of the parent container */
+  max-height: 600px; /* Increase max height to accommodate multiple rows */
+  overflow-y: auto;  /* Enable vertical scrolling if content exceeds max height */
+  padding: 1rem;     /* Padding for better visual spacing */
+  margin-top: 1rem;  /* Space above the container */
+  width: 100%;       /* Take full width of the parent container */
+  display: flex;     /* Use flexbox for layout */
+  flex-wrap: wrap;   /* Wrap the items into multiple rows */
+  gap: 20px;         /* Set spacing between song items */
+  justify-content: flex-start; /* Align items to the start */
       }
 
       .song-item {
-        display: flex;      /* Flexbox to align cover and text side by side */
-        align-items: center; /* Align cover and text vertically centered */
-        margin-bottom: 1rem; /* Space between songs */
+        display: flex;              /* Flexbox for aligning items */
+        flex-direction: row;     /* Stack items vertically */
+        align-items: flex-start;        /* Center align items */
+        margin-bottom: 124px;       /* Set spacing between song items */
+        margin-right: 200px;
+        align-items: flex-start;
+        width: 300px;   
+        gap:1rem;         
       }
 
       .song-cover {
-        width: 50px;        /* Set cover image width */
-        height: 50px;       /* Set cover image height */
+        width: 225px;        /* Set cover image width */
+        height: 225px;       /* Set cover image height */
         margin-right: 1rem; /* Space between image and song name */
+        border-radius: 10px;
+        object-fit:cover;
+        flex-shrink:0;
       }
 
       .song-name {
-        font-size: 1.5rem;  /* Set song name font size */
+        font-size: 120;  /* Set song name font size */
         color: white;       /* Song text color */
       }
 
 .song-pill {
   display: inline-block;
-  background-color: #646cff; /* Example color, adjust to fit your Figma design */
+  background-color: #5F5D5D; /* Example color, adjust to fit your Figma design */
   color: white;
-  font-size: 16px;
+  font-size: 13.33px;
   padding: 0.2rem 0.6rem;
-  border-radius: 16px; /* Rounded corners to make it look like a pill */
+  border-radius: 10px; /* Rounded corners to make it look like a pill */
   margin-top: 0.5rem;  /* Space between the artist name and the pill */
+  width: 100px;               /* Set the width to 130px */
+  height: 30px;               /* Set the height to 40px */
+  line-height: 30px;          /* Align text vertically by matching height */
+  text-align: center;
+  font-weight: 600;  
 }
 
 
+.song-info {
+  display: flex;              /* Flexbox for organizing text elements */
+  flex-direction: column;     /* Stack text items vertically */
+  align-items: flex-start;    /* Align the text to the left */
+  justify-content: flex-start; /* Align elements at the top */
+  align-items: flex-start;    
+  flex-grow: 1;                 /* Allow song info to grow and take available space */
+  max-width: calc(100% - 250px); /* Adjust width based on cover size and padding */
+}
+
+
+
+.song-name,
+.artist-name,
+.song-pill {
+  margin: 0.25rem 0;          /* Add vertical spacing between text elements */
+}
+
+.song-name,
+.artist-name {
+  white-space: nowrap;          /* Prevent text from wrapping to the next line */
+  overflow: hidden;             /* Hide overflowing text */
+  text-overflow: ellipsis;      /* Add ellipsis (...) if text overflows */
+}
 
 /* Styling for Individual Artist Items */
 .artist-item {
@@ -145,16 +185,18 @@ h1, h2, h3, p, ol, li {
   flex-direction: column;
   display: flex;      /* Flexbox to align cover and text side by side */
   align-items: center; /* Align cover and text vertically centered */
-  margin-bottom: 1rem; /* Space between artists */
+  margin-bottom: 65px; /* Space between artists */
+  margin-right: 124px;
+  margin-left: 40px;
+
 }
 
 .artist-image {
-  width: 120px;        /* Set artist image width */
-  height: 120px;       /* Set artist image height */
-  margin-right: 1rem; /* Space between image and artist name */
-  object-fit: cover;
-  margin-bottom:0.5rem;
-  border-radius: 50%;
+  width: 225px;        /* Set artist image width to 267 pixels */
+  height: 225px;       /* Set artist image height to 267 pixels */
+  object-fit: cover;   /* Ensure the image fills the dimensions without distortion */
+  border-radius: 10px; /* Set corner radius to 10 pixels */
+  margin-bottom: 0.5rem;
 }
 
 .artist-name {
