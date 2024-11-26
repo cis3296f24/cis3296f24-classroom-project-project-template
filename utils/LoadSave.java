@@ -56,10 +56,11 @@ public class LoadSave {
     public static final String FlappyLayer_1 = Folder + "Layer_1.png";  // This is the background downloaded from free sites.
     public static final String FlappyLayer_2 = Folder + "Layer_2.png";  // This is the background downloaded from free sites.
     public static final String FlappyLayer_3 = Folder + "Layer_3.png";  // This is the background downloaded from free sites.
+    static int totalPipeCount = 0;
 
 
     public static BufferedImage GetSpriteAtlas(String fileName) {
-        System.out.println(fileName);
+        // System.out.println(fileName);
         BufferedImage img = null;
         InputStream is = LoadSave.class.getResourceAsStream("/" + fileName);
         try {
@@ -79,9 +80,10 @@ public class LoadSave {
 
     // This method loads the level and uses getHeight and getWidth of the small pixel board.
     public static int[][] GetLevelData() {
+        totalPipeCount = 0;
         BufferedImage img = GetSpriteAtlas(LEVEL_ONE_DATA);
         int[][] lvlData = new int[img.getHeight()][img.getWidth()];
-        System.out.println("img height: " + img.getHeight());
+        //System.out.println("img height: " + img.getHeight());
         System.out.println("img width: " + img.getWidth());
         for (int j = 0; j < img.getHeight(); j++)
             for (int i = 0; i < img.getWidth(); i++) {
@@ -90,8 +92,15 @@ public class LoadSave {
                 if (value >= 48)
                     value = 0;
                 lvlData[j][i] = value;
-            }
+                if (lvlData[j][i] == 15) {
+                    totalPipeCount++; // Count total # of pipes.
+                    System.out.println("Total Pipes = " + totalPipeCount);
+
+                }
+        }
+        // System.out.println("PIPE # " + totalPipeCount);
         return lvlData;
 
     }
+
 }

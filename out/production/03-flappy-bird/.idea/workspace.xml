@@ -5,7 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5b45b616-1c01-40f6-b838-de9f2eddfd06" name="Changes" comment="Bird only">
-      <change beforePath="$PROJECT_DIR$/out/production/03-flappy-bird/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/03-flappy-bird/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/entities/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/entities/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/FlappyMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/main/FlappyMain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/03-flappy-bird/utils/HelpMethods.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/03-flappy-bird/utils/HelpMethods.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/03-flappy-bird/utils/LoadSave.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/03-flappy-bird/utils/LoadSave.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/HelpMethods.java" beforeDir="false" afterPath="$PROJECT_DIR$/utils/HelpMethods.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/LoadSave.java" beforeDir="false" afterPath="$PROJECT_DIR$/utils/LoadSave.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,36 +36,37 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.CenterSpriteTool.executor&quot;: &quot;Run&quot;,
-    &quot;Application.FlappyBird.executor&quot;: &quot;Run&quot;,
-    &quot;Application.FlappyMain.executor&quot;: &quot;Run&quot;,
-    &quot;Application.GenerateAlignedRedBarsImage.executor&quot;: &quot;Run&quot;,
-    &quot;Application.GenerateRedBarsImage.executor&quot;: &quot;Run&quot;,
-    &quot;Application.LevelCreateTool.executor&quot;: &quot;Run&quot;,
-    &quot;Application.RedBarsImage.executor&quot;: &quot;Run&quot;,
-    &quot;Application.ScrollingForeground.executor&quot;: &quot;Run&quot;,
-    &quot;Application.SpaceBarReleaseExample.executor&quot;: &quot;Run&quot;,
-    &quot;Application.SpriteAnimation.executor&quot;: &quot;Run&quot;,
-    &quot;Application.SpriteAnimation1.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Shafiq-Branch-2DArrayAnim&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;SDKs&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.31954023&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.CenterSpriteTool.executor": "Run",
+    "Application.FlappyBird.executor": "Run",
+    "Application.FlappyMain.executor": "Run",
+    "Application.GenerateAlignedRedBarsImage.executor": "Run",
+    "Application.GenerateRedBarsImage.executor": "Run",
+    "Application.LevelCreateTool.executor": "Run",
+    "Application.Print2DArray.executor": "Run",
+    "Application.RedBarsImage.executor": "Run",
+    "Application.ScrollingForeground.executor": "Run",
+    "Application.SpaceBarReleaseExample.executor": "Run",
+    "Application.SpriteAnimation.executor": "Run",
+    "Application.SpriteAnimation1.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "Shafiq-Branch-2DArrayAnim",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "SDKs",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.31954023",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -123,6 +129,7 @@
       <workItem from="1732494384954" duration="21062000" />
       <workItem from="1732516568417" duration="2000" />
       <workItem from="1732520295150" duration="21000" />
+      <workItem from="1732555199354" duration="37435000" />
     </task>
     <task id="LOCAL-00001" summary="Bird only">
       <option name="closed" value="true" />
