@@ -88,7 +88,6 @@ public class Player extends Entity {
 
             }
         statusBarImg = LoadSave.GetSpriteAtlas(LoadSave.STATUS_BAR);
-
     }
 
     public void update() {
@@ -113,8 +112,8 @@ public class Player extends Entity {
     }
 
     public void setUpdateHealthBar(int birdHealth) {
-        currentHealth = birdHealth;
-       // currentHealth = maxHealth; // Resetting this for testing.
+        //currentHealth = birdHealth;
+        currentHealth = maxHealth; // Resetting this for testing.
     }
 
     // Added second parameter for scrolling. - Shafiq
@@ -124,8 +123,18 @@ public class Player extends Entity {
     public void render(Graphics g, int lvlOffset) {
         int scaleBirdX = 50; // scale the bird in x direct by 50 pixels to correct the aspect ratio. -Shafiq.
         g.drawImage(animations[playerAction][aniIndex], (int) (hitbox.x - xDrawOffset) - lvlOffset, (int) (hitbox.y - yDrawOffset), width - scaleBirdX, height, null);
-        drawUI(g);  // Draws the health. We can remove this once the bird dies works.
+
+        // drawUI(g);  // Draws the health. We can remove this once the bird dies works.
+
         drawHitbox(g, lvlOffset);
+        updateScore(23324, g);
+
+    }
+
+    public void updateScore(int score,Graphics g ) {
+        g.setColor(Color.white);
+        g.setFont(new Font("Arial", Font.BOLD, 30));
+        g.drawString("Score: " + score, 50, 50);
     }
 
     // This method draws the health bar in the upper left corner.

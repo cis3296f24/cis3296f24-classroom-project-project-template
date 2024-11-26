@@ -1,7 +1,6 @@
 package gamestates;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -201,7 +200,6 @@ public class Playing extends State implements Statemethods {
                 break;
         }
         player.setRight(true); // I added this to set the forward motion of the bird.
-
     }
 
     @Override
