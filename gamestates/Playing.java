@@ -128,7 +128,7 @@ public class Playing extends State implements Statemethods {
         backgroundImgCounter += 1;
         backgroundImgL1Speed = -xLvlOffset * backLayer1Speed;
         backgroundImgL2Speed = -xLvlOffset * backLayer2Speed;
-        System.out.println("xLvlOffset: " + xLvlOffset / 3);
+        // System.out.println("xLvlOffset: " + xLvlOffset / 3);
         g.drawImage(flappyBKGLayer1, (int) backgroundImgL1Speed, 0,FlappyGame.GAME_WIDTH, FlappyGame.GAME_HEIGHT, null); // This will load the image with the dimensions of the game.
         g.drawImage(flappyBKGLayer2, (int) backgroundImgL2Speed, 0,FlappyGame.GAME_WIDTH, FlappyGame.GAME_HEIGHT, null); // This will load the image with the dimensions of the game.
 

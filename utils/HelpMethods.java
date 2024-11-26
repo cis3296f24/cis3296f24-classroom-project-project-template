@@ -9,9 +9,8 @@ public class HelpMethods {
 
     boolean birdScored = false;
     private static int birdScore = 0;
-    private static int previousValue = 0;
-    private static boolean birdEntered = false;
-    private static boolean birdExited = true;
+    // private static boolean birdEntered = false;
+    // private static boolean birdExited = true;
 
 
     public static boolean CanMoveHereNew(float x, float y, float width, float height, int[][] lvlData) {
@@ -33,34 +32,34 @@ public class HelpMethods {
         return false;
     }
 
-    // Not working.
-    public static void updateBirdScoreOld(float x, float y, int[][] lvlData) {
-        int xIndex = (int) (x / FlappyGame.TILE_SIZE);
-        int yIndex = (int) (y / FlappyGame.TILE_SIZE);
-        int value = lvlData[yIndex][xIndex];
-
-        // Check if bird enters the score tile
-        if (value == 23 && !birdEntered) {
-            birdEntered = true;
-            birdExited = false;
-            System.out.println("Bird entered the scoring zone");
-        }
-        // Check if bird exits the score tile by moving to a non score tile
-        if (birdEntered && !birdExited) {
-            if (xIndex > 0 && xIndex < lvlData[0].length - 1) {
-                int nextValue = lvlData[yIndex][xIndex + 1];
-                int previousValue = lvlData[yIndex][xIndex - 1];
-
-                // If the bird moves from the tile 23 to another tile
-                if (nextValue == 11 || previousValue == 11) {
-                    birdExited = true;
-                    birdEntered = false;
-                    birdScore++;
-                    System.out.println("Bird exited the scoring zone. Current score: " + birdScore);
-                }
-            }
-        }
-    }
+    // Old method not working.
+//    public static void updateBirdScoreOld(float x, float y, int[][] lvlData) {
+//        int xIndex = (int) (x / FlappyGame.TILE_SIZE);
+//        int yIndex = (int) (y / FlappyGame.TILE_SIZE);
+//        int value = lvlData[yIndex][xIndex];
+//
+//        // Check if bird enters the score tile
+//        if (value == 23 && !birdEntered) {
+//            birdEntered = true;
+//            birdExited = false;
+//            System.out.println("Bird entered the scoring zone");
+//        }
+//        // Check if bird exits the score tile by moving to a non score tile
+//        if (birdEntered && !birdExited) {
+//            if (xIndex > 0 && xIndex < lvlData[0].length - 1) {
+//                int nextValue = lvlData[yIndex][xIndex + 1];
+//                int previousValue = lvlData[yIndex][xIndex - 1];
+//
+//                // If the bird moves from the tile 23 to another tile
+//                if (nextValue == 11 || previousValue == 11) {
+//                    birdExited = true;
+//                    birdEntered = false;
+//                    birdScore++;
+//                    System.out.println("Bird exited the scoring zone. Current score: " + birdScore);
+//                }
+//            }
+//        }
+//    }
 
     public static boolean IsSolid(float x, float y, int[][] lvlData) {
         //System.out.println("lvlData[1][1]: " + lvlData[1][1]);

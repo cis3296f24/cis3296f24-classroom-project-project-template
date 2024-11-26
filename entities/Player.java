@@ -18,15 +18,15 @@ public class Player extends Entity {
     private int playerAction = IDLE;
     private boolean moving = false, attacking = false;
     private boolean left, up, right, down, jump;
-    private float playerSpeed = .5000000000000000000f; // Change this for bird speed fast or slow
+    private float playerSpeed = 1.25000000000000000000f; // Change this for bird speed fast or slow
     private int[][] lvlData;
     private float xDrawOffset = 21 * FlappyGame.SCALE;
     private float yDrawOffset = 4 * FlappyGame.SCALE;
 
     // Jumping / Gravity
     private float airSpeed = 10f;
-    private float gravity = 0.01111111111111114f * FlappyGame.SCALE; // Change this for gravity
-    private float jumpSpeed = -1.250000000000000f * FlappyGame.SCALE;   // Change this for how high to jump
+    private float gravity = 0.0401111111111111114f * FlappyGame.SCALE; // Change this for gravity
+    private float jumpSpeed = -1.725000000000000000f * FlappyGame.SCALE;   // Change this for how high to jump
     private float fallSpeedAfterCollision = 0.5f * FlappyGame.SCALE;
     private boolean inAir = false;
 
@@ -141,8 +141,8 @@ public class Player extends Entity {
     }
 
     public void setUpdateHealthBar(int birdHealth) {
-        //currentHealth = birdHealth;
-        currentHealth = maxHealth; // Resetting this for testing.
+        currentHealth = birdHealth;
+        //currentHealth = maxHealth; // Resetting this for testing.
     }
 
     // Added second parameter for scrolling. - Shafiq
