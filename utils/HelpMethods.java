@@ -32,7 +32,9 @@ public class HelpMethods {
                     }
         return false;
     }
-    public static void updateBirdScore(float x, float y, int[][] lvlData) {
+
+    // Not working.
+    public static void updateBirdScoreOld(float x, float y, int[][] lvlData) {
         int xIndex = (int) (x / FlappyGame.TILE_SIZE);
         int yIndex = (int) (y / FlappyGame.TILE_SIZE);
         int value = lvlData[yIndex][xIndex];

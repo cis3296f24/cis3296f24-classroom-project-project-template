@@ -58,8 +58,7 @@ public class Player extends Entity {
         this.playing = playing;
         this.state = IDLE;
         this.maxHealth = 100;
-        this.currentHealth = 35;
-
+        // this.currentHealth = 35;
         // this.walkSpeed = FlappyGame.SCALE;
 
         loadBirdAnimations();
@@ -73,7 +72,7 @@ public class Player extends Entity {
     }
 
 
-    public void updateBirdScore2(float x, float y, int[][] lvlData) {
+    public void updateBirdScore(float x, float y, int[][] lvlData) {
         int xIndex = (int) (x / FlappyGame.TILE_SIZE);
         int yIndex = (int) (y / FlappyGame.TILE_SIZE);
         int currentValue = lvlData[yIndex][xIndex];
@@ -156,7 +155,7 @@ public class Player extends Entity {
         // drawUI(g);  // Draws the health. We can remove this once the bird dies works.
 
         drawHitbox(g, lvlOffset);
-        updateScore(23324, g);
+        updateScore(birdScore, g);
 
     }
 
@@ -271,6 +270,8 @@ public class Player extends Entity {
 
     private void updateXPos(float xSpeed) {
         if (CanMoveHere(hitbox.x + xSpeed, hitbox.y, hitbox.width, hitbox.height, lvlData)) {
+            System.out.println("hit x: " + hitbox.x + ", y: " + hitbox.y);
+            updateBirdScore(hitbox.x,hitbox.y,lvlData);
             hitbox.x += xSpeed;
         } else {
             hitbox.x = GetEntityXPosNextToWall(hitbox, xSpeed);
@@ -304,7 +305,7 @@ public class Player extends Entity {
     public void loadLvlData(int[][] lvlData) {
         this.lvlData = lvlData;
         if (!IsEntityOnFloor(hitbox, lvlData))
-            inAir = false;
+            inAir = false;  // This pauses the bird in the air at start of the game.
         System.out.println("Loading lvl data in player.java");
 
     }
