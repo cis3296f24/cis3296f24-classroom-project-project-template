@@ -18,25 +18,75 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
-let accessToken, profile, topArtists, topSongs, userID, displayName;
+let accessToken, refreshToken, profile, topArtists, topSongs, userID, displayName;
 
-/* Getting and displaying user's Spotify stats  */
-if (!code) {
-    redirectToAuthCodeFlow(clientID);
-} else {
-    accessToken = await getAccessToken(clientID, code);
-    profile = await fetchProfile(accessToken);
-    topArtists = await getTopArtists(accessToken);
-    topSongs = await getTopSongs(accessToken);
-    populateUI(profile);
-    showTopArtists(topArtists);
-    showTopSongs(topSongs);
+async function tokenValid(token) {
+    const result = await fetch("https://api.spotify.com/v1/me", {
+        method: "GET", 
+        headers: { Authorization: `Bearer ${token}` }
+    });
 
-    /* Store data in firebase  */
-    userID = profile.id;
-    displayName = profile.display_name;
-    await storeTopLists(userID, displayName, topArtists, topSongs);
+    return result.ok;
 }
+
+
+/* Check if user is authenticated */
+window.addEventListener("load", async () => {
+    let accessToken = localStorage.getItem("spotifyAccessToken");
+    let refreshToken = localStorage.getItem("spotifyRefreshToken");
+
+    if (code) {
+	accessToken = await getAccessToken(clientID, code);
+	localStorage.setItem("spotifyAccessToken", accessToken);
+	window.history.replaceState({}, document.title, window.location.pathname);
+    }
+    
+    if (accessToken && await tokenValid(accessToken)) {
+	try {
+	    profile = await fetchProfile(accessToken);
+	    topArtists = await getTopArtists(accessToken);
+	    topSongs = await getTopSongs(accessToken);
+	    populateUI(profile);
+	    showTopArtists(topArtists);
+	    showTopSongs(topSongs);
+	    userID = profile.id;
+	    displayName = profile.display_name;
+
+	    await storeTopLists(userID, displayName, topArtists, topSongs);
+	    return;
+	    
+	} catch (error) {
+	    console.error("Access token invalid", error);
+	}
+    }
+
+    /* Did not have valid Spotify access token, check for refresh token  */
+    if (refreshToken) {
+	try {
+	    const newAccessToken = await refreshAccessToken(refreshToken);
+	    if (newAccessToken && await tokenValid(newAccessToken)) {
+		localStorage.setItem("spotifyAccessToken", newAccessToken);
+		profile = await fetchProfile(newAccessToken);
+		topArtists = await getTopArtists(newAccessToken);
+		topSongs = await getTopSongs(newAccessToken);
+		populateUI(profile);
+		showTopArtists(topArtists);
+		showTopSongs(topSongs);
+		userID = profile.id;
+		displayName = profile.display_name;
+
+		await storeTopLists(userID, displayName, topArtists, topSongs);
+		return;
+	    }
+	} catch (error) {
+	    console.error("Refresh token invalid.", error);
+	}
+    }
+    
+    /* No access token and no refresh token. Redirect to authorization screen */
+    redirectToAuthCodeFlow(clientID);
+});
+    
 
 export async function redirectToAuthCodeFlow(clientID) {
     /* Redirects to spotify authorization  */
