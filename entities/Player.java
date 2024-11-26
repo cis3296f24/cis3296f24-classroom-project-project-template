@@ -71,7 +71,8 @@ public class Player extends Entity {
         this.currentHealth = 35;
     }
 
-
+    // The logic in this method works as a toggle switch to keep score
+    // It avoids duplicating the score if the bird spends too much inside the fly zone.
     public void updateBirdScore(float x, float y, int[][] lvlData) {
         int xIndex = (int) (x / FlappyGame.TILE_SIZE);
         int yIndex = (int) (y / FlappyGame.TILE_SIZE);
