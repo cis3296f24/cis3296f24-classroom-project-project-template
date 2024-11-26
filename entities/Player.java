@@ -18,15 +18,15 @@ public class Player extends Entity {
     private int playerAction = IDLE;
     private boolean moving = false, attacking = false;
     private boolean left, up, right, down, jump;
-    private float playerSpeed = 1.50f;
+    private float playerSpeed = 2.5f; // Change this for bird speed fast or slow
     private int[][] lvlData;
     private float xDrawOffset = 21 * FlappyGame.SCALE;
     private float yDrawOffset = 4 * FlappyGame.SCALE;
 
     // Jumping / Gravity
     private float airSpeed = 10f;
-    private float gravity = 0.04f * FlappyGame.SCALE;
-    private float jumpSpeed = -2.25f * FlappyGame.SCALE;
+    private float gravity = 0.01111111111111114f * FlappyGame.SCALE; // Change this for gravity
+    private float jumpSpeed = -1.25f * FlappyGame.SCALE;   // Change this for how high to jump
     private float fallSpeedAfterCollision = 0.5f * FlappyGame.SCALE;
     private boolean inAir = false;
 
@@ -126,7 +126,7 @@ public class Player extends Entity {
 
         // drawUI(g);  // Draws the health. We can remove this once the bird dies works.
 
-        drawHitbox(g, lvlOffset);
+        // drawHitbox(g, lvlOffset);
         updateScore(23324, g);
 
     }

@@ -32,25 +32,6 @@ public class HelpMethods {
         return false;
     }
 
-    public static boolean IsExiting(float x, float y, int[][] lvlData) {
-       // System.out.println("x1, y1 =" + x1 + " " + y1);
-        int value = lvlData[(int) y][(int) x];
-        System.out.println("x    " + x + " y    " + y);
-
-        //  int value2 = lvlData[(int) y1][((int) x1) - 1];
-        //System.out.println("Value Exiting " + value + " Value2 x1" + x1);
-        if (value == 23) {
-            System.out.println("Entered exiting code if!");
-            return true;
-        }
-//
-//        if (((lvlData[(int) y1][(int) x1]) == 23) & ((lvlData[(int) y1][(int)(x1) + 1]) == 11)) {
-//            return true;
-//        }
-        return false;
-    }
-
-
     public static boolean IsSolid(float x, float y, int[][] lvlData) {
         int maxWidth = lvlData[0].length * FlappyGame.TILE_SIZE;
         // if (x < 0 || x >= FlappyGame.GAME_WIDTH)
@@ -62,44 +43,26 @@ public class HelpMethods {
         float xIndex = x / FlappyGame.TILE_SIZE;
         float yIndex = y / FlappyGame.TILE_SIZE;
         int value = lvlData[(int) yIndex][(int) xIndex];
+//        int nextValue = lvlData[(int) yIndex][(int) xIndex + 1];
+ //       int previousValue = lvlData[(int) yIndex][(int) xIndex - 1];
 
-        // System.out.println("xIndex = " + (int) xIndex + "  yIndex = " + (int)yIndex + " Tile Value = " + value);
-
-//        System.out.println(" x, y = " + x + ", " + y + previousValue + " <--- Previous Value and lvlData value -----> " + value + "  birdScore  > " + birdScore);
-        // This checks for bird entering and increments the score.
-//        if ((previousValue == 0) & (lvlData[(int) yIndex][(int) xIndex] == 23) & (lvlData[(int) yIndex][(int) xIndex + FlappyGame.TILE_SIZE + 1] == 11)) {
-//            System.out.println("Entered score loop ////////////////////////////////////////");
-//            birdScore += 1;
-//            System.out.println("birdScore: " + birdScore);
-//            previousValue = 255; // nonzero value
+//        if ((value == 23) & (nextValue == 11) & (!(birdEntered) & (birdExited)))  {
+//
+//            birdEntered = true;
+//
+//            System.out.println("Bird entered                  <<<<<<<<<<    ");
+//            if ((value == 23 ) & (lvlData[(int) yIndex][(int) xIndex + 1] == 11  )) {
+//                birdExited = true; // If the bird reached the end and next tile is 11 before tile 23.
+//                // birdEntered = false;
+//                System.out.println("Bird is exiting after this ");
+//                // birdScore++;
+//            }
 //        }
-
-//        if ((lvlData[(int)yIndex][(int)xIndex] == 23) & (lvlData[(int) yIndex][(int) xIndex + FlappyGame.TILE_SIZE + 1] == 11)) {
-//            System.out.println("Entered score loop ////////////////////////////////////////");
-//            birdScore += 1;
-//            System.out.println("birdScore: " + birdScore);
-//            previousValue = 255; // nonzero value
+//
+//        if ((value == 11) & (birdExited))  {
+//                birdEntered = false;
+//               // System.out.println("Entered second if statement !");
 //        }
-
-         if ((value == 23) & !(birdEntered) & (birdExited)) {
-       // if ((lvlData[(int) yIndex][(int) xIndex] == 23)
-         //       & (lvlData[(int) yIndex][(int) xIndex + 1] == 11 )
-         //       & !(birdEntered) & !(birdExited) ) {
-            birdEntered = true;
-            birdExited = false;
-            System.out.println("Bird entered                  <<<<<<<<<<    ");
-            if ((lvlData[(int) yIndex][(int) xIndex] == 23 ) & (lvlData[(int) yIndex][(int) xIndex + 1] == 11  )) {
-                birdExited = true; // If the bird reached the end and next tile is 11 before tile 23.
-                // birdEntered = false;
-                System.out.println("Bird is exiting after this ");
-                // birdScore++;
-            }
-        }
-
-        if ((value == 11) & (birdExited))  {
-                birdEntered = false;
-               // System.out.println("Entered second if statement !");
-        }
 
         if (value == 23) {
             return false;

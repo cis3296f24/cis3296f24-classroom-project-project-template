@@ -11,9 +11,12 @@ import levels.LevelManager;
 import main.FlappyGame;
 import ui.GameOverOverlay;
 import ui.PauseOverlay;
+
 import utils.LoadSave;
+
 import static utils.Constants.FlappyWorldConstants.*;
 import static utils.Constants.PlayerConstants.COLLIDED;
+import static utils.LoadSave.GetLevelData;
 
 public class Playing extends State implements Statemethods {
     private Player player;
@@ -27,7 +30,7 @@ public class Playing extends State implements Statemethods {
 
     private int leftBorder = (int) (0.2 * FlappyGame.GAME_WIDTH) / 2;
     private int rightBorder = (int) (0.8 * FlappyGame.GAME_WIDTH) / 2;
-    private int lvlTilesWide = LoadSave.GetLevelData()[0].length;
+    private int lvlTilesWide = GetLevelData()[0].length;
     private int maxTilesOffset = lvlTilesWide - FlappyGame.TILES_IN_WIDTH;
     private int maxLvlOffsetX = maxTilesOffset * FlappyGame.TILE_SIZE;
 
@@ -47,6 +50,8 @@ public class Playing extends State implements Statemethods {
     private boolean gameOver;
     private boolean lvlCompleted;
     private boolean playerDying;
+
+    int[][] lvlData = GetLevelData(); // Imported this here to add score keeping
 
     // get the background.
     public Playing(FlappyGame flappyGame) {
@@ -79,6 +84,7 @@ public class Playing extends State implements Statemethods {
     }
 
     private void checkCloseToBorder() {
+
         int playerX = (int) player.getHitbox().x;
         int diff = playerX - xLvlOffset;
 
@@ -87,6 +93,8 @@ public class Playing extends State implements Statemethods {
 //        System.out.println("rightBorder = " + rightBorder);
 //        System.out.println("xLvlOffset = " + xLvlOffset / 3);
 //        System.out.println("maxLvlOffsetX " + maxLvlOffsetX);
+//        System.out.println("diff  " + diff);
+
         if (diff > rightBorder)
             xLvlOffset += diff - rightBorder;
         else if (diff < leftBorder)
@@ -119,26 +127,24 @@ public class Playing extends State implements Statemethods {
         backgroundImgCounter += 1;
         backgroundImgL1Speed = -xLvlOffset * backLayer1Speed;
         backgroundImgL2Speed = -xLvlOffset * backLayer2Speed;
-        // System.out.println("Drawing " + player.getHitbox().x + " " + player.getHitbox().y);
-        //System.out.println("xLvlOffset: " + xLvlOffset + "       backgroundImgCounter" + backgroundImgCounter);
-        // g.drawImage(backgroundImg, (int) backgroundImgMoved, 0,FlappyGame.GAME_WIDTH, FlappyGame.GAME_HEIGHT, null); // This will load the image with the dimensions of the game.
-        // g.drawImage(backgroundImg, (int) backgroundImgMoved + FlappyGame.GAME_WIDTH, 0,FlappyGame.GAME_WIDTH, FlappyGame.GAME_HEIGHT, null); // This will load the image with the dimensions of the game.
+
         g.drawImage(flappyBKGLayer1, (int) backgroundImgL1Speed, 0,FlappyGame.GAME_WIDTH, FlappyGame.GAME_HEIGHT, null); // This will load the image with the dimensions of the game.
         g.drawImage(flappyBKGLayer2, (int) backgroundImgL2Speed, 0,FlappyGame.GAME_WIDTH, FlappyGame.GAME_HEIGHT, null); // This will load the image with the dimensions of the game.
-       // g.drawImage(flappyBKGLayer3, (int) backgroundImgMoved, 0,FlappyGame.GAME_WIDTH, FlappyGame.GAME_HEIGHT, null); // This will load the image with the dimensions of the game.
 
-        g.drawImage(flappyBKGLayer1, (int) backgroundImgL1Speed + FlappyGame.GAME_WIDTH, 0,FlappyGame.GAME_WIDTH, FlappyGame.GAME_HEIGHT, null); // This will load the image with the dimensions of the game.
-        g.drawImage(flappyBKGLayer2, (int) backgroundImgL2Speed + FlappyGame.GAME_WIDTH, 0,FlappyGame.GAME_WIDTH, FlappyGame.GAME_HEIGHT, null); // This will load the image with the dimensions of the game.
-        //  g.drawImage(flappyBKGLayer3, (int) backgroundImgMoved + FlappyGame.GAME_WIDTH, 0,FlappyGame.GAME_WIDTH, FlappyGame.GAME_HEIGHT, null); // This will load the image with the dimensions of the game.
+        g.drawImage(flappyBKGLayer1, (int) backgroundImgL1Speed + FlappyGame.GAME_WIDTH * 1, 0,FlappyGame.GAME_WIDTH, FlappyGame.GAME_HEIGHT, null); // This will load the image with the dimensions of the game.
+        g.drawImage(flappyBKGLayer2, (int) backgroundImgL2Speed + FlappyGame.GAME_WIDTH * 1, 0,FlappyGame.GAME_WIDTH, FlappyGame.GAME_HEIGHT, null); // This will load the image with the dimensions of the game.
 
         g.drawImage(flappyBKGLayer1, (int) backgroundImgL1Speed + FlappyGame.GAME_WIDTH * 2, 0,FlappyGame.GAME_WIDTH, FlappyGame.GAME_HEIGHT, null); // This will load the image with the dimensions of the game.
         g.drawImage(flappyBKGLayer2, (int) backgroundImgL2Speed + FlappyGame.GAME_WIDTH * 2, 0,FlappyGame.GAME_WIDTH, FlappyGame.GAME_HEIGHT, null); // This will load the image with the dimensions of the game.
-        //  g.drawImage(flappyBKGLayer3, (int) backgroundImgMoved + FlappyGame.GAME_WIDTH, 0,FlappyGame.GAME_WIDTH, FlappyGame.GAME_HEIGHT, null); // This will load the image with the dimensions of the game.
 
-        if (xLvlOffset > FlappyGame.GAME_WIDTH) {
-            //System.out.println("Entered if > game width");
-            // backgroundImgMoved = 0;
-        }
+        g.drawImage(flappyBKGLayer1, (int) backgroundImgL1Speed + FlappyGame.GAME_WIDTH + FlappyGame.GAME_WIDTH * 2, 0,FlappyGame.GAME_WIDTH, FlappyGame.GAME_HEIGHT, null); // This will load the image with the dimensions of the game.
+        g.drawImage(flappyBKGLayer2, (int) backgroundImgL2Speed + FlappyGame.GAME_WIDTH + FlappyGame.GAME_WIDTH * 2, 0,FlappyGame.GAME_WIDTH, FlappyGame.GAME_HEIGHT, null); // This will load the image with the dimensions of the game.
+
+        g.drawImage(flappyBKGLayer1, (int) backgroundImgL1Speed + ( FlappyGame.GAME_WIDTH * 3), 0,FlappyGame.GAME_WIDTH, FlappyGame.GAME_HEIGHT, null); // This will load the image with the dimensions of the game.
+        g.drawImage(flappyBKGLayer2, (int) backgroundImgL2Speed + ( FlappyGame.GAME_WIDTH + 3), 0,FlappyGame.GAME_WIDTH, FlappyGame.GAME_HEIGHT, null); // This will load the image with the dimensions of the game.
+
+       // System.out.println("End of game reached if > " + xLvlOffset);
+
         drawGround(g);
         levelManager.draw(g, xLvlOffset);
         player.render(g, xLvlOffset);
@@ -156,7 +162,7 @@ public class Playing extends State implements Statemethods {
     private void drawGround(Graphics g) {
         // System.out.println("xLvlOffset " + xLvlOffset);
         // for (int i = 0; i < 20; i++)  {
-        for (int j = 0; j < 100; j++) {
+        for (int j = 0; j < 120; j++) {
             // g.drawImage(flappyGroundImg, j * (int) (GROUND_WIDTH / 10) - (int) (xLvlOffset * 0.7), 850, (int) (GROUND_WIDTH / 10), (int) (GROUND_HEIGHT / 10), null);
             g.drawImage(flappyBKGLayer3, j * (int) (GROUND_WIDTH / 10) - (int) (xLvlOffset * 0.2), 840, (int) (GROUND_WIDTH / 10), (int) (GROUND_HEIGHT / 10), null);
 
