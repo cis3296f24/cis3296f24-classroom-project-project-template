@@ -1,6 +1,7 @@
 package utils;
 
 import java.awt.geom.Rectangle2D;
+import java.util.Arrays;
 
 import main.FlappyGame;
 
@@ -9,7 +10,8 @@ public class HelpMethods {
     boolean birdScored = false;
     private static int birdScore = 0;
     private static int previousValue = 0;
-
+    private static boolean birdEntered = false;
+    private static boolean birdExited = true;
 
 
     public static boolean CanMoveHereNew(float x, float y, float width, float height, int[][] lvlData) {
@@ -25,12 +27,45 @@ public class HelpMethods {
         if (!IsSolid(x, y, lvlData))
             if (!IsSolid(x + width, y + height, lvlData))
                 if (!IsSolid(x + width, y, lvlData))
-                    if (!IsSolid(x, y + height, lvlData))
+                    if (!IsSolid(x, y + height, lvlData)) {
                         return true;
+                    }
         return false;
     }
 
+    // Not working.
+    public static void updateBirdScoreOld(float x, float y, int[][] lvlData) {
+        int xIndex = (int) (x / FlappyGame.TILE_SIZE);
+        int yIndex = (int) (y / FlappyGame.TILE_SIZE);
+        int value = lvlData[yIndex][xIndex];
+
+        // Check if bird enters the score tile
+        if (value == 23 && !birdEntered) {
+            birdEntered = true;
+            birdExited = false;
+            System.out.println("Bird entered the scoring zone");
+        }
+        // Check if bird exits the score tile by moving to a non score tile
+        if (birdEntered && !birdExited) {
+            if (xIndex > 0 && xIndex < lvlData[0].length - 1) {
+                int nextValue = lvlData[yIndex][xIndex + 1];
+                int previousValue = lvlData[yIndex][xIndex - 1];
+
+                // If the bird moves from the tile 23 to another tile
+                if (nextValue == 11 || previousValue == 11) {
+                    birdExited = true;
+                    birdEntered = false;
+                    birdScore++;
+                    System.out.println("Bird exited the scoring zone. Current score: " + birdScore);
+                }
+            }
+        }
+    }
+
     public static boolean IsSolid(float x, float y, int[][] lvlData) {
+        //System.out.println("lvlData[1][1]: " + lvlData[1][1]);
+        //System.out.println("lvlData: " + Arrays.stream(lvlData).allMatch(23));
+
         int maxWidth = lvlData[0].length * FlappyGame.TILE_SIZE;
         // if (x < 0 || x >= FlappyGame.GAME_WIDTH)
         if (x < 0 || x >= maxWidth)
@@ -38,27 +73,40 @@ public class HelpMethods {
         if (y < 0 || y >= FlappyGame.GAME_HEIGHT)
             return true;
 
+        // updateBirdScore2(x, y, lvlData);
+
         float xIndex = x / FlappyGame.TILE_SIZE;
         float yIndex = y / FlappyGame.TILE_SIZE;
-
         int value = lvlData[(int) yIndex][(int) xIndex];
-//        System.out.println(" x, y = " + x + ", " + y + previousValue + " <--- Previous Value and lvlData value -----> " + value + "  birdScore  > " + birdScore);
-        // This checks for bird entering and increments the score.
-//        if ((previousValue == 0) & (lvlData[(int) yIndex][(int) xIndex] == 23) & (lvlData[(int) yIndex][(int) xIndex + FlappyGame.TILE_SIZE + 1] == 11)) {
-//            System.out.println("Entered score loop ////////////////////////////////////////");
-//            birdScore += 1;
-//            System.out.println("birdScore: " + birdScore);
-//            previousValue = 255; // nonzero value
+
+//        int nextValue = lvlData[(int) yIndex][(int) xIndex + 1];
+ //       int previousValue = lvlData[(int) yIndex][(int) xIndex - 1];
+
+//        if ((value == 23) & (nextValue == 11) & (!(birdEntered) & (birdExited)))  {
+//
+//            birdEntered = true;
+//
+//            System.out.println("Bird entered                  <<<<<<<<<<    ");
+//            if ((value == 23 ) & (lvlData[(int) yIndex][(int) xIndex + 1] == 11  )) {
+//                birdExited = true; // If the bird reached the end and next tile is 11 before tile 23.
+//                // birdEntered = false;
+//                System.out.println("Bird is exiting after this ");
+//                // birdScore++;
+//            }
+//        }
+//
+//        if ((value == 11) & (birdExited))  {
+//                birdEntered = false;
+//               // System.out.println("Entered second if statement !");
 //        }
 
         if (value == 23) {
-//            if (previousValue == 255) previousValue = 0; // zero value
             return false;
         }
+
         if (value >= 48 || value < 0 || value != 11) {
             return true;
-
-          //  return true;
+            // return false;
         }
         return false;
     }
@@ -91,8 +139,9 @@ public class HelpMethods {
     public static boolean IsEntityOnFloor(Rectangle2D.Float hitbox, int[][] lvlData) {
         // Check the pixel below bottomleft and bottomright
         if (!IsSolid(hitbox.x, hitbox.y + hitbox.height + 1, lvlData))
-            if (!IsSolid(hitbox.x + hitbox.width, hitbox.y + hitbox.height + 1, lvlData))
+            if (!IsSolid(hitbox.x + hitbox.width, hitbox.y + hitbox.height + 1, lvlData)) {
                 return false;
+                }
 
         return true;
 
