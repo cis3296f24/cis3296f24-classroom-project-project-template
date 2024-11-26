@@ -22,7 +22,7 @@ public abstract class Entity {
     protected void drawHitbox(Graphics g, int xLvlOffset) {
         // For debugging the hitbox
         g.setColor(Color.red);
-        g.drawRect((int) hitbox.x - xLvlOffset, (int) hitbox.y, (int) hitbox.width, (int) hitbox.height);
+        g.drawRect((int) hitbox.x - xLvlOffset + 5, (int) hitbox.y + 25, (int) hitbox.width, (int) hitbox.height);
 
     }
 

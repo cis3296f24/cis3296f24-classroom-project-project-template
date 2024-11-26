@@ -69,9 +69,8 @@ public class HelpMethods {
         }
 
         if (value >= 48 || value < 0 || value != 11) {
-            return true;
-
-          //  return true;
+            //return true;
+            return false;
         }
         return false;
     }

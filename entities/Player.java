@@ -126,7 +126,7 @@ public class Player extends Entity {
 
         // drawUI(g);  // Draws the health. We can remove this once the bird dies works.
 
-        // drawHitbox(g, lvlOffset);
+        drawHitbox(g, lvlOffset);
         updateScore(23324, g);
 
     }
@@ -195,7 +195,7 @@ public class Player extends Entity {
 
         // Adding this to collide bird into pipe and set health to zero.
         if (!CanMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, lvlData)) {
-            // System.out.println("Bird touching someting");
+            // System.out.println("Bird touching something");
             // currentHealth = 0; // Kill Player
         }
 
