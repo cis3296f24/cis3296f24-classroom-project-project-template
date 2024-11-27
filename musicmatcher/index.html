@@ -208,6 +208,15 @@ h1, h2, h3, p, ol, li {
   margin: 0; 
 }
 
+.artist-item a {
+    text-decoration: none; /* Remove default underline */
+    color: inherit; /* Inherit color from parent element */
+}
+
+.artist-item a:hover {
+    color: #1db954; /* Spotify green color on hover */
+}
+
 .scrollable-artists-container {
   max-height: 400px;    /* Set max height to control the visible area */
   overflow-y: auto;     /* Enable vertical scrolling */
@@ -271,6 +280,27 @@ h1, h2, h3, p, ol, li {
     gap: 1rem;                        /* Space between artist items */
     margin-top: 1rem;                 /* Space between user's name and matched artists */
 }
+
+#avatar {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 10px;
+        border-radius: 0%; 
+      }
+
+      #avatar img {
+        border-radius:  10% !important;
+        width: 200px; /* Fixed image size */
+        height: 200px; /* Fixed image size */
+        margin-bottom: 10px; /* Space between image and username */
+        object-fit: cover;
+      }
+
+      #displayName {
+        color: white; /* Username text color */
+        font-size: 1.2rem;
+      }
 
     </style>
     

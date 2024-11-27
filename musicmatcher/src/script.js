@@ -260,15 +260,40 @@ async function showTopSongs(topSongs) {
     }
   }
 
-function populateUI(profile) {
-    /* display user's data in UI*/
+  function populateUI(profile) {
+    /* Display user's data in the UI */
+    
+    // Get the container where you want to display the profile picture and username
+    const displayNameContainer = document.getElementById("displayName");
+    const avatarContainer = document.getElementById("avatar");
 
-    document.getElementById("displayName").innerText = profile.display_name;
-    if (profile.images[0]) {
-	const profileImage = new Image(200, 200);
-	profileImage.src = profile.images[0].url;
-	document.getElementById("avatar").appendChild(profileImage);
+    // Clear previous content
+    displayNameContainer.innerHTML = "";
+    avatarContainer.innerHTML = "";
+
+    // Display the user's Spotify name
+    displayNameContainer.innerText = profile.display_name;
+
+    // Check if the profile image exists
+    if (profile.images && profile.images[0]) {
+        // Create an image element for the profile picture
+        const profileImage = new Image(100, 100); // Set the size of the profile picture
+        profileImage.src = profile.images[0].url; // Set the image source to the profile image URL
+        profileImage.alt = "Profile Image"; // Add alt text for accessibility
+
+        // Style the profile picture (optional)
+        profileImage.style.borderRadius = "50%"; // Make the profile image circular
+        profileImage.style.marginBottom = "10px"; // Space between the image and name
+
+        // Append the profile image to the avatar container
+        avatarContainer.appendChild(profileImage);
     }
+
+    // logic for  Spotify display name (if it's different from the username)
+    const username = document.createElement("span");
+    username.innerText = profile.display_name; // Username
+    username.style.color = "white"; // Optional: Make sure the text color is visible
+    avatarContainer.appendChild(username);
 }
 
 /* Store data in firebase database  */
@@ -357,17 +382,25 @@ async function findMatches(userID, topArtists, topSongs) {
                     const artistMatchItem = document.createElement("div");
                     artistMatchItem.classList.add("artist-item");
 
+                    // Create a clickable link for the artist
+                    const artistLink = document.createElement("a");
+                    artistLink.href = `https://open.spotify.com/artist/${artist.id}`;  // Link to artist's Spotify page
+                    artistLink.target = "_blank";  // Open in a new tab
+
                     // Create an image element for the artist
                     const artistImage = document.createElement("img");
                     artistImage.classList.add("artist-image");
                     artistImage.src = artist.images[0]?.url || 'placeholder.jpg'; // Use artist image or placeholder
-                    artistMatchItem.appendChild(artistImage);
+                    artistLink.appendChild(artistImage);  // Add the image to the link
 
                     // Create a span for the artist name
                     const artistName = document.createElement("span");
                     artistName.classList.add("artist-name");
                     artistName.textContent = artist.name;
-                    artistMatchItem.appendChild(artistName);
+                    artistLink.appendChild(artistName);  // Add the name to the link
+
+                    // Append the artist link to the artist item
+                    artistMatchItem.appendChild(artistLink);
 
                     // Append the artist match item to the container
                     artistMatchesContainer.appendChild(artistMatchItem);
@@ -400,4 +433,5 @@ async function findMatches(userID, topArtists, topSongs) {
     // Append the scrollable container to the display matches section
     document.getElementById("displaymatches").appendChild(scrollableContainer);
 }
+
 
