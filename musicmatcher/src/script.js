@@ -298,50 +298,106 @@ async function findMatches(userID, topArtists, topSongs) {
     const snapshot = await get(usersReference);
 
     if (!snapshot.exists()) {
-	console.log("Could not get snapshot of user data");
-	return;
+        console.log("Could not get snapshot of user data");
+        return;
     }
 
     const allUserData = snapshot.val();
 
-    document.getElementById("displaymatches").innerText = "";
+    // Clear previous matches displayed
+    document.getElementById("displaymatches").innerHTML = "";
+
+    // Create a container to hold all match containers
+    const scrollableContainer = document.createElement("div");
+    scrollableContainer.classList.add("horizontal-scrollable");
 
     for (let userKey in allUserData) {
-	const user = allUserData[userKey];
+        const user = allUserData[userKey];
 
-	if (userKey == userID) {
-	    continue;
-	}
+        // Skip the current user
+        if (userKey == userID) {
+            continue;
+        }
 
-	let artistsInCommon = [];
-	let songsInCommon = [];
+        let artistsInCommon = [];
+        let songsInCommon = [];
 
-	for (let artist of topArtists.items) {
-	    if (user.topArtistsList && user.topArtistsList.some(item => item.name == artist.name)) {
-		artistsInCommon.push(artist.name);
-	    }
-	}
+        // Find artists in common
+        for (let artist of topArtists.items) {
+            if (user.topArtistsList && user.topArtistsList.some(item => item.name == artist.name)) {
+                artistsInCommon.push(artist);
+            }
+        }
 
-	for (let song of topSongs.items) {
-	    if (user.topSongsList && user.topSongsList.some(item => item.name == song.name && item.artist == song.artists[0].name)) {
-		songsInCommon.push(`${song.name} by ${song.artists[0].name}`);
-	    }
-	}
+        // Find songs in common
+        for (let song of topSongs.items) {
+            if (user.topSongsList && user.topSongsList.some(item => item.name == song.name && item.artist == song.artists[0].name)) {
+                songsInCommon.push(song);
+            }
+        }
 
-	if (artistsInCommon.length > 0 || songsInCommon.length > 0) {
-	    let matchInfo = `${user.displayName} also likes:\n `;
+        // If there's any match, display it
+        if (artistsInCommon.length > 0 || songsInCommon.length > 0) {
+            // Create a container for the match information
+            const matchContainer = document.createElement("div");
+            matchContainer.classList.add("match-container");
 
-	    if (artistsInCommon.length > 0) {
-		matchInfo += `\n - ${artistsInCommon.join(", ")} `;
-	    }
-	    
-	    if (songsInCommon.length > 0) {
-		matchInfo += `\n - ${songsInCommon.join(", ")} `;
-	    }
+            // Add the matched user's name
+            const userNameHeading = document.createElement("h4");
+            userNameHeading.textContent = `${user.displayName} also likes:`;
+            matchContainer.appendChild(userNameHeading);
 
-	    document.getElementById("displaymatches").innerText += matchInfo + "\n";
-	}
+            // Add matched artist pictures and names
+            if (artistsInCommon.length > 0) {
+                const artistMatchesContainer = document.createElement("div");
+                artistMatchesContainer.classList.add("artist-matches-container");
+
+                artistsInCommon.forEach(artist => {
+                    // Create a container for each artist match
+                    const artistMatchItem = document.createElement("div");
+                    artistMatchItem.classList.add("artist-item");
+
+                    // Create an image element for the artist
+                    const artistImage = document.createElement("img");
+                    artistImage.classList.add("artist-image");
+                    artistImage.src = artist.images[0]?.url || 'placeholder.jpg'; // Use artist image or placeholder
+                    artistMatchItem.appendChild(artistImage);
+
+                    // Create a span for the artist name
+                    const artistName = document.createElement("span");
+                    artistName.classList.add("artist-name");
+                    artistName.textContent = artist.name;
+                    artistMatchItem.appendChild(artistName);
+
+                    // Append the artist match item to the container
+                    artistMatchesContainer.appendChild(artistMatchItem);
+                });
+
+                // Append artist matches to the match container
+                matchContainer.appendChild(artistMatchesContainer);
+            }
+
+            // Add matched song details
+            if (songsInCommon.length > 0) {
+                const songMatchesContainer = document.createElement("div");
+                songMatchesContainer.classList.add("song-matches-container");
+
+                songsInCommon.forEach(song => {
+                    const songInfo = document.createElement("p");
+                    songInfo.textContent = `${song.name} by ${song.artists[0].name}`;
+                    songMatchesContainer.appendChild(songInfo);
+                });
+
+                // Append song matches to the match container
+                matchContainer.appendChild(songMatchesContainer);
+            }
+
+            // Append the match container to the scrollable container
+            scrollableContainer.appendChild(matchContainer);
+        }
     }
-}
 
+    // Append the scrollable container to the display matches section
+    document.getElementById("displaymatches").appendChild(scrollableContainer);
+}
 

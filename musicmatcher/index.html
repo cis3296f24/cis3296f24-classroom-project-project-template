@@ -244,8 +244,33 @@ h1, h2, h3, p, ol, li {
   background-color: #535bf2;  /* Darken button on hover */
 }
 
-
-
+.matched-container{
+  min-width: 300px;                 /* Minimum width for each match container */
+    border: 1px solid rgba(132, 128, 128, 0.5); /* Border to distinguish each match */
+    border-radius: 10px;              /* Rounded corners */
+    padding: 1rem;                    /* Padding inside each match */
+    background-color: rgba(255, 255, 255, 0.05); /* Subtle background to highlight match */
+    flex-shrink: 0;                   /* Prevent match containers from shrinking */
+}
+.horizontal-scrollable {
+  display: flex;                    /* Flexbox for horizontal alignment */
+    overflow-x: auto;                 /* Allow horizontal scrolling */
+    gap: 1rem;                        /* Space between match containers */
+    padding: 1rem 0;                  /* Padding for top/bottom */
+    scroll-behavior: smooth;          /* Smooth scrolling when navigating */
+    cursor: grab;                     /* Indicate that the container is draggable */
+}
+.song-matches-container p {
+    color: lightgray;
+    font-size: 1rem;
+    margin: 0.5rem 0;
+}
+.artist-matches-container {
+    display: flex;                    /* Use Flexbox for horizontal alignment */
+    flex-wrap: wrap;                  /* Allow wrapping to next row if too many artists */
+    gap: 1rem;                        /* Space between artist items */
+    margin-top: 1rem;                 /* Space between user's name and matched artists */
+}
 
     </style>
     
