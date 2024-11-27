@@ -357,17 +357,25 @@ async function findMatches(userID, topArtists, topSongs) {
                     const artistMatchItem = document.createElement("div");
                     artistMatchItem.classList.add("artist-item");
 
+                    // Create a clickable link for the artist
+                    const artistLink = document.createElement("a");
+                    artistLink.href = `https://open.spotify.com/artist/${artist.id}`;  // Link to artist's Spotify page
+                    artistLink.target = "_blank";  // Open in a new tab
+
                     // Create an image element for the artist
                     const artistImage = document.createElement("img");
                     artistImage.classList.add("artist-image");
                     artistImage.src = artist.images[0]?.url || 'placeholder.jpg'; // Use artist image or placeholder
-                    artistMatchItem.appendChild(artistImage);
+                    artistLink.appendChild(artistImage);  // Add the image to the link
 
                     // Create a span for the artist name
                     const artistName = document.createElement("span");
                     artistName.classList.add("artist-name");
                     artistName.textContent = artist.name;
-                    artistMatchItem.appendChild(artistName);
+                    artistLink.appendChild(artistName);  // Add the name to the link
+
+                    // Append the artist link to the artist item
+                    artistMatchItem.appendChild(artistLink);
 
                     // Append the artist match item to the container
                     artistMatchesContainer.appendChild(artistMatchItem);
@@ -400,4 +408,5 @@ async function findMatches(userID, topArtists, topSongs) {
     // Append the scrollable container to the display matches section
     document.getElementById("displaymatches").appendChild(scrollableContainer);
 }
+
 

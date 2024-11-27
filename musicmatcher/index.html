@@ -208,6 +208,15 @@ h1, h2, h3, p, ol, li {
   margin: 0; 
 }
 
+.artist-item a {
+    text-decoration: none; /* Remove default underline */
+    color: inherit; /* Inherit color from parent element */
+}
+
+.artist-item a:hover {
+    color: #1db954; /* Spotify green color on hover */
+}
+
 .scrollable-artists-container {
   max-height: 400px;    /* Set max height to control the visible area */
   overflow-y: auto;     /* Enable vertical scrolling */
