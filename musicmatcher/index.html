@@ -281,6 +281,27 @@ h1, h2, h3, p, ol, li {
     margin-top: 1rem;                 /* Space between user's name and matched artists */
 }
 
+#avatar {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 10px;
+        border-radius: 0%; 
+      }
+
+      #avatar img {
+        border-radius:  10% !important;
+        width: 200px; /* Fixed image size */
+        height: 200px; /* Fixed image size */
+        margin-bottom: 10px; /* Space between image and username */
+        object-fit: cover;
+      }
+
+      #displayName {
+        color: white; /* Username text color */
+        font-size: 1.2rem;
+      }
+
     </style>
     
   </head>

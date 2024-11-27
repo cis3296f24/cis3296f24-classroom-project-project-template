@@ -260,15 +260,40 @@ async function showTopSongs(topSongs) {
     }
   }
 
-function populateUI(profile) {
-    /* display user's data in UI*/
+  function populateUI(profile) {
+    /* Display user's data in the UI */
+    
+    // Get the container where you want to display the profile picture and username
+    const displayNameContainer = document.getElementById("displayName");
+    const avatarContainer = document.getElementById("avatar");
 
-    document.getElementById("displayName").innerText = profile.display_name;
-    if (profile.images[0]) {
-	const profileImage = new Image(200, 200);
-	profileImage.src = profile.images[0].url;
-	document.getElementById("avatar").appendChild(profileImage);
+    // Clear previous content
+    displayNameContainer.innerHTML = "";
+    avatarContainer.innerHTML = "";
+
+    // Display the user's Spotify name
+    displayNameContainer.innerText = profile.display_name;
+
+    // Check if the profile image exists
+    if (profile.images && profile.images[0]) {
+        // Create an image element for the profile picture
+        const profileImage = new Image(100, 100); // Set the size of the profile picture
+        profileImage.src = profile.images[0].url; // Set the image source to the profile image URL
+        profileImage.alt = "Profile Image"; // Add alt text for accessibility
+
+        // Style the profile picture (optional)
+        profileImage.style.borderRadius = "50%"; // Make the profile image circular
+        profileImage.style.marginBottom = "10px"; // Space between the image and name
+
+        // Append the profile image to the avatar container
+        avatarContainer.appendChild(profileImage);
     }
+
+    // logic for  Spotify display name (if it's different from the username)
+    const username = document.createElement("span");
+    username.innerText = profile.display_name; // Username
+    username.style.color = "white"; // Optional: Make sure the text color is visible
+    avatarContainer.appendChild(username);
 }
 
 /* Store data in firebase database  */
