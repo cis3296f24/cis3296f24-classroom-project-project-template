@@ -1,0 +1,32 @@
+{
+  "name": "grind-daily",
+  "version": "1.0.0",
+  "description": "## Project Overview GrindDaily is a daily challenge platform where users can view and complete tasks via the React frontend, while the Spring Boot backend provides RESTful APIs for data interaction.",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd server && nodemon server.js",
+    "client": "cd client && npm start",
+    "install-all": "npm install && npm install --prefix client && npm install --prefix server"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "autoprefixer": "^10.4.20",
+    "concurrently": "^9.0.1",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.14"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.7.1",
+    "@headlessui/react": "^2.2.0",
+    "@heroicons/react": "^2.1.5",
+    "@mui/icons-material": "^6.1.9",
+    "emailjs-com": "^3.2.0",
+    "gsap": "^3.12.5",
+    "lucide-react": "^0.263.1",
+    "nodemon": "^3.1.7",
+    "react-icons": "^5.3.0"
+  }
+}
