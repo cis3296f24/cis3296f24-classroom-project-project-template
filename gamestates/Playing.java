@@ -88,7 +88,9 @@ public class Playing extends State implements Statemethods {
 
         int playerX = (int) player.getHitbox().x;
         int diff = playerX - xLvlOffset;
-
+        System.out.println("xLvlOffset: " + xLvlOffset + " playerX +  diff: " + diff);
+        System.out.println("rightBorder " + rightBorder);
+        System.out.println("leftBorder " + leftBorder);
         // Important score keeping constans are here. We can use these to measure score.
         // System.out.println("Player getHitbox().x = " + player.getHitbox().x);
 //        System.out.println("rightBorder = " + rightBorder);
