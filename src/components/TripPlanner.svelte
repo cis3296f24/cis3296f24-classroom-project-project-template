@@ -9,7 +9,9 @@
 
     // clears auto suggest when user clicks out of text box
     document.body.addEventListener("click", () => {
-        suggestions = {};
+        const suggestionsBox = document.querySelector(".autocomplete-suggestions")
+        if (suggestionsBox) 
+            suggestionsBox.classList.toggle("hidden");
     });
     // Auto suggest
     const suggestLocation = async (event) => {
@@ -231,6 +233,7 @@
                                             `stop${i}`,
                                         ).value = suggestion.description;
                                         suggestions[`stop${i}`] = [];
+                                        updateStopsArray();
                                     }}
                                 >
                                     {suggestion.description}
@@ -273,8 +276,8 @@
                 <a href="#" on:click={() => roundTrip()}>+Round Trip</a>
                 <a href="#" on:click={() => addStop()}>+Add Stop</a>
             </div>
-            <input type="date" id="date" name="date" placeholder="Today"/>
-            <input type="time" id="time" name="time" placeholder="At"/>
+            <input type="date" id="date" name="date" placeholder="Today" />
+            <input type="time" id="time" name="time" placeholder="At" />
             <div class="inlineElements">
                 <label>
                     <input
@@ -360,5 +363,13 @@
     .input-field {
         position: relative;
         margin-bottom: 16px;
+    }
+
+    .input-field input[type="text"] {
+        width: 100%;
+    }
+
+    button:hover {
+        background-color: #d3d3d3;
     }
 </style>
