@@ -4,39 +4,34 @@
     //  Form default values
     let radio = "leave";
     let stops = ["", ""];
-    let suggestions = [];
+    let suggestions = {};
+    let focusedTextBox = null;
 
     // clears auto suggest when user clicks out of text box
     document.body.addEventListener("click", () => {
-        suggestions = [];
+        suggestions = {};
     });
     // Auto suggest
     const suggestLocation = async (event) => {
         const str = event.target.value;
         if (str === "") {
-            suggestions = [];
+            suggestions = {};
         } else {
-            // console.log(str);
-            // const res = await fetch("/api/autocomplete", {
-            //     method: "POST",
-            //     body: JSON.stringify({ input: str }),
-            //     headers: {
-            //         "Content-type": "application/json; charset=UTF-8",
-            //     },
-            // });
-            // let results = await res.json();
-            const results = {
-                predictions: [
-                    { description: "filler value 1" },
-                    { description: "filler val 2" },
-                ],
-            };
-            console.log(event.target.id);
-            // console.log(`current string: ${str}`);
-            // console.log(`Suggestion: ${JSON.stringify(results)}`);
-            suggestions = results.predictions;
-            // console.log(suggestions);
+            console.log(str);
+            const res = await fetch("/api/autocomplete", {
+                method: "POST",
+                body: JSON.stringify({ input: str }),
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8",
+                },
+            });
+            let results = await res.json();
+            suggestions[event.target.id] = results.predictions;
         }
+    };
+
+    const handleUnfocus = () => {
+        setTimeout(() => (focusedTextBox = null), 200);
     };
     // Swap button
     const handleSwap = () => {
@@ -53,7 +48,13 @@
         let end = document.getElementById(`stop${stops.length - 1}`);
         let date = document.getElementById("date");
         let time = document.getElementById("time");
+
+        console.log(time.value);
         // validate input
+        if (start === "") {
+        }
+        if (end === "") {
+        }
         // refactor html to just use a calendar for date and create a MM/DD format for time
         const data = {
             start: start.value,
@@ -178,58 +179,65 @@
             <div class="input-field">
                 {#each stops as stop, i}
                     <!-- Text boxes for each stop -->
-                    <div class="container">
-                        {#if i == 0}
-                            <input
-                                type="text"
-                                id="stop{i}"
-                                name="stop{i}"
-                                placeholder="Start"
-                                autocomplete="off"
-                                on:input={suggestLocation}
-                                on:input={updateStopsArray}
-                            />
-                        {:else if i == stops.length - 1}
-                            <input
-                                type="text"
-                                id="stop{i}"
-                                name="stop{i}"
-                                placeholder="End"
-                                autocomplete="off"
-                                on:input={suggestLocation}
-                                on:input={updateStopsArray}
-                            />
-                        {:else}
-                            <input
-                                type="text"
-                                id="stop{i}"
-                                name="stop{i}"
-                                placeholder="Stop {i}"
-                                autocomplete="off"
-                                on:input={suggestLocation}
-                                on:input={updateStopsArray}
-                            />
-                        {/if}
+                    {#if i == 0}
+                        <input
+                            type="text"
+                            id="stop{i}"
+                            name="stop{i}"
+                            placeholder="Start"
+                            autocomplete="off"
+                            on:input={suggestLocation}
+                            on:input={updateStopsArray}
+                            on:focus={(event) =>
+                                (focusedTextBox = event.target.id)}
+                            on:blur={handleUnfocus}
+                        />
+                    {:else if i == stops.length - 1}
+                        <input
+                            type="text"
+                            id="stop{i}"
+                            name="stop{i}"
+                            placeholder="End"
+                            autocomplete="off"
+                            on:input={suggestLocation}
+                            on:input={updateStopsArray}
+                            on:focus={(event) =>
+                                (focusedTextBox = event.target.id)}
+                            on:blur={handleUnfocus}
+                        />
+                    {:else}
+                        <input
+                            type="text"
+                            id="stop{i}"
+                            name="stop{i}"
+                            placeholder="Stop {i}"
+                            autocomplete="off"
+                            on:input={suggestLocation}
+                            on:input={updateStopsArray}
+                            on:focus={(event) =>
+                                (focusedTextBox = event.target.id)}
+                            on:blur={handleUnfocus}
+                        />
+                    {/if}
 
-                        {#if suggestions.length > 0}
-                            <div class="autocomplete-suggestions">
-                                {#each suggestions as suggestion}
-                                    <button
-                                        class="suggestion"
-                                        on:click={(event) => {
-                                            event.preventDefault();
-                                            document.getElementById(
-                                                `stop${i}`,
-                                            ).value = suggestion.description;
-                                            suggestions = [];
-                                        }}
-                                    >
-                                        {suggestion.description}
-                                    </button>
-                                {/each}
-                            </div>
-                        {/if}
-                    </div>
+                    {#if focusedTextBox === `stop${i}` && suggestions[`stop${i}`]?.length > 0}
+                        <div class="autocomplete-suggestions">
+                            {#each suggestions[`stop${i}`] as suggestion}
+                                <button
+                                    class="suggestion"
+                                    on:click={(event) => {
+                                        event.preventDefault();
+                                        document.getElementById(
+                                            `stop${i}`,
+                                        ).value = suggestion.description;
+                                        suggestions[`stop${i}`] = [];
+                                    }}
+                                >
+                                    {suggestion.description}
+                                </button>
+                            {/each}
+                        </div>
+                    {/if}
                     <!-- Delete option for each stop -->
                     {#if stops.length > 2}
                         <a href="" on:click={() => removeStop(i)}>X</a>
@@ -265,8 +273,8 @@
                 <a href="#" on:click={() => roundTrip()}>+Round Trip</a>
                 <a href="#" on:click={() => addStop()}>+Add Stop</a>
             </div>
-            <input type="date" id="date" name="date" placeholder="Today" />
-            <input type="time" id="time" name="time" placeholder="At" />
+            <input type="date" id="date" name="date" placeholder="Today"/>
+            <input type="time" id="time" name="time" placeholder="At"/>
             <div class="inlineElements">
                 <label>
                     <input

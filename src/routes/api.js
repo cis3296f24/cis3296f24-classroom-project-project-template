@@ -64,7 +64,7 @@ router.post('/google_directions', async (req, res) => {
     // sanitize data
 
     // check leave/depart choice + time
-    time = (Date.parse(data.date + "T" + data.time) / 1000); // conversion to seconds
+    const time = (Date.parse(data.date + "T" + data.time) / 1000); // conversion to seconds
     // console.log(time);
     let travel_time = "";
     if (data.radio === "leave") {
@@ -73,7 +73,7 @@ router.post('/google_directions', async (req, res) => {
     else {
         travel_time = "arrival_time";
     }
-    console.log(`${travel_time} at ${time.toString()}`)
+    // console.log(`${travel_time} at ${time.toString()}`)
     // check transit modes
     let transitModes = [];
     const selections = data.transitModes;
