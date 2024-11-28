@@ -95,7 +95,7 @@ public class LevelCreateTool {
             File outputFile = new File("res/flappy_bird_level.png");
             ImageIO.write(image, "png", outputFile);
 
-            System.out.println("Image created: gen_red_bars_image.png");
+            System.out.println("Image created: level_pipes_image.png");
 
         } catch (IOException e) {
             System.err.println("Error: " + e.getMessage());
