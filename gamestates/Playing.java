@@ -71,6 +71,8 @@ public class Playing extends State implements Statemethods {
         player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
         pauseOverlay = new PauseOverlay(this);
         gameOverOverlay = new GameOverOverlay(this);    // Added for when the bird dies after collision.
+
+        System.out.println("lvlTilesWide " + lvlTilesWide);
     }
 
     @Override
