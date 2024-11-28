@@ -89,6 +89,14 @@ export default function Header() {
           >
             Progress Tracker
           </NavLink>
+          <NavLink
+            to="/friendlist"
+            className={({ isActive }) => 
+              isActive ? "text-sm font-semibold text-indigo-400" : "text-sm font-semibold text-link"
+            }
+          >
+            Friend List
+          </NavLink>
         </div>
 
         {/* User Dropdown or Login Link */}
@@ -158,6 +166,9 @@ export default function Header() {
                 </NavLink>
                 <NavLink to="/progresstracker" onClick={() => setMobileMenuOpen(false)} className="block rounded-lg px-3 py-2 text-base font-semibold text-link hover:bg-gray-700">
                   Progress Tracker
+                </NavLink>
+                <NavLink to="/friendlist" onClick={() => setMobileMenuOpen(false)} className="block rounded-lg px-3 py-2 text-base font-semibold text-link hover:bg-gray-700">
+                  Friend List
                 </NavLink>
               </div>
               {!isLoggedIn && (

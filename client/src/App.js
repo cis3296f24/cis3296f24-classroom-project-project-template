@@ -9,6 +9,7 @@ import Preloader from './components/Preloader';
 import Register from './components/Register';
 import Task from './components/Task';
 import Header from './Header';
+import FriendList from './components/FriendList';
 import './styles/home.css';
 import './styles/index.css';
 
@@ -56,6 +57,7 @@ function App() {
         <Route path="/change-password" element={<ChangePassword />} />
         <Route path='/progresstracker' element={<ProgressTracker/>} />
         <Route path='/profile' element={<Profile/>}/>
+        <Route path='/friendlist' element={<FriendList/>}/>
       </Routes>
       <BackgroundMusic/>
     </div>
