@@ -7,6 +7,7 @@ import chatBox from '../assets/chatBox.svg';
 import hand from '../assets/hand.json';
 import motivate from '../assets/motivate.json';
 import Bar from './helper/Bar';
+import GithubProfile from './helper/githubProfile';
 
 
 function Home() {
@@ -59,63 +60,26 @@ function Home() {
                 </NavLink>
             </div>
 
+            <Bar title="Persist"></Bar>
+            <div className="text-center mt-6 sm:mb-10 mb-10">
+                <h1 className="text-3xl font-bold text-gray-300 mt-10 mb-10">Σ</h1>
+                <h2 className="text-2xl font-bold text-gray-300 pixelify-sans-bold">START YOUR SIGMA JOURNEY</h2>
+                <p className="mt-2 text-gray-300 w-96">
+                Our platform is designed to help you take consistent steps towards self-improvement by completing daily challenges. Whether it's developing new skills, forming healthy habits, or pushing your limits, we’ve got the right challenge to keep you motivated every day. Start today, take one challenge at a time, and watch yourself grow!
+                </p>
+            </div>
+
 
             <Bar title="Meet Our Dev Team"></Bar>
 
-            <div className="flex flex-wrap justify-center gap-10 mt-12">
-
-            <div className="dev-card bg-white p-6 rounded-lg shadow-lg max-w-xs w-full hover:bg-slate-100 transition-all duration-300">
-                <h3 className='text-gray-800 text-lg font-semibold'>Jie Huang</h3>
-                <ul>
-                    <li className='text-gray-600 text-lg font-semibold'>Email: tuo77200@temple.edu</li>
-                    <li className='text-gray-600 text-lg font-semibold'>Phone #: 215-###-####</li>
-                </ul>
+            <div className="flex flex-wrap justify-center gap-10 mt-12 mb-10">
+                <GithubProfile username='HarrryHe'/>
+                <GithubProfile username='PeterLy2'/>
+                <GithubProfile username='JayTSXF'/>
+                <GithubProfile username='AntonioMongeluzi'/>
+                <GithubProfile username='KYWILS21'/>
+                <GithubProfile username='qari7'/>
             </div>
-
-            <div className="dev-card bg-white p-6 rounded-lg shadow-lg max-w-xs w-full hover:bg-slate-100 transition-all duration-300">
-                <h3 className='text-gray-800 text-lg font-semibold'>Peter Ly</h3>
-                <ul>
-                    <li className='text-gray-600 text-lg font-semibold'>Email: tul6700@temple.edu</li>
-                    <li className='text-gray-600 text-lg font-semibold'>Phone #: 215-###-####</li>
-                </ul>
-            </div>
-
-            <div className="dev-card bg-white p-6 rounded-lg shadow-lg max-w-xs w-full hover:bg-slate-100 transition-all duration-300">
-                <h3 className='text-gray-800 text-lg font-semibold'>Harry He</h3>
-                <ul>
-                    <li className='text-gray-600 text-lg font-semibold'>Email: tuo77200@temple.edu</li>
-                    <li className='text-gray-600 text-lg font-semibold'>Phone #: 215-###-####</li>
-                </ul>
-            </div>
-
-            <div className="dev-card bg-white p-6 rounded-lg shadow-lg max-w-xs w-full hover:bg-slate-100 transition-all duration-300">
-                <h3 className='text-gray-800 text-lg font-semibold'>Kyle Wilson</h3>
-                <ul>
-                    <li className='text-gray-600 text-lg font-semibold'>Email: tuk30460@temple.edu</li>
-                    <li className='text-gray-600 text-lg font-semibold'>Phone #: 215-###-#####</li>
-                </ul>
-            </div>
-
-            <div className="dev-card bg-white p-6 rounded-lg shadow-lg max-w-xs w-full hover:bg-slate-100 transition-all duration-300">
-                <h3 className='text-gray-800 text-lg font-semibold'>Antonio Mongeluzi</h3>
-                <ul>
-                    <li className='text-gray-600 text-lg font-semibold'>Email: tuj46268@temple.edu</li>
-                    <li className='text-gray-600 text-lg font-semibold'>Phone #: 215-960-####</li>
-                    <li className='text-gray-600 text-lg font-semibold'>Address: 1234 Temple University Rd</li>
-                </ul>
-            </div>
-
-            <div className="dev-card bg-white p-6 rounded-lg shadow-lg max-w-xs w-full hover:bg-slate-100 transition-all duration-300">
-                <h3 className='text-gray-800 text-lg font-semibold'>Yousuf Qari</h3>
-                <ul>
-                    <li className='text-gray-600 text-lg font-semibold'>Email: tuo65470@temple.edu</li>
-                    <li className='text-gray-600 text-lg font-semibold'>Phone #: 215-###-####</li>
-                </ul>
-            </div>
-
-        </div>
-
-            
             
         </div>
     );
