@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Comment = require('../models/comment');
+const User = require('../models/user');
 
 //store the comment information (where user can post their comment)
 router.post('/', async (req, res) => {
@@ -13,19 +14,17 @@ router.post('/', async (req, res) => {
             comment,
         });
 
-        newComment.save(function(err,result){
-            if (err){
-                console.log(err);
-            }
-            else{
-                console.log(result)
-            }
+        const savedComment = await newComment.save();
+        await User.findByIdAndUpdate(owner, {
+            $push: { comments: savedComment._id }
         });
 
-        res.status(201).json({ message: 'Comment saved successfully', comment: newComment });
+
+        res.status(201).json({ message: 'Comment saved successfully', comment: savedComment });
+
     }catch (error) {
         console.error('Error fetching user details:', error);
-        res.status(500).json({ error: 'Failed to retrieve comment information' });
+        res.status(500).json({ error: 'Failed to save comment information' });
     }
 })
 

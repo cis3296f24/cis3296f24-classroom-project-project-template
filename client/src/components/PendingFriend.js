@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import defaultAvatar from '../assets/default-avatar.png';
 import { AuthContext } from "./helper/auth";
 import { acceptFriendRequest, declineFriendRequest, getPendingFriendRequest } from "./helper/FriendAPI";
 
@@ -77,7 +78,7 @@ function PendingFriend() {
                         >
                             <div className="flex items-center gap-4">
                                 <img
-                                    src={request.avatarUrl || "/images/default-avatar.png"}
+                                    src={request.avatarUrl || defaultAvatar}
                                     alt="Avatar"
                                     className="w-12 h-12 rounded-full"
                                 />

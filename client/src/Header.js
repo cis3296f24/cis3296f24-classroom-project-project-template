@@ -27,6 +27,7 @@ export default function Header() {
     const userId = localStorage.getItem('userId');
     if (userId) {
       navigate(`/profile/${userId}`);
+      window.location.reload();
     } else {
       alert('User not logged in');
     }
@@ -111,7 +112,7 @@ export default function Header() {
             {dropDown && (
               <div className="absolute right-0 mt-6 w-48 bg-zinc-800 rounded-lg shadow-lg z-20">
                 <div className="py-2">
-                  <button onClick={ handleProfileClick }className="block w-full px-4 py-2 text-link font-semibold text-left hover:bg-gray-700">
+                  <button onClick={ handleProfileClick } className="block w-full px-4 py-2 text-link font-semibold text-left hover:bg-gray-700">
                     Profile
                   </button>
                   <NavLink to="/friend" className="block px-4 py-2 text-link font-semibold hover:bg-gray-700">

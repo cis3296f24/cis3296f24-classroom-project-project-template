@@ -106,7 +106,7 @@ router.get('/pending/:userId', async (req, res) => {
 
     try {
         const pendingRequests = await Friend.find({
-            $or: [{ userId1: userId }, { userId2: userId }],
+            userId2: userId,
             status: 2,
         }).populate('userId1 userId2', 'username email avatarUrl');
 

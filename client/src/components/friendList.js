@@ -1,6 +1,6 @@
 import 'animate.css';
 import React, { useContext, useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { AuthContext } from './helper/auth';
 import Friend from './helper/Friend';
 import { getFriendsList, sendFriendRequest } from './helper/FriendAPI';
@@ -17,6 +17,8 @@ function FriendList() {
 
     //check user logged in or not
     const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
+
+    const navigate = useNavigate();
 
     //fetch the friend list
     useEffect(() => {
@@ -84,6 +86,10 @@ function FriendList() {
         </div>
     );
 
+    const handleProfileClick = (userId) => {
+        navigate(`/profile/${userId}`);
+    }
+
     return (
         <div className="min-h-screen pb-2 px-8 my-10 flex justify-center text-gray-300">
             <div className="flex flex-col items-center w-full bg-neutral-800 rounded-md p-8">
@@ -125,9 +131,9 @@ function FriendList() {
                         <p className="mt-2 text-gray-500">No friends found</p>
                     ) : (<div className="mt-8 flex flex-col items-center gap-6 w-full">
                             {friends.map(friend => (
-                                <div key={friend._id} className="bg-neutral-700 rounded-md p-4 min-w-[280px] sm:w-[420px] lg:w-10/12 shadow-lg transition-transform transform hover:scale-105">
+                                <button onClick={() => handleProfileClick(friend._id)}key={friend._id} className="bg-neutral-700 rounded-md p-4 min-w-[280px] sm:w-[420px] lg:w-10/12 shadow-lg transition-transform transform hover:scale-105">
                                     <Friend friend={friend} />
-                                </div>
+                                </button>
                             )
                             )}
                     </div>)}

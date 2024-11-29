@@ -1,18 +1,33 @@
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { NavLink, useParams } from 'react-router-dom';
-import Grind from '../assets/moon.png';
+import defaultAvatar from '../assets/default-avatar.png';
 import Comment from "./Comment.js";
+import { AuthContext } from './helper/auth';
 
 function Profile() {
   const { userId } = useParams();
   const [user, setUser] = useState(null);
   const [error, setError] = useState('');
 
+  const [isUser, setIsUser] = useState(false);
+  const [ownerId, setOwnerId] = useState(null);
+
+  //check user logged in or not
+  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
+
   useEffect(() => {
     if (!userId) {
       setError('User not Exist');
       return;
+    }
+
+    if (isLoggedIn) {
+      const id = localStorage.getItem('userId');
+      setOwnerId(id);
+      if (id === userId) {
+          setIsUser(true);
+      }
     }
 
     const fetchUserData = async () => {
@@ -51,8 +66,16 @@ function Profile() {
     );
   }
 
+
   return (
     <div className="px-8 py-32">
+      {!isUser && (
+        <div className="absolute top-20 left-4">
+          <NavLink to="/friend" className="text-sm font-semibold text-normal hover:text-white transition">
+              <span aria-hidden="true">&#128072;</span> Back
+          </NavLink>
+        </div>
+      )}
       <div className="absolute top-4 left-4">
       </div>
       <div className="grid gap-8 items-start justify-center">
@@ -61,17 +84,6 @@ function Profile() {
 
           <main className="profile-page">
             <section className="relative block h-500-px">
-              <div
-                className="absolute top-0 w-full h-full"
-                style={{
-                  backgroundImage: `url(${Grind})`,
-                }}
-              >
-                <span
-                  id="blackOverlay"
-                  className="w-full h-full absolute opacity-50 bg-black"
-                ></span>
-              </div>
               <div
                 className="top-auto bottom-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden h-70-px"
                 style={{ transform: "translateZ(0px)" }}
@@ -101,8 +113,8 @@ function Profile() {
                         <div className="relative">
                           <img
                             alt="Profile"
-                            src={user.avatarUrl || "/images/anime0.jpg"}
-                            className="shadow-xl rounded-full h-auto align-middle border-none max-w-xs -mt-12"
+                            src={user.avatarUrl || defaultAvatar}
+                            className="shadow-xl rounded-full h-72 w-72 align-middle border-none max-w-xs -mt-12"
                           />
                         </div>
                       </div>
@@ -158,6 +170,9 @@ function Profile() {
                       <div className="text-sm leading-normal mt-0 mb-2 text-gray-200 font-bold uppercase animate__animated animate__flipInX">
                         Email: {user.email}
                       </div>
+                      <div className="text-sm leading-normal mt-0 mb-2 text-gray-200 font-bold animate__animated animate__flipInX">
+                        User ID: {userId}
+                      </div>
                       <div className="mb-2 text-gray-200 mt-10 pixelify-sans-bold px-2 animate__animated animate__flipInX">
                         <i className="fas fa-briefcase mr-2 text-lg text-blueGray-400 "></i>
                         {user.bio || "No bio available"}
@@ -166,7 +181,7 @@ function Profile() {
                     <div className="mt-10 py-10 border-t border-blueGray-200 text-center">
                       <div className="flex flex-wrap justify-center">
                         <div className="w-full lg:w-9/12 px-4 ">
-                          <Comment />
+                          <Comment Comments={user.comments} profileUser={userId} commentUser={ownerId} />
                         </div>
                       </div>
                     </div>

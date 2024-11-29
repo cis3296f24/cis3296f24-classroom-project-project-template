@@ -1,5 +1,8 @@
+import React from 'react';
 import defaultAvatar from '../../assets/default-avatar.png';
+
 function Friend({ friend }) {
+
     return (
         <div className="flex space-x-4">
             <img

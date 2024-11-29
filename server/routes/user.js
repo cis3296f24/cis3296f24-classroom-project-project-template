@@ -12,7 +12,7 @@ router.get('/:userId', async (req, res) => {
             path: 'comments',
             populate: [
                 {path: 'owner', select: 'username'},
-                {path: 'guest', select: 'username'}
+                {path: 'guest', select: 'username avatarUrl'}
             ]
         });
 
