@@ -1,17 +1,17 @@
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import Grind from '../assets/moon.png';
 import Comment from "./Comment.js";
 
 function Profile() {
+  const { userId } = useParams();
   const [user, setUser] = useState(null);
   const [error, setError] = useState('');
 
   useEffect(() => {
-    const userId = localStorage.getItem('userId');
     if (!userId) {
-      setError('User not logged in');
+      setError('User not Exist');
       return;
     }
 

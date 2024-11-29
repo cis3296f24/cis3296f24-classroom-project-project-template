@@ -14,7 +14,6 @@ router.get('/:userId', async (req, res) => {
                 {path: 'owner', select: 'username'},
                 {path: 'guest', select: 'username'}
             ]
-
         });
 
         if (!user) {
@@ -22,6 +21,7 @@ router.get('/:userId', async (req, res) => {
         }
 
         const userInfo = {
+            userId: user._id,
             username: user.username,
             email: user.email,
             avatarUrl: user.avatarUrl,
@@ -43,7 +43,7 @@ router.patch('/:userId', async (req, res) => {
     const updates = req.body;
 
     try {
-        const updatedUser = await User.findByIdAndUpdate(userId, updates);
+        const updatedUser = await User.findByIdAndUpdate(userId, updates, { new: true });
 
         if (!updatedUser) {
             return res.status(404).json({ error: 'User not found' });

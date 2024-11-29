@@ -2,13 +2,14 @@ import { Dialog, DialogPanel } from '@headlessui/react';
 import { Bars3Icon, UserIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import Lottie from "lottie-react";
 import { useContext, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import pixelAnimation from "./assets/pixel.json";
 import { AuthContext } from './components/helper/auth';
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [dropDown, setDropDown] = useState(false);
+  const navigate = useNavigate();
 
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
 
@@ -21,6 +22,15 @@ export default function Header() {
     setIsLoggedIn(false);
     window.location.reload();
   }
+
+  const handleProfileClick = () => {
+    const userId = localStorage.getItem('userId');
+    if (userId) {
+      navigate(`/profile/${userId}`);
+    } else {
+      alert('User not logged in');
+    }
+  };
 
   return (
     <header className="bg-transparent">
@@ -101,10 +111,10 @@ export default function Header() {
             {dropDown && (
               <div className="absolute right-0 mt-6 w-48 bg-zinc-800 rounded-lg shadow-lg z-20">
                 <div className="py-2">
-                  <NavLink to="/profile" className="block px-4 py-2 text-link font-semibold hover:bg-gray-700">
+                  <button onClick={ handleProfileClick }className="block w-full px-4 py-2 text-link font-semibold text-left hover:bg-gray-700">
                     Profile
-                  </NavLink>
-                  <NavLink to="/friends" className="block px-4 py-2 text-link font-semibold hover:bg-gray-700">
+                  </button>
+                  <NavLink to="/friend" className="block px-4 py-2 text-link font-semibold hover:bg-gray-700">
                     Friends
                   </NavLink>
                   <NavLink to="/settings" className="block px-4 py-2 text-link font-semibold hover:bg-gray-700">
