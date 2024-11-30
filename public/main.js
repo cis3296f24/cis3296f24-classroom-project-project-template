@@ -10,25 +10,19 @@ document.addEventListener('mousemove', function(e) {
     }, 500); // Adjust duration as needed
 });
 
-document.addEventListener("DOMContentLoaded", function() {
-    if (window.location.pathname === "http://localhost:3000/profile.html") {
-        console.log("Skipping authentication and track fetching for profile page.");
-        return; // Exit early for profile.html
-    }
-
-    // Perform authentication and fetch tracks for other pages
-    checkAuthentication();
-    fetchTracks();
-});
-
-function getAccessToken() {
-    const params = new URLSearchParams(window.location.search);
-    return params.get('access_token');
-}
-
 async function checkAuthentication() {
     try {
-        const response = await fetch('/auth-status');
+        const accessToken = sessionStorage.getItem("access_token");
+
+        if (!accessToken) {
+            alert("Access token missing. Please log in.");
+            window.location.href = "/login";
+            return;
+        }
+        
+        const response = await fetch("/auth-status", {
+            headers: { Authorization: `Bearer ${accessToken}` },
+        });
         const data = await response.json();
 
         if (data.authenticated) {
@@ -52,8 +46,23 @@ async function loadTopTracks() {
     }
 }
 
-// Display Title on the page
+// Display Title on the page and save access token to session storage for redirection purposes
 document.addEventListener("DOMContentLoaded", function() {
+    const accessToken = new URLSearchParams(window.location.search).get('access_token');
+
+    if (accessToken) {
+        // Save access token in sessionStorage
+        sessionStorage.setItem('access_token', accessToken);
+
+        // Clean the URL by removing the access token parameter
+        const newUrl = window.location.origin + window.location.pathname;
+        window.history.replaceState({}, document.title, newUrl);
+
+        console.log('Access token saved to sessionStorage and URL cleaned.');
+    } else {
+        console.log('No access token found in URL.');
+    }
+    
     document.body.style.backgroundImage = "url('/sky-full-of-stars-space-4k_1540139420.jpg')";
     document.body.style.backgroundSize = "cover";
     document.body.style.backgroundPosition = "center center";
@@ -66,23 +75,17 @@ document.addEventListener("DOMContentLoaded", function() {
         titleElement.style.textAlign = 'center';
         titleElement.style.fontFamily = "'Arial', sans-serif";
     }
-    const loginTitle = document.querySelector('h2');
-    if (loginTitle) {
-        loginTitle.style.color = 'white';
-        loginTitle.style.textAlign = 'center';
-        loginTitle.style.fontFamily = "'Arial', sans-serif";
+    const loginMessage = document.querySelector('p');
+    if (loginMessage) {
+        loginMessage.style.color = 'white';
+        loginMessage.style.textAlign = 'center';
+        loginMessage.style.fontFamily = "'Arial', sans-serif";
     }
     const loginForm = document.querySelector('form');
     if (loginForm) {
         loginForm.style.color = 'white';
         loginForm.style.textAlign = 'center';
         loginForm.style.fontFamily = "'Arial', sans-serif";
-    }
-    const loginMessage = document.querySelector('p');
-    if (loginMessage) {
-        loginMessage.style.color = 'white';
-        loginMessage.style.textAlign = 'center';
-        loginMessage.style.fontFamily = "'Arial', sans-serif";
     }
     const spinner = document.getElementById('spinner');
     if (spinner) {
@@ -97,25 +100,12 @@ document.addEventListener("DOMContentLoaded", function() {
         errorMessage.style.fontFamily = "'Arial', sans-serif";
     }
 
-    // Check authentication and fetch tracks
-    if (window.location.pathname === "http://localhost:3000/profile.html") {
-        console.log("Skipping authentication for profile page.");
-    } else {
-        checkAuthentication(); // Perform authentication for other pages
-        fetchTracks();
-    }
+    checkAuthentication();
+    fetchTracks();
 });
 
-document.addEventListener('DOMContentLoaded', checkAuthentication);
-
 async function fetchTracks() {
-    // Skip track fetching if on profile.html
-    if (window.location.pathname === "http://localhost:3000/profile.html") {
-        console.log("No need to fetch tracks on profile.html.");
-        return;
-    }
-
-    const accessToken = getAccessToken();
+   const accessToken = sessionStorage.getItem('access_token');
     const spinner = document.getElementById('spinner');
 
     if (!accessToken) {
@@ -125,7 +115,9 @@ async function fetchTracks() {
 
     try {
         spinner.style.display = 'block';
-        const response = await fetch(`/top-tracks?access_token=${accessToken}`);
+        const response = await fetch("/top-tracks", {
+            headers: { Authorization: `Bearer ${accessToken}` },
+        });
 
         if (!response.ok) {
             const errorData = await response.json();
@@ -151,6 +143,8 @@ async function fetchTracks() {
 }
 
 function renderTracks(data) {
+    const accessToken = sessionStorage.getItem("access_token");
+
     d3.select("#chart").selectAll("*").remove();
 
     console.log("Fetched data:", data); // Verify data received
@@ -291,7 +285,7 @@ function renderTracks(data) {
                 // Fetch additional artist details using the Spotify Web API
                 const response = await fetch(`https://api.spotify.com/v1/artists/${d.id}`, {
                     headers: {
-                        'Authorization': `Bearer ${getAccessToken()}`
+                        'Authorization': `Bearer ${accessToken}`
                     }
                 });
         
@@ -378,38 +372,32 @@ function displayTracks(tracks) {
     });
 }
 
-// functionality for redirection to profile page
-document.addEventListener("DOMContentLoaded", () => {
-    // Handle Login Form Submission
-    const loginForm = document.getElementById("login-form");
+// Functionality for Login and redirection to profile page
+document.getElementById("login-form").addEventListener("submit", async (event) => {
+    event.preventDefault(); // Prevent form default submission
   
-    if (loginForm) {
-      loginForm.addEventListener("submit", (event) => {
-        event.preventDefault();
-        
-        const username = document.getElementById("user").value;
-        const password = document.getElementById("pass").value;
+    const username = document.getElementById("user").value;
+    const password = document.getElementById("pass").value;
   
-        // Temporary hardcoded check (to be replaced with server-side logic)
-        if (username === "Admin" && password === "Password123") {
-          localStorage.setItem("username", username);
-          window.location.href = "/login"; // Redirect to start server-side authentication
-        } else {
-          document.getElementById("error-message").textContent = "Invalid username or password.";
-        }
-      })
+    try {
+      // Make a login request to your backend
+      const response = await fetch('/spaceify-login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password }),
+      });
+  
+      const result = await response.json();
+  
+      if (response.ok) {
+        localStorage.setItem('username', result.username); // Store the username
+        sessionStorage.setItem('access_token', result.accessToken); // Store the access token
+        window.location.href = `profile.html?access_token=${result.accessToken}`; // Redirect to profile page
+      } else {
+        document.getElementById('error-message').textContent = result.error || 'Login failed.';
+      }
+    } catch (error) {
+      console.error('Error during login:', error);
+      document.getElementById('error-message').textContent = 'An error occurred. Please try again.';
     }
-    // Example: Handle logic for other pages (e.g., profile.html)
-  const currentPage = window.location.pathname;
-
-  if (currentPage === "/profile.html") {
-    const accessToken = new URLSearchParams(window.location.search).get("access_token");
-    if (!accessToken) {
-      alert("Access token missing! Redirecting to login.");
-      window.location.href = "/";
-    } else {
-      console.log("Access token found:", accessToken);
-      // Perform authenticated actions here (e.g., fetch user data)
-    }
-  }
-})
+  });  

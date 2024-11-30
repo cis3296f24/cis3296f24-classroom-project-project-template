@@ -5,6 +5,12 @@ const crypto = require('crypto');
 const axios = require('axios');
 const session = require('express-session');
 
+//for spaceify user database
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
+const User = require('./models/User'); // Create this model (below)
+//
+
 const app = express();
 const port = 3000; // Define the port variable
 
@@ -83,12 +89,6 @@ app.get('/callback', async (req, res) => {
   }
 });
 
-// Serve profile.html in app.js
-app.get('/profile.html', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'profile.html'));
-});
-
-
 // Fetch top tracks from Spotify
 app.get('/top-tracks', async (req, res) => {
   const accessToken = req.session.access_token;
@@ -125,4 +125,67 @@ app.get('/', (req, res) => {
 //starts the server and logs a message to the console
 app.listen(port, () => {
   console.log(`App running at http://localhost:${port}`);
+});
+
+// Serve profile.html in app.js
+app.get('/profile.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'profile.html'));
+});
+
+// Connect to MongoDB
+mongoose.connect('mongodb+srv://myUser:myPassword@spaceify1.dt8a4.mongodb.net/?retryWrites=true&w=majority&appName=Spaceify1', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+  .then(() => console.log('Connected to MongoDB'))
+  .catch((err) => console.error('Failed to connect to MongoDB:', err));
+
+// Register.html route
+app.post('/register', async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    const existingUser = await User.findOne({ username });
+    if (existingUser) {
+      return res.status(400).json({ error: 'Username already exists.' });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = new User({ username, password: hashedPassword });
+    await newUser.save();
+
+    // Mock an access token (replace with proper session handling or JWT in production)
+    const accessToken = crypto.randomBytes(16).toString('hex');
+
+    req.session.access_token = accessToken; // Store in session
+    res.status(201).json({ message: 'User registered successfully.', username, accessToken });
+  } catch (error) {
+    console.error('Error during registration:', error);
+    res.status(500).json({ error: 'Internal server error.' });
+  }
+});
+
+app.post('/spaceify-login', async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(401).json({ error: 'Invalid username or password.' });
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return res.status(401).json({ error: 'Invalid username or password.' });
+    }
+
+    // Mock an access token (replace with proper session handling or JWT in production)
+    const accessToken = crypto.randomBytes(16).toString('hex');
+
+    req.session.access_token = accessToken; // Store in session
+    res.status(200).json({ message: 'Login successful.', username, accessToken });
+  } catch (error) {
+    console.error('Error during login:', error);
+    res.status(500).json({ error: 'Internal server error.' });
+  }
 });

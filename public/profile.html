@@ -7,6 +7,10 @@
     <title>User Profile</title>
     <style>
         body {
+            display: flex; /* Enable flexbox on body */
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+            height: 100vh;
             margin: 0;
             padding: 0;
             font-family: "Arial Black", sans-serif;
@@ -52,6 +56,21 @@
         .friends-list li {
             margin: 5px 0;
         }
+
+        #home-button {
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 1.5em; /* Make it larger */
+            margin-top: 20px; /* Add spacing at the top */
+        }
+
+        #home-button:hover {
+            background-color: #004d99;
+        }
     </style>
 </head>
 <body>
@@ -69,49 +88,45 @@
             <li>Friend 2</li>
             <li>Friend 3</li>
         </ul>
+
+        <!-- Home button -->
+        <button id="home-button" onclick="goToHome()">
+            🏠
+        </button>
     </div>
 
     <script>
-        console.log("Profile page loaded. Skipping track fetching and token validation.");
-
-        // Retrieve the username from localStorage
+        document.addEventListener("DOMContentLoaded", () => {
         const username = localStorage.getItem('username') || 'Guest';
+        const accessToken = new URLSearchParams(window.location.search).get('access_token');
 
-        // Update the username display
+        if (!accessToken) {
+            alert('Access token missing. Redirecting to login.');
+            window.location.href = '/';
+            return;
+        }
+
         document.getElementById('username-display').textContent = username;
 
-        // Example: Dynamically add friends to the list (if needed)
-        const friends = ["Alice", "Bob", "Charlie"]; // Example friends
-        const friendsListElement = document.getElementById('friends-list');
-        
-        // Clear the static list and populate dynamically
-        friendsListElement.innerHTML = "";
-        friends.forEach(friend => {
-            const li = document.createElement('li');
-            li.textContent = friend;
-            friendsListElement.appendChild(li);
-        })
-    </script>
+        // Store access token in sessionStorage (if not already)
+        sessionStorage.setItem('access_token', accessToken);
+        });
 
-    <script>
-        // Function to get query parameter values for url
-        function getQueryParam(param) {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(param);
+        function goToHome() {
+            window.location.href = "/";
         }
-
-        // Get the access token from the URL
-        const accessToken = getQueryParam('access_token');
-
-        if (accessToken) {
-            console.log("Access token:", accessToken);
-            // Store it in sessionStorage or use it directly for API calls
-            sessionStorage.setItem('access_token', accessToken);
-        } else {
-            console.error("Access token not found in URL.");
-            // Redirect back to login or show an error
-            window.location.href = '/';
-        }
+/*
+        function goToHome() {
+            const accessToken = sessionStorage.getItem('access_token');
+  
+            if (accessToken) {
+                // Redirect to the home page with the same access token
+                window.location.href = `/?access_token=${accessToken}`;
+            } else {
+                console.error('Access token not found in sessionStorage. Redirecting without token.');
+                window.location.href = '/';
+            }
+        }*/
     </script>
 </body>
 </html>
