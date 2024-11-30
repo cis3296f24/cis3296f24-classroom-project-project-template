@@ -36,20 +36,21 @@
     }
 
     button {
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
-      background-color: #0066cc;
-      color: #fff;
-      cursor: pointer;
+        background-color: #ffffff;
+        color: black;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 15px;
+        cursor: pointer;
     }
 
     button:hover {
-      background-color: #004d99;
+        background-color: #e5f1fc;
     }
 
     p {
       margin-top: 20px;
+      font-size: 0.8em;
     }
 
     a {
@@ -67,7 +68,11 @@
       <input type="password" id="confirm-password" placeholder="Confirm Password" required />
       <button type="submit">Register</button>
     </form>
-    <p>Already have a Spaceify account? <a href="index.html">Return to Login</a></p>
+    <p>Already made a Spaceify account?</p>
+    <p>👇 Return to Home 👇</p>
+    <button id="home-button" onclick="goToHome()">
+        🏠
+    </button>
     <div id="error-message" style="color: red;"></div>
   </div>
 
@@ -95,16 +100,20 @@
         const result = await response.json();
 
         if (response.ok) {
-        localStorage.setItem('username', result.username); // Store the username
-        sessionStorage.setItem('access_token', result.accessToken); // Store the access token
-        window.location.href = `profile.html?access_token=${result.accessToken}`; // Redirect to profile page
+            localStorage.setItem('username', result.username); // Store the username
+            sessionStorage.setItem('access_token', result.accessToken); // Store the access token
+            window.location.href = `profile.html?access_token=${result.accessToken}`; // Redirect to profile page
         } else {
-        errorMessage.textContent = result.error || "Registration failed.";
+            errorMessage.textContent = result.error || "Registration failed.";
         }
     } catch (error) {
         errorMessage.textContent = "An error occurred. Please try again.";
     }
     });
+
+    function goToHome() {
+        window.history.back();
+    }
   </script>
 </body>
 </html>

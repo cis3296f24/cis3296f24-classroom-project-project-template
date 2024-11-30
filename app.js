@@ -108,6 +108,7 @@ app.get('/top-tracks', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch top tracks' });
   }
 });
+
 app.get('/auth-status', (req, res) => {
   if (req.session.access_token) {
     res.json({ authenticated: true });
@@ -154,11 +155,7 @@ app.post('/register', async (req, res) => {
     const newUser = new User({ username, password: hashedPassword });
     await newUser.save();
 
-    // Mock an access token (replace with proper session handling or JWT in production)
-    const accessToken = crypto.randomBytes(16).toString('hex');
-
-    req.session.access_token = accessToken; // Store in session
-    res.status(201).json({ message: 'User registered successfully.', username, accessToken });
+    res.status(201).json({ message: 'User registered successfully.', username });
   } catch (error) {
     console.error('Error during registration:', error);
     res.status(500).json({ error: 'Internal server error.' });
