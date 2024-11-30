@@ -14,6 +14,7 @@ import Footer from './Footer';
 import Header from './Header';
 import './styles/home.css';
 import './styles/index.css';
+import Setting from './components/Setting';
 
 import ProgressTracker from './components/ProgressTracker';
 
@@ -61,6 +62,7 @@ function App() {
         <Route path="/profile/:userId" element={<Profile />} />
         <Route path="/friend" element={<FriendList />} />
         <Route path="/pendingFriend" element={<PendingFriend />} />
+        <Route path='/settings' element={<Setting/>} />
       </Routes>
       <BackgroundMusic/>
       {!hideNavbar && <Footer />}
