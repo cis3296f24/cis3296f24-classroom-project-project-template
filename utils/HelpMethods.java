@@ -16,17 +16,17 @@ public class HelpMethods {
 		return false;
 	}
 
-	private static boolean IsSolid(float x, float y, int[][] lvlData) {
-		int maxWidth = lvlData[0].length * FlappyGame.TILES_SIZE;
-		if (x < 0 || x >= maxWidth)
-			return true;
-		if (y < 0 || y >= FlappyGame.GAME_HEIGHT)
-			return true;
-		float xIndex = x / FlappyGame.TILES_SIZE;
-		float yIndex = y / FlappyGame.TILES_SIZE;
-
-		return IsTileSolid((int) xIndex, (int) yIndex, lvlData);
-	}
+//	private static boolean IsSolid(float x, float y, int[][] lvlData) {
+//		int maxWidth = lvlData[0].length * FlappyGame.TILES_SIZE;
+//		if (x < 0 || x >= maxWidth)
+//			return true;
+//		if (y < 0 || y >= FlappyGame.GAME_HEIGHT)
+//			return true;
+//		float xIndex = x / FlappyGame.TILES_SIZE;
+//		float yIndex = y / FlappyGame.TILES_SIZE;
+//
+//		return IsTileSolid((int) xIndex, (int) yIndex, lvlData);
+//	}
 
 	public static boolean IsProjectileHittingLevel(Projectile p, int[][] lvlData) {
 		return IsSolid(p.getHitbox().x + p.getHitbox().width / 2, p.getHitbox().y + p.getHitbox().height / 2, lvlData);
@@ -51,8 +51,8 @@ public class HelpMethods {
 //		int value = lvlData[yTile][xTile];
 //
 //		switch (value) {
-//		case 11, 48, 49:
-//			return true; // I set it to solid for testing .
+//		case 11, 23, 48, 49:
+//			return false; // Set it to false for testing .
 //
 //		default:
 //			return true;
@@ -60,25 +60,32 @@ public class HelpMethods {
 //
 //	}
 
-public static boolean IsTileSolid(float x, float y, int[][] lvlData) {
-	int maxWidth = lvlData[0].length * FlappyGame.TILES_SIZE;
-	// if (x < 0 || x >= FlappyGame.GAME_WIDTH)
-	if (x < 0 || x >= maxWidth)
-		return true;
-	if (y < 0 || y >= FlappyGame.GAME_HEIGHT)
-		return true;
-	float xIndex = x / FlappyGame.TILES_SIZE;
-	float yIndex = y / FlappyGame.TILES_SIZE;
-	int value = lvlData[(int) yIndex][(int) xIndex];
-	if (value == 23) {
+	public static boolean IsSolid(float x, float y, int[][] lvlData) {
+		//System.out.println("lvlData[1][1]: " + lvlData[1][1]);
+		//System.out.println("lvlData: " + Arrays.stream(lvlData).allMatch(23));
+
+		int maxWidth = lvlData[0].length * FlappyGame.TILES_SIZE;
+		// if (x < 0 || x >= FlappyGame.GAME_WIDTH)
+		if (x < 0 || x >= maxWidth)
+			return true;
+		if (y < 0 || y >= FlappyGame.GAME_HEIGHT)
+			return true;
+
+		float xIndex = x / FlappyGame.TILES_SIZE;
+		float yIndex = y / FlappyGame.TILES_SIZE;
+		int value = lvlData[(int) yIndex][(int) xIndex];
+
+		if (value == 23) {
+			return false;
+		}
+
+		if (value >= 48 || value < 0 || value != 11) {
+			return true;
+			// return false;
+		}
 		return false;
 	}
-	if (value >= 48 || value < 0 || value != 11) {
-		return true;
-		// return false;   // Set this to false if you wish to pass through pipes.
-	}
-	return false;
-}
+
 
 	public static float GetEntityXPosNextToWall(Rectangle2D.Float hitbox, float xSpeed) {
 		int currentTile = (int) (hitbox.x / FlappyGame.TILES_SIZE);
@@ -138,7 +145,8 @@ public static boolean IsTileSolid(float x, float y, int[][] lvlData) {
 
 	public static boolean IsAllTilesClear(int xStart, int xEnd, int y, int[][] lvlData) {
 		for (int i = 0; i < xEnd - xStart; i++)
-			if (IsTileSolid(xStart + i, y, lvlData))
+			// if (IsTileSolid(xStart + i, y, lvlData))
+			if (IsSolid(xStart + i, y, lvlData))
 				return false;
 		return true;
 	}
@@ -146,7 +154,8 @@ public static boolean IsTileSolid(float x, float y, int[][] lvlData) {
 	public static boolean IsAllTilesWalkable(int xStart, int xEnd, int y, int[][] lvlData) {
 		if (IsAllTilesClear(xStart, xEnd, y, lvlData))
 			for (int i = 0; i < xEnd - xStart; i++) {
-				if (!IsTileSolid(xStart + i, y + 1, lvlData))
+				// if (!IsTileSolid(xStart + i, y + 1, lvlData))
+					if (!IsSolid(xStart + i, y + 1, lvlData))
 					return false;
 			}
 		return true;

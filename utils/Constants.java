@@ -266,6 +266,6 @@ public class Constants {
 		public static final int ATTACK = 4;
 		public static final int HIT = 5;
 		public static final int DEAD = 6;
-
+		public static final int COLLIDED = 0;
 	}
 }

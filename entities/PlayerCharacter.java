@@ -15,7 +15,7 @@ public enum PlayerCharacter {
     BAT(8, 8, 8, 8, 1, 1, 1,
             0, 0, 0, 0, 0, 0, 0,
             LoadSave.PLAYER_BAT, 13, 1, 8, 72, 96,
-            30, 25, 21, 25),
+            30, 20, 26, 40),
     YELLOWBIRD(3, 3, 3, 3, 3, 1, 1,
             0, 0, 0, 0, 0, 0, 0,
             LoadSave.PLAYER_YELLOWBIRD, 0, 4, 3, 58, 40,

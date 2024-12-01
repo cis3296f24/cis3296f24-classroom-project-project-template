@@ -35,7 +35,9 @@ public class Player extends Entity {
     private int statusBarX = (int) (10 * FlappyGame.SCALE);
     private int statusBarY = (int) (10 * FlappyGame.SCALE);
 
-    private int healthBarWidth = (int) (150 * FlappyGame.SCALE);
+    private float walkSpeed = 1.25000000000000000000f; // Change this for bird speed fast or slow
+
+        private int healthBarWidth = (int) (150 * FlappyGame.SCALE);
     private int healthBarHeight = (int) (4 * FlappyGame.SCALE);
     private int healthBarXStart = (int) (34 * FlappyGame.SCALE);
     private int healthBarYStart = (int) (14 * FlappyGame.SCALE);
@@ -78,13 +80,18 @@ public class Player extends Entity {
         this.state = IDLE;
         this.maxHealth = 100;
         this.currentHealth = maxHealth;
-        this.walkSpeed = FlappyGame.SCALE * 1.0f;
+        // this.walkSpeed = walkSpeed;  // Change this for bird speed fast or slow
         animations = LoadSave.loadAnimations(playerCharacter);
         statusBarImg = LoadSave.GetSpriteAtlas(LoadSave.STATUS_BAR);
         initHitbox(playerCharacter.hitboxW, playerCharacter.hitboxH);
         initAttackBox();
     }
 
+    // Set bird health;
+    public void setUpdateHealthBar(int birdHealth) {
+        currentHealth = birdHealth;
+        //currentHealth = maxHealth; // Change to this for testing.
+    }
 
 //    public Player(PlayerCharacter playerCharacter, Playing playing) {
 //        super(0, 0, (int) (playerCharacter.spriteW * FlappyGame.SCALE), (int) (playerCharacter.spriteH * FlappyGame.SCALE));
@@ -395,51 +402,103 @@ public class Player extends Entity {
         aniIndex = 0;
     }
 
+//    private void updatePos() {
+//        moving = true; // Bird should never be false. Keeps moving.
+//
+//        if (jump)
+//            jump();
+//
+//        if (!inAir)
+//            if (!powerAttackActive)
+//                if ((!left && !right) || (right && left))
+//                    return;
+//
+//        float xSpeed = 0;
+//
+//        // Adding this to collide bird into pipe and set health to zero.
+//        if (!CanMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, lvlData)) {
+//            // System.out.println("Bird touching something");
+//            setUpdateHealthBar(COLLIDED);  // Collide the bird and end game.
+//        }
+//
+//        if (left && !right) {
+//            xSpeed += walkSpeed; // Changed the so bird is not able to go back wards.
+//            // flipX = width;      // Changed the so bird is not able to go back wards.
+//            // flipW = -1;         // Changed the so bird is not able to go back wards.
+//        }
+//        if (right && !left) {
+//            xSpeed += walkSpeed;
+//            // flipX = 0; // Changed the so bird is not able to go back wards.
+//            // flipW = 1;// Changed the so bird is not able to go back wards.
+//        }
+//
+//        if (powerAttackActive) {
+//            if ((!left && !right) || (left && right)) {
+//                if (flipW == -1)
+//                    xSpeed = -walkSpeed;
+//                else
+//                    xSpeed = walkSpeed;
+//            }
+//
+//            xSpeed *= 3;
+//        }
+//
+//        if (!inAir)
+//            if (!IsEntityOnFloor(hitbox, lvlData))
+//                inAir = true;
+//
+//        if (inAir && !powerAttackActive) {
+//            if (CanMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, lvlData)) {
+//                hitbox.y += airSpeed;
+//                airSpeed += GRAVITY;
+//                updateXPos(xSpeed);
+//            } else {
+//                hitbox.y = GetEntityYPosUnderRoofOrAboveFloor(hitbox, airSpeed);
+//                if (airSpeed > 0)
+//                    resetInAir();
+//                else
+//                    airSpeed = fallSpeedAfterCollision;
+//                updateXPos(xSpeed);
+//            }
+//
+//        } else                  // Removing this will cause the bird to speed up. Do not remove.
+//              updateXPos(xSpeed);
+//        moving = true;
+//    }
+
     private void updatePos() {
-        moving = true; // Bird should never be false. Keeps moving.
+        moving = false;
 
         if (jump)
             jump();
-
-        if (!inAir)
-            if (!powerAttackActive)
-                if ((!left && !right) || (right && left))
-                    return;
+        if (!left && !right && !inAir)
+            return;
 
         float xSpeed = 0;
 
-        if (left && !right) {
-            xSpeed += walkSpeed; // Changed the so bird is not able to go back wards.
-            // flipX = width;      // Changed the so bird is not able to go back wards.
-            // flipW = -1;         // Changed the so bird is not able to go back wards.
-        }
-        if (right && !left) {
+        if (left)
+            xSpeed -= walkSpeed;
+        if (right)
             xSpeed += walkSpeed;
-            // flipX = 0; // Changed the so bird is not able to go back wards.
-            // flipW = 1;// Changed the so bird is not able to go back wards.
-        }
-
-        if (powerAttackActive) {
-            if ((!left && !right) || (left && right)) {
-                if (flipW == -1)
-                    xSpeed = -walkSpeed;
-                else
-                    xSpeed = walkSpeed;
-            }
-
-            xSpeed *= 3;
-        }
 
         if (!inAir)
             if (!IsEntityOnFloor(hitbox, lvlData))
                 inAir = true;
 
-        if (inAir && !powerAttackActive) {
+        // Adding this to collide bird into pipe and set health to zero.
+        if (!CanMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, lvlData)) {
+            // System.out.println("Bird touching something");
+            setUpdateHealthBar(COLLIDED);  // Collide the bird and end game.
+        }
+
+        if (inAir) {
             if (CanMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, lvlData)) {
                 hitbox.y += airSpeed;
                 airSpeed += GRAVITY;
                 updateXPos(xSpeed);
             } else {
+                // This section is true if the bird collides with an area not allowed.
+                setUpdateHealthBar(COLLIDED);  // Collide the bird and end game.
                 hitbox.y = GetEntityYPosUnderRoofOrAboveFloor(hitbox, airSpeed);
                 if (airSpeed > 0)
                     resetInAir();
@@ -448,8 +507,12 @@ public class Player extends Entity {
                 updateXPos(xSpeed);
             }
 
-        } else                  // Removing this will cause the bird to speed up. Do not remove.
-              updateXPos(xSpeed);
+        } else {
+            // If the bird hits the floor it will die.
+            // System.out.println("Not in air");
+            setUpdateHealthBar(COLLIDED);   // Collide the bird and end game.
+        }
+        updateXPos(xSpeed);
         moving = true;
     }
 
@@ -474,6 +537,9 @@ public class Player extends Entity {
         }
         else {
             hitbox.x = GetEntityXPosNextToWall(hitbox, xSpeed);
+            // This check only sees the collision into the pipes. Please see above
+            // where the bird hits the ceiling an floor to set health to 0;
+            setUpdateHealthBar(COLLIDED);  // Setting bird collision here since it cannot move here.
             if (powerAttackActive) {
                 powerAttackActive = false;
                 powerAttackTick = 0;
