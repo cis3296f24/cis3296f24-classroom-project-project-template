@@ -4,348 +4,44 @@
     <meta charset="UTF-8" />
     <title>MusicMatcher</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
     <script src="src/script.js" type="module"></script>
-
-    <style>
-      body {
-	  background-color: black;
-	  color: lightgray;
-	  align-items: center;
-	  justify-content: left;
-    font-family: 'Inter', sans-serif;
-    position: relative;
-      }
-
-  
-        .header-container h1, .header-container h2 {
-        margin: 0; /* Remove default margin */
-        font-family: 'Inter', sans-serif; /* Ensure both use the Inter font */
-        }
-       
-        h1 {
-       font-size: 2.5rem;
-        color: white;
-        }
-
-      h2 {
-      font-size: 1.5rem;
-      color: lightgray; /* Lighter color for "Logged in as" */
-      }
-
-      p {
-	  font-size: 1.5rem;
-	  color: white;
-      }
-
-      #findMatches {
-	  text-align: center;
-      }
-      
-      #findMatchesButton {
-	  font-size: 2rem;
-      }
-
-      ol {
-	  font-size: 1.5rem;
-      }
-
-      li {
-	  font-size: 1.5rem;
-      }
-      /* Body Styling - Update to remove central alignment */
-body {
-  background-color: black;
-  color: lightgray;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;  /* Align items to the left */
-  justify-content: flex-start;  /* Start elements from the top */
-  padding: 1rem;  /* Add padding for spacing */
-}
-
-/* Section Heading Styling */
-.section-heading {
-  text-align: left;  /* Ensure section headings are aligned left */
-  font-size: 64px;   /* Set the size */
-  font-weight: bold; /* Set bold weight */
-  margin: 0;               /* Remove default margin */
-  padding-bottom: 0.2rem;
-}
-
-/* Divider Styling */
-.divider {
-  display: block;
-  width: 100vw;  /* Set the width to the to the width of the screen */
-  height: 1px;    /* Line width of 1 pixel */
-  background-color: rgba(132, 128, 128, 1); /* #848080 color with 75% opacity */
-  margin-bottom: 2rem; /* Space below the divider */
-  position: relative;
-  z-index: 1;
-}
-
-ol {
-  margin-bottom: 2rem;  /* Space between list and cover art image */
-}
-.cover-art {
-  width: 200px;   /* Size of the cover art */
-  height: 200px;  /* Ensures cover art is a square */
-  margin-bottom: 3rem; /* Increase spacing after cover art for better separation */
-}
-
-#stats {
-  padding-top: 3rem; /* Adds spacing at the top to fit the cover art comfortably */
-}
-h1, h2, h3, p, ol, li {
-  font-family: 'Inter', sans-serif;
-}
-
-
-.scrollable-songs-container {
-  max-height: 600px; /* Increase max height to accommodate multiple rows */
-  overflow-y: auto;  /* Enable vertical scrolling if content exceeds max height */
-  padding: 1rem;     /* Padding for better visual spacing */
-  margin-top: 1rem;  /* Space above the container */
-  width: 100%;       /* Take full width of the parent container */
-  display: flex;     /* Use flexbox for layout */
-  flex-wrap: wrap;   /* Wrap the items into multiple rows */
-  gap: 20px;         /* Set spacing between song items */
-  justify-content: flex-start; /* Align items to the start */
-      }
-
-      .song-item {
-        display: flex;              /* Flexbox for aligning items */
-        flex-direction: row;     /* Stack items vertically */
-        align-items: flex-start;        /* Center align items */
-        margin-bottom: 124px;       /* Set spacing between song items */
-        margin-right: 200px;
-        align-items: flex-start;
-        width: 300px;   
-        gap:1rem;         
-      }
-
-      .song-cover {
-        width: 225px;        /* Set cover image width */
-        height: 225px;       /* Set cover image height */
-        margin-right: 1rem; /* Space between image and song name */
-        border-radius: 10px;
-        object-fit:cover;
-        flex-shrink:0;
-      }
-
-      .song-name {
-        font-size: 120;  /* Set song name font size */
-        color: white;       /* Song text color */
-      }
-
-.song-pill {
-  display: inline-block;
-  background-color: #5F5D5D; /* Example color, adjust to fit your Figma design */
-  color: white;
-  font-size: 13.33px;
-  padding: 0.2rem 0.6rem;
-  border-radius: 10px; /* Rounded corners to make it look like a pill */
-  margin-top: 0.5rem;  /* Space between the artist name and the pill */
-  width: 100px;               /* Set the width to 130px */
-  height: 30px;               /* Set the height to 40px */
-  line-height: 30px;          /* Align text vertically by matching height */
-  text-align: center;
-  font-weight: 600;  
-}
-
-
-.song-info {
-  display: flex;              /* Flexbox for organizing text elements */
-  flex-direction: column;     /* Stack text items vertically */
-  align-items: flex-start;    /* Align the text to the left */
-  justify-content: flex-start; /* Align elements at the top */
-  align-items: flex-start;    
-  flex-grow: 1;                 /* Allow song info to grow and take available space */
-  max-width: calc(100% - 250px); /* Adjust width based on cover size and padding */
-}
-
-
-
-.song-name,
-.artist-name,
-.song-pill {
-  margin: 0.25rem 0;          /* Add vertical spacing between text elements */
-}
-
-.song-name,
-.artist-name {
-  white-space: nowrap;          /* Prevent text from wrapping to the next line */
-  overflow: hidden;             /* Hide overflowing text */
-  text-overflow: ellipsis;      /* Add ellipsis (...) if text overflows */
-}
-
-/* Styling for Individual Artist Items */
-.artist-item {
-  width:150px;
-  display:flex;
-  flex-direction: column;
-  display: flex;      /* Flexbox to align cover and text side by side */
-  align-items: center; /* Align cover and text vertically centered */
-  margin-bottom: 65px; /* Space between artists */
-  margin-right: 124px;
-  margin-left: 40px;
-
-}
-
-.artist-image {
-  width: 225px;        /* Set artist image width to 267 pixels */
-  height: 225px;       /* Set artist image height to 267 pixels */
-  object-fit: cover;   /* Ensure the image fills the dimensions without distortion */
-  border-radius: 10px; /* Set corner radius to 10 pixels */
-  margin-bottom: 0.5rem;
-}
-
-.artist-name {
-  font-size: 24px;             /* Set font size */
-  font-weight: 600;            /* Semi-bold for Inter */
-  color: white;                /* White color */
-  font-family: 'Inter', sans-serif;
-  text-align: center;          /* Center the text below the image */
-  margin: 0; 
-}
-
-.artist-item a {
-    text-decoration: none; /* Remove default underline */
-    color: inherit; /* Inherit color from parent element */
-}
-
-.artist-item a:hover {
-    color: #1db954; /* Spotify green color on hover */
-}
-
-.scrollable-artists-container {
-  max-height: 400px;    /* Set max height to control the visible area */
-  overflow-y: auto;     /* Enable vertical scrolling */
-  padding: 1rem;        /* Padding for better visual spacing */
-  margin-top: 1rem;     /* Add space above the container */
-  width: 100%;          /* Make it take full width of the parent container */
-  display: flex;        /* Use flex to allow a horizontal scrollable display if needed */
-  flex-wrap: wrap;      /* Allow the items to wrap in multiple rows */
-}
-
-.heading-and-button {
-  display: flex;              /* Use flexbox to align items horizontally */
-  align-items: center;        /* Vertically center align items */
-  gap: 1rem;                  /* Add some space between the heading and button */
-  margin-bottom: 1rem;        /* Add margin below for spacing */
-}
-
-/* Styling for the Pill Button */
-.pill-button {
-  background-color: #646cff;  /* Button background color */
-  color: white;               /* Button text color */
-  font-size: 16px;            /* Button font size */
-  padding: 0.5rem 1.5rem;     /* Padding for top/bottom and left/right */
-  border: none;               /* Remove default border */
-  border-radius: 25px;        /* Rounded corners for the pill shape */
-  cursor: pointer;            /* Pointer cursor on hover */
-  font-family: 'Inter', sans-serif;
-  font-weight: 600;           /* Semi-bold text */
-  transition: background-color 0.3s ease; /* Smooth color transition */
-}
-
-/* Button Hover Effect */
-.pill-button:hover {
-  background-color: #535bf2;  /* Darken button on hover */
-}
-
-.matched-container{
-  min-width: 300px;                 /* Minimum width for each match container */
-    border: 1px solid rgba(132, 128, 128, 0.5); /* Border to distinguish each match */
-    border-radius: 10px;              /* Rounded corners */
-    padding: 1rem;                    /* Padding inside each match */
-    background-color: rgba(255, 255, 255, 0.05); /* Subtle background to highlight match */
-    flex-shrink: 0;                   /* Prevent match containers from shrinking */
-}
-.horizontal-scrollable {
-  display: flex;                    /* Flexbox for horizontal alignment */
-    overflow-x: auto;                 /* Allow horizontal scrolling */
-    gap: 1rem;                        /* Space between match containers */
-    padding: 1rem 0;                  /* Padding for top/bottom */
-    scroll-behavior: smooth;          /* Smooth scrolling when navigating */
-    cursor: grab;                     /* Indicate that the container is draggable */
-}
-.song-matches-container p {
-    color: lightgray;
-    font-size: 1rem;
-    margin: 0.5rem 0;
-}
-.artist-matches-container {
-    display: flex;                    /* Use Flexbox for horizontal alignment */
-    flex-wrap: wrap;                  /* Allow wrapping to next row if too many artists */
-    gap: 1rem;                        /* Space between artist items */
-    margin-top: 1rem;                 /* Space between user's name and matched artists */
-}
-
-#avatar {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-top: 10px;
-        border-radius: 0%; 
-      }
-
-      #avatar img {
-        border-radius:  10% !important;
-        width: 200px; /* Fixed image size */
-        height: 200px; /* Fixed image size */
-        margin-bottom: 10px; /* Space between image and username */
-        object-fit: cover;
-      }
-
-      #displayName {
-        color: white; /* Username text color */
-        font-size: 1.2rem;
-      }
-
-    </style>
-    
   </head>
   <body>
-    <header clas="header-container">
-    <h1>MusicMatcher: Make new connections</h1>
-    <section id="profile">
-    <h2 id="logged-in">Logged in as <span id="displayName"></span></h2>
-    <header>
-    <section id="profile">
+    <h2 id="logged-in">Welcome, <span id="displayName"></span>!</h2>
+    <header class="header-container">
       <span id="avatar"></span>
-    <p>
-      <!-- Profile Link: <a id="url" href="#"></a> -->
-    </p>
-    </section>
+      <img src="src/logo.png" alt="MusicMatcher logo" class="logo"/>
+      <button id="logoutButton" class="pill-button">Logout</button>
+    </header>
 
-    <section id="stats">
-      <h3 class= "section-heading">Your Top Artists</h3>
-      <div class="divider"></div>
-      
-      <div id="topArtistsScrollable" class="scrollable-artists-container">
-        <!-- Placeholder for Top Artists -->
+    <div class="both-halves">
+      <div class="left-side">
+        <h3 class= "section-heading">Your Top Artists</h3>
+        <div class="divider"></div>
+        
+        <div id="topArtistsScrollable" class="scrollable-container"></div>
+  
+        <h3 class="section-heading">Your Top Songs</h3>
+        <div class="divider"></div>
+        <div id="topSongsScrollable" class="scrollable-container"></div>
+      </div>
+       
+      <div class="right-side">
+        <section id="findmatches">
+        <div class="heading-and-button">
+          <h3 class="section-heading">MusicMatches</h3>
+          <button id="findMatchesButton" class="pill-button">Find Matches!</button>
+        </div>
+        <div id="displaymatches"></div>
+        <h3 class="section-heading">Your Listening Stats</h3>
+
       </div>
 
-      <h3 class="section-heading">Your Top Songs</h3>
-      <div class="divider"></div>
-      <div id="topSongsScrollable" class="scrollable-songs-container">
-        <!-- Placeholder for Top Songs -->
-      </div>
+    </div>
 
-     
-      <h3 class="section-heading">Your Listening Stats</h3>
-      <div class="divider"></div>
-      <ol id="stats"></ol>
     </section>
-
-    <section id="findmatches">
-      <div class="heading-and-button">
-        <h3 class="section-heading">MusicMatches</h3>
-        <button id="findMatchesButton" class="pill-button">Find Matches!</button>
-      </div>
-      <div class="divider"></div>
-      <div id="displaymatches"></div>
-    </section>
-    
   </body>
 </html>
+
+
