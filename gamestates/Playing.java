@@ -16,7 +16,6 @@ import utils.LoadSave;
 
 import static utils.Constants.FlappyWorldConstants.*;
 import static utils.Constants.PlayerConstants.COLLIDED;
-import static utils.LoadSave.GetLevelData;
 
 public class Playing extends State implements Statemethods {
     private Player player;
@@ -30,7 +29,7 @@ public class Playing extends State implements Statemethods {
 
     private int leftBorder = (int) (0.2 * FlappyGame.GAME_WIDTH) / 2;
     private int rightBorder = (int) (0.8 * FlappyGame.GAME_WIDTH) / 2;
-    private int lvlTilesWide = GetLevelData()[0].length;
+    private int lvlTilesWide = LoadSave.GetLevelData()[0].length;
     private int maxTilesOffset = lvlTilesWide - FlappyGame.TILES_IN_WIDTH;
     private int maxLvlOffsetX = maxTilesOffset * FlappyGame.TILE_SIZE;
 
@@ -50,8 +49,6 @@ public class Playing extends State implements Statemethods {
     private boolean gameOver;
     private boolean lvlCompleted;
     private boolean playerDying;
-
-    int[][] lvlData = GetLevelData(); // Imported this here to add score keeping
 
     // get the background.
     public Playing(FlappyGame flappyGame) {
