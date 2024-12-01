@@ -229,7 +229,7 @@ public class Playing extends State implements Statemethods {
     }
 
     private void checkCloseToBorder() {
-        System.out.println("xLvlOffset: " + xLvlOffset);
+        // System.out.println("xLvlOffset: " + xLvlOffset);
         int playerX = (int) player.getHitbox().x;
         int diff = playerX - xLvlOffset;
         if (diff > rightBorder) {

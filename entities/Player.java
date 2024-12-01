@@ -35,7 +35,7 @@ public class Player extends Entity {
     private int statusBarX = (int) (10 * FlappyGame.SCALE);
     private int statusBarY = (int) (10 * FlappyGame.SCALE);
 
-    private float walkSpeed = 1.25000000000000000000f; // Change this for bird speed fast or slow
+    private float flyingSpeed = 1.1f; // Change this for bird speed fast or slow
 
         private int healthBarWidth = (int) (150 * FlappyGame.SCALE);
     private int healthBarHeight = (int) (4 * FlappyGame.SCALE);
@@ -76,7 +76,7 @@ public class Player extends Entity {
         this.state = IDLE;
         this.maxHealth = 100;
         this.currentHealth = maxHealth;
-        // this.walkSpeed = walkSpeed;  // Change this for bird speed fast or slow
+        // this.flyingSpeed = flyingSpeed;  // Change this for bird speed fast or slow
         animations = LoadSave.loadAnimations(playerCharacter);
         statusBarImg = LoadSave.GetSpriteAtlas(LoadSave.STATUS_BAR);
         initHitbox(playerCharacter.hitboxW, playerCharacter.hitboxH);
@@ -96,7 +96,7 @@ public class Player extends Entity {
 //        this.state = IDLE;
 //        this.maxHealth = 100;
 //        this.currentHealth = maxHealth;
-//        this.walkSpeed = FlappyGame.SCALE * 1.0f;
+//        this.flyingSpeed = FlappyGame.SCALE * 1.0f;
 //
 //        // Load other player characters
 //        // animations = LoadSave.loadAnimations(playerCharacter);
@@ -405,12 +405,12 @@ public class Player extends Entity {
 //        }
 //
 //        if (left && !right) {
-//            xSpeed += walkSpeed; // Changed the so bird is not able to go back wards.
+//            xSpeed += flyingSpeed; // Changed the so bird is not able to go back wards.
 //            // flipX = width;      // Changed the so bird is not able to go back wards.
 //            // flipW = -1;         // Changed the so bird is not able to go back wards.
 //        }
 //        if (right && !left) {
-//            xSpeed += walkSpeed;
+//            xSpeed += flyingSpeed;
 //            // flipX = 0; // Changed the so bird is not able to go back wards.
 //            // flipW = 1;// Changed the so bird is not able to go back wards.
 //        }
@@ -418,9 +418,9 @@ public class Player extends Entity {
 //        if (powerAttackActive) {
 //            if ((!left && !right) || (left && right)) {
 //                if (flipW == -1)
-//                    xSpeed = -walkSpeed;
+//                    xSpeed = -flyingSpeed;
 //                else
-//                    xSpeed = walkSpeed;
+//                    xSpeed = flyingSpeed;
 //            }
 //
 //            xSpeed *= 3;
@@ -457,9 +457,9 @@ public class Player extends Entity {
             return;
         float xSpeed = 0;
         if (left)
-            xSpeed += walkSpeed;
+            xSpeed += flyingSpeed;
         if (right)
-            xSpeed += walkSpeed;
+            xSpeed += flyingSpeed;
         if (!inAir)
             if (!IsEntityOnFloor(hitbox, lvlData))
                 inAir = true;
