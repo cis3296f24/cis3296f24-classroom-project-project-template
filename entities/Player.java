@@ -53,14 +53,10 @@ public class Player extends Entity {
 
     private int flipX = 0;
     private int flipW = 1;
-
     private boolean attackChecked;
     private Playing playing;
-
     private int tileY = 0;
-
     // private int birdStartHeight =
-
     private boolean powerAttackActive;
     private int powerAttackTick;
     private int powerGrowSpeed = 15;
@@ -144,11 +140,10 @@ public class Player extends Entity {
     public void setSpawn(Point spawn) {
     //        this.x = spawn.x;
     //        this.y = spawn.y;
-
-        this.x = 33;
-        this.y = (int)(FlappyGame.GAME_HEIGHT/ 2);
-        hitbox.x = x;
-        hitbox.y = y;
+    this.x = 33;
+    this.y = (int)(FlappyGame.GAME_HEIGHT/ 2);
+    hitbox.x = x;
+    hitbox.y = y;
     }
 
     // The logic in this method works as a toggle switch to keep score
@@ -193,7 +188,6 @@ public class Player extends Entity {
                 aniIndex = 0;
                 playing.setPlayerDying(true);
                 playing.getGame().getAudioPlayer().playEffect(AudioPlayer.DIE);
-
                 // Check if player died in air
                 if (!IsEntityOnFloor(hitbox, lvlData)) {
                     inAir = true;
@@ -205,7 +199,6 @@ public class Player extends Entity {
                 playing.getGame().getAudioPlayer().playEffect(AudioPlayer.GAMEOVER);
             } else {
                 updateAnimationTick();
-
                 // Fall if in air
                 if (inAir)
                     if (CanMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, lvlData)) {
@@ -262,10 +255,8 @@ public class Player extends Entity {
         if (attackChecked || aniIndex != 1)
             return;
         attackChecked = true;
-
         if (powerAttackActive)
             attackChecked = false;
-
         playing.checkEnemyHit(attackBox);
         playing.checkObjectHit(attackBox);
         playing.getGame().getAudioPlayer().playAttackSound();
@@ -286,12 +277,10 @@ public class Player extends Entity {
             } else {
                 setAttackBoxOnLeftSide();
             }
-
         } else if (right || (powerAttackActive && flipW == 1))
             setAttackBoxOnRightSide();
         else if (left || (powerAttackActive && flipW == -1))
             setAttackBoxOnLeftSide();
-
         attackBox.y = hitbox.y + (FlappyGame.SCALE * 10);
     }
 
@@ -358,32 +347,26 @@ public class Player extends Entity {
     }
 
     private void setAnimation() {
-
         int startAni = state;
         // System.out.println("---->  startAni: " + startAni);
-
         if (state == HIT)
             return;
-
         if (moving)
             state = RUNNING;
         else
             state = IDLE;
-
         if (inAir) {
             if (airSpeed < 0)
                 state = JUMP;
             else
                 state = FALLING;
         }
-
         if (powerAttackActive) {
             state = ATTACK;
             aniIndex = 1;
             aniTick = 0;
             return;
         }
-
         if (attacking) {
             state = ATTACK;
             if (startAni != ATTACK) {
@@ -468,29 +451,23 @@ public class Player extends Entity {
 
     private void updatePos() {
         moving = false;
-
         if (jump)
             jump();
         if (!left && !right && !inAir)
             return;
-
         float xSpeed = 0;
-
         if (left)
-            xSpeed -= walkSpeed;
+            xSpeed += walkSpeed;
         if (right)
             xSpeed += walkSpeed;
-
         if (!inAir)
             if (!IsEntityOnFloor(hitbox, lvlData))
                 inAir = true;
-
         // Adding this to collide bird into pipe and set health to zero.
         if (!CanMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, lvlData)) {
             // System.out.println("Bird touching something");
             setUpdateHealthBar(COLLIDED);  // Collide the bird and end game.
         }
-
         if (inAir) {
             if (CanMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, lvlData)) {
                 hitbox.y += airSpeed;
@@ -506,7 +483,6 @@ public class Player extends Entity {
                     airSpeed = fallSpeedAfterCollision;
                 updateXPos(xSpeed);
             }
-
         } else {
             // If the bird hits the floor it will die.
             // System.out.println("Not in air");
@@ -554,7 +530,6 @@ public class Player extends Entity {
             else
                 newState(HIT);
         }
-
         currentHealth += value;
         currentHealth = Math.max(Math.min(currentHealth, maxHealth), 0);
     }
@@ -584,8 +559,9 @@ public class Player extends Entity {
     // Set this value to false to pause bird when game starts.
     public void loadLvlData(int[][] lvlData) {
         this.lvlData = lvlData;
-        if (!IsEntityOnFloor(hitbox, lvlData))
+        if (!IsEntityOnFloor(hitbox, lvlData)) {
             inAir = false;
+        }
     }
 
     public void resetDirBooleans() {
@@ -628,11 +604,9 @@ public class Player extends Entity {
         powerAttackActive = false;
         powerAttackTick = 0;
         powerValue = powerMaxValue;
-
         hitbox.x = x;
         hitbox.y = y;
         resetAttackBox();
-
         if (!IsEntityOnFloor(hitbox, lvlData))
             inAir = true;
     }
