@@ -55,41 +55,6 @@ export function showMatches(user) {
     document.getElementById("displaymatches").appendChild(matchCarousel);
 }
 
-function displayArtists(artists, htmlContainer) {
-    artists.forEach(artist => {
-        const artistName = document.createElement("h3");
-        artistName.classList.add("artist-name");
-        artistName.textContent = artist.name;
-        htmlContainer.appendChild(artistName);
-
-        const artistLink = document.createElement("a");
-        artistLink.href = `https://open.spotify.com/artist/${artist.spotifyID}`;
-        htmlContainer.appendChild(artistLink);
-
-        const artistImage = document.createElement("img");
-        artistImage.classList.add("artist-image");
-        artistImage.src=artist.image;
-        artistImage.style.width = "30%";
-        artistLink.appendChild(artistImage);
-
-    })
-}
-
-function displaySongs(songs, htmlContainer) {
-    songs.forEach(song => {
-        const songName = document.createElement("h3");
-        songName.classList.add("song-name");
-        songName.textContent = `${song.name} by ${song.artist}`;
-        htmlContainer.appendChild(songName);
-
-        const songLink = document.createElement("a");
-        songLink.href = `https://open.spotify.com/track/${song.spotifyID}`;
-        htmlContainer.appendChild(songLink);
-
-        songLink.appendChild(songName);
-    })
-}
-
 async function followUser(userID) {
     const followURL = `https://api.spotify.com/v1/me/following?type=user&ids=${userID}`;
     fetch(followURL, {
@@ -103,7 +68,61 @@ async function followUser(userID) {
       });
 }
 
-export function showTopArtists(topArtists) {
+function displayArtists(artists, htmlContainer) {
+    artists.forEach(artist => {
+        // Create a container for the artist
+        const artistContainer = document.createElement("div");
+        artistContainer.classList.add("artist-container");
+
+        // Create the clickable link for the artist
+        const artistLink = document.createElement("a");
+        artistLink.href = `https://open.spotify.com/artist/${artist.spotifyID}`;
+        artistLink.target = "_blank"; // Opens in a new tab
+        artistLink.rel = "noopener noreferrer"; // Security best practice
+        artistContainer.appendChild(artistLink);
+
+        // Add artist image to the link
+        const artistImage = document.createElement("img");
+        artistImage.classList.add("artist-image");
+        artistImage.src = artist.image;
+        artistImage.alt = artist.name;
+        artistImage.style.width = "30%";
+        artistLink.appendChild(artistImage);
+
+        // Add artist name under the link
+        const artistName = document.createElement("h3");
+        artistName.classList.add("artist-name");
+        artistName.textContent = artist.name;
+        artistContainer.appendChild(artistName);
+
+        htmlContainer.appendChild(artistContainer);
+    });
+}
+
+function displaySongs(songs, htmlContainer) {
+    songs.forEach(song => {
+        // Create a container for the song
+        const songContainer = document.createElement("div");
+        songContainer.classList.add("song-container");
+
+        // Create the clickable link for the song
+        const songLink = document.createElement("a");
+        songLink.href = `https://open.spotify.com/track/${song.spotifyID}`;
+        songLink.target = "_blank"; // Opens in a new tab
+        songLink.rel = "noopener noreferrer"; // Security best practice
+        songContainer.appendChild(songLink);
+
+        // Add song name to the link
+        const songName = document.createElement("h3");
+        songName.classList.add("song-name");
+        songName.textContent = `${song.name} by ${song.artist}`;
+        songLink.appendChild(songName);
+
+        htmlContainer.appendChild(songContainer);
+    });
+}
+
+function showTopArtists(topArtists) {
     const topArtistsContainer = document.getElementById("topArtistsScrollable");
     topArtistsContainer.innerHTML = ""; // Clear any existing content
 
@@ -111,33 +130,36 @@ export function showTopArtists(topArtists) {
         topArtistsContainer.innerText = "No artists found";
     } else {
         topArtists.items.forEach(artist => {
-            // Create container for each artist
+            // Create a container for each artist
             const artistItem = document.createElement("div");
             artistItem.classList.add("artist-item");
 
+            // Create the clickable link for the artist
             const artistLink = document.createElement("a");
-            artistLink.href = `${artist.external_urls.spotify}`; 
-
-            // Create image element for the artist profile
-            const artistImage = document.createElement("img");
-            artistImage.classList.add("artist-image");
-            artistImage.src = artist.images[0]?.url || 'placeholder.jpg'; 
-            artistLink.appendChild(artistImage);
+            artistLink.href = artist.external_urls.spotify;
+            artistLink.target = "_blank"; // Opens in a new tab
+            artistLink.rel = "noopener noreferrer"; // Security best practice
             artistItem.appendChild(artistLink);
 
-            // Create a span for the artist name
+            // Add artist image to the link
+            const artistImage = document.createElement("img");
+            artistImage.classList.add("artist-image");
+            artistImage.src = artist.images[0]?.url || 'placeholder.jpg';
+            artistImage.alt = artist.name;
+            artistLink.appendChild(artistImage);
+
+            // Add artist name under the link
             const artistName = document.createElement("span");
             artistName.classList.add("artist-name");
             artistName.textContent = artist.name;
             artistItem.appendChild(artistName);
 
-            // Append the artist item to the container
             topArtistsContainer.appendChild(artistItem);
         });
     }
 }
 
-export async function showTopSongs(topSongs) {
+function showTopSongs(topSongs) {
     const topSongsContainer = document.getElementById("topSongsScrollable");
     topSongsContainer.innerHTML = ""; // Clear any existing content
 
@@ -145,45 +167,35 @@ export async function showTopSongs(topSongs) {
         topSongsContainer.innerText = "No songs found";
     } else {
         topSongs.items.forEach(song => {
-            // Create container for each song item
+            // Create a container for each song
             const songItem = document.createElement("div");
             songItem.classList.add("song-item");
 
-            // Create image element for the song cover
+            // Create the clickable link for the song
+            const songLink = document.createElement("a");
+            songLink.href = song.external_urls.spotify;
+            songLink.target = "_blank"; // Opens in a new tab
+            songLink.rel = "noopener noreferrer"; // Security best practice
+            songItem.appendChild(songLink);
+
+            // Add song cover image to the link
             const songCover = document.createElement("img");
             songCover.classList.add("song-cover");
-            songCover.src = song.album.images[0]?.url || 'placeholder.jpg'; // Use song cover image or placeholder
-            songItem.appendChild(songCover);
+            songCover.src = song.album.images[0]?.url || 'placeholder.jpg';
+            songCover.alt = song.name;
+            songLink.appendChild(songCover);
 
-            // Create container for song information
+            // Add song name and artist below the link
             const songInfo = document.createElement("div");
             songInfo.classList.add("song-info");
-
-            // Create a span for the song name
-            const songName = document.createElement("span");
-            songName.classList.add("song-name");
-            songName.textContent = song.name;
-            songInfo.appendChild(songName);
-
-            // Create a span for the artist name
-            const artistName = document.createElement("span");
-            artistName.classList.add("artist-name");
-            artistName.textContent = song.artists[0].name;
-            songInfo.appendChild(artistName);
-
-            // Create a span for the "Song" pill label
-            const songPill = document.createElement("span");
-            songPill.classList.add("song-pill");
-            songPill.textContent = "Song";
-
-            // Append the song information to the song item
+            songInfo.innerHTML = `<span>${song.name}</span> <span>${song.artists[0].name}</span>`;
             songItem.appendChild(songInfo);
 
-            // Append the song item to the container
             topSongsContainer.appendChild(songItem);
         });
     }
-  }
+}
+
 
 export function populateUI(profile) {
     /* Display user's data in the UI */
