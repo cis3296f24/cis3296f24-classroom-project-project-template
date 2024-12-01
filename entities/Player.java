@@ -594,6 +594,7 @@ public class Player extends Entity {
     }
 
     public void resetAll() {
+        birdScore = 0;
         resetDirBooleans();
         inAir = false;
         attacking = false;
@@ -608,7 +609,7 @@ public class Player extends Entity {
         hitbox.y = y;
         resetAttackBox();
         if (!IsEntityOnFloor(hitbox, lvlData))
-            inAir = true;
+            inAir = false;                     //  Changed this to test after try again.
     }
 
     private void resetAttackBox() {
