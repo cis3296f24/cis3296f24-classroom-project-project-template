@@ -5,11 +5,16 @@ const crypto = require('crypto');
 const axios = require('axios');
 const session = require('express-session');
 
-//for spaceify user database
+// Configure spaceify user database and friends feature
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-const User = require('./models/User'); // Create this model (below)
-//
+const UserSchema = new mongoose.Schema({
+  username: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  friends: { type: [String], default: [] } //list of friend usernames
+});
+const User = mongoose.model('User', UserSchema);
+module.exports = User;
 
 const app = express();
 const port = 3000; // Define the port variable
@@ -184,5 +189,68 @@ app.post('/spaceify-login', async (req, res) => {
   } catch (error) {
     console.error('Error during login:', error);
     res.status(500).json({ error: 'Internal server error.' });
+  }
+});
+
+// Get the list of friends for a user
+app.get('/friends', async (req, res) => {
+  const username = req.query.username;
+
+  try {
+      const user = await User.findOne({ username });
+      if (!user) {
+          return res.status(404).json({ error: 'User not found.' });
+      }
+      res.json({ friends: user.friends });
+  } catch (error) {
+      console.error('Error fetching friends:', error);
+      res.status(500).json({ error: 'Internal server error.' });
+  }
+});
+
+// Add a friend
+app.post('/friends/add', async (req, res) => {
+  const { username, friendUsername } = req.body;
+
+  try {
+      const user = await User.findOne({ username });
+      const friend = await User.findOne({ username: friendUsername });
+
+      if (!user || !friend) {
+          return res.status(404).json({ error: 'User or friend not found.' });
+      }
+
+      if (user.friends.includes(friendUsername)) {
+          return res.status(400).json({ error: 'Friend already added.' });
+      }
+
+      user.friends.push(friendUsername);
+      await user.save();
+
+      res.status(200).json({ message: 'Friend added successfully.', friends: user.friends });
+  } catch (error) {
+      console.error('Error adding friend:', error);
+      res.status(500).json({ error: 'Internal server error.' });
+  }
+});
+
+// Remove a friend
+app.post('/friends/remove', async (req, res) => {
+  const { username, friendUsername } = req.body;
+
+  try {
+      const user = await User.findOne({ username });
+
+      if (!user) {
+          return res.status(404).json({ error: 'User not found.' });
+      }
+
+      user.friends = user.friends.filter(friend => friend !== friendUsername);
+      await user.save();
+
+      res.status(200).json({ message: 'Friend removed successfully.', friends: user.friends });
+  } catch (error) {
+      console.error('Error removing friend:', error);
+      res.status(500).json({ error: 'Internal server error.' });
   }
 });

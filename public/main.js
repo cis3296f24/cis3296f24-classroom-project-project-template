@@ -1,3 +1,4 @@
+//For cursor glow -> not working yet!
 document.addEventListener('mousemove', function(e) {
     const cursor = document.createElement('div');
     cursor.classList.add('cursor-glow');
@@ -48,6 +49,7 @@ async function loadTopTracks() {
 
 // Display Title on the page and save access token to session storage for redirection purposes
 document.addEventListener("DOMContentLoaded", function() {
+    const username = localStorage.getItem('username') || 'Guest';
     const accessToken = new URLSearchParams(window.location.search).get('access_token');
 
     if (accessToken) {
@@ -75,11 +77,11 @@ document.addEventListener("DOMContentLoaded", function() {
         titleElement.style.textAlign = 'center';
         titleElement.style.fontFamily = "'Arial', sans-serif";
     }
-    const loginMessage = document.querySelector('p');
-    if (loginMessage) {
-        loginMessage.style.color = 'white';
-        loginMessage.style.textAlign = 'center';
-        loginMessage.style.fontFamily = "'Arial', sans-serif";
+    const text = document.querySelector('p');
+    if (text) {
+        text.style.color = 'white';
+        text.style.textAlign = 'center';
+        text.style.fontFamily = "'Arial', sans-serif";
     }
     const loginForm = document.querySelector('form');
     if (loginForm) {
@@ -98,6 +100,22 @@ document.addEventListener("DOMContentLoaded", function() {
         errorMessage.style.color = 'white'; // Change error message font color
         errorMessage.style.textAlign = 'center';
         errorMessage.style.fontFamily = "'Arial', sans-serif";
+    }
+
+    // Fetch friends and set up edit functionality
+    if (window.location.pathname.endsWith('profile.html')) {
+        document.getElementById('username-display').textContent = username;
+        fetchFriends(username);
+
+        const editFriendsButton = document.getElementById('edit-friends-button');
+        if (editFriendsButton) {
+            editFriendsButton.addEventListener('click', () => {
+                const friendUsername = prompt('Enter a username to add a friend OR click on an existing friend below to remove them.');
+                if (friendUsername) {
+                    addFriend(username, friendUsername);
+                }
+            });
+        }
     }
 
     checkAuthentication();
@@ -374,13 +392,13 @@ function displayTracks(tracks) {
 
 // Functionality for Login and redirection to profile page
 document.getElementById("login-form").addEventListener("submit", async (event) => {
-    event.preventDefault(); // Prevent form default submission
+    event.preventDefault();
   
     const username = document.getElementById("user").value;
     const password = document.getElementById("pass").value;
   
     try {
-      // Make a login request to your backend
+      // Make a login request to backend
       const response = await fetch('/spaceify-login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -400,4 +418,76 @@ document.getElementById("login-form").addEventListener("submit", async (event) =
       console.error('Error during login:', error);
       document.getElementById('error-message').textContent = 'An error occurred. Please try again.';
     }
-  });  
+  });
+
+  async function fetchFriends(username) {
+    try {
+        const response = await fetch(`/friends?username=${username}`);
+        const data = await response.json();
+
+        if (response.ok) {
+            const friendsList = document.getElementById('friends-list');
+            friendsList.innerHTML = '<li>Friends:</li>'; // Clear existing list
+
+            data.friends.forEach(friend => {
+                const friendItem = document.createElement('li');
+                friendItem.textContent = friend;
+                friendItem.addEventListener('click', () => {
+                    const confirmRemove = confirm(`Do you want to remove ${friend} from your friends?`);
+                    if (confirmRemove) {
+                        removeFriend(username, friend);
+                    }
+                });
+                friendsList.appendChild(friendItem);
+            });
+        } else {
+            console.error('Error fetching friends:', data.error);
+        }
+    } catch (error) {
+        console.error('Error fetching friends:', error);
+    }
+}
+
+async function addFriend(username, friendUsername) {
+    try {
+        const response = await fetch('/friends/add', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, friendUsername }),
+        });
+        const data = await response.json();
+
+        if (response.ok) {
+            alert('Friend added successfully!');
+            fetchFriends(username);
+        } else {
+            alert(data.error || 'Error adding friend.');
+        }
+    } catch (error) {
+        console.error('Error adding friend:', error);
+    }
+}
+
+async function removeFriend(username, friendUsername) {
+    try {
+        const response = await fetch('/friends/remove', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, friendUsername }),
+        });
+        const data = await response.json();
+
+        if (response.ok) {
+            alert('Friend removed successfully!');
+            fetchFriends(username);
+        } else {
+            alert(data.error || 'Error removing friend.');
+        }
+    } catch (error) {
+        console.error('Error removing friend:', error);
+    }
+}
+
+function goToHome() {
+    window.history.back();
+}

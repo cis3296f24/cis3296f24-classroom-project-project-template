@@ -46,8 +46,9 @@
         }
 
         .friends-list {
-            text-align: left;
+            text-align: center;
             padding: 0;
+            font-weight: bold;
             list-style: none;
             color: #fff;
             font-family: "Arial", sans-serif;
@@ -57,37 +58,44 @@
             margin: 5px 0;
         }
 
-        #home-button {
+        button {
             background-color: #ffffff;
-            color: white;
+            color: black;
             border: none;
             border-radius: 5px;
             padding: 10px 15px;
             cursor: pointer;
-            font-size: 1.5em; /* Make it larger */
-            margin-top: 20px; /* Add spacing at the top */
         }
 
-        #home-button:hover {
+        button:hover {
             background-color: #e5f1fc;
+        }
+
+        .username {
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.5em;
         }
     </style>
 </head>
 <body>
     <div class="profile-container">
         <!-- Profile picture -->
-        <img src="https://via.placeholder.com/100" alt="Profile Picture" class="profile-pic">
+        <img id="profile-pic" src="https://via.placeholder.com/100" alt="Profile Picture" class="profile-pic">
         
         <!-- Username -->
         <div class="username" id="username-display">User123</div>
         
         <!-- Friends list -->
         <ul class="friends-list" id="friends-list">
-            <li>Friends:</li>
-            <li>Friend 1</li>
-            <li>Friend 2</li>
-            <li>Friend 3</li>
+            <li>Your Friends:</li>
+            <!-- Friends will be dynamically populated here -->
         </ul>
+
+        <!-- Edit friends button -->
+        <button id="edit-friends-button">Edit Friends</button>
+
+        <p></p>
 
         <!-- Home button -->
         <button id="home-button" onclick="goToHome()">
@@ -95,26 +103,6 @@
         </button>
     </div>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-        const username = localStorage.getItem('username') || 'Guest';
-        const accessToken = new URLSearchParams(window.location.search).get('access_token');
-
-        if (!accessToken) {
-            alert('Access token missing. Redirecting to login.');
-            window.location.href = '/';
-            return;
-        }
-
-        document.getElementById('username-display').textContent = username;
-
-        // Store access token in sessionStorage (if not already)
-        sessionStorage.setItem('access_token', accessToken);
-        });
-
-        function goToHome() {
-            window.history.back();
-        }
-    </script>
+    <script src="main.js"></script>
 </body>
 </html>
