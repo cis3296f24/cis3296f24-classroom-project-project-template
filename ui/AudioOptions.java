@@ -9,13 +9,24 @@ import java.awt.event.MouseEvent;
 
 import main.FlappyGame;
 
+/**
+ * The AudioOptions class manages the audio settings within the game,
+ * providing control over music and sound effects through a graphical interface.
+ * It allows users to toggle audio and adjust volumes as needed during gameplay.
+ */
 public class AudioOptions {
-
+	// Class variables and methods...
 	private VolumeButton volumeButton;
 	private SoundButton musicButton, sfxButton;
 
 	private FlappyGame flappyGame;
 
+	/**
+	 * The AudioOptions class provides a user interface for adjusting audio settings
+	 * in the game, including toggling music and sound effects and adjusting the volume level.
+	 *
+	 * @param flappyGame The game instance to associate with these audio options.
+	 */
 	public AudioOptions(FlappyGame flappyGame) {
 		this.flappyGame = flappyGame;
 		createSoundButtons();
@@ -28,6 +39,10 @@ public class AudioOptions {
 		volumeButton = new VolumeButton(vX, vY, SLIDER_WIDTH, VOLUME_HEIGHT);
 	}
 
+	/**
+	 * Updates the state of audio buttons, checking for changes in the mute states
+	 * and volume level as needed.
+	 */
 	private void createSoundButtons() {
 		int soundX = (int) (450 * FlappyGame.SCALE);
 		int musicY = (int) (140 * FlappyGame.SCALE);
@@ -36,6 +51,11 @@ public class AudioOptions {
 		sfxButton = new SoundButton(soundX, sfxY, SOUND_SIZE, SOUND_SIZE);
 	}
 
+	/**
+	 * Updates the current state of audio-related UI components,
+	 * such as checking if buttons have been interacted with
+	 * and making necessary visual updates.
+	 */
 	public void update() {
 		musicButton.update();
 		sfxButton.update();
@@ -43,6 +63,11 @@ public class AudioOptions {
 		volumeButton.update();
 	}
 
+	/**
+	 * Draws the audio options on the screen.
+	 *
+	 * @param g The Graphics object used for drawing.
+	 */
 	public void draw(Graphics g) {
 		// Sound buttons
 		musicButton.draw(g);
@@ -52,6 +77,11 @@ public class AudioOptions {
 		volumeButton.draw(g);
 	}
 
+	/**
+	 * Adjusts the volume based on mouse drag events.
+	 *
+	 * @param e The MouseEvent triggered by dragging the mouse.
+	 */
 	public void mouseDragged(MouseEvent e) {
 		if (volumeButton.isMousePressed()) {
 			float valueBefore = volumeButton.getFloatValue();
@@ -62,6 +92,11 @@ public class AudioOptions {
 		}
 	}
 
+	/**
+	 * Handles mouse press events on the audio option buttons.
+	 *
+	 * @param e The MouseEvent triggered by pressing the mouse.
+	 */
 	public void mousePressed(MouseEvent e) {
 		if (isIn(e, musicButton))
 			musicButton.setMousePressed(true);
@@ -71,6 +106,12 @@ public class AudioOptions {
 			volumeButton.setMousePressed(true);
 	}
 
+	/**
+	 * Handles mouse release events on the audio option buttons,
+	 * toggling mute states.
+	 *
+	 * @param e The MouseEvent triggered by releasing the mouse.
+	 */
 	public void mouseReleased(MouseEvent e) {
 		if (isIn(e, musicButton)) {
 			if (musicButton.isMousePressed()) {
@@ -91,6 +132,11 @@ public class AudioOptions {
 		volumeButton.resetBools();
 	}
 
+	/**
+	 * Checks the mouse position to determine button hovering states.
+	 *
+	 * @param e The MouseEvent triggered by moving the mouse.
+	 */
 	public void mouseMoved(MouseEvent e) {
 		musicButton.setMouseOver(false);
 		sfxButton.setMouseOver(false);
@@ -105,6 +151,13 @@ public class AudioOptions {
 			volumeButton.setMouseOver(true);
 	}
 
+	/**
+	 * Determines whether a mouse event occurred within a button's boundary.
+	 *
+	 * @param e The MouseEvent containing the mouse coordinates.
+	 * @param b The PauseButton to check against.
+	 * @return  True if the mouse event is within the button's boundary, false otherwise.
+	 */
 	private boolean isIn(MouseEvent e, PauseButton b) {
 		return b.getBounds().contains(e.getX(), e.getY());
 	}

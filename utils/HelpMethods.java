@@ -1,3 +1,7 @@
+// These methods in the HelpMethods class are responsible for
+// all entity x, y checking and keeping the characters
+// in their own realm without having players or enemies fall of the edge etc.
+
 package utils;
 
 import java.awt.geom.Rectangle2D;

@@ -1,3 +1,7 @@
+// This class resides in gamestates
+// It is responsible the player character and its x y position in game panel.
+// Currently, this game has the ability to be scaled for different monitor sizes.
+
 package gamestates;
 
 import java.awt.Color;

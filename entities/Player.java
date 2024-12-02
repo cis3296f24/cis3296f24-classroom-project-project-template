@@ -1,3 +1,9 @@
+// This class is the actual player class.
+// The player character is chosen when the game begins and
+// this class is responsible to display and interact
+// with user input to change the player behaviour on
+// the display.
+
 package entities;
 
 import static utils.Constants.PlayerConstants.*;

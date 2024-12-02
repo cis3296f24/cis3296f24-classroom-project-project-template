@@ -1,3 +1,6 @@
+// This class is contains all Flappy Bird game constants.
+//
+
 package utils;
 
 import main.FlappyGame;
