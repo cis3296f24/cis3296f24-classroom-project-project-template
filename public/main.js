@@ -88,6 +88,12 @@ document.addEventListener("DOMContentLoaded", function() {
         loginForm.style.color = 'white';
         loginForm.style.textAlign = 'center';
         loginForm.style.fontFamily = "'Arial', sans-serif";
+        loginForm.style.background = 'rgba(255, 255, 255, 0.1)';
+        loginForm.style.borderRadius = '10px';
+        loginForm.style.padding = '20px';
+        loginForm.style.marginTop = '50px';
+        loginForm.style.boxShadow = '0px 4px 6px rgba(0, 0, 0, 0.3)';
+        //loginForm.style.width = '500px';
     }
     const spinner = document.getElementById('spinner');
     if (spinner) {
@@ -107,16 +113,42 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById('username-display').textContent = username;
         fetchFriends(username);
 
-        const editFriendsButton = document.getElementById('edit-friends-button');
-        if (editFriendsButton) {
-            editFriendsButton.addEventListener('click', () => {
-                const friendUsername = prompt('Enter a username to add a friend OR click on an existing friend below to remove them.');
-                if (friendUsername) {
-                    addFriend(username, friendUsername);
-                }
-            });
-        }
+        const friendInput = document.getElementById("friend-input");
+        const manageFriendButton = document.getElementById("manage-friend-button");
 
+        // Handle Add/Remove Friend
+        manageFriendButton.addEventListener("click", async () => {
+            const friendUsername = friendInput.value.trim();
+    
+            if (!friendUsername) {
+            alert("Please enter a username.");
+            return;
+            }
+    
+            try {
+            const response = await fetch("/friends/manage", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                username: localStorage.getItem("username"), // Current logged-in user
+                friendUsername,
+                }),
+            });
+    
+            const data = await response.json();
+    
+            if (response.ok) {
+                alert(data.message);
+                fetchFriends(localStorage.getItem("username")); // Refresh the friends list
+            } else {
+                alert(data.error || "Failed to manage friend.");
+            }
+            } catch (error) {
+                console.error("Error managing friend:", error);
+                alert("An error occurred.");
+            }
+        });
+  
         // For results screenshot upload functionality
         const uploadButton = document.getElementById("upload-screenshot-button");
         const screenshotInput = document.getElementById("screenshot-input");
@@ -503,7 +535,7 @@ document.getElementById("login-form").addEventListener("submit", async (event) =
     }
   });
 
-  async function fetchFriends(username) {
+  /*async function fetchFriends(username) {
     const friendsList = document.getElementById("friends-list");
     friendsList.innerHTML = "";
 
@@ -523,8 +555,38 @@ document.getElementById("login-form").addEventListener("submit", async (event) =
             friendsList.appendChild(friendItem);
         });
         });
+    }*/
+
+    // Fetch and Display Friends
+    async function fetchFriends(username) {
+        const friendsList = document.getElementById("friends-list");
+        friendsList.innerHTML = ""; // Clear the current list
+    
+        try {
+        const response = await fetch(`/friends?username=${username}`);
+        const data = await response.json();
+    
+        if (response.ok) {
+            data.friends.forEach((friend) => {
+            const friendItem = document.createElement("li");
+            friendItem.textContent = friend;
+    
+            // Clicking on a friend's name redirects to their profile
+            friendItem.addEventListener("click", () => {
+                window.location.href = `/friend-profile.html?username=${friend}`;
+            });
+    
+            friendsList.appendChild(friendItem);
+            });
+        } else {
+            console.error("Error fetching friends:", data.error);
+        }
+        } catch (error) {
+        console.error("Error fetching friends:", error);
+        }
     }
 
+    /*
 async function addFriend(username, friendUsername) {
     try {
         const response = await fetch('/friends/add', {
@@ -564,6 +626,7 @@ async function removeFriend(username, friendUsername) {
         console.error('Error removing friend:', error);
     }
 }
+    */
 
 function goToHome() {
     window.history.back();

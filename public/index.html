@@ -41,54 +41,41 @@
       text-align: center;
       margin-top: 20px;
     }
-
-    .login-container {
-      text-align: center;
-      margin-top: 50px;
-    }
-
-    p {
-      margin-top: 20px;
-      font-size: 0.8em;
-    }
-
-    a {
-      color: #fff;
-    }
   </style>
 </head>
 
 
 <body>
-<!--To add cursor glow... not working yet
-<canvas id="c"></canvas>
-<script src="/cursor-glow.js"></script>
--->
-<h1>Spaceify</h1>
 
-<div id="chart"></div>
-<div id="error-message" style="color: red;"></div>
-<div id="spinner"><p>Loading...</p></div>
-<p></p>
-<div class="login-container">
-  <p>Login to your Spaceify account to share your results with friends!</p>
-  <form id="login-form">
-    <input type="text" id="user" placeholder="Username" required/>
-    <input type="password" id="pass" placeholder="Password" required/>
-    <button type="submit">Login</button>
-    <p class="message">Not registered? 
-      <a href="register.html">Create an account</a>
-    </p>
-  </form>
-</div>
-<div id="track-list"></div>
+  <!--To add cursor glow... not working yet
+  <canvas id="c"></canvas>
+  <script src="/cursor-glow.js"></script>
+  -->
+  <h1>Spaceify</h1>
 
-<!--Adding audio to the website-->
-<audio controls autoplay loop>
-  <source src = "space-158081.mp3" type = "audio/mpeg">
-</audio>
+  <div id="chart"></div>
+  <div id="error-message" style="color: red;"></div>
+  <div id="spinner"><p>Loading...</p></div>
+  <p></p>
+  <div class="login-container">
+    <form id="login-form">
+      <p>Login to your Spaceify account to share your results with friends!</p>
+      <input type="text" id="user" placeholder="Username" required/>
+      <input type="password" id="pass" placeholder="Password" required/>
+      <button type="submit">Login</button>
+      <p class="message">Not registered? 
+        <a href="register.html">Create an account</a>
+      </p>
+    </form>
+  </div>
+  <div id="track-list"></div>
 
-<script src="main.js"></script>
+  <!--Adding audio to the website-->
+  <audio controls autoplay loop>
+    <source src = "space-158081.mp3" type = "audio/mpeg">
+  </audio>
+
+  <script src="main.js"></script>
 
 </body>
 </html>

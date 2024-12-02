@@ -221,50 +221,31 @@ app.get('/friends', async (req, res) => {
   }
 });
 
-// Add a friend
-app.post('/friends/add', async (req, res) => {
+// Add/remove friends
+app.post("/friends/manage", async (req, res) => {
   const { username, friendUsername } = req.body;
 
   try {
-      const user = await User.findOne({ username });
-      const friend = await User.findOne({ username: friendUsername });
+    const user = await User.findOne({ username });
+    if (!user) return res.status(404).json({ error: "User not found." });
 
-      if (!user || !friend) {
-          return res.status(404).json({ error: 'User or friend not found.' });
-      }
+    const friend = await User.findOne({ username: friendUsername });
+    if (!friend) return res.status(404).json({ error: "Friend not found." });
 
-      if (user.friends.includes(friendUsername)) {
-          return res.status(400).json({ error: 'Friend already added.' });
-      }
-
+    if (user.friends.includes(friendUsername)) {
+      // Remove friend
+      user.friends = user.friends.filter((f) => f !== friendUsername);
+      await user.save();
+      return res.json({ message: `${friendUsername} removed from your friends.` });
+    } else {
+      // Add friend
       user.friends.push(friendUsername);
       await user.save();
-
-      res.status(200).json({ message: 'Friend added successfully.', friends: user.friends });
+      return res.json({ message: `${friendUsername} added to your friends.` });
+    }
   } catch (error) {
-      console.error('Error adding friend:', error);
-      res.status(500).json({ error: 'Internal server error.' });
-  }
-});
-
-// Remove a friend
-app.post('/friends/remove', async (req, res) => {
-  const { username, friendUsername } = req.body;
-
-  try {
-      const user = await User.findOne({ username });
-
-      if (!user) {
-          return res.status(404).json({ error: 'User not found.' });
-      }
-
-      user.friends = user.friends.filter(friend => friend !== friendUsername);
-      await user.save();
-
-      res.status(200).json({ message: 'Friend removed successfully.', friends: user.friends });
-  } catch (error) {
-      console.error('Error removing friend:', error);
-      res.status(500).json({ error: 'Internal server error.' });
+    console.error("Error managing friend:", error);
+    res.status(500).json({ error: "Internal server error." });
   }
 });
 
