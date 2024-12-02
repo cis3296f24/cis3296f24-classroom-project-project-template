@@ -615,7 +615,7 @@ public class Player extends Entity {
         hitbox.y = y;
         resetAttackBox();
         if (!IsEntityOnFloor(hitbox, lvlData))
-            inAir = true;                     //  Changed this to test after try again.
+            inAir = false;                     //  Keeping this value to false so the bird stays still in the air.
     }
 
     private void resetAttackBox() {
