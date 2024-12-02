@@ -1,3 +1,9 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
+
 /**
  * The CenterSpriteTool class handles the animation and key events for a series of sprites
  * loaded from a sprite sheet. This tool allows the user to move the sprite by pressing
