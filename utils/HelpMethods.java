@@ -67,22 +67,18 @@ public class HelpMethods {
 	public static boolean IsSolid(float x, float y, int[][] lvlData) {
 		//System.out.println("lvlData[1][1]: " + lvlData[1][1]);
 		//System.out.println("lvlData: " + Arrays.stream(lvlData).allMatch(23));
-
 		int maxWidth = lvlData[0].length * FlappyGame.TILES_SIZE;
 		// if (x < 0 || x >= FlappyGame.GAME_WIDTH)
 		if (x < 0 || x >= maxWidth)
 			return true;
 		if (y < 0 || y >= FlappyGame.GAME_HEIGHT)
 			return true;
-
 		float xIndex = x / FlappyGame.TILES_SIZE;
 		float yIndex = y / FlappyGame.TILES_SIZE;
 		int value = lvlData[(int) yIndex][(int) xIndex];
-
 		if (value == 23) {
 			return false;
 		}
-
 		if (value >= 48 || value < 0 || value != 11) {
 			return true;
 			// return false;
