@@ -37,7 +37,8 @@ public class BackgroundTree {
 		}
 	}
 
-	/**
+	/** Returns the animation index from the sprite sheet
+	 *  for example if it's the attack pic or die pic etc.
 	 * @return The current animation index of the tree.
 	 */
 	public int getAniIndex() {
@@ -53,7 +54,7 @@ public class BackgroundTree {
 		this.aniIndex = aniIndex;
 	}
 
-	/**
+	/** Returns the x value.
 	 * @return The current x-coordinate of the tree.
 	 */
 	public int getX() {
@@ -69,7 +70,7 @@ public class BackgroundTree {
 		this.x = x;
 	}
 
-	/**
+	/** Returns the y Value
 	 * @return The current y-coordinate of the tree.
 	 */
 	public int getY() {
@@ -85,7 +86,7 @@ public class BackgroundTree {
 		this.y = y;
 	}
 
-	/**
+	/** Returns the type
 	 * @return The type of the tree.
 	 */
 	public int getType() {
