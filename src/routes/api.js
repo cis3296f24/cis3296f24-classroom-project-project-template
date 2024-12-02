@@ -139,3 +139,32 @@ router.post('/autocomplete', async (req, res) => {
     });
 });
 module.exports = router;
+
+
+router.get('/septa_alerts', async (req, res) => {
+    console.log('GET /api/septa_alerts');
+    const { route } = req.query; // Example: "bus_route_10"
+    const apiUrl = `https://www3.septa.org/api/Alerts/index.php`;
+
+    try {
+        console.log('Fetching data from SEPTA API:', apiUrl);
+        const response = await fetch(apiUrl);
+        if (!response.ok) {
+            throw new Error(`Error fetching SEPTA alerts: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        console.log('Fetched data from SEPTA API:', data);
+
+        // Validate response structure
+        if (!Array.isArray(data)) {
+            throw new Error('Unexpected API response format');
+        }
+
+        res.json(data);
+    } catch (error) {
+        console.error('Error in /api/septa_alerts:', error.message);
+        res.status(500).json({ error: 'Error fetching SEPTA alerts' });
+    }
+});
+
