@@ -1,0 +1,16 @@
+BEFORE RUNNING THE APPLICATION, PLEASE INSTALL THE FOLLOWING PACKAGES:
+
+insert this in your command line:
+
+npm init -y
+
+npm install express path helmet crypto axios express-session
+
+npm install
+
+AFTER INSTALLING THE PACKAGES, PLEASE RUN THE APPLICATION USING THE FOLLOWING COMMAND:
+
+make sure you are on the root directory of the project
+
+run the following command:
+node app.js.

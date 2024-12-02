@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register | Spaceify</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Arial", sans-serif;
+      letter-spacing: 0.1em;
+      background: url('https://www.pixel4k.com/wp-content/uploads/2018/10/sky-full-of-stars-space-4k_1540139420.jpg') no-repeat center center;
+      background-size: cover;
+      color: #fff;
+      overflow: hidden;
+    }
+
+    .register-container {
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    form {
+      display: inline-block;
+      text-align: left;
+    }
+
+    input {
+      display: block;
+      margin-bottom: 15px;
+      padding: 10px;
+      width: 300px;
+      border-radius: 5px;
+      border: none;
+    }
+
+    button {
+        background-color: #ffffff;
+        color: black;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 15px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #e5f1fc;
+    }
+
+    p {
+      margin-top: 20px;
+      font-size: 0.8em;
+    }
+
+    a {
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <div class="register-container">
+    <h2>Create a Spaceify Account</h2>
+    <p>Share your results with friends!</p>
+    <form id="register-form">
+      <input type="text" id="username" placeholder="Username" required />
+      <input type="password" id="password" placeholder="Password" required />
+      <input type="password" id="confirm-password" placeholder="Confirm Password" required />
+      <button type="submit">Register</button>
+    </form>
+    <p>Already made a Spaceify account?</p>
+    <p>👇 Return to Home 👇</p>
+    <button id="home-button" onclick="goToHome()">
+        🏠
+    </button>
+    <div id="error-message" style="color: red;"></div>
+  </div>
+
+  <script>
+    document.getElementById("register-form").addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+    const confirmPassword = document.getElementById("confirm-password").value;
+    const errorMessage = document.getElementById("error-message");
+
+    if (password !== confirmPassword) {
+        errorMessage.textContent = "Passwords do not match.";
+        return;
+    }
+
+    try {
+        const response = await fetch('/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password }),
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            localStorage.setItem('username', result.username); // Store the username
+            sessionStorage.setItem('access_token', result.accessToken); // Store the access token
+            window.location.href = `profile.html?access_token=${result.accessToken}`; // Redirect to profile page
+        } else {
+            errorMessage.textContent = result.error || "Registration failed.";
+        }
+    } catch (error) {
+        errorMessage.textContent = "An error occurred. Please try again.";
+    }
+    });
+
+    function goToHome() {
+        window.history.back();
+    }
+  </script>
+</body>
+</html>
