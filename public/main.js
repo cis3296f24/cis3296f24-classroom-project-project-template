@@ -280,8 +280,8 @@ function renderTracks(data) {
             d3.select(this)
                 .attr("fill", `url(#${patternId})`);
         })
-        .attr("stroke", "white")
-        .attr("stroke-width", 2)
+        //.attr("stroke", "white")
+        //.attr("stroke-width", 2)
         .on("mouseover", async (event, d) => {
             try {
                 // Show the tooltip immediately with basic info
