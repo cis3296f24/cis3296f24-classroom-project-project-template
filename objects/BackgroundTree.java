@@ -2,6 +2,10 @@ package objects;
 
 import java.util.Random;
 
+/**
+ * The Bird class represents a bird in the Flappy Bird game that moves
+ * vertically under the influence of gravity.
+ */
 public class BackgroundTree {
 
 	private int x, y, type, aniIndex, aniTick;

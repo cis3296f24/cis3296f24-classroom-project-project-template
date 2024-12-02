@@ -7,6 +7,15 @@ package utils;
 
 import main.FlappyGame;
 
+
+/**
+ * The Constants class holds various constant values used throughout the Flappy Bird game.
+ * These constants include parameters for game mechanics, environment, UI components,
+ * and other elements that require standardized values. This class serves as a centralized
+ * configuration point to facilitate adjustments and enhancements in the game's features.
+ *
+ * <p>This class is not meant to be instantiated.</p>
+ */
 public class Constants {
 
 	/** The gravitational force applied to objects in the game. */

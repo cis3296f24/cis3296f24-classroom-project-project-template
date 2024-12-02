@@ -44,8 +44,10 @@ public class EnemyManager {
 				isAnyActive = true;
 			}
 
-		if (!isAnyActive)
+		if (!isAnyActive) {
+			// Entering zero here since we don't have enemies in the game.
 			playing.setLevelCompleted(true);
+		}
 	}
 
 	public void draw(Graphics g, int xLvlOffset) {

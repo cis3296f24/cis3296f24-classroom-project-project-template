@@ -68,7 +68,9 @@ public class Playing extends State implements Statemethods {
     private boolean gameCompleted;
     private boolean playerDying;
     private boolean drawRain;
-
+    private int amountOfLevels;
+    private int currentLevel;
+    private int score;
     // Ship will be decided to drawn here. It's just a cool addition to the flappyGame
     // for the first level. Hinting on that the player arrived with the boat.
 
@@ -233,7 +235,6 @@ public class Playing extends State implements Statemethods {
     }
 
     private void checkCloseToBorder() {
-        // System.out.println("xLvlOffset: " + xLvlOffset);
         int playerX = (int) player.getHitbox().x;
         int diff = playerX - xLvlOffset;
         if (diff > rightBorder) {
@@ -241,9 +242,14 @@ public class Playing extends State implements Statemethods {
         }
         else if (diff < leftBorder)
             xLvlOffset += diff - leftBorder;
-        if (xLvlOffset > maxLvlOffsetX) {
-            xLvlOffset = maxLvlOffsetX;
+        if (xLvlOffset > maxLvlOffsetX) {   // Change these values to 1000 for testing.
+            xLvlOffset = maxLvlOffsetX;     // Change these values to 1000 for testing.
             System.out.println("entered maxLvlOffsetX :" + maxLvlOffsetX);
+            amountOfLevels = getLevelManager().getAmountOfLevels();
+            currentLevel = getLevelManager().getCurrentLevel().getLvlOffset();
+            System.out.println("currentLevel:" + currentLevel);
+            System.out.println("amountOfLevels:" + amountOfLevels);
+            setLevelCompleted(true);
         } else if (xLvlOffset < 0) {
             xLvlOffset = 0;
             //  xLvlOffset = Math.max(Math.min(xLvlOffset, maxLvlOffsetX), 0);
@@ -290,21 +296,25 @@ public class Playing extends State implements Statemethods {
         gameCompleted = true;
     }
 
+
     public void resetGameCompleted() {
         gameCompleted = false;
     }
 
     public void resetAll() {
+        if (gameOver) player.setBirdScore(0);
         gameOver = false;
         paused = false;
         lvlCompleted = false;
         playerDying = false;
         drawRain = true;
         setDrawRainBoolean();
-        player.resetAll();
         enemyManager.resetAllEnemies();
         objectManager.resetAllObjects();
         dialogEffects.clear();
+        score = player.getBirdScore();
+        player.resetAll();
+        player.setBirdScore(score);
     }
 
     // Make it snow or rain.
@@ -426,8 +436,7 @@ public class Playing extends State implements Statemethods {
             gameCompletedOverlay.mouseMoved(e);
     }
 
-    // Set level compelted when bird reaches the end.
-
+    // Set level completed when bird reaches the end.
     public void setLevelCompleted(boolean levelCompleted) {
         flappyGame.getAudioPlayer().lvlCompleted();
         if (levelManager.getLevelIndex() + 1 >= levelManager.getAmountOfLevels()) {

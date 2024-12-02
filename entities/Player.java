@@ -309,7 +309,6 @@ public class Player extends Entity {
         // drawAttackBox(g, lvlOffset); This is for if we need to set an attack area for the bird. Not used.
         // drawUI(g);
         updateScore(birdScore, g); // every player re-draw check if scored.
-
     }
 
     // Draws the health bar of the bird in the upper left corner.
@@ -317,6 +316,9 @@ public class Player extends Entity {
         g.setColor(Color.white);
         g.setFont(new Font("Arial", Font.BOLD, 30));
         g.drawString("Score: " + score, 50, 50);
+        g.setColor(Color.white);
+        g.setFont(new Font("Arial", Font.BOLD, 30));
+        g.drawString("Level: " + playing.getLevelManager().getLevelIndex(), 350, 50);
     }
 
     // Draws the health bar of the bird in the upper left corner.
@@ -573,6 +575,8 @@ public class Player extends Entity {
     public void resetDirBooleans() {
         left = false;
         right = false;
+        // up = false;
+        // down = false;
     }
 
     public void setAttacking(boolean attacking) {
@@ -599,8 +603,15 @@ public class Player extends Entity {
         this.jump = jump;
     }
 
+    public int getBirdScore() {
+        return birdScore;
+    }
+
+    public void setBirdScore(int birdScore) {
+        this.birdScore = birdScore;
+    }
+
     public void resetAll() {
-        birdScore = 0;
         resetDirBooleans();
         inAir = false;
         attacking = false;
