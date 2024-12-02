@@ -122,7 +122,10 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html')); // Serve your HTML file
 });
 
-//starts the server and logs a message to the console
-app.listen(port, () => {
+
+// Start the server and export the instance
+const server = app.listen(port, () => {
   console.log(`App running at http://localhost:${port}`);
 });
+
+module.exports = server;
