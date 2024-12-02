@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-    <title>User Profile</title>
+    <title>My Profile | Spaceify</title>
     <style>
         body {
-            display: flex; /* Enable flexbox on body */
-            justify-content: center; /* Center horizontally */
-            align-items: center; /* Center vertically */
+            display: flex;
+            justify-content: center;
+            align-items: center;
             height: 100vh;
             margin: 0;
             padding: 0;
@@ -23,11 +23,11 @@
 
         .profile-container {
             text-align: center;
-            background: rgba(255, 255, 255, 0.1); /* Slightly transparent background */
+            background: rgba(255, 255, 255, 0.1);
             padding: 20px;
             border-radius: 10px;
             width: 300px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
         }
 
         .profile-pic {
@@ -76,15 +76,44 @@
             font-weight: bold;
             font-size: 1.5em;
         }
+
+        .username {
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.5em;
+        }
+
+        #upload-date {
+            text-align: center;
+            font-weight: bold;
+            font-size: 0.75em;
+            color: red;
+            font-family: "Arial", sans-serif;
+        }
+
+        p {
+            text-align: center;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
     <div class="profile-container">
         <!-- Profile picture -->
-        <img id="profile-pic" src="https://via.placeholder.com/100" alt="Profile Picture" class="profile-pic">
+        <img id="profile-pic" src="earth.jpg" alt="Profile Picture" class="profile-pic">
         
         <!-- Username -->
         <div class="username" id="username-display">User123</div>
+
+        <div class="screenshot-container">
+            <p>Your Shared Results:</p>
+            <img id="screenshot" src="placeholder.jpg"/>
+            <p id="upload-date">No results uploaded yet</p>
+          
+            <button id="upload-screenshot-button">Upload a Screenshot of Your Results</button>
+            <input type="file" id="screenshot-input" style="display: none;" accept="image/*" />
+        </div>
+          
         
         <!-- Friends list -->
         <ul class="friends-list" id="friends-list">

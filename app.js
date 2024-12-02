@@ -1,4 +1,5 @@
 const express = require('express');
+const multer = require("multer");
 const path = require('path');
 const helmet = require('helmet');
 const crypto = require('crypto');
@@ -15,6 +16,18 @@ const UserSchema = new mongoose.Schema({
 });
 const User = mongoose.model('User', UserSchema);
 module.exports = User;
+
+// Configure multer for uploading results image
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, path.join(__dirname, "public/uploads"));
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(null, uniqueSuffix + path.extname(file.originalname));
+  },
+});
+const upload = multer({ storage });
 
 const app = express();
 const port = 3000; // Define the port variable
@@ -252,5 +265,53 @@ app.post('/friends/remove', async (req, res) => {
   } catch (error) {
       console.error('Error removing friend:', error);
       res.status(500).json({ error: 'Internal server error.' });
+  }
+});
+
+// Upload a screenshot of your results
+app.post("/upload-screenshot", upload.single("screenshot"), async (req, res) => {
+  const username = req.session.username;
+
+  if (!username) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+
+  try {
+    const filePath = `/uploads/${req.file.filename}`;
+    const uploadDate = new Date();
+
+    // Update user's screenshot and upload date
+    await User.updateOne(
+      { username },
+      { screenshot: filePath, uploadDate }
+    );
+
+    res.json({ screenshot: filePath, uploadDate });
+  } catch (error) {
+    console.error("Error uploading screenshot:", error);
+    res.status(500).json({ error: "Failed to upload screenshot." });
+  }
+});
+
+// Fetch another user's details such as friends and uploaded results screenshot
+app.get("/profile-data", async (req, res) => {
+  const { username } = req.query;
+
+  try {
+    const user = await User.findOne({ username });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found." });
+    }
+
+    res.json({
+      username: user.username,
+      friends: user.friends,
+      screenshot: user.screenshot,
+      uploadDate: user.uploadDate,
+    });
+  } catch (error) {
+    console.error("Error fetching profile data:", error);
+    res.status(500).json({ error: "Failed to fetch profile data." });
   }
 });

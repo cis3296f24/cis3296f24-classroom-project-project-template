@@ -102,7 +102,7 @@ document.addEventListener("DOMContentLoaded", function() {
         errorMessage.style.fontFamily = "'Arial', sans-serif";
     }
 
-    // Fetch friends and set up edit functionality
+    // Profile page functionality
     if (window.location.pathname.endsWith('profile.html')) {
         document.getElementById('username-display').textContent = username;
         fetchFriends(username);
@@ -116,6 +116,89 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
             });
         }
+
+        // For results screenshot upload functionality
+        const uploadButton = document.getElementById("upload-screenshot-button");
+        const screenshotInput = document.getElementById("screenshot-input");
+        const screenshotImg = document.getElementById("screenshot");
+        const uploadDateText = document.getElementById("upload-date");
+        uploadButton.addEventListener("click", () => {
+            screenshotInput.click();
+        });
+        screenshotInput.addEventListener("change", async () => {
+            const file = screenshotInput.files[0];
+            if (file) {
+            const formData = new FormData();
+            formData.append("screenshot", file);
+    
+            try {
+                const response = await fetch("/upload-screenshot", {
+                method: "POST",
+                body: formData,
+                });
+    
+                const data = await response.json();
+                if (response.ok) {
+                screenshotImg.src = data.screenshot;
+                uploadDateText.textContent = `Uploaded on: ${new Date(data.uploadDate).toLocaleDateString()}`;
+                } else {
+                alert(data.error || "Failed to upload screenshot.");
+                }
+            } catch (error) {
+                console.error("Error uploading screenshot:", error);
+                alert("An error occurred while uploading your screenshot.");
+            }
+            }
+        });
+        async function fetchUserProfile() {
+            try {
+            const response = await fetch(`/profile-data?username=${localStorage.getItem("username")}`);
+            const data = await response.json();
+    
+            if (response.ok) {
+                screenshotImg.src = data.screenshot || "placeholder.jpg";
+                uploadDateText.textContent = data.uploadDate
+                ? `Uploaded on: ${new Date(data.uploadDate).toLocaleDateString()}`
+                : "(No results uploaded yet)";
+            } else {
+                console.error("Error fetching user profile:", data.error);
+            }
+            } catch (error) {
+            console.error("Error fetching user profile:", error);
+            }
+        }
+        fetchUserProfile();
+    }
+
+    // Friend profile functionality
+    if (window.location.pathname.endsWith("friend-profile.html")) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const friendUsername = urlParams.get("username");
+
+        const friendUsernameElement = document.getElementById("friend-username");
+        const friendScreenshotElement = document.getElementById("friend-screenshot");
+        const friendUploadDateElement = document.getElementById("friend-upload-date");
+
+        async function fetchFriendProfile() {
+        try {
+            const response = await fetch(`/profile-data?username=${friendUsername}`);
+            const data = await response.json();
+
+            if (response.ok) {
+            friendUsernameElement.textContent = data.username;
+            friendScreenshotElement.src = data.screenshot || "placeholder.jpg";
+            friendUploadDateElement.textContent = data.uploadDate
+                ? `Uploaded on: ${new Date(data.uploadDate).toLocaleDateString()}`
+                : "No screenshot uploaded yet.";
+            } else {
+            console.error("Error fetching friend profile:", data.error);
+            }
+        } catch (error) {
+            console.error("Error fetching friend profile:", error);
+        }
+        }
+
+        fetchFriendProfile();
     }
 
     checkAuthentication();
@@ -421,32 +504,26 @@ document.getElementById("login-form").addEventListener("submit", async (event) =
   });
 
   async function fetchFriends(username) {
-    try {
-        const response = await fetch(`/friends?username=${username}`);
-        const data = await response.json();
+    const friendsList = document.getElementById("friends-list");
+    friendsList.innerHTML = "";
 
-        if (response.ok) {
-            const friendsList = document.getElementById('friends-list');
-            friendsList.innerHTML = '<li>Friends:</li>'; // Clear existing list
+    // Fetch friends and render their profiles
+    fetch(`/friends?username=${username}`)
+        .then((response) => response.json())
+        .then((data) => {
+        data.friends.forEach((friend) => {
+            const friendItem = document.createElement("li");
+            friendItem.textContent = friend;
 
-            data.friends.forEach(friend => {
-                const friendItem = document.createElement('li');
-                friendItem.textContent = friend;
-                friendItem.addEventListener('click', () => {
-                    const confirmRemove = confirm(`Do you want to remove ${friend} from your friends?`);
-                    if (confirmRemove) {
-                        removeFriend(username, friend);
-                    }
-                });
-                friendsList.appendChild(friendItem);
+            // Clicking on a friend redirects to their profile
+            friendItem.addEventListener("click", () => {
+            window.location.href = `/friend-profile.html?username=${friend}`;
             });
-        } else {
-            console.error('Error fetching friends:', data.error);
-        }
-    } catch (error) {
-        console.error('Error fetching friends:', error);
+
+            friendsList.appendChild(friendItem);
+        });
+        });
     }
-}
 
 async function addFriend(username, friendUsername) {
     try {
