@@ -609,7 +609,7 @@ public class Player extends Entity {
         hitbox.y = y;
         resetAttackBox();
         if (!IsEntityOnFloor(hitbox, lvlData))
-            inAir = false;                     //  Changed this to test after try again.
+            inAir = true;                     //  Changed this to test after try again.
     }
 
     private void resetAttackBox() {
