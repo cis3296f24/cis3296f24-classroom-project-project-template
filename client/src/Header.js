@@ -92,14 +92,6 @@ export default function Header() {
             Calendar
           </NavLink>
 
-          <NavLink
-            to="/progresstracker"
-            className={({ isActive }) => 
-              isActive ? "text-sm font-semibold text-indigo-400" : "text-sm font-semibold text-link"
-            }
-          >
-            Progress Tracker
-          </NavLink>
         </div>
 
         {/* User Dropdown or Login Link */}
@@ -117,6 +109,9 @@ export default function Header() {
                   </button>
                   <NavLink to="/friend" className="block px-4 py-2 text-link font-semibold hover:bg-gray-700">
                     Friends
+                  </NavLink>
+                  <NavLink to="/progresstracker" className="block px-4 py-2 text-link font-semibold hover:bg-gray-700">
+                    Progress Tracker
                   </NavLink>
                   <NavLink to="/settings" className="block px-4 py-2 text-link font-semibold hover:bg-gray-700">
                     Settings

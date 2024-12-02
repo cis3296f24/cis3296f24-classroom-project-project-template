@@ -12,6 +12,7 @@ const Task = () => {
   const [newTask, setNewTask] = useState({ description: '', time: '', priority: '' });
   const [clickedDate, setClickedDate] = useState(null);
 
+
   const daysInMonth = new Date(
     currentDate.getFullYear(),
     currentDate.getMonth() + 1,
