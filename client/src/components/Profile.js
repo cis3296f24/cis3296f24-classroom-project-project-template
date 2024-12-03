@@ -7,6 +7,7 @@ import { AuthContext } from './helper/auth';
 
 function Profile() {
   const { userId } = useParams();
+
   const [user, setUser] = useState(null);
   const [error, setError] = useState('');
 
@@ -83,27 +84,6 @@ function Profile() {
           <div className="absolute -inset-0.5 bg-gradient-to-r from-pink-600 to-purple-600 rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt"></div>
 
           <main className="profile-page">
-            <section className="relative block h-500-px">
-              <div
-                className="top-auto bottom-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden h-70-px"
-                style={{ transform: "translateZ(0px)" }}
-              >
-                <svg
-                  className="absolute bottom-0 overflow-hidden"
-                  xmlns="http://www.w3.org/2000/svg"
-                  preserveAspectRatio="none"
-                  version="1.1"
-                  viewBox="0 0 2560 100"
-                  x="0"
-                  y="0"
-                >
-                  <polygon
-                    className="text-blueGray-200 fill-current"
-                    points="2560 0 2560 100 0 100"
-                  ></polygon>
-                </svg>
-              </div>
-            </section>
             <section className="relative py-16 bg-blueGray-200">
               <div className="container mx-auto px-4">
                 <div className="relative flex flex-col min-w-0 break-words w-full mb-6 rounded-lg">
@@ -124,7 +104,7 @@ function Profile() {
                             <div className="grid gap-8 items-start justify-center">
                               <div className="relative group">
                                 <div className="absolute -inset-0.5 bg-gradient-to-r from-pink-600 to-purple-600 rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt"></div>
-                                <NavLink to="/progresstracker">
+                                <NavLink to={`/progress/${userId}`}>
                                   <button className="relative px-7 py-4 bg-black rounded-lg leading-none flex items-center divide-x divide-gray-600">
                                     <span className="flex items-center space-x-5">
                                       <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-pink-600 -rotate-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
