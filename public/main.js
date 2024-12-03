@@ -214,6 +214,7 @@ function renderTracks(data) {
 
     let planetPosition = 1;
     let textPosition = 1;
+
     svg.selectAll("circle")
         .data(topArtists)
         .enter()
@@ -330,6 +331,46 @@ function renderTracks(data) {
         })
         .on("mouseout", () => {
             tooltip.style("display", "none");
+        })
+        .on("click", (event, d) => {
+            // Open a new window with the track list for the clicked artist
+            const newWindow = window.open("", "_blank", "width=600,height=400");
+            newWindow.document.write(`
+                <html>
+                <head>
+                    <title>${d.key} - Track List</title>
+                    <style>
+                        body {
+                            font-family: Arial, sans-serif;
+                            background-color: #121212;
+                            color: white;
+                            margin: 0;
+                            padding: 20px;
+                        }
+                        h1 {
+                            text-align: center;
+                        }
+                        ul {
+                            list-style-type: none;
+                            padding: 0;
+                        }
+                        li {
+                            margin: 5px 0;
+                            padding: 5px;
+                            background: rgba(255, 255, 255, 0.1);
+                            border-radius: 5px;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <h1>${d.key} - Track List</h1>
+                    <ul id="track-list"></ul>
+                </body>
+                </html>
+            `);
+    
+            // Fetch tracks for the clicked artist and populate the list
+            fetchTracksForArtist(d.id, newWindow);
         });
 
     svg.selectAll(".artist-label")
@@ -341,6 +382,35 @@ function renderTracks(data) {
         .attr("y", d => yScale(d.value.avgDuration) + 5)
         .attr("text-anchor", "middle")
         .text(d => d.key);
+}
+
+async function fetchTracksForArtist(artistId, newWindow) {
+    try {
+        const accessToken = getAccessToken();
+        const response = await fetch(`https://api.spotify.com/v1/artists/${artistId}/top-tracks?market=US`, {
+            headers: {
+                'Authorization': `Bearer ${accessToken}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch tracks for the artist');
+        }
+
+        const trackData = await response.json();
+        const trackList = trackData.tracks;
+
+        // Add track names to the new window's track list
+        const trackListElement = newWindow.document.getElementById('track-list');
+        trackList.forEach(track => {
+            const trackItem = newWindow.document.createElement('li');
+            trackItem.textContent = track.name;
+            trackListElement.appendChild(trackItem);
+        });
+    } catch (error) {
+        console.error('Error fetching tracks for artist:', error);
+        newWindow.document.body.innerHTML = `<p>Error loading tracks for this artist. Please try again later.</p>`;
+    }
 }
 
 function displayTracks(tracks) {
@@ -365,7 +435,7 @@ function displayTracks(tracks) {
         artistItem.textContent = `${artist.key} (${artist.value.count} tracks)`;
         artistItem.style.color = 'white';
         artistItem.style.fontWeight = 'bold';
-        trackList.appendChild(artistItem);
+        //trackList.appendChild(artistItem);
 
         const trackTitles = document.createElement('ul');
         artist.value.tracks.forEach(track => {
@@ -374,7 +444,7 @@ function displayTracks(tracks) {
             trackItem.style.color = 'white';
             trackTitles.appendChild(trackItem);
         });
-        trackList.appendChild(trackTitles);
+        //trackList.appendChild(trackTitles);
     });
 }
 
