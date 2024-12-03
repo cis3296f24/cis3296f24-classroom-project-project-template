@@ -496,8 +496,9 @@ function renderTracks(data) {
                 </html>
             `);
     
-            newWindow.onload = () => {
-                fetchTracksForArtist(d.id, newWindow);
+            newWindow.onload = async () => {
+                console.log('New window loaded');
+                await fetchTracksForArtist(d.id, newWindow);
             };
         });
 
@@ -513,6 +514,7 @@ function renderTracks(data) {
 }
 
 async function fetchTracksForArtist(artistId, newWindow) {
+    console.log('fetchTracksForArtist called with artistId:', artistId);
     try {
         const accessToken = sessionStorage.getItem("access_token");
         if (!accessToken) {
