@@ -25,6 +25,7 @@ function getAccessToken() {
     const params = new URLSearchParams(window.location.search);
     return params.get('access_token');
 }
+const d3 = require('d3');
 
 async function checkAuthentication() {
     try {
@@ -382,34 +383,56 @@ function displayTracks(tracks) {
 document.addEventListener("DOMContentLoaded", () => {
     // Handle Login Form Submission
     const loginForm = document.getElementById("login-form");
-  
+
     if (loginForm) {
-      loginForm.addEventListener("submit", (event) => {
-        event.preventDefault();
-        
-        const username = document.getElementById("user").value;
-        const password = document.getElementById("pass").value;
-  
-        // Temporary hardcoded check (to be replaced with server-side logic)
-        if (username === "Admin" && password === "Password123") {
-          localStorage.setItem("username", username);
-          window.location.href = "/login"; // Redirect to start server-side authentication
-        } else {
-          document.getElementById("error-message").textContent = "Invalid username or password.";
-        }
-      })
+        loginForm.addEventListener("submit", (event) => {
+            event.preventDefault();
+
+            const username = document.getElementById("user").value;
+            const password = document.getElementById("pass").value;
+
+            // Temporary hardcoded check (to be replaced with server-side logic)
+            if (username === "Admin" && password === "Password123") {
+                localStorage.setItem("username", username);
+                window.location.href = "/login"; // Redirect to start server-side authentication
+            } else {
+                document.getElementById("error-message").textContent = "Invalid username or password.";
+            }
+        })
     }
     // Example: Handle logic for other pages (e.g., profile.html)
-  const currentPage = window.location.pathname;
+    const currentPage = window.location.pathname;
 
-  if (currentPage === "/profile.html") {
-    const accessToken = new URLSearchParams(window.location.search).get("access_token");
-    if (!accessToken) {
-      alert("Access token missing! Redirecting to login.");
-      window.location.href = "/";
-    } else {
-      console.log("Access token found:", accessToken);
-      // Perform authenticated actions here (e.g., fetch user data)
+    if (currentPage === "/profile.html") {
+        const accessToken = new URLSearchParams(window.location.search).get("access_token");
+        if (!accessToken) {
+            alert("Access token missing! Redirecting to login.");
+            window.location.href = "/";
+        } else {
+            console.log("Access token found:", accessToken);
+            // Perform authenticated actions here (e.g., fetch user data)
+        }
     }
-  }
+
+    function loginFormHandler(event) {
+        event.preventDefault();
+        const username = document.getElementById('user').value;
+        const password = document.getElementById('pass').value;
+        const errorMessage = document.getElementById('error-message');
+
+        if (username === 'Admin' && password === 'Password123') {
+            localStorage.setItem('username', username);
+            window.location.href = '/login';
+        } else {
+            errorMessage.textContent = 'Invalid username or password.';
+        }
+    }
+
+    module.exports = {
+        checkAuthentication,
+        fetchTracks,
+        renderTracks,
+        loginFormHandler,
+
+    };
 })
