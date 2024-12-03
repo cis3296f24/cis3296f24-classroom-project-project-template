@@ -496,8 +496,9 @@ function renderTracks(data) {
                 </html>
             `);
     
-            // Fetch tracks for the clicked artist and populate the list
-            fetchTracksForArtist(d.id, newWindow);
+            newWindow.onload = () => {
+                fetchTracksForArtist(d.id, newWindow);
+            };
         });
 
     svg.selectAll(".artist-label")
@@ -513,7 +514,12 @@ function renderTracks(data) {
 
 async function fetchTracksForArtist(artistId, newWindow) {
     try {
-        const accessToken = getAccessToken();
+        const accessToken = sessionStorage.getItem("access_token");
+        if (!accessToken) {
+            throw new Error("Access token is missing or expired.");
+        }
+
+        // Fetch top tracks from Spotify API
         const response = await fetch(`https://api.spotify.com/v1/artists/${artistId}/top-tracks?market=US`, {
             headers: {
                 'Authorization': `Bearer ${accessToken}`
@@ -527,18 +533,29 @@ async function fetchTracksForArtist(artistId, newWindow) {
         const trackData = await response.json();
         const trackList = trackData.tracks;
 
-        // Add track names to the new window's track list
-        const trackListElement = newWindow.document.getElementById('track-list');
-        trackList.forEach(track => {
-            const trackItem = newWindow.document.createElement('li');
-            trackItem.textContent = track.name;
-            trackListElement.appendChild(trackItem);
-        });
+        // Ensure the DOM is loaded in the new window before appending
+        newWindow.onload = () => {
+            const trackListElement = newWindow.document.getElementById('track-list');
+
+            if (!trackListElement) {
+                throw new Error("Track list element not found in the new window.");
+            }
+
+            // Add track names to the new window's track list
+            trackList.forEach(track => {
+                const trackItem = newWindow.document.createElement('li');
+                trackItem.textContent = track.name;
+                trackListElement.appendChild(trackItem);
+            });
+        };
     } catch (error) {
         console.error('Error fetching tracks for artist:', error);
-        newWindow.document.body.innerHTML = `<p>Error loading tracks for this artist. Please try again later.</p>`;
+        newWindow.document.body.innerHTML = `
+            <p style="color: white;">Error loading tracks for this artist. Please try again later.</p>`;
     }
 }
+
+console.log("Track Data:", trackData);
 
 function displayTracks(tracks) {
     const trackList = document.getElementById('track-list');
