@@ -110,7 +110,7 @@ export default function Header() {
                   <NavLink to="/friend" className="block px-4 py-2 text-link font-semibold hover:bg-gray-700">
                     Friends
                   </NavLink>
-                  <NavLink to="/progresstracker" className="block px-4 py-2 text-link font-semibold hover:bg-gray-700">
+                  <NavLink to="/progress" className="block px-4 py-2 text-link font-semibold hover:bg-gray-700">
                     Progress Tracker
                   </NavLink>
                   <NavLink to="/settings" className="block px-4 py-2 text-link font-semibold hover:bg-gray-700">
@@ -162,7 +162,7 @@ export default function Header() {
                 <NavLink to="/yourChallenge" onClick={() => setMobileMenuOpen(false)} className="-mx-3 block rounded-lg px-3 py-2 text-base text-link font-semibold hover:bg-gray-700">
                   Create Challenges
                 </NavLink>
-                <NavLink to="/progresstracker" onClick={() => setMobileMenuOpen(false)} className="block rounded-lg px-3 py-2 text-base font-semibold text-link hover:bg-gray-700">
+                <NavLink to="/progress" onClick={() => setMobileMenuOpen(false)} className="block rounded-lg px-3 py-2 text-base font-semibold text-link hover:bg-gray-700">
                   Progress Tracker
                 </NavLink>
               </div>
