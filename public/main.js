@@ -340,6 +340,7 @@ function renderTracks(data) {
 
     let planetPosition = 1;
     let textPosition = 1;
+
     svg.selectAll("circle")
         .data(topArtists)
         .enter()
@@ -456,6 +457,69 @@ function renderTracks(data) {
         })
         .on("mouseout", () => {
             tooltip.style("display", "none");
+        })
+        .on("click", (event, d) => {
+            // Open a new window with the track list for the clicked artist
+            const newWindow = window.open("", "_blank", "width=600,height=400");
+            newWindow.document.write(`
+                <html>
+                <head>
+                    <title>${d.key} - Track List</title>
+                    <style nonce="abc123">
+                        body {
+                            font-family: monospace;
+                            background-color: rgba(0, 0, 100, 1);
+                            color: white;
+                            margin: 0;
+                            padding: 20px;
+                        }
+                        h1 {
+                            text-align: center;
+                        }
+                        ul {
+                            list-style-type: none;
+                            padding: 0;
+                        }
+                        li {
+                            margin: 5px 0;
+                            padding: 5px;
+                            background: rgba(255, 255, 255, 0.1);
+                            border-radius: 5px;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <h1>${d.key} - Track List</h1>
+                    <ul id="track-list"></ul>
+                    <script nonce="abc123">
+                        async function fetchTracks() {
+                            console.log('Fetching tracks...');
+                            const response = await fetch(
+                                'https://api.spotify.com/v1/artists/${d.id}/top-tracks?market=US',
+                                { headers: { Authorization: 'Bearer ${accessToken}' } }
+                            );
+                            if (response.ok) {
+                                const data = await response.json();
+                                const list = document.getElementById('track-list');
+                                data.tracks.forEach(track => {
+                                    const li = document.createElement('li');
+                                    li.textContent = track.name;
+                                    list.appendChild(li);
+                                });
+                            } else {
+                                console.error('Failed to fetch tracks');
+                            }
+                        }
+                        fetchTracks();
+                    </script>
+                </body>
+                </html>
+            `);
+    
+            /*newWindow.onload = async () => {
+                console.log('New window loaded');
+                await fetchTracksForArtist(d.id, newWindow);
+            };*/
         });
 
     svg.selectAll(".artist-label")
@@ -468,6 +532,52 @@ function renderTracks(data) {
         .attr("text-anchor", "middle")
         .text(d => d.key);
 }
+
+async function fetchTracksForArtist(artistId, newWindow) {
+    console.log('fetchTracksForArtist called with artistId:', artistId);
+    try {
+        const accessToken = sessionStorage.getItem("access_token");
+        if (!accessToken) {
+            throw new Error("Access token is missing or expired.");
+        }
+
+        // Fetch top tracks from Spotify API
+        const response = await fetch(`https://api.spotify.com/v1/artists/${artistId}/top-tracks?market=US`, {
+            headers: {
+                'Authorization': `Bearer ${accessToken}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch tracks for the artist');
+        }
+
+        const trackData = await response.json();
+        const trackList = trackData.tracks;
+
+        // Ensure the DOM is loaded in the new window before appending
+        newWindow.onload = () => {
+            const trackListElement = newWindow.document.getElementById('track-list');
+
+            if (!trackListElement) {
+                throw new Error("Track list element not found in the new window.");
+            }
+
+            // Add track names to the new window's track list
+            trackList.forEach(track => {
+                const trackItem = newWindow.document.createElement('li');
+                trackItem.textContent = track.name;
+                trackListElement.appendChild(trackItem);
+            });
+        };
+    } catch (error) {
+        console.error('Error fetching tracks for artist:', error);
+        newWindow.document.body.innerHTML = `
+            <p style="color: white;">Error loading tracks for this artist. Please try again later.</p>`;
+    }
+}
+
+console.log("Track Data:", trackData);
 
 function displayTracks(tracks) {
     const trackList = document.getElementById('track-list');
@@ -572,6 +682,51 @@ document.getElementById("login-form").addEventListener("submit", async (event) =
         console.error("Error fetching friends:", error);
         }
     }
+
+    /*
+async function addFriend(username, friendUsername) {
+    try {
+        const response = await fetch('/friends/add', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, friendUsername }),
+        });
+        const data = await response.json();
+
+        if (response.ok) {
+            alert('Friend added successfully!');
+            fetchFriends(username);
+        } else {
+            alert(data.error || 'Error adding friend.');
+        }
+    } catch (error) {
+        console.error('Error adding friend:', error);
+    }
+
+  }
+})
+}
+
+async function removeFriend(username, friendUsername) {
+    try {
+        const response = await fetch('/friends/remove', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, friendUsername }),
+        });
+        const data = await response.json();
+
+        if (response.ok) {
+            alert('Friend removed successfully!');
+            fetchFriends(username);
+        } else {
+            alert(data.error || 'Error removing friend.');
+        }
+    } catch (error) {
+        console.error('Error removing friend:', error);
+    }
+}
+    */
 
 function goToHome() {
     window.history.back();

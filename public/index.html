@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https://i.scdn.co; style-src 'self' 'nonce-${res.locals.nonce}' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' 'nonce-${res.locals.nonce}' https://d3js.org; connect-src 'self' https://api.spotify.com;">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https://i.scdn.co; style-src 'self' 'nonce-abc123' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' 'nonce-abc123' https://d3js.org; connect-src 'self' https://api.spotify.com;">
   <title>Home | Spaceify</title>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <script nonce="${res.locals.nonce}" src="/main.js"></script>
@@ -32,11 +32,6 @@
     #spinner {
       text-align: center;
     }
-
-    #track-list {
-      text-align: center;
-      margin-top: 20px;
-    }
   </style>
 </head>
 
@@ -44,6 +39,10 @@
 <body>
 
   <h1>Spaceify</h1>
+
+  <div class="tracklist">
+    <p>Click on a planet to view your top tracks from the artist!</p>
+  </div>
 
   <div id="chart"></div>
   <div id="error-message" style="color: red;"></div>
@@ -60,8 +59,11 @@
       </p>
     </form>
   </div>
+<<<<<<< HEAD
+=======
   <p></p>
   <div id="track-list"></div>
+>>>>>>> 765175ad1384b434de07722bceca7a00f76b3540
 
   <!--Adding audio to the website-->
   <audio controls autoplay loop>
