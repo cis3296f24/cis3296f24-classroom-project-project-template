@@ -683,7 +683,6 @@ document.getElementById("login-form").addEventListener("submit", async (event) =
         }
     }
 
-<<<<<<< HEAD
     /*
 async function addFriend(username, friendUsername) {
     try {
@@ -729,8 +728,6 @@ async function removeFriend(username, friendUsername) {
 }
     */
 
-=======
->>>>>>> 765175ad1384b434de07722bceca7a00f76b3540
 function goToHome() {
     window.history.back();
 }
