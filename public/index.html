@@ -3,11 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https://i.scdn.co; style-src 'self' 'nonce-${res.locals.nonce}' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' 'nonce-${res.locals.nonce}' https://d3js.org; connect-src 'self' https://api.spotify.com;">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https://i.scdn.co; style-src 'self' 'nonce-abc123' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' 'nonce-abc123' https://d3js.org; connect-src 'self' https://api.spotify.com;">
   <title>Home | Spaceify</title>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <script nonce="${res.locals.nonce}" src="/main.js"></script>
   <script nonce="${res.locals.nonce}" src="https://d3js.org/d3.v6.min.js"></script>
+  <!--To add cursor glow... not working yet-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.14.2/TweenMax.min.js"></script>
+  <script src="/cursor-tail.js"></script>
+  <!---->
   <style nonce="${res.locals.nonce}">  
     body {
       margin: 0;
@@ -32,17 +36,16 @@
     #spinner {
       text-align: center;
     }
-
-    #track-list {
-      text-align: center;
-      margin-top: 20px;
-    }
   </style>
 </head>
 
 
 <body>
 
+  <!--To add cursor glow... not working yet
+  <canvas id="c"></canvas>
+  <script src="/cursor-glow.js"></script>
+  -->
   <h1>Spaceify</h1>
 
   <div id="chart"></div>
@@ -60,8 +63,6 @@
       </p>
     </form>
   </div>
-  <p></p>
-  <div id="track-list"></div>
 
   <!--Adding audio to the website-->
   <audio controls autoplay loop>
