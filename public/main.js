@@ -1,16 +1,3 @@
-//For cursor glow -> not working yet!
-document.addEventListener('mousemove', function(e) {
-    const cursor = document.createElement('div');
-    cursor.classList.add('cursor-glow');
-    cursor.style.left = e.pageX + 'px';
-    cursor.style.top = e.pageY + 'px';
-    document.body.appendChild(cursor);
-
-    setTimeout(() => {
-        cursor.remove();
-    }, 500); // Adjust duration as needed
-});
-
 async function checkAuthentication() {
     try {
         const accessToken = sessionStorage.getItem("access_token");
