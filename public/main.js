@@ -1,3 +1,4 @@
+//For cursor glow -> not working yet!
 document.addEventListener('mousemove', function(e) {
     const cursor = document.createElement('div');
     cursor.classList.add('cursor-glow');
@@ -10,25 +11,19 @@ document.addEventListener('mousemove', function(e) {
     }, 500); // Adjust duration as needed
 });
 
-document.addEventListener("DOMContentLoaded", function() {
-    if (window.location.pathname === "http://localhost:3000/profile.html") {
-        console.log("Skipping authentication and track fetching for profile page.");
-        return; // Exit early for profile.html
-    }
-
-    // Perform authentication and fetch tracks for other pages
-    checkAuthentication();
-    fetchTracks();
-});
-
-function getAccessToken() {
-    const params = new URLSearchParams(window.location.search);
-    return params.get('access_token');
-}
-
 async function checkAuthentication() {
     try {
-        const response = await fetch('/auth-status');
+        const accessToken = sessionStorage.getItem("access_token");
+
+        if (!accessToken) {
+            alert("Access token missing. Please log in.");
+            window.location.href = "/login";
+            return;
+        }
+        
+        const response = await fetch("/auth-status", {
+            headers: { Authorization: `Bearer ${accessToken}` },
+        });
         const data = await response.json();
 
         if (data.authenticated) {
@@ -52,8 +47,24 @@ async function loadTopTracks() {
     }
 }
 
-// Display Title on the page
+// Display Title on the page and save access token to session storage for redirection purposes
 document.addEventListener("DOMContentLoaded", function() {
+    const username = localStorage.getItem('username') || 'Guest';
+    const accessToken = new URLSearchParams(window.location.search).get('access_token');
+
+    if (accessToken) {
+        // Save access token in sessionStorage
+        sessionStorage.setItem('access_token', accessToken);
+
+        // Clean the URL by removing the access token parameter
+        const newUrl = window.location.origin + window.location.pathname;
+        window.history.replaceState({}, document.title, newUrl);
+
+        console.log('Access token saved to sessionStorage and URL cleaned.');
+    } else {
+        console.log('No access token found in URL.');
+    }
+    
     document.body.style.backgroundImage = "url('/sky-full-of-stars-space-4k_1540139420.jpg')";
     document.body.style.backgroundSize = "cover";
     document.body.style.backgroundPosition = "center center";
@@ -66,23 +77,23 @@ document.addEventListener("DOMContentLoaded", function() {
         titleElement.style.textAlign = 'center';
         titleElement.style.fontFamily = "'Arial', sans-serif";
     }
-    const loginTitle = document.querySelector('h2');
-    if (loginTitle) {
-        loginTitle.style.color = 'white';
-        loginTitle.style.textAlign = 'center';
-        loginTitle.style.fontFamily = "'Arial', sans-serif";
+    const text = document.querySelector('p');
+    if (text) {
+        text.style.color = 'white';
+        text.style.textAlign = 'center';
+        text.style.fontFamily = "'Arial', sans-serif";
     }
     const loginForm = document.querySelector('form');
     if (loginForm) {
         loginForm.style.color = 'white';
         loginForm.style.textAlign = 'center';
         loginForm.style.fontFamily = "'Arial', sans-serif";
-    }
-    const loginMessage = document.querySelector('p');
-    if (loginMessage) {
-        loginMessage.style.color = 'white';
-        loginMessage.style.textAlign = 'center';
-        loginMessage.style.fontFamily = "'Arial', sans-serif";
+        loginForm.style.background = 'rgba(255, 255, 255, 0.1)';
+        loginForm.style.borderRadius = '10px';
+        loginForm.style.padding = '20px';
+        loginForm.style.marginTop = '50px';
+        loginForm.style.boxShadow = '0px 4px 6px rgba(0, 0, 0, 0.3)';
+        //loginForm.style.width = '500px';
     }
     const spinner = document.getElementById('spinner');
     if (spinner) {
@@ -97,25 +108,137 @@ document.addEventListener("DOMContentLoaded", function() {
         errorMessage.style.fontFamily = "'Arial', sans-serif";
     }
 
-    // Check authentication and fetch tracks
-    if (window.location.pathname === "http://localhost:3000/profile.html") {
-        console.log("Skipping authentication for profile page.");
-    } else {
-        checkAuthentication(); // Perform authentication for other pages
-        fetchTracks();
+    // Profile page functionality
+    if (window.location.pathname.endsWith('profile.html')) {
+        document.getElementById('username-display').textContent = username;
+        fetchFriends(username);
+
+        const friendInput = document.getElementById("friend-input");
+        const manageFriendButton = document.getElementById("manage-friend-button");
+
+        // Handle Add/Remove Friend
+        manageFriendButton.addEventListener("click", async () => {
+            const friendUsername = friendInput.value.trim();
+    
+            if (!friendUsername) {
+            alert("Please enter a username.");
+            return;
+            }
+    
+            try {
+            const response = await fetch("/friends/manage", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                username: localStorage.getItem("username"), // Current logged-in user
+                friendUsername,
+                }),
+            });
+    
+            const data = await response.json();
+    
+            if (response.ok) {
+                alert(data.message);
+                fetchFriends(localStorage.getItem("username")); // Refresh the friends list
+            } else {
+                alert(data.error || "Failed to manage friend.");
+            }
+            } catch (error) {
+                console.error("Error managing friend:", error);
+                alert("An error occurred.");
+            }
+        });
+  
+        // For results screenshot upload functionality
+        const uploadButton = document.getElementById("upload-screenshot-button");
+        const screenshotInput = document.getElementById("screenshot-input");
+        const screenshotImg = document.getElementById("screenshot");
+        const uploadDateText = document.getElementById("upload-date");
+        uploadButton.addEventListener("click", () => {
+            screenshotInput.click();
+        });
+        screenshotInput.addEventListener("change", async () => {
+            const file = screenshotInput.files[0];
+            if (file) {
+            const formData = new FormData();
+            formData.append("screenshot", file);
+    
+            try {
+                const response = await fetch("/upload-screenshot", {
+                method: "POST",
+                body: formData,
+                });
+    
+                const data = await response.json();
+                if (response.ok) {
+                screenshotImg.src = data.screenshot;
+                uploadDateText.textContent = `Uploaded on: ${new Date(data.uploadDate).toLocaleDateString()}`;
+                } else {
+                alert(data.error || "Failed to upload screenshot.");
+                }
+            } catch (error) {
+                console.error("Error uploading screenshot:", error);
+                alert("An error occurred while uploading your screenshot.");
+            }
+            }
+        });
+        async function fetchUserProfile() {
+            try {
+            const response = await fetch(`/profile-data?username=${localStorage.getItem("username")}`);
+            const data = await response.json();
+    
+            if (response.ok) {
+                screenshotImg.src = data.screenshot || "placeholder.jpg";
+                uploadDateText.textContent = data.uploadDate
+                ? `Uploaded on: ${new Date(data.uploadDate).toLocaleDateString()}`
+                : "(No results uploaded yet)";
+            } else {
+                console.error("Error fetching user profile:", data.error);
+            }
+            } catch (error) {
+            console.error("Error fetching user profile:", error);
+            }
+        }
+        fetchUserProfile();
     }
+
+    // Friend profile functionality
+    if (window.location.pathname.endsWith("friend-profile.html")) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const friendUsername = urlParams.get("username");
+
+        const friendUsernameElement = document.getElementById("friend-username");
+        const friendScreenshotElement = document.getElementById("friend-screenshot");
+        const friendUploadDateElement = document.getElementById("friend-upload-date");
+
+        async function fetchFriendProfile() {
+        try {
+            const response = await fetch(`/profile-data?username=${friendUsername}`);
+            const data = await response.json();
+
+            if (response.ok) {
+            friendUsernameElement.textContent = data.username;
+            friendScreenshotElement.src = data.screenshot || "placeholder.jpg";
+            friendUploadDateElement.textContent = data.uploadDate
+                ? `Uploaded on: ${new Date(data.uploadDate).toLocaleDateString()}`
+                : "No screenshot uploaded yet.";
+            } else {
+            console.error("Error fetching friend profile:", data.error);
+            }
+        } catch (error) {
+            console.error("Error fetching friend profile:", error);
+        }
+        }
+
+        fetchFriendProfile();
+    }
+
+    checkAuthentication();
+    fetchTracks();
 });
 
-document.addEventListener('DOMContentLoaded', checkAuthentication);
-
 async function fetchTracks() {
-    // Skip track fetching if on profile.html
-    if (window.location.pathname === "http://localhost:3000/profile.html") {
-        console.log("No need to fetch tracks on profile.html.");
-        return;
-    }
-
-    const accessToken = getAccessToken();
+   const accessToken = sessionStorage.getItem('access_token');
     const spinner = document.getElementById('spinner');
 
     if (!accessToken) {
@@ -125,7 +248,9 @@ async function fetchTracks() {
 
     try {
         spinner.style.display = 'block';
-        const response = await fetch(`/top-tracks?access_token=${accessToken}`);
+        const response = await fetch("/top-tracks", {
+            headers: { Authorization: `Bearer ${accessToken}` },
+        });
 
         if (!response.ok) {
             const errorData = await response.json();
@@ -151,6 +276,8 @@ async function fetchTracks() {
 }
 
 function renderTracks(data) {
+    const accessToken = sessionStorage.getItem("access_token");
+
     d3.select("#chart").selectAll("*").remove();
 
     console.log("Fetched data:", data); // Verify data received
@@ -281,8 +408,8 @@ function renderTracks(data) {
             d3.select(this)
                 .attr("fill", `url(#${patternId})`);
         })
-        .attr("stroke", "white")
-        .attr("stroke-width", 2)
+        //.attr("stroke", "white")
+        //.attr("stroke-width", 2)
         .on("mouseover", async (event, d) => {
             try {
                 // Show the tooltip immediately with basic info
@@ -292,7 +419,7 @@ function renderTracks(data) {
                 // Fetch additional artist details using the Spotify Web API
                 const response = await fetch(`https://api.spotify.com/v1/artists/${d.id}`, {
                     headers: {
-                        'Authorization': `Bearer ${getAccessToken()}`
+                        'Authorization': `Bearer ${accessToken}`
                     }
                 });
         
@@ -446,40 +573,144 @@ function displayTracks(tracks) {
         });
         //trackList.appendChild(trackTitles);
     });
+  
+  const d3 = require('d3');
+  module.exports = {
+        checkAuthentication,
+        fetchTracks,
+        renderTracks,
+        fetchUserProfile,
+        fetchFriends,
+        goToHome
+   };
 }
 
-// functionality for redirection to profile page
-document.addEventListener("DOMContentLoaded", () => {
-    // Handle Login Form Submission
-    const loginForm = document.getElementById("login-form");
+// Functionality for Login and redirection to profile page
+document.getElementById("login-form").addEventListener("submit", async (event) => {
+    event.preventDefault();
   
-    if (loginForm) {
-      loginForm.addEventListener("submit", (event) => {
-        event.preventDefault();
-        
-        const username = document.getElementById("user").value;
-        const password = document.getElementById("pass").value;
+    const username = document.getElementById("user").value;
+    const password = document.getElementById("pass").value;
   
-        // Temporary hardcoded check (to be replaced with server-side logic)
-        if (username === "Admin" && password === "Password123") {
-          localStorage.setItem("username", username);
-          window.location.href = "/login"; // Redirect to start server-side authentication
-        } else {
-          document.getElementById("error-message").textContent = "Invalid username or password.";
-        }
-      })
+    try {
+      // Make a login request to backend
+      const response = await fetch('/spaceify-login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password }),
+      });
+  
+      const result = await response.json();
+  
+      if (response.ok) {
+        localStorage.setItem('username', result.username); // Store the username
+        sessionStorage.setItem('access_token', result.accessToken); // Store the access token
+        window.location.href = `profile.html?access_token=${result.accessToken}`; // Redirect to profile page
+      } else {
+        document.getElementById('error-message').textContent = result.error || 'Login failed.';
+      }
+    } catch (error) {
+      console.error('Error during login:', error);
+      document.getElementById('error-message').textContent = 'An error occurred. Please try again.';
     }
-    // Example: Handle logic for other pages (e.g., profile.html)
-  const currentPage = window.location.pathname;
+  });
 
-  if (currentPage === "/profile.html") {
-    const accessToken = new URLSearchParams(window.location.search).get("access_token");
-    if (!accessToken) {
-      alert("Access token missing! Redirecting to login.");
-      window.location.href = "/";
-    } else {
-      console.log("Access token found:", accessToken);
-      // Perform authenticated actions here (e.g., fetch user data)
+  /*async function fetchFriends(username) {
+    const friendsList = document.getElementById("friends-list");
+    friendsList.innerHTML = "";
+
+    // Fetch friends and render their profiles
+    fetch(`/friends?username=${username}`)
+        .then((response) => response.json())
+        .then((data) => {
+        data.friends.forEach((friend) => {
+            const friendItem = document.createElement("li");
+            friendItem.textContent = friend;
+
+            // Clicking on a friend redirects to their profile
+            friendItem.addEventListener("click", () => {
+            window.location.href = `/friend-profile.html?username=${friend}`;
+            });
+
+            friendsList.appendChild(friendItem);
+        });
+        });
+    }*/
+
+    // Fetch and Display Friends
+    async function fetchFriends(username) {
+        const friendsList = document.getElementById("friends-list");
+        friendsList.innerHTML = ""; // Clear the current list
+    
+        try {
+        const response = await fetch(`/friends?username=${username}`);
+        const data = await response.json();
+    
+        if (response.ok) {
+            data.friends.forEach((friend) => {
+            const friendItem = document.createElement("li");
+            friendItem.textContent = friend;
+    
+            // Clicking on a friend's name redirects to their profile
+            friendItem.addEventListener("click", () => {
+                window.location.href = `/friend-profile.html?username=${friend}`;
+            });
+    
+            friendsList.appendChild(friendItem);
+            });
+        } else {
+            console.error("Error fetching friends:", data.error);
+        }
+        } catch (error) {
+        console.error("Error fetching friends:", error);
+        }
     }
+
+    /*
+async function addFriend(username, friendUsername) {
+    try {
+        const response = await fetch('/friends/add', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, friendUsername }),
+        });
+        const data = await response.json();
+
+        if (response.ok) {
+            alert('Friend added successfully!');
+            fetchFriends(username);
+        } else {
+            alert(data.error || 'Error adding friend.');
+        }
+    } catch (error) {
+        console.error('Error adding friend:', error);
+    }
+
   }
 })
+}
+
+async function removeFriend(username, friendUsername) {
+    try {
+        const response = await fetch('/friends/remove', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, friendUsername }),
+        });
+        const data = await response.json();
+
+        if (response.ok) {
+            alert('Friend removed successfully!');
+            fetchFriends(username);
+        } else {
+            alert(data.error || 'Error removing friend.');
+        }
+    } catch (error) {
+        console.error('Error removing friend:', error);
+    }
+}
+    */
+
+function goToHome() {
+    window.history.back();
+}
