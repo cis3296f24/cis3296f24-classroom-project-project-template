@@ -1,16 +1,3 @@
-//For cursor glow -> not working yet!
-document.addEventListener('mousemove', function(e) {
-    const cursor = document.createElement('div');
-    cursor.classList.add('cursor-glow');
-    cursor.style.left = e.pageX + 'px';
-    cursor.style.top = e.pageY + 'px';
-    document.body.appendChild(cursor);
-
-    setTimeout(() => {
-        cursor.remove();
-    }, 500); // Adjust duration as needed
-});
-
 async function checkAuthentication() {
     try {
         const accessToken = sessionStorage.getItem("access_token");
@@ -165,16 +152,16 @@ document.addEventListener("DOMContentLoaded", function() {
     
             try {
                 const response = await fetch("/upload-screenshot", {
-                method: "POST",
-                body: formData,
+                    method: "POST",
+                    body: formData,
                 });
     
                 const data = await response.json();
                 if (response.ok) {
-                screenshotImg.src = data.screenshot;
-                uploadDateText.textContent = `Uploaded on: ${new Date(data.uploadDate).toLocaleDateString()}`;
+                    screenshotImg.src = data.screenshot;
+                    uploadDateText.textContent = `Uploaded on: ${new Date(data.uploadDate).toLocaleDateString()}`;
                 } else {
-                alert(data.error || "Failed to upload screenshot.");
+                    alert(data.error || "Failed to upload screenshot.");
                 }
             } catch (error) {
                 console.error("Error uploading screenshot:", error);
@@ -184,17 +171,17 @@ document.addEventListener("DOMContentLoaded", function() {
         });
         async function fetchUserProfile() {
             try {
-            const response = await fetch(`/profile-data?username=${localStorage.getItem("username")}`);
-            const data = await response.json();
-    
-            if (response.ok) {
-                screenshotImg.src = data.screenshot || "placeholder.jpg";
-                uploadDateText.textContent = data.uploadDate
-                ? `Uploaded on: ${new Date(data.uploadDate).toLocaleDateString()}`
-                : "(No results uploaded yet)";
-            } else {
-                console.error("Error fetching user profile:", data.error);
-            }
+                const response = await fetch(`/profile-data?username=${localStorage.getItem("username")}`);
+                const data = await response.json();
+        
+                if (response.ok) {
+                    screenshotImg.src = data.screenshot || "placeholder.jpg";
+                    uploadDateText.textContent = data.uploadDate
+                        ? `Uploaded on: ${new Date(data.uploadDate).toLocaleDateString()}`
+                        : "(No results uploaded yet)";
+                } else {
+                    console.error("Error fetching user profile:", data.error);
+                }
             } catch (error) {
             console.error("Error fetching user profile:", error);
             }
@@ -212,24 +199,36 @@ document.addEventListener("DOMContentLoaded", function() {
         const friendUploadDateElement = document.getElementById("friend-upload-date");
 
         async function fetchFriendProfile() {
-        try {
-            const response = await fetch(`/profile-data?username=${friendUsername}`);
-            const data = await response.json();
+            const urlParams = new URLSearchParams(window.location.search);
+            const friendUsername = urlParams.get("username");
 
-            if (response.ok) {
-            friendUsernameElement.textContent = data.username;
-            friendScreenshotElement.src = data.screenshot || "placeholder.jpg";
-            friendUploadDateElement.textContent = data.uploadDate
-                ? `Uploaded on: ${new Date(data.uploadDate).toLocaleDateString()}`
-                : "No screenshot uploaded yet.";
-            } else {
-            console.error("Error fetching friend profile:", data.error);
+            if (!friendUsername) {
+                console.error("No username found in the URL.");
+                document.getElementById("friend-username").textContent = "No friend selected.";
+                return;
             }
-        } catch (error) {
-            console.error("Error fetching friend profile:", error);
-        }
-        }
 
+            try {
+                const response = await fetch(`/profile-data?username=${friendUsername}`);
+                const data = await response.json();
+
+                if (response.ok) {
+                    document.getElementById("friend-username").textContent = data.username;
+                    
+                    const friendScreenshotElement = document.getElementById("friend-screenshot");
+                    friendScreenshotElement.src = data.screenshot || "placeholder.jpg";
+                    
+                    const friendUploadDateElement = document.getElementById("friend-upload-date");
+                    friendUploadDateElement.textContent = data.uploadDate
+                        ? `Uploaded on: ${new Date(data.uploadDate).toLocaleDateString()}`
+                        : "(No results uploaded yet)";
+                } else {
+                    console.error("Error fetching friend profile:", data.error);
+                }
+            } catch (error) {
+                console.error("Error fetching friend profile:", error);
+            }
+        }
         fetchFriendProfile();
     }
 
@@ -655,32 +654,10 @@ document.getElementById("login-form").addEventListener("submit", async (event) =
     }
   });
 
-  /*async function fetchFriends(username) {
-    const friendsList = document.getElementById("friends-list");
-    friendsList.innerHTML = "";
-
-    // Fetch friends and render their profiles
-    fetch(`/friends?username=${username}`)
-        .then((response) => response.json())
-        .then((data) => {
-        data.friends.forEach((friend) => {
-            const friendItem = document.createElement("li");
-            friendItem.textContent = friend;
-
-            // Clicking on a friend redirects to their profile
-            friendItem.addEventListener("click", () => {
-            window.location.href = `/friend-profile.html?username=${friend}`;
-            });
-
-            friendsList.appendChild(friendItem);
-        });
-        });
-    }*/
-
-    // Fetch and Display Friends
+    // Fetch and display Friends
     async function fetchFriends(username) {
         const friendsList = document.getElementById("friends-list");
-        friendsList.innerHTML = ""; // Clear the current list
+        friendsList.innerHTML = "";
     
         try {
         const response = await fetch(`/friends?username=${username}`);
@@ -706,6 +683,7 @@ document.getElementById("login-form").addEventListener("submit", async (event) =
         }
     }
 
+<<<<<<< HEAD
     /*
 async function addFriend(username, friendUsername) {
     try {
@@ -751,6 +729,8 @@ async function removeFriend(username, friendUsername) {
 }
     */
 
+=======
+>>>>>>> 765175ad1384b434de07722bceca7a00f76b3540
 function goToHome() {
     window.history.back();
 }

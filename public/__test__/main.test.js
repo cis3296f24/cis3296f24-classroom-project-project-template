@@ -77,29 +77,6 @@ afterEach(() => {
     jest.runAllTimers(); // Run all pending timers to clear them
 });
 
-// Test suite for cursor glow effect
-describe("Cursor glow effect", () => {
-    test("should add and remove cursor glow on mousemove", () => {
-        // Create a simulated mousemove event
-        const event = new dom.window.Event('mousemove');
-        event.pageX = 100;
-        event.pageY = 200;
-
-        // Dispatch the event to trigger the cursor glow effect
-        document.dispatchEvent(event);
-
-        // Check that the cursor glow element is added and positioned correctly
-        const cursor = document.querySelector('.cursor-glow');
-        expect(cursor).not.toBeNull();
-        expect(cursor.style.left).toBe('100px');
-        expect(cursor.style.top).toBe('200px');
-
-        // Simulate a timeout for cursor glow removal
-        jest.advanceTimersByTime(500);
-        expect(document.querySelector('.cursor-glow')).toBeNull();
-    });
-});
-
 // Test suite for authentication functionality
 describe("Authentication functionality", () => {
     test("should redirect to login if not authenticated", async () => {
