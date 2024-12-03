@@ -37,7 +37,7 @@ function Home() {
                 </NavLink>
 
                 <NavLink
-                    to="/login"
+                    to="/progresstracker"
                     className="relative bg-slate-300 p-8 h-96 w-full text-center text-xl font-semibold text-gray-800 rounded-lg shadow-lg hover:bg-slate-400 hover:scale-105 transition duration-500 flex flex-col justify-between items-center"
                 >
                     Progress Tracking
