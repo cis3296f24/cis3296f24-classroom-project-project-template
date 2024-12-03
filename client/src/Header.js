@@ -33,6 +33,20 @@ export default function Header() {
     }
   };
 
+  const handleProgressClick = () => {
+    const userId = localStorage.getItem('userId');
+    if (userId) {
+      navigate(`/progress/${userId}`);
+      window.location.reload();
+    } else {
+      alert('User not logged in');
+    }
+  };
+
+  const handleMobileClick = () => {
+    setMobileMenuOpen(false);
+  }
+
   return (
     <header className="bg-transparent">
       <nav className="w-full mx-auto flex items-center justify-between p-4 lg:px-8">
@@ -91,7 +105,6 @@ export default function Header() {
           >
             Calendar
           </NavLink>
-
         </div>
 
         {/* User Dropdown or Login Link */}
@@ -107,11 +120,11 @@ export default function Header() {
                   <button onClick={ handleProfileClick } className="block w-full px-4 py-2 text-link font-semibold text-left hover:bg-gray-700">
                     Profile
                   </button>
+                  <button onClick={ handleProgressClick } className="block w-full px-4 py-2 text-link font-semibold text-left hover:bg-gray-700">
+                    Progress
+                  </button>
                   <NavLink to="/friend" className="block px-4 py-2 text-link font-semibold hover:bg-gray-700">
                     Friends
-                  </NavLink>
-                  <NavLink to="/progress" className="block px-4 py-2 text-link font-semibold hover:bg-gray-700">
-                    Progress Tracker
                   </NavLink>
                   <NavLink to="/settings" className="block px-4 py-2 text-link font-semibold hover:bg-gray-700">
                     Settings
@@ -156,21 +169,36 @@ export default function Header() {
                 <NavLink to="/" onClick={() => setMobileMenuOpen(false)} className="block rounded-lg px-3 py-2 text-base font-semibold text-link hover:bg-gray-700">
                   Home
                 </NavLink>
-                <NavLink to="/task" onClick={() => setMobileMenuOpen(false)} className="block rounded-lg px-3 py-2 text-base font-semibold text-link hover:bg-gray-700">
+                <NavLink to="/challenge" onClick={() => setMobileMenuOpen(false)} className="block rounded-lg px-3 py-2 text-base text-link font-semibold hover:bg-gray-700">
                   Challenges
                 </NavLink>
-                <NavLink to="/yourChallenge" onClick={() => setMobileMenuOpen(false)} className="-mx-3 block rounded-lg px-3 py-2 text-base text-link font-semibold hover:bg-gray-700">
-                  Create Challenges
-                </NavLink>
-                <NavLink to="/progress" onClick={() => setMobileMenuOpen(false)} className="block rounded-lg px-3 py-2 text-base font-semibold text-link hover:bg-gray-700">
-                  Progress Tracker
+                <NavLink to="/task" onClick={() => setMobileMenuOpen(false)} className="block rounded-lg px-3 py-2 text-base font-semibold text-link hover:bg-gray-700">
+                  Calendar
                 </NavLink>
               </div>
-              {!isLoggedIn && (
+              {!isLoggedIn ? (
                 <div className="py-6">
                   <NavLink to="/login" onClick={() => setMobileMenuOpen(false)} className="block rounded-lg px-3 py-2.5 text-base font-semibold text-link hover:bg-gray-700">
                     Log in
                   </NavLink>
+                </div>
+              ):(
+                <div className="py-6">
+                  <button onClick={ () => {handleMobileClick(); handleProfileClick();} } className="block text-left w-full rounded-lg px-3 py-2.5 text-base font-semibold text-link hover:bg-gray-700">
+                    Profile
+                  </button>
+                  <button onClick={ () => {handleMobileClick(); handleProgressClick();} } className="block text-left w-full rounded-lg px-3 py-2.5 text-base font-semibold text-link hover:bg-gray-700">
+                    Progress
+                  </button>
+                  <NavLink to="/friend" onClick={() => setMobileMenuOpen(false)} className="block rounded-lg px-3 py-2.5 text-base font-semibold text-link hover:bg-gray-700">
+                    Friends
+                  </NavLink>
+                  <NavLink to="/settings" onClick={() => setMobileMenuOpen(false)} className="block rounded-lg px-3 py-2.5 text-base font-semibold text-link hover:bg-gray-700">
+                    Settings
+                  </NavLink>
+                  <button onClick={ () => {handleMobileClick(); handleLogout();} } className="block text-left w-full rounded-lg px-3 py-2.5 text-base font-semibold text-link hover:bg-gray-700">
+                    Log Out
+                  </button>
                 </div>
               )}
             </div>

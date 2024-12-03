@@ -8,6 +8,7 @@ import Home from './components/Home';
 import Login from './components/Login';
 import PendingFriend from './components/PendingFriend';
 import Preloader from './components/Preloader';
+import Progress from './components/Progress';
 import Register from './components/Register';
 import Task from './components/Task';
 import Footer from './Footer';
@@ -60,6 +61,7 @@ function App() {
         <Route path="/change-password" element={<ChangePassword />} />
         <Route path='/progresstracker' element={<ProgressTracker/>} />
         <Route path="/profile/:userId" element={<Profile />} />
+        <Route path="/progress/:userId" element={<Progress />} />
         <Route path="/friend" element={<FriendList />} />
         <Route path="/pendingFriend" element={<PendingFriend />} />
         <Route path='/settings' element={<Setting/>} />

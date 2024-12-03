@@ -7,7 +7,7 @@ import chatBox from '../assets/chatBox.svg';
 import hand from '../assets/hand.json';
 import motivate from '../assets/motivate.json';
 import Bar from './helper/Bar';
-import GithubProfile from './helper/githubProfile';
+import GithubProfile from './helper/GithubProfile';
 
 
 function Home() {
@@ -72,7 +72,7 @@ function Home() {
 
             <Bar title="Meet Our Dev Team"></Bar>
 
-            <div className="flex flex-wrap justify-center gap-10 mt-12 mb-10">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 mt-12 mb-10">
                 <GithubProfile username='HarrryHe'/>
                 <GithubProfile username='PeterLy2'/>
                 <GithubProfile username='JayTSXF'/>
