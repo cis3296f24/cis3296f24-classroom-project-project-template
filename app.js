@@ -12,7 +12,9 @@ const bcrypt = require('bcrypt');
 const UserSchema = new mongoose.Schema({
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  friends: { type: [String], default: [] } //list of friend usernames
+  friends: { type: [String], default: [] },
+  screenshot: { type: String }, // Path to the uploaded screenshot
+  uploadDate: { type: Date } // Date the screenshot was uploaded
 });
 const User = mongoose.model('User', UserSchema);
 module.exports = User;
@@ -194,10 +196,10 @@ app.post('/spaceify-login', async (req, res) => {
       return res.status(401).json({ error: 'Invalid username or password.' });
     }
 
-    // Mock an access token (replace with proper session handling or JWT in production)
-    const accessToken = crypto.randomBytes(16).toString('hex');
+    req.session.username = user.username; // store username in session
+    const accessToken = crypto.randomBytes(16).toString('hex'); // mock access token
+    req.session.access_token = accessToken; // store in session
 
-    req.session.access_token = accessToken; // Store in session
     res.status(200).json({ message: 'Login successful.', username, accessToken });
   } catch (error) {
     console.error('Error during login:', error);
@@ -259,6 +261,7 @@ app.post("/upload-screenshot", upload.single("screenshot"), async (req, res) => 
 
   try {
     const filePath = `/uploads/${req.file.filename}`;
+    console.log("File uploaded to:", filePath);
     const uploadDate = new Date();
 
     // Update user's screenshot and upload date
@@ -274,7 +277,7 @@ app.post("/upload-screenshot", upload.single("screenshot"), async (req, res) => 
   }
 });
 
-// Fetch another user's details such as friends and uploaded results screenshot
+// Fetch another user's uploaded results screenshot
 app.get("/profile-data", async (req, res) => {
   const { username } = req.query;
 
