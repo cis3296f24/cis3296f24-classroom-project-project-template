@@ -4,12 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-    <title>User Profile</title>
+    <title>My Profile | Spaceify</title>
     <style>
         body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
             margin: 0;
             padding: 0;
-            font-family: "Arial Black", sans-serif;
+            font-family: "Arial", sans-serif;
             letter-spacing: 0.1em;
             background: url('https://www.pixel4k.com/wp-content/uploads/2018/10/sky-full-of-stars-space-4k_1540139420.jpg') no-repeat center center;
             background-size: cover;
@@ -19,11 +23,15 @@
 
         .profile-container {
             text-align: center;
-            background: rgba(255, 255, 255, 0.1); /* Slightly transparent background */
+            background: rgba(255, 255, 255, 0.1);
             padding: 20px;
             border-radius: 10px;
-            width: 300px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+            width: 500px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .friends-container p {
+            text-decoration: underline;
         }
 
         .profile-pic {
@@ -42,8 +50,9 @@
         }
 
         .friends-list {
-            text-align: left;
+            text-align: center;
             padding: 0;
+            font-weight: bold;
             list-style: none;
             color: #fff;
             font-family: "Arial", sans-serif;
@@ -52,66 +61,82 @@
         .friends-list li {
             margin: 5px 0;
         }
+
+        button {
+            background-color: #ffffff;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #e5f1fc;
+        }
+
+        #upload-date {
+            text-align: center;
+            font-size: 0.75em;
+            color: white;
+            font-family: "Arial", sans-serif;
+        }
+
+        p {
+            text-align: center;
+            font-weight: bold;
+        }
+
+        #screenshot {
+            max-width: 100%;
+            max-height: 150px;
+            width: auto;
+            height: auto; 
+            display: block;
+            margin: 0 auto;
+            border: 2px solid white;
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
     <div class="profile-container">
         <!-- Profile picture -->
-        <img src="https://via.placeholder.com/100" alt="Profile Picture" class="profile-pic">
+        <img id="profile-pic" src="earth.jpg" alt="Profile Picture" class="profile-pic">
         
         <!-- Username -->
         <div class="username" id="username-display">User123</div>
+
+        <div class="screenshot-container">
+            <p>Your Shared Results:</p>
+            <img id="screenshot" src="placeholder.jpg"/>
+            <p id="upload-date">No results uploaded yet</p>
+          
+            <button id="upload-screenshot-button">Upload a Screenshot of Your Results</button>
+            <input type="file" id="screenshot-input" style="display: none;" accept="image/*" />
+        </div>
+          
         
         <!-- Friends list -->
-        <ul class="friends-list" id="friends-list">
-            <li>Friends:</li>
-            <li>Friend 1</li>
-            <li>Friend 2</li>
-            <li>Friend 3</li>
-        </ul>
+        <div class="friends-container">
+            <p>Your Friends:</p>
+            <ul class="friends-list" id="friends-list">
+                <!-- Friends will be dynamically populated here -->
+            </ul>
+        </div>
+
+        <!-- Edit friends button -->
+        <input type="text" id="friend-input" placeholder="Enter a friend's username">
+        <p></p>
+        <button id="manage-friend-button">Add/Remove this Friend</button>
+        <p></p>
+
+        <!-- Home button -->
+        <button id="home-button" onclick="goToHome()">
+            🏠
+        </button>
     </div>
 
-    <script>
-        console.log("Profile page loaded. Skipping track fetching and token validation.");
-
-        // Retrieve the username from localStorage
-        const username = localStorage.getItem('username') || 'Guest';
-
-        // Update the username display
-        document.getElementById('username-display').textContent = username;
-
-        // Example: Dynamically add friends to the list (if needed)
-        const friends = ["Alice", "Bob", "Charlie"]; // Example friends
-        const friendsListElement = document.getElementById('friends-list');
-        
-        // Clear the static list and populate dynamically
-        friendsListElement.innerHTML = "";
-        friends.forEach(friend => {
-            const li = document.createElement('li');
-            li.textContent = friend;
-            friendsListElement.appendChild(li);
-        })
-    </script>
-
-    <script>
-        // Function to get query parameter values for url
-        function getQueryParam(param) {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(param);
-        }
-
-        // Get the access token from the URL
-        const accessToken = getQueryParam('access_token');
-
-        if (accessToken) {
-            console.log("Access token:", accessToken);
-            // Store it in sessionStorage or use it directly for API calls
-            sessionStorage.setItem('access_token', accessToken);
-        } else {
-            console.error("Access token not found in URL.");
-            // Redirect back to login or show an error
-            window.location.href = '/';
-        }
-    </script>
+    <script src="main.js"></script>
 </body>
 </html>
