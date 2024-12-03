@@ -1,9 +1,33 @@
 const express = require('express');
+const multer = require("multer");
 const path = require('path');
 const helmet = require('helmet');
 const crypto = require('crypto');
 const axios = require('axios');
 const session = require('express-session');
+
+// Configure spaceify user database and friends feature
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
+const UserSchema = new mongoose.Schema({
+  username: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  friends: { type: [String], default: [] } //list of friend usernames
+});
+const User = mongoose.model('User', UserSchema);
+module.exports = User;
+
+// Configure multer for uploading results image
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, path.join(__dirname, "public/uploads"));
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(null, uniqueSuffix + path.extname(file.originalname));
+  },
+});
+const upload = multer({ storage });
 
 const app = express();
 const port = 3000; // Define the port variable
@@ -83,12 +107,6 @@ app.get('/callback', async (req, res) => {
   }
 });
 
-// Serve profile.html in app.js
-app.get('/profile.html', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'profile.html'));
-});
-
-
 // Fetch top tracks from Spotify
 app.get('/top-tracks', async (req, res) => {
   const accessToken = req.session.access_token;
@@ -108,6 +126,7 @@ app.get('/top-tracks', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch top tracks' });
   }
 });
+
 app.get('/auth-status', (req, res) => {
   if (req.session.access_token) {
     res.json({ authenticated: true });
@@ -125,4 +144,155 @@ app.get('/', (req, res) => {
 //starts the server and logs a message to the console
 app.listen(port, () => {
   console.log(`App running at http://localhost:${port}`);
+});
+
+// Serve profile.html in app.js
+app.get('/profile.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'profile.html'));
+});
+
+// Connect to MongoDB
+mongoose.connect('mongodb+srv://myUser:myPassword@spaceify1.dt8a4.mongodb.net/?retryWrites=true&w=majority&appName=Spaceify1', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+  .then(() => console.log('Connected to MongoDB'))
+  .catch((err) => console.error('Failed to connect to MongoDB:', err));
+
+// Register.html route
+app.post('/register', async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    const existingUser = await User.findOne({ username });
+    if (existingUser) {
+      return res.status(400).json({ error: 'Username already exists.' });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = new User({ username, password: hashedPassword });
+    await newUser.save();
+
+    res.status(201).json({ message: 'User registered successfully.', username });
+  } catch (error) {
+    console.error('Error during registration:', error);
+    res.status(500).json({ error: 'Internal server error.' });
+  }
+});
+
+app.post('/spaceify-login', async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(401).json({ error: 'Invalid username or password.' });
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return res.status(401).json({ error: 'Invalid username or password.' });
+    }
+
+    // Mock an access token (replace with proper session handling or JWT in production)
+    const accessToken = crypto.randomBytes(16).toString('hex');
+
+    req.session.access_token = accessToken; // Store in session
+    res.status(200).json({ message: 'Login successful.', username, accessToken });
+  } catch (error) {
+    console.error('Error during login:', error);
+    res.status(500).json({ error: 'Internal server error.' });
+  }
+});
+
+// Get the list of friends for a user
+app.get('/friends', async (req, res) => {
+  const username = req.query.username;
+
+  try {
+      const user = await User.findOne({ username });
+      if (!user) {
+          return res.status(404).json({ error: 'User not found.' });
+      }
+      res.json({ friends: user.friends });
+  } catch (error) {
+      console.error('Error fetching friends:', error);
+      res.status(500).json({ error: 'Internal server error.' });
+  }
+});
+
+// Add/remove friends
+app.post("/friends/manage", async (req, res) => {
+  const { username, friendUsername } = req.body;
+
+  try {
+    const user = await User.findOne({ username });
+    if (!user) return res.status(404).json({ error: "User not found." });
+
+    const friend = await User.findOne({ username: friendUsername });
+    if (!friend) return res.status(404).json({ error: "Friend not found." });
+
+    if (user.friends.includes(friendUsername)) {
+      // Remove friend
+      user.friends = user.friends.filter((f) => f !== friendUsername);
+      await user.save();
+      return res.json({ message: `${friendUsername} removed from your friends.` });
+    } else {
+      // Add friend
+      user.friends.push(friendUsername);
+      await user.save();
+      return res.json({ message: `${friendUsername} added to your friends.` });
+    }
+  } catch (error) {
+    console.error("Error managing friend:", error);
+    res.status(500).json({ error: "Internal server error." });
+  }
+});
+
+// Upload a screenshot of your results
+app.post("/upload-screenshot", upload.single("screenshot"), async (req, res) => {
+  const username = req.session.username;
+
+  if (!username) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+
+  try {
+    const filePath = `/uploads/${req.file.filename}`;
+    const uploadDate = new Date();
+
+    // Update user's screenshot and upload date
+    await User.updateOne(
+      { username },
+      { screenshot: filePath, uploadDate }
+    );
+
+    res.json({ screenshot: filePath, uploadDate });
+  } catch (error) {
+    console.error("Error uploading screenshot:", error);
+    res.status(500).json({ error: "Failed to upload screenshot." });
+  }
+});
+
+// Fetch another user's details such as friends and uploaded results screenshot
+app.get("/profile-data", async (req, res) => {
+  const { username } = req.query;
+
+  try {
+    const user = await User.findOne({ username });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found." });
+    }
+
+    res.json({
+      username: user.username,
+      friends: user.friends,
+      screenshot: user.screenshot,
+      uploadDate: user.uploadDate,
+    });
+  } catch (error) {
+    console.error("Error fetching profile data:", error);
+    res.status(500).json({ error: "Failed to fetch profile data." });
+  }
 });
