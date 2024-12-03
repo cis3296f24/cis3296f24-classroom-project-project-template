@@ -492,14 +492,35 @@ function renderTracks(data) {
                 <body>
                     <h1>${d.key} - Track List</h1>
                     <ul id="track-list"></ul>
+                    <script nonce="abc123">
+                        async function fetchTracks() {
+                            console.log('Fetching tracks...');
+                            const response = await fetch(
+                                'https://api.spotify.com/v1/artists/${d.id}/top-tracks?market=US',
+                                { headers: { Authorization: 'Bearer ${accessToken}' } }
+                            );
+                            if (response.ok) {
+                                const data = await response.json();
+                                const list = document.getElementById('track-list');
+                                data.tracks.forEach(track => {
+                                    const li = document.createElement('li');
+                                    li.textContent = track.name;
+                                    list.appendChild(li);
+                                });
+                            } else {
+                                console.error('Failed to fetch tracks');
+                            }
+                        }
+                        fetchTracks();
+                    </script>
                 </body>
                 </html>
             `);
     
-            newWindow.onload = async () => {
+            /*newWindow.onload = async () => {
                 console.log('New window loaded');
                 await fetchTracksForArtist(d.id, newWindow);
-            };
+            };*/
         });
 
     svg.selectAll(".artist-label")
@@ -581,7 +602,7 @@ function displayTracks(tracks) {
         artistItem.textContent = `${artist.key} (${artist.value.count} tracks)`;
         artistItem.style.color = 'white';
         artistItem.style.fontWeight = 'bold';
-        //trackList.appendChild(artistItem);
+        trackList.appendChild(artistItem);
 
         const trackTitles = document.createElement('ul');
         artist.value.tracks.forEach(track => {
@@ -590,7 +611,7 @@ function displayTracks(tracks) {
             trackItem.style.color = 'white';
             trackTitles.appendChild(trackItem);
         });
-        //trackList.appendChild(trackTitles);
+        trackList.appendChild(trackTitles);
     });
   
   const d3 = require('d3');
