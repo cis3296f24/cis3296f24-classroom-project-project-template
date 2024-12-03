@@ -466,10 +466,10 @@ function renderTracks(data) {
                 <html>
                 <head>
                     <title>${d.key} - Track List</title>
-                    <style>
+                    <style nonce="abc123">
                         body {
-                            font-family: Arial, sans-serif;
-                            background-color: #121212;
+                            font-family: monospace;
+                            background-color: rgba(0, 0, 100, 1);
                             color: white;
                             margin: 0;
                             padding: 20px;
