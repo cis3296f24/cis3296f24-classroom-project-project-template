@@ -502,6 +502,16 @@ function displayTracks(tracks) {
         });
         trackList.appendChild(trackTitles);
     });
+  
+  const d3 = require('d3');
+  module.exports = {
+        checkAuthentication,
+        fetchTracks,
+        renderTracks,
+        fetchUserProfile,
+        fetchFriends,
+        goToHome
+   };
 }
 
 // Functionality for Login and redirection to profile page
