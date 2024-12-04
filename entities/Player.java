@@ -219,6 +219,7 @@ public class Player extends Entity {
     public void update() {
         updateHealthBar();
         // updatePowerBar();
+        // System.out.println(" ----------------             hitbox.y = " + hitbox.y);
         if (currentHealth <= 0) {
             if (state != DEAD) {
                 state = DEAD;
@@ -228,6 +229,7 @@ public class Player extends Entity {
                 playing.getGame().getAudioPlayer().playEffect(AudioPlayer.DIE);
                 // Check if player died in air
                 if (!IsEntityOnFloor(hitbox, lvlData)) {
+                    // System.out.println(" ----------------             hitbox.y = " + hitbox.y);
                     inAir = true;
                     airSpeed = 0;
                 }

@@ -147,29 +147,22 @@ public class Playing extends State implements Statemethods {
 
     public void loadNextLevel() {
         System.out.println("Inside playing loadNextLevel   ////////////////       levelManager: " + levelManager.getLevelIndex());
-
-        if (lvlCompleted) {
-            levelManager.setLevelIndex(levelManager.getLevelIndex() + 1); // increment if completed.
-        } else if (gameCompleted) {
-            levelManager.setLevelIndex(0);
-        }
         levelManager.loadNextLevel();
         switch (levelManager.getLevelIndex()) {
-            case 1:
+            case 0:
                 backgroundImg = LoadSave.GetSpriteAtlas(LoadSave.BG_LEVEL_1);
                 break;
-            case 2:
+            case 1:
                 backgroundImg = LoadSave.GetSpriteAtlas(LoadSave.BG_LEVEL_2);
                 break;
-            case 3:
+            case 2:
                 backgroundImg = LoadSave.GetSpriteAtlas(LoadSave.BG_LEVEL_3);
                 break;
-            case 4:
+            case 3:
                 backgroundImg = LoadSave.GetSpriteAtlas(LoadSave.BG_LEVEL_4);
                 break;
-            case 5:
+            case 4:
                 backgroundImg = LoadSave.GetSpriteAtlas(LoadSave.BG_LEVEL_5);
-                levelManager.setLevelIndex(0); // after loading the last level set the game back to zero.
                 break;
         }
         player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
@@ -313,8 +306,9 @@ public class Playing extends State implements Statemethods {
             pauseOverlay.draw(g);
         } else if (gameOver)
             gameOverOverlay.draw(g);
-        else if (lvlCompleted)
+        else if (lvlCompleted) {
             levelCompletedOverlay.draw(g);
+        }
         else if (gameCompleted)
             gameCompletedOverlay.draw(g);
     }
@@ -489,6 +483,7 @@ public class Playing extends State implements Statemethods {
             return;
         }
         this.lvlCompleted = levelCompleted;
+        levelManager.setLevelIndex(levelManager.getLevelIndex() + 1);   // I added this so we increase the levels.
     }
 
     public void setMaxLvlOffset(int lvlOffset) {
