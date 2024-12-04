@@ -98,12 +98,13 @@ public class Playing extends State implements Statemethods {
     public Playing(FlappyGame flappyGame) {
         super(flappyGame);
         initClasses();
-       // System.out.println("             Playing is loading this level ---------> " + levelManager.getLevelIndex());
-       // System.out.println("             Playing is loading " + LoadSave.BG_LEVEL_1);
+        // System.out.println("             Playing is loading this level ---------> " + levelManager.getLevelIndex());
+        // System.out.println("             Playing is loading " + LoadSave.BG_LEVEL_1);
         // backgroundImg = LoadSave.GetSpriteAtlas(LoadSave.PLAYING_BG_IMG);
         backgroundImg = LoadSave.GetSpriteAtlas(LoadSave.BG_LEVEL_1); // Note rest of the levels are loaded in loadNextLevel()
-        //        bigCloud = LoadSave.GetSpriteAtlas(LoadSave.BIG_CLOUDS);
+        System.out.println("Level index =================== First load " + levelManager.getLevelIndex());
         smallCloud = LoadSave.GetSpriteAtlas(LoadSave.SMALL_CLOUDS);
+        //        bigCloud = LoadSave.GetSpriteAtlas(LoadSave.BIG_CLOUDS);
         smallCloudsPos = new int[8];
         for (int i = 0; i < smallCloudsPos.length; i++) {
             smallCloudsPos[i] = (int) (90 * FlappyGame.SCALE) + rnd.nextInt((int) (100 * FlappyGame.SCALE));
@@ -145,8 +146,13 @@ public class Playing extends State implements Statemethods {
     }
 
     public void loadNextLevel() {
-        levelManager.setLevelIndex(levelManager.getLevelIndex() + 1);
         System.out.println("Inside playing loadNextLevel   ////////////////       levelManager: " + levelManager.getLevelIndex());
+
+        if (lvlCompleted) {
+            levelManager.setLevelIndex(levelManager.getLevelIndex() + 1); // increment if completed.
+        } else if (gameCompleted) {
+            levelManager.setLevelIndex(0);
+        }
         levelManager.loadNextLevel();
         switch (levelManager.getLevelIndex()) {
             case 1:
@@ -477,7 +483,8 @@ public class Playing extends State implements Statemethods {
             // No more levels
             gameCompleted = true;
             levelManager.setLevelIndex(0);
-            levelManager.loadNextLevel();
+            // levelManager.loadNextLevel();
+            loadNextLevel();
             resetAll();
             return;
         }

@@ -98,18 +98,6 @@ public class LoadSave {
         return animations;
     }
 
-    // Will add ability to choose different birds coming up next.
-    //    public static BufferedImageNew[][] loadBirdAnimations(PlayerCharacter pc) {
-    //        BufferedImage img = LoadSave.GetSpriteAtlas(pc.playerAtlas);
-    //        BufferedImage[][] animations = new BufferedImage[pc.numRows][pc.numColms];
-    //        for (int j = 0; j < animations.length; j++)
-    //            for (int i = 0; i < animations[j].length; i++)
-    //                animations[j][i] = img.getSubimage(i * pc.spriteW, j * pc.spriteH, pc.spriteW, pc.spriteH);
-    //        return animations;
-    //    }
-
-    // Load birds
-
     public static BufferedImage GetSpriteAtlas(String fileName) {
        // System.out.println("LoadSave.java fileName: " + fileName);
         BufferedImage img = null;
