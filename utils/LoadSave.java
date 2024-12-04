@@ -30,9 +30,10 @@ public class LoadSave {
    // public static final String PLAYER_ATLAS = "eagle_Linear_Sheet_Fixed.png";
     public static final String PLAYER_EAGLE = "eagle_Linear_Sheet_New.png"; // Using 64 pixel by 12 birds
     public static final String PLAYER_BAT = "BaddyBats_64pixX9.png";
-    public static final String PLAYER_YELLOWBIRD = "YelloBirdsColorsx64.png";
-    public static final String PLAYER_REDBIRD = "YelloBirdsColorsx64.png";
-    public static final String LEVEL_ATLAS = "outside_sprites.png";
+    public static final String PLAYER_YELLOWBIRD = "YellowBirdsColorsx64.png";
+    public static final String PLAYER_REDBIRD = "YellowBirdsColorsx64.png";
+    public static final String LEVEL_ATLAS = "fb_sprites_03.png";  // Load Flappy Bird PIPES here.
+    public static final String LEVEL_ATLAS1 = "outside_sprites.png";  // Load Flappy Bird PIPES here.
     public static final String MENU_BUTTONS = "button_atlas.png";
     public static final String MENU_BACKGROUND = "menu_background.png";
     public static final String PAUSE_BACKGROUND = "pause_menu.png";
@@ -40,7 +41,14 @@ public class LoadSave {
     public static final String URM_BUTTONS = "urm_buttons.png";
     public static final String VOLUME_BUTTONS = "volume_buttons.png";
     public static final String MENU_BACKGROUND_IMG = "bk_images/halloween2.png";
-    public static final String PLAYING_BG_IMG = "playing_bg_img.png";
+    // public static final String PLAYING_BG_IMG = "playing_bg_img.png";
+    // public static final String BG_IMG_FOLDER = "bg_levels/";
+    public static final String BG_LEVEL_1 = "level1.png";
+    public static final String BG_LEVEL_2 = "level2.png";
+    public static final String BG_LEVEL_3 = "level3.png";
+    public static final String BG_LEVEL_4 = "level4.png";
+    public static final String BG_LEVEL_5 = "level5.png";
+
     // Halloween theme backgrounds
     public static final String Folder = "HalloweenThemes/";
     public static final String FlappyLayer_1 = Folder + "Layer_1.png";  // This is the background downloaded from free sites.
@@ -80,12 +88,11 @@ public class LoadSave {
     public static final String SHIP = "ship.png";
 
     public static BufferedImage[][] loadAnimations(PlayerCharacter pc) {
-        System.out.println("Loading animations pc   " + pc);
+        // System.out.println("Loading animations pc   " + pc);
         BufferedImage img = LoadSave.GetSpriteAtlas(pc.playerAtlas);
         BufferedImage[][] animations = new BufferedImage[pc.numRows][pc.numColms];
         for (int j = 0; j < animations.length; j++)
             for (int i = 0; i < animations[j].length; i++) {
-                System.out.println("animations[j][i] =" + animations[j][i]);
                 animations[j][i] = img.getSubimage((i * pc.spriteW) + pc.centerPixelOffset, j * pc.spriteH, pc.spriteW, pc.spriteH);
             }
         return animations;
@@ -104,7 +111,7 @@ public class LoadSave {
     // Load birds
 
     public static BufferedImage GetSpriteAtlas(String fileName) {
-        // System.out.println("LoadSave.java fileName: " + fileName);
+       // System.out.println("LoadSave.java fileName: " + fileName);
         BufferedImage img = null;
         InputStream is = LoadSave.class.getResourceAsStream("/" + fileName);
         try {
@@ -137,14 +144,14 @@ public class LoadSave {
             for (int j = 0; j < files.length; j++) {
                 if (files[j].getName().equals((i + 1) + ".png")){
                     filesSorted[i] = files[j];
-                    System.out.println("File: " + files[j].getName() + ", File: " + files[j].getPath());
+                    // System.out.println("File: " + files[j].getName() + ", File: " + files[j].getPath());
                 }
             }
         BufferedImage[] imgs = new BufferedImage[filesSorted.length];
         for (int i = 0; i < imgs.length; i++)
             try {
                 imgs[i] = ImageIO.read(filesSorted[i]);
-                System.out.println("imgs: length of each image " + imgs[i]);
+               // System.out.println("imgs: length of each image " + imgs[i]);
             } catch (IOException e) {
                 e.printStackTrace();
             }

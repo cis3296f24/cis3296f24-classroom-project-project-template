@@ -42,8 +42,7 @@ public class Player extends Entity {
     private int statusBarY = (int) (10 * FlappyGame.SCALE);
 
     private float flyingSpeed = 1.1f; // Change this for bird speed fast or slow
-
-        private int healthBarWidth = (int) (150 * FlappyGame.SCALE);
+    private int healthBarWidth = (int) (150 * FlappyGame.SCALE);
     private int healthBarHeight = (int) (4 * FlappyGame.SCALE);
     private int healthBarXStart = (int) (34 * FlappyGame.SCALE);
     private int healthBarYStart = (int) (14 * FlappyGame.SCALE);
@@ -183,10 +182,10 @@ public class Player extends Entity {
         resetAttackBox();
     }
 
+    // Game over sound played in this method.
     public void update() {
         updateHealthBar();
-        updatePowerBar();
-
+        // updatePowerBar();
         if (currentHealth <= 0) {
             if (state != DEAD) {
                 state = DEAD;
@@ -203,6 +202,8 @@ public class Player extends Entity {
                 playing.setGameOver(true);
                 playing.getGame().getAudioPlayer().stopSong();
                 playing.getGame().getAudioPlayer().playEffect(AudioPlayer.GAMEOVER);
+                System.out.println("Ani tick reached <---------------------------");
+
             } else {
                 updateAnimationTick();
                 // Fall if in air
@@ -318,7 +319,7 @@ public class Player extends Entity {
         g.drawString("Score: " + score, 50, 50);
         g.setColor(Color.white);
         g.setFont(new Font("Arial", Font.BOLD, 30));
-        g.drawString("Level: " + playing.getLevelManager().getLevelIndex(), 350, 50);
+        g.drawString("Level: " + (playing.getLevelManager().getLevelIndex() + 1), 350, 50);
     }
 
     // Draws the health bar of the bird in the upper left corner.
@@ -547,6 +548,7 @@ public class Player extends Entity {
             return;
         changeHealth(value);
         pushBackOffsetDir = UP;
+
         pushDrawOffset = 0;
 
         if (e.getHitbox().x < hitbox.x)

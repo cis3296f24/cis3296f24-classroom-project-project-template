@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import main.FlappyGame;
+import net.sf.sdedit.ui.components.SystemOut;
 import utils.LoadSave;
 
 public class LevelManager {
@@ -46,6 +47,7 @@ public class LevelManager {
 	}
 
 	private void importOutsideSprites() {
+		// System.out.println("Loading Sprites " + LoadSave.LEVEL_ATLAS);
 		BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.LEVEL_ATLAS);
 		levelSprite = new BufferedImage[48];
 		for (int j = 0; j < 4; j++)

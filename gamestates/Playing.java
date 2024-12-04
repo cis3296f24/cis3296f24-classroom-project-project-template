@@ -86,10 +86,24 @@ public class Playing extends State implements Statemethods {
     private int shipAni, shipTick, shipDir = 1;
     private float shipHeightDelta, shipHeightChange = 0.05f * FlappyGame.SCALE;
 
+    /**
+     *     public static final String PLAYING_BG_IMG = "playing_bg_img.png";
+     *     public static final String BG_IMG_FOLDER = "bg_levels/";
+     *     public static final String BG_LEVEL_1 = "bg_level_1";
+     *     public static final String BG_LEVEL_2 = "bg_level_2";
+     *     public static final String BG_LEVEL_3 = "bg_level_3";
+     *     public static final String BG_LEVEL_4 = "bg_level_4";
+     *     public static final String BG_LEVEL_5 = "bg_level_5";
+     *
+     * @param flappyGame
+     */
     public Playing(FlappyGame flappyGame) {
         super(flappyGame);
         initClasses();
-        backgroundImg = LoadSave.GetSpriteAtlas(LoadSave.PLAYING_BG_IMG);
+       // System.out.println("             Playing is loading this level ---------> " + levelManager.getLevelIndex());
+       // System.out.println("             Playing is loading " + LoadSave.BG_LEVEL_1);
+        // backgroundImg = LoadSave.GetSpriteAtlas(LoadSave.PLAYING_BG_IMG);
+        backgroundImg = LoadSave.GetSpriteAtlas(LoadSave.BG_LEVEL_1); // Note rest of the levels are loaded in loadNextLevel()
         //        bigCloud = LoadSave.GetSpriteAtlas(LoadSave.BIG_CLOUDS);
         smallCloud = LoadSave.GetSpriteAtlas(LoadSave.SMALL_CLOUDS);
         smallCloudsPos = new int[8];
@@ -103,6 +117,7 @@ public class Playing extends State implements Statemethods {
         // loadDialogue();
         calcLvlOffset();
         loadStartLevel();
+        // System.out.println("levelManager.getCurrentLevel()  == " + levelManager.getLevelIndex());
         setDrawRainBoolean();
     }
 
@@ -134,6 +149,23 @@ public class Playing extends State implements Statemethods {
     public void loadNextLevel() {
         levelManager.setLevelIndex(levelManager.getLevelIndex() + 1);
         levelManager.loadNextLevel();
+        switch (levelManager.getLevelIndex() + 1) {
+            case 1:
+                backgroundImg = LoadSave.GetSpriteAtlas(LoadSave.BG_LEVEL_1);
+                break;
+            case 2:
+                backgroundImg = LoadSave.GetSpriteAtlas(LoadSave.BG_LEVEL_2);
+                break;
+            case 3:
+                backgroundImg = LoadSave.GetSpriteAtlas(LoadSave.BG_LEVEL_3);
+                break;
+            case 4:
+                backgroundImg = LoadSave.GetSpriteAtlas(LoadSave.BG_LEVEL_4);
+                break;
+            case 5:
+                backgroundImg = LoadSave.GetSpriteAtlas(LoadSave.BG_LEVEL_5);
+                break;
+        }
         player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
         resetAll();
         drawShip = false;
@@ -302,7 +334,7 @@ public class Playing extends State implements Statemethods {
     }
 
     public void resetAll() {
-        if (gameOver) player.setBirdScore(0);
+        if (gameOver) player.setBirdScore(0); // This line has to be before gameOver = false.
         gameOver = false;
         paused = false;
         lvlCompleted = false;

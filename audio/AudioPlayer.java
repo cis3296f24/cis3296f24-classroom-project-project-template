@@ -29,6 +29,13 @@ public class AudioPlayer {
 	/** Identifier for the second level music. */
 	public static int LEVEL_2 = 2;
 
+	public static int LEVEL_3 = 3;
+
+	/** Identifier for the second level music. */
+	public static int LEVEL_4 = 4;
+
+	public static int LEVEL_5 = 5;
+
 	/** Identifier for the sound effect played when the player dies. */
 	public static int DIE = 0;
 
@@ -72,7 +79,7 @@ public class AudioPlayer {
 	 * Retrieves audio clips for each song by name.
 	 */
 	private void loadSongs() {
-		String[] names = { "menu", "level1", "level2" };
+		String[] names = { "menu", "level1", "level2", "level3", "level4", "level5"};
 		songs = new Clip[names.length];
 		for (int i = 0; i < songs.length; i++)
 			songs[i] = getClip(names[i]);
@@ -87,7 +94,6 @@ public class AudioPlayer {
 		effects = new Clip[effectNames.length];
 		for (int i = 0; i < effects.length; i++)
 			effects[i] = getClip(effectNames[i]);
-
 		updateEffectsVolume();
 	}
 
@@ -142,10 +148,24 @@ public class AudioPlayer {
 	 * @param lvlIndex The index of the level to determine which song to play.
 	 */
 	public void setLevelSong(int lvlIndex) {
-		if (lvlIndex % 2 == 0)
-			playSong(LEVEL_1);
-		else
-			playSong(LEVEL_2);
+		System.out.println("lvlIndex = " + lvlIndex);
+		switch (lvlIndex + 1) {
+			case 1 : playSong(LEVEL_1);
+				System.out.println("Level 1 is now playing");
+			break;
+			case 2 : playSong(LEVEL_2);
+				System.out.println("Level 2 is now playing");
+			break;
+			case 3 : playSong(LEVEL_3);
+				System.out.println("Level 3 is now playing");
+			break;
+			case 4 : playSong(LEVEL_4);
+				System.out.println("Level 4 is now playing");
+			break;
+			case 5 : playSong(LEVEL_5);
+				System.out.println("Level 5 is now playing");
+			break;
+		}
 	}
 
 	/**
@@ -183,7 +203,6 @@ public class AudioPlayer {
 	 */
 	public void playSong(int song) {
 		stopSong();
-
 		currentSongId = song;
 		updateSongVolume();
 		songs[currentSongId].setMicrosecondPosition(0);
