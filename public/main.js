@@ -360,31 +360,31 @@ function renderTracks(data) {
             //Choose image for planet
             switch(i) {
                 case 0:
-                    planet = "sun.jpg"
+                    planet = "sun2.jpg"
                     break;
                 case 1:
-                    planet = "mercury.jpg"
+                    planet = "mercury2.jpg"
                     break;
                 case 2:
-                    planet = "venus.jpg"
+                    planet = "venus2.jpg"
                     break;
                 case 3:
-                    planet = "earth.jpg"
+                    planet = "earth2.jpg"
                     break;
                 case 4:
-                    planet = "mars.jpg"
+                    planet = "mars2.jpg"
                     break;
                 case 5:
-                    planet = "jupiter.jpg"
+                    planet = "jupiter2.jpg"
                     break;
                 case 6:
                     planet = "saturn.jpg"
                     break;
                 case 7:
-                    planet = "uranus.jpg"
+                    planet = "uranus2.jpg"
                     break;
                 case 8:
-                    planet = "neptune.jpg"
+                    planet = "neptune2.jpg"
                     break;
                 case 9:
                     planet = "pluto.jpg"
@@ -531,6 +531,12 @@ function renderTracks(data) {
         .attr("x", d => xScale(textPosition++ * 10))
         .attr("y", d => yScale(d.value.avgDuration) + 5)
         .attr("text-anchor", "middle")
+        .attr('fill', 'white')
+        .attr('stroke', 'black')
+        .attr('stroke-width','1px')
+        .attr('font-size', '15px')
+        .attr('font-family','Impact')
+        .attr('font-weight','bold')
         .text(d => d.key);
 }
 
