@@ -13,7 +13,142 @@
     let markers = [];
     let allLocations = [];
 
-    //allocate bus stop locatoins
+    //allocate subway stop locations manually as it does not exist in the api
+    const subwayStops = [
+    {
+        location_lat: "40.041",
+        location_lon: "-75.136",
+        location_name: "Fern Rock",
+        location_type: "subway_stops"
+    },
+    {
+        location_lat: "40.0389",
+        location_lon: "-75.1447",
+        location_name: "Olney Transportation Center",
+        location_type: "subway_stops"
+    },
+    {
+        location_lat: "40.0307",
+        location_lon: "-75.1465",
+        location_name: "Logan Station",
+        location_type: "subway_stops"
+    },
+    {
+        location_lat: "40.0246",
+        location_lon: "-75.1479",
+        location_name: "Wyoming",
+        location_type: "subway_stops"
+    },
+    {
+        location_lat: "40.0169",
+        location_lon: "-75.1495",
+        location_name: "Hunting Park",
+        location_type: "subway_stops"
+    },
+    {
+        location_lat: "40.0093",
+        location_lon: "-75.1512",
+        location_name: "Erie",
+        location_type: "subway_stops"
+    },
+    {
+        location_lat: "40.0017",
+        location_lon: "-75.1528",
+        location_name: "Allegheny",
+        location_type: "subway_stops"
+    },
+    {
+        location_lat: "39.994167",
+        location_lon: "-75.154444",
+        location_name: "North Philadelphia",
+        location_type: "subway_stops"
+    },
+    {
+        location_lat: "39.986389",
+        location_lon: "-75.156389",
+        location_name: "Susquehanna-Dauphin",
+        location_type: "subway_stops"
+    },
+    {
+        location_lat: "39.98",
+        location_lon: "-75.157",
+        location_name: "Cecil B. Moore",
+        location_type: "subway_stops"
+    },
+    {
+        location_lat: "39.9715",
+        location_lon: "-75.1594",
+        location_name: "Girard",
+        location_type: "subway_stops"
+    },
+    {
+        location_lat: "39.9671",
+        location_lon: "-75.1604",
+        location_name: "Fairmount",
+        location_type: "subway_stops"
+    },
+    {
+        location_lat: "39.9621",
+        location_lon: "-75.1615",
+        location_name: "Spring Garden",
+        location_type: "subway_stops"
+    },
+    {
+        location_lat: "39.9582",
+        location_lon: "-75.1623",
+        location_name: "Race-Vine",
+        location_type: "subway_stops"
+    },
+    {
+        location_lat: "39.952247",
+        location_lon: "-75.163894",
+        location_name: "City Hall",
+        location_type: "subway_stops"
+    },
+    {
+        location_lat: "39.9493",
+        location_lon: "-75.1643",
+        location_name: "Walnut-Locust",
+        location_type: "subway_stops"
+    },
+    {
+        location_lat: "39.9447",
+        location_lon: "-75.1653",
+        location_name: "Lombard-South",
+        location_type: "subway_stops"
+    },
+    {
+        location_lat: "39.9358",
+        location_lon: "-75.1672",
+        location_name: "Ellsworth-Federal",
+        location_type: "subway_stops"
+    },
+    {
+        location_lat: "39.930308",
+        location_lon: "-75.168226",
+        location_name: "Tasker-Morris",
+        location_type: "subway_stops"
+    },
+    {
+        location_lat: "39.9242",
+        location_lon: "-75.1697",
+        location_name: "Snyder",
+        location_type: "subway_stops"
+    },
+    {
+        location_lat: "39.9168",
+        location_lon: "-75.1713",
+        location_name: "Oregon",
+        location_type: "subway_stops"
+    },
+    {
+        location_lat: "39.9054",
+        location_lon: "-75.1732",
+        location_name: "NRG Station",
+        location_type: "subway_stops"
+    },
+
+    ];
 
     let userLocationMarker = null;
     let userLocationPopup = null;
@@ -58,7 +193,7 @@
             console.log("Trolley Data:", trolleyData);
 
             // Combine all data into one array
-            allLocations = [...busData, ...railData, ...trolleyData];
+            allLocations = [...busData, ...railData, ...trolleyData, ...subwayStops];
             console.log("All Locations:", allLocations);
 
             // Update markers 
@@ -115,7 +250,7 @@
             markers.forEach(marker => marker.remove());
             markers = [];
 
-            //create set of seen locations
+            //create set of seen locations, this prevents du
             const seenLocations = new Set();
 
             // Add markers for the locations that are selected by checkboxes
@@ -176,10 +311,10 @@
         switch (location.location_type) {
             case "bus_stops":
                 return $bus;
-            case "subway":
+            case "subway_stops":
                 return $subway;
             case "trolley_stops":
-                return $trolley;
+                return $rail;
             case "rail_stations":
                 return $rail;
             default:
