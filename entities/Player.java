@@ -20,8 +20,17 @@ import gamestates.Playing;
 import main.FlappyGame;
 import utils.LoadSave;
 
+/**
+ * Represents the player character in the game responsible for user interaction and rendering.
+ */
 public class Player extends Entity {
-
+    /**
+     * Constructs a Player object with a given player character and game state.
+     *
+     * @param playerCharacter The character chosen by the player.
+     * @param playing The current game state.
+     */
+    // [Attributes declarations]
     private BufferedImage[][] animations;
     private boolean moving = false, attacking = false;
     private boolean left, right, jump;
@@ -88,7 +97,11 @@ public class Player extends Entity {
         initAttackBox();
     }
 
-    // Set bird health;
+    /**
+     * Updates the health bar display of the bird.
+     *
+     * @param birdHealth The health to set the bird to.
+     */
     public void setUpdateHealthBar(int birdHealth) {
         currentHealth = birdHealth;
         //currentHealth = maxHealth; // Change to this for testing.
@@ -140,6 +153,12 @@ public class Player extends Entity {
 //            }
 //    }
 
+
+    /**
+     * Sets the spawn point of the player.
+     *
+     * @param spawn The spawn position as a Point object.
+     */
     // I hard coded this since we do not have the original map for a different game.
     // this only applies to the Flappy game.
     public void setSpawn(Point spawn) {
@@ -151,6 +170,14 @@ public class Player extends Entity {
     hitbox.y = y;
     }
 
+
+    /**
+     * Updates the player's bird score based on the current position and level data.
+     *
+     * @param x The x coordinate of the player's position.
+     * @param y The y coordinate of the player's position.
+     * @param lvlData The data of the current level.
+     */
     // The logic in this method works as a toggle switch to keep score
     // It avoids duplicating the score if the bird spends too much inside the fly zone.
     public void updateBirdScore(float x, float y, int[][] lvlData) {
@@ -175,6 +202,9 @@ public class Player extends Entity {
         }
     }
 
+    /**
+     * Initializes the player's attack box.
+     */
     private void initAttackBox() {
 
         //        attackBox = new Rectangle2D.Float(x, y, (int) ((35 * FlappyGame.SCALE) + playerCharacter.centerPixelOffset), (int) (20 * FlappyGame.SCALE));
@@ -182,6 +212,9 @@ public class Player extends Entity {
         resetAttackBox();
     }
 
+    /**
+     * Updates the player's state and checks various conditions each frame.
+     */
     // Game over sound played in this method.
     public void update() {
         updateHealthBar();
@@ -218,7 +251,6 @@ public class Player extends Entity {
 
             return;
         }
-
         updateAttackBox();
         if (state == HIT) {
             if (aniIndex <= playerCharacter.getSpriteAmount(state) - 3)
@@ -245,19 +277,31 @@ public class Player extends Entity {
         setAnimation();
     }
 
+    /**
+     * Checks if the player is in water and updates health accordingly.
+     */
     private void checkInsideWater() {
         if (IsEntityInWater(hitbox, playing.getLevelManager().getCurrentLevel().getLevelData()))
             currentHealth = 0;
     }
 
+    /**
+     * Checks if the player has contacted spikes and acts accordingly.
+     */
     private void checkSpikesTouched() {
         playing.checkSpikesTouched(this);
     }
 
+    /**
+     * Checks if the player has touched a potion in the game.
+     */
     private void checkPotionTouched() {
         playing.checkPotionTouched(hitbox);
     }
 
+    /**
+     * Handles logic for checking if an attack hits an enemy or object and plays sound.
+     */
     private void checkAttack() {
         if (attackChecked || aniIndex != 1)
             return;
@@ -269,6 +313,9 @@ public class Player extends Entity {
         playing.getGame().getAudioPlayer().playAttackSound();
     }
 
+    /**
+     * Sets the attack box to the right side of the player.
+     */
     private void setAttackBoxOnRightSide() {
         attackBox.x = hitbox.x + hitbox.width - (int) (FlappyGame.SCALE * 5);
     }
@@ -486,8 +533,9 @@ public class Player extends Entity {
                 // This section is true if the bird collides with an area not allowed.
                 setUpdateHealthBar(COLLIDED);  // Collide the bird and end game.
                 hitbox.y = GetEntityYPosUnderRoofOrAboveFloor(hitbox, airSpeed);
-                if (airSpeed > 0)
+                if (airSpeed > 0) {
                     resetInAir();
+                }
                 else
                     airSpeed = fallSpeedAfterCollision;
                 updateXPos(xSpeed);
@@ -624,6 +672,7 @@ public class Player extends Entity {
         powerAttackActive = false;
         powerAttackTick = 0;
         powerValue = powerMaxValue;
+        System.out.println("x = " + x + " y = " + y);
         hitbox.x = x;
         hitbox.y = y;
         resetAttackBox();
@@ -635,7 +684,7 @@ public class Player extends Entity {
         if (flipW == 1)
             setAttackBoxOnRightSide();
         else
-            setAttackBoxOnLeftSide();
+            setAttackBoxOnRightSide(); // I changed this for flappy bird so that nothing goes left.
     }
 
     public int getTileY() {

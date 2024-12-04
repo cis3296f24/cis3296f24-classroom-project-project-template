@@ -5,9 +5,13 @@ import utils.LoadSave;
 
 import static utils.Constants.PlayerConstants.*;
 
+/**
+ * Represents a character in the Flappy Bird game with various attributes
+ * and behaviors. It defines properties of the characters such as their
+ * animations, atlas, and hitboxes.
+ */
 public enum PlayerCharacter {
-    // NOTES: The cap letter A stands for amount. For example if you have a sheet with 3 dying pics you choose 3 for spriteA_DEAD etc.
-    //
+
     EAGLE(11, 11, 11, 11, 1, 1, 1,
             0, 0, 0, 0, 0, 0, 0,
             LoadSave.PLAYER_EAGLE, 10, 1, 11, 72, 70,
@@ -25,8 +29,6 @@ public enum PlayerCharacter {
             LoadSave.PLAYER_REDBIRD, 0, 4, 3, 58, 40,
             30, 22, 22, 12);
 
-    // Instead of affecting the other characters we will equate RUNNING == FLYING for bird characters.
-    // As for the return value 7 for FLYING is debatable.
     public int spriteA_IDLE, spriteA_RUNNING, spriteA_JUMP, spriteA_FALLING, spriteA_ATTACK, spriteA_HIT, spriteA_DEAD;
     public int rowIDLE, rowRUNNING, rowJUMP, rowFALLING, rowATTACK, rowHIT, rowDEAD;
     public String playerAtlas;
@@ -36,12 +38,33 @@ public enum PlayerCharacter {
     public int hitboxW, hitboxH;
     public int xDrawOffset, yDrawOffset;
 
-
-    /*
-     private float xDrawOffset = 21 * FlappyGame.SCALE;
-     private float yDrawOffset = 4 * FlappyGame.SCALE;
+    /**
+     * Constructor for the PlayerCharacter enum.
+     * @param spriteA_IDLE Amount of IDLE sprites.
+     * @param spriteA_RUNNING Amount of RUNNING sprites.
+     * @param spriteA_JUMP Amount of JUMP sprites.
+     * @param spriteA_FALLING Amount of FALLING sprites.
+     * @param spriteA_ATTACK Amount of ATTACK sprites.
+     * @param spriteA_HIT Amount of HIT sprites.
+     * @param spriteA_DEAD Amount of DEAD sprites.
+     * @param rowIDLE IDLE animation row index.
+     * @param rowRUNNING RUNNING animation row index.
+     * @param rowJUMP JUMP animation row index.
+     * @param rowFALLING FALLING animation row index.
+     * @param rowATTACK ATTACK animation row index.
+     * @param rowHIT HIT animation row index.
+     * @param rowDEAD DEAD animation row index.
+     * @param playerAtlas File path of the player's atlas.
+     * @param centerPixelOffset Center pixel offset for positioning.
+     * @param numbRows Number of rows in the sprite sheet.
+     * @param numbCols Number of columns in the sprite sheet.
+     * @param spriteW Width of each sprite.
+     * @param spriteH Height of each sprite.
+     * @param hitboxW Width of the character's hitbox.
+     * @param hitboxH Height of the character's hitbox.
+     * @param xDrawOffset Horizontal draw offset.
+     * @param yDrawOffset Vertical draw offset.
      */
-
     PlayerCharacter(int spriteA_IDLE, int spriteA_RUNNING, int spriteA_JUMP, int spriteA_FALLING, int spriteA_ATTACK, int spriteA_HIT, int spriteA_DEAD,
                     int rowIDLE, int rowRUNNING, int rowJUMP, int rowFALLING, int rowATTACK, int rowHIT, int rowDEAD,
                     String playerAtlas, int centerPixelOffset, int numbRows, int numbCols, int spriteW, int spriteH,
@@ -65,7 +88,7 @@ public enum PlayerCharacter {
         this.rowDEAD = rowDEAD;
 
         this.playerAtlas = playerAtlas;
-        this.centerPixelOffset = centerPixelOffset; // This value corrects the char if it's loading to the side.
+        this.centerPixelOffset = centerPixelOffset;
         this.numRows = numbRows;
         this.numColms = numbCols;
         this.spriteW = spriteW;
@@ -78,6 +101,11 @@ public enum PlayerCharacter {
         this.yDrawOffset = (int) (yDrawOffset * FlappyGame.SCALE);
     }
 
+    /**
+     * Returns the amount of sprites for the specified player action.
+     * @param player_action The player action to get the sprite amount for.
+     * @return The number of sprites associated with the player action.
+     */
     public int getSpriteAmount(int player_action) {
         return switch (player_action) {
             case IDLE -> spriteA_IDLE;
@@ -91,6 +119,11 @@ public enum PlayerCharacter {
         };
     }
 
+    /**
+     * Returns the row index in the sprite sheet for the given player action.
+     * @param player_action The player action to get the row index for.
+     * @return The row index associated with the player action.
+     */
     public int getRowIndex(int player_action) {
         return switch (player_action) {
             case IDLE -> rowIDLE;
