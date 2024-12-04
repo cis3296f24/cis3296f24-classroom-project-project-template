@@ -101,13 +101,14 @@ app.get('/callback', async (req, res) => {
     const accessToken = response.data.access_token;
     req.session.access_token = accessToken; // Store the access token in session
 
-    // Redirect to frontend with the access token as a query parameter
-    res.redirect(`${redirectTo}?access_token=${accessToken}`);
+    /// Redirect to the app’s main page after successful login
+    res.redirect('/');
   } catch (error) {
     console.error('Error getting access token:', error);
     res.status(500).send('Authentication failed');
   }
 });
+
 
 // Fetch top tracks from Spotify
 app.get('/top-tracks', async (req, res) => {
@@ -137,12 +138,17 @@ app.get('/auth-status', (req, res) => {
   }
 });
 
-
-// Serve the main page
+//Serve cover.html at the / path
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html')); // Serve your HTML file
+  console.log("Serving cover.html");
+  res.sendFile(path.join(__dirname, 'public', 'cover.html'));
+  //res.redirect('/home');
 });
 
+// Serve index.html at the /home path
+app.get('/home', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html')); //Serve index.html at /home path
+});
 
 // Start the server and export the instance
 const server = app.listen(port, () => {
