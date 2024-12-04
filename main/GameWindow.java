@@ -5,16 +5,25 @@ import java.awt.event.WindowFocusListener;
 
 import javax.swing.JFrame;
 
+/**
+ * GameWindow manages the creation and configuration of the game window.
+ * It listens to the window's focus changes.
+ */
 public class GameWindow {
 	private JFrame jframe;
 
+	/**
+	 * Constructs a GameWindow and sets up the JFrame with the provided GamePanel.
+	 *
+	 * @param gamePanel The GamePanel to be added to the JFrame.
+	 */
 	public GameWindow(GamePanel gamePanel) {
 
 		jframe = new JFrame();
 
 		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		jframe.add(gamePanel);
-		
+
 		jframe.setResizable(false);
 		jframe.pack();
 		jframe.setLocationRelativeTo(null);
@@ -28,11 +37,8 @@ public class GameWindow {
 
 			@Override
 			public void windowGainedFocus(WindowEvent e) {
-				// TODO Auto-generated method stub
-
+				// This method is intentionally left blank
 			}
 		});
-
 	}
-
 }

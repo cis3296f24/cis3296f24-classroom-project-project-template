@@ -5,9 +5,12 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import main.FlappyGame;
-import net.sf.sdedit.ui.components.SystemOut;
 import utils.LoadSave;
 
+/**
+ * This class manages the levels in the FlappyGame, including loading, drawing,
+ * and updating them. It handles the level sprites and transitions between levels.
+ */
 public class LevelManager {
 
 	private FlappyGame flappyGame;
@@ -16,6 +19,11 @@ public class LevelManager {
 	private ArrayList<Level> levels;
 	private int lvlIndex = 0, aniTick, aniIndex;
 
+	/**
+	 * Constructs a LevelManager with the specified FlappyGame instance.
+	 *
+	 * @param flappyGame The instance of FlappyGame to be managed.
+	 */
 	public LevelManager(FlappyGame flappyGame) {
 		this.flappyGame = flappyGame;
 		importOutsideSprites();
@@ -24,6 +32,9 @@ public class LevelManager {
 		buildAllLevels();
 	}
 
+	/**
+	 * Initializes the sprites for water by loading them from the assets.
+	 */
 	private void createWater() {
 		waterSprite = new BufferedImage[5];
 		BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.WATER_TOP);
@@ -32,6 +43,10 @@ public class LevelManager {
 		waterSprite[4] = LoadSave.GetSpriteAtlas(LoadSave.WATER_BOTTOM);
 	}
 
+	/**
+	 * Loads the next level, updating all relevant game components such as
+	 * enemies, player state, and objects.
+	 */
 	public void loadNextLevel() {
 		Level newLevel = levels.get(lvlIndex);
 		flappyGame.getPlaying().getEnemyManager().loadEnemies(newLevel);
@@ -40,14 +55,19 @@ public class LevelManager {
 		flappyGame.getPlaying().getObjectManager().loadObjects(newLevel);
 	}
 
+	/**
+	 * Builds all levels by loading the images and creating Level instances.
+	 */
 	private void buildAllLevels() {
 		BufferedImage[] allLevels = LoadSave.GetAllLevels();
 		for (BufferedImage img : allLevels)
 			levels.add(new Level(img));
 	}
 
+	/**
+	 * Imports all level sprites needed for rendering the levels.
+	 */
 	private void importOutsideSprites() {
-		// System.out.println("Loading Sprites " + LoadSave.LEVEL_ATLAS);
 		BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.LEVEL_ATLAS);
 		levelSprite = new BufferedImage[48];
 		for (int j = 0; j < 4; j++)
@@ -57,6 +77,12 @@ public class LevelManager {
 			}
 	}
 
+	/**
+	 * Draws the current level onto the provided Graphics object.
+	 *
+	 * @param g The Graphics object used to draw the level.
+	 * @param lvlOffset The horizontal offset to apply when drawing the level.
+	 */
 	public void draw(Graphics g, int lvlOffset) {
 		for (int j = 0; j < FlappyGame.TILES_IN_HEIGHT; j++)
 			for (int i = 0; i < levels.get(lvlIndex).getLevelData()[0].length; i++) {
@@ -72,10 +98,16 @@ public class LevelManager {
 			}
 	}
 
+	/**
+	 * Updates the current level's state, including animating water.
+	 */
 	public void update() {
 		updateWaterAnimation();
 	}
 
+	/**
+	 * Handles the animation of water sprites in the level.
+	 */
 	private void updateWaterAnimation() {
 		aniTick++;
 		if (aniTick >= 40) {
@@ -87,18 +119,38 @@ public class LevelManager {
 		}
 	}
 
+	/**
+	 * Returns the currently active level.
+	 *
+	 * @return The current Level object.
+	 */
 	public Level getCurrentLevel() {
 		return levels.get(lvlIndex);
 	}
 
+	/**
+	 * Returns the total number of levels.
+	 *
+	 * @return The number of levels.
+	 */
 	public int getAmountOfLevels() {
 		return levels.size();
 	}
 
+	/**
+	 * Returns the index of the current level.
+	 *
+	 * @return The index of the current level.
+	 */
 	public int getLevelIndex() {
 		return lvlIndex;
 	}
 
+	/**
+	 * Sets the index of the current level.
+	 *
+	 * @param lvlIndex The index to set as the current level.
+	 */
 	public void setLevelIndex(int lvlIndex) {
 		this.lvlIndex = lvlIndex;
 	}
