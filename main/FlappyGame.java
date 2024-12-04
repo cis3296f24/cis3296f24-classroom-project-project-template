@@ -1,11 +1,13 @@
 package main;
 
 import java.awt.Graphics;
-
 import audio.AudioPlayer;
 import gamestates.*;
 import ui.AudioOptions;
 
+/**
+ * FlappyGame class implements the main game loop and manages the game states and rendering.
+ */
 public class FlappyGame implements Runnable {
 
     private GamePanel gamePanel;
@@ -31,6 +33,9 @@ public class FlappyGame implements Runnable {
 
     private final boolean SHOW_FPS_UPS = true;
 
+    /**
+     * Constructs a FlappyGame and initializes the game window and components.
+     */
     public FlappyGame() {
         System.out.println("size: " + GAME_WIDTH + " : " + GAME_HEIGHT);
         initClasses();
@@ -40,6 +45,9 @@ public class FlappyGame implements Runnable {
         startGameLoop();
     }
 
+    /**
+     * Initializes various game state classes and audio options.
+     */
     private void initClasses() {
         audioOptions = new AudioOptions(this);
         audioPlayer = new AudioPlayer();
@@ -50,11 +58,17 @@ public class FlappyGame implements Runnable {
         gameOptions = new GameOptions(this);
     }
 
+    /**
+     * Starts the game loop in a new thread.
+     */
     private void startGameLoop() {
         gameThread = new Thread(this);
         gameThread.start();
     }
 
+    /**
+     * Updates the current game state.
+     */
     public void update() {
         switch (Gamestate.state) {
             case MENU -> menu.update();
@@ -66,6 +80,11 @@ public class FlappyGame implements Runnable {
         }
     }
 
+    /**
+     * Renders the current state of the game.
+     *
+     * @param g The Graphics object used for drawing.
+     */
     @SuppressWarnings("incomplete-switch")
     public void render(Graphics g) {
         switch (Gamestate.state) {
@@ -77,86 +96,100 @@ public class FlappyGame implements Runnable {
         }
     }
 
+    /**
+     * The main game loop, controlling frame rate and updates per second.
+     */
     @Override
     public void run() {
         double timePerFrame = 1000000000.0 / FPS_SET;
         double timePerUpdate = 1000000000.0 / UPS_SET;
 
         long previousTime = System.nanoTime();
-
         int frames = 0;
         int updates = 0;
         long lastCheck = System.currentTimeMillis();
-
         double deltaU = 0;
         double deltaF = 0;
 
         while (true) {
-
             long currentTime = System.nanoTime();
-
             deltaU += (currentTime - previousTime) / timePerUpdate;
             deltaF += (currentTime - previousTime) / timePerFrame;
             previousTime = currentTime;
 
             if (deltaU >= 1) {
-
                 update();
                 updates++;
                 deltaU--;
-
             }
-
             if (deltaF >= 1) {
-
                 gamePanel.repaint();
                 frames++;
                 deltaF--;
-
             }
-
             if (SHOW_FPS_UPS)
                 if (System.currentTimeMillis() - lastCheck >= 1000) {
-
                     lastCheck = System.currentTimeMillis();
                     System.out.println("FPS: " + frames + " | UPS: " + updates);
                     frames = 0;
                     updates = 0;
-
                 }
-
         }
     }
 
+    /**
+     * Handles the window losing focus event, resetting player direction booleans.
+     */
     public void windowFocusLost() {
         if (Gamestate.state == Gamestate.PLAYING)
             playing.getPlayer().resetDirBooleans();
     }
 
+    /**
+     * @return the Menu object associated with the game.
+     */
     public Menu getMenu() {
         return menu;
     }
 
+    /**
+     * @return the Playing object associated with the game.
+     */
     public Playing getPlaying() {
         return playing;
     }
 
+    /**
+     * @return the Credits object associated with the game.
+     */
     public Credits getCredits() {
         return credits;
     }
 
+    /**
+     * @return the PlayerSelection object associated with the game.
+     */
     public PlayerSelection getPlayerSelection() {
         return playerSelection;
     }
 
+    /**
+     * @return the GameOptions object associated with the game.
+     */
     public GameOptions getGameOptions() {
         return gameOptions;
     }
 
+    /**
+     * @return the AudioOptions object associated with the game.
+     */
     public AudioOptions getAudioOptions() {
         return audioOptions;
     }
 
+    /**
+     * @return the AudioPlayer object for handling audio playbacks.
+     */
     public AudioPlayer getAudioPlayer() {
         return audioPlayer;
     }
