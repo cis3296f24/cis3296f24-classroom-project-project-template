@@ -67,4 +67,73 @@ describe('App Routes', () => {
         // Assert that the 'Content-Type' header is 'html' (indicating an HTML response)
         expect(res.header['content-type']).toMatch(/html/);
     });
+
+    // Test for the /register route
+    it('should register a new user', async () => {
+        const res = await request(server)
+            .post('/register')
+            .set('Content-Type', 'application/json') // Set Content-Type header
+            .send({ username: 'testuser', password: 'testpassword' });
+
+        expect(res.statusCode).toBe(201);
+        expect(res.body.message).toBe('User registered successfully.');
+    });
+
+    // Test for the /spaceify-login route
+    it('should login a user', async () => {
+        const res = await request(server)
+            .post('/spaceify-login')
+            .send({ username: 'testuser', password: 'testpassword' });
+
+        expect(res.statusCode).toBe(200);
+        expect(res.body.message).toBe('Login successful.');
+    });
+
+    // Test for the /friends route
+    it('should get the list of friends for a user', async () => {
+        const res = await request(server)
+            .get('/friends')
+            .query({ username: 'testuser' });
+
+        expect(res.statusCode).toBe(200);
+        expect(res.body).toHaveProperty('friends');
+    });
+
+    // Test for the /friends/manage route
+    it('should add and remove a friend', async () => {
+        const resAdd = await request(server)
+            .post('/friends/manage')
+            .send({ username: 'testuser', friendUsername: 'frienduser' });
+
+        expect(resAdd.statusCode).toBe(200);
+        expect(resAdd.body.message).toBe('frienduser added to your friends.');
+
+        const resRemove = await request(server)
+            .post('/friends/manage')
+            .send({ username: 'testuser', friendUsername: 'frienduser' });
+
+        expect(resRemove.statusCode).toBe(200);
+        expect(resRemove.body.message).toBe('frienduser removed from your friends.');
+    });
+
+    // Test for the /upload-screenshot route
+    it('should upload a screenshot', async () => {
+        const res = await request(server)
+            .post('/upload-screenshot')
+            .set('Cookie', 'session=valid-session-cookie') // Mock session cookie
+            .attach('screenshot', 'path/to/test/screenshot.png');
+
+        expect(res.statusCode).toBe(200);
+        expect(res.body).toHaveProperty('screenshot');
+    });
+
+    // Test for the /profile-data route
+    it('should fetch profile data', async () => {
+        const res = await request(server)
+            .get('/profile-data')
+            .query({ username: 'testuser' });
+
+        expect(res.statusCode).toBe(200);
+        expect(res.body).toHaveProperty('username', 'testuser');
+    });
 });
