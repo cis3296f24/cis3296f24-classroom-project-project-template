@@ -334,7 +334,11 @@ public class Playing extends State implements Statemethods {
     }
 
     public void resetAll() {
-        if (gameOver) player.setBirdScore(0); // This line has to be before gameOver = false.
+        if (gameOver) { // This line has to be before gameOver = false.
+            player.setBirdScore(0);
+            System.out.println("/////////////////////////////////////////////////////currentLevel:" + getLevelManager().getCurrentLevel().getLvlOffset());
+        }
+
         gameOver = false;
         paused = false;
         lvlCompleted = false;

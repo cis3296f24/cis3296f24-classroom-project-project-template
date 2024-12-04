@@ -39,7 +39,7 @@ public class Player extends Entity {
     //    private float yDrawOffset = 4 * FlappyGame.SCALE;
 
     // Jumping / Gravity
-    private float jumpSpeed = -2.000025f * FlappyGame.SCALE;
+    private float jumpSpeed = -1.5000000f * FlappyGame.SCALE;
     private float fallSpeedAfterCollision = 0.5f * FlappyGame.SCALE;
 
     // StatusBarUI
