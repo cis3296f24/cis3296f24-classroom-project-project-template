@@ -12,6 +12,9 @@
     let map;
     let markers = [];
     let allLocations = [];
+
+    //allocate bus stop locatoins
+
     let userLocationMarker = null;
     let userLocationPopup = null;
 
@@ -89,6 +92,7 @@
             .then(position => {
                 latitude = position.coords.latitude;
                 longitude = position.coords.longitude;
+                map.setCenter([longitude, latitude]);
 
                 userLocationMarker = new mapboxgl.Marker({ color: 'blue' })
                     .setLngLat([longitude, latitude])
