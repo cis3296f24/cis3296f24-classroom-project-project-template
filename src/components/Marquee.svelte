@@ -50,10 +50,24 @@
 </script>
 
 <div id="marquee">
-    <span>{warnings}</span>
+    <a href="https://www.septa.org/alerts" target="_blank" rel="noopener noreferrer">
+        <span>{warnings}</span>
+    </a>
 </div>
 
 <style>
+
+    #marquee a {
+        display: inline-block;
+        width: 100%;
+        height: 100%;
+        color: white; /* Ensures the text color stays white */
+        text-decoration: none; /* Removes underline */
+    }
+
+    #marquee a:hover {
+        color: white; /* Ensures the text stays white when hovered */
+    }
     /* Marquee for SEPTA Alerts */
     #marquee {
         position: fixed;
@@ -73,13 +87,12 @@
 
     #marquee span {
         display: inline-block;
-        animation: scroll 100s linear infinite; /* Adjust speed for better visibility */
-        padding-left: 100%; /* Start off-screen */
+        animation: scroll 50s linear infinite; /* Adjust speed for better visibility */
     }
 
     @keyframes scroll {
         from {
-            transform: translateX(100%);
+            transform: translateX(20%);
         }
         to {
             transform: translateX(-100%);
