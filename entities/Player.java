@@ -215,7 +215,6 @@ public class Player extends Entity {
     /**
      * Updates the player's state and checks various conditions each frame.
      */
-    // Game over sound played in this method.
     public void update() {
         updateHealthBar();
         // updatePowerBar();
