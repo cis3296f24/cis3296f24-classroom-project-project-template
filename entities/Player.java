@@ -189,7 +189,7 @@ public class Player extends Entity {
             if (!birdEntered) {
                 birdEntered = true;
                 birdExited = false;
-                System.out.println("Bird entered the scoring zone");
+               // System.out.println("Bird entered the scoring zone");
             }
         } else {
             // Bird is not on the scoring tile
@@ -197,7 +197,7 @@ public class Player extends Entity {
                 birdExited = true;
                 birdEntered = false;
                 birdScore++;
-                System.out.println("Bird exited the scoring zone. Current score: " + birdScore);
+               // System.out.println("Bird exited the scoring zone. Current score: " + birdScore);
             }
         }
     }
@@ -235,7 +235,7 @@ public class Player extends Entity {
                 playing.setGameOver(true);
                 playing.getGame().getAudioPlayer().stopSong();
                 playing.getGame().getAudioPlayer().playEffect(AudioPlayer.GAMEOVER);
-                System.out.println("Ani tick reached <---------------------------");
+               // System.out.println("Ani tick reached <---------------------------");
 
             } else {
                 updateAnimationTick();

@@ -68,8 +68,6 @@ public class Playing extends State implements Statemethods {
     private boolean gameCompleted;
     private boolean playerDying;
     private boolean drawRain;
-    private int amountOfLevels;
-    private int currentLevel;
     private int score;
     // Ship will be decided to drawn here. It's just a cool addition to the flappyGame
     // for the first level. Hinting on that the player arrived with the boat.
@@ -148,8 +146,9 @@ public class Playing extends State implements Statemethods {
 
     public void loadNextLevel() {
         levelManager.setLevelIndex(levelManager.getLevelIndex() + 1);
+        System.out.println("Inside playing loadNextLevel   ////////////////       levelManager: " + levelManager.getLevelIndex());
         levelManager.loadNextLevel();
-        switch (levelManager.getLevelIndex() + 1) {
+        switch (levelManager.getLevelIndex()) {
             case 1:
                 backgroundImg = LoadSave.GetSpriteAtlas(LoadSave.BG_LEVEL_1);
                 break;
@@ -164,6 +163,7 @@ public class Playing extends State implements Statemethods {
                 break;
             case 5:
                 backgroundImg = LoadSave.GetSpriteAtlas(LoadSave.BG_LEVEL_5);
+                levelManager.setLevelIndex(0); // after loading the last level set the game back to zero.
                 break;
         }
         player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
@@ -276,11 +276,7 @@ public class Playing extends State implements Statemethods {
             xLvlOffset += diff - leftBorder;
         if (xLvlOffset > maxLvlOffsetX) {   // Change these values to 1000 for testing.
             xLvlOffset = maxLvlOffsetX;     // Change these values to 1000 for testing.
-            System.out.println("entered maxLvlOffsetX :" + maxLvlOffsetX);
-            amountOfLevels = getLevelManager().getAmountOfLevels();
-            currentLevel = getLevelManager().getCurrentLevel().getLvlOffset();
-            System.out.println("currentLevel:" + currentLevel);
-            System.out.println("amountOfLevels:" + amountOfLevels);
+            // System.out.println("entered maxLvlOffsetX :" + maxLvlOffsetX);
             setLevelCompleted(true);
         } else if (xLvlOffset < 0) {
             xLvlOffset = 0;
@@ -334,11 +330,13 @@ public class Playing extends State implements Statemethods {
     }
 
     public void resetAll() {
+        System.out.println("gameCompleted       index:" + gameCompleted);
+        if (gameCompleted) {  // Reset score to 0 after the flappy is done all levels.
+            player.setBirdScore(0);
+        }
         if (gameOver) { // This line has to be before gameOver = false.
             player.setBirdScore(0);
-            System.out.println("/////////////////////////////////////////////////////currentLevel:" + getLevelManager().getCurrentLevel().getLvlOffset());
         }
-
         gameOver = false;
         paused = false;
         lvlCompleted = false;
