@@ -201,12 +201,10 @@ public class Player extends Entity {
             }
         }
     }
-
     /**
      * Initializes the player's attack box.
      */
     private void initAttackBox() {
-
         //        attackBox = new Rectangle2D.Float(x, y, (int) ((35 * FlappyGame.SCALE) + playerCharacter.centerPixelOffset), (int) (20 * FlappyGame.SCALE));
         attackBox = new Rectangle2D.Float(x, y, (int) (35 * FlappyGame.SCALE), (int) (20 * FlappyGame.SCALE));
         resetAttackBox();
@@ -237,7 +235,6 @@ public class Player extends Entity {
                 playing.getGame().getAudioPlayer().stopSong();
                 playing.getGame().getAudioPlayer().playEffect(AudioPlayer.GAMEOVER);
                // System.out.println("Ani tick reached <---------------------------");
-
             } else {
                 updateAnimationTick();
                 // Fall if in air
@@ -247,9 +244,7 @@ public class Player extends Entity {
                         airSpeed += GRAVITY;
                     } else
                         inAir = false;
-
             }
-
             return;
         }
         updateAttackBox();
