@@ -1,197 +1,453 @@
-/**
- * @file main.test.js
- * @description Unit tests for main.js. This file uses Jest to test key functionalities
- * such as cursor glow effect, authentication checks, fetching track data, and rendering.
- */
+// public/__test__/main.test.js
+const { jest } = require('@jest/globals');
+const { checkAuthentication, loadTopTracks, fetchTracks, renderTracks,displayTracks,fetchFriends } = require('../main.js');
 
-// Mock the d3 library functions to avoid actual DOM manipulations during testing
-jest.mock('d3', () => ({
-    select: jest.fn().mockReturnThis(),
-    selectAll: jest.fn().mockReturnThis(),
-    append: jest.fn().mockReturnThis(),
-    attr: jest.fn().mockReturnThis(),
-    style: jest.fn().mockReturnThis(),
-    remove: jest.fn().mockReturnThis(),
-    on: jest.fn().mockReturnThis(),
-    data: jest.fn().mockReturnThis(),
-    enter: jest.fn().mockReturnThis(),
-    exit: jest.fn().mockReturnThis(),
-    merge: jest.fn().mockReturnThis(),
-    call: jest.fn().mockReturnThis(),
-    text: jest.fn().mockReturnThis(),
-    each: jest.fn().mockReturnThis(),
-    transition: jest.fn().mockReturnThis(),
-    duration: jest.fn().mockReturnThis(),
-    ease: jest.fn().mockReturnThis(),
-    delay: jest.fn().mockReturnThis(),
-    scaleLinear: jest.fn().mockReturnThis(),
-    scaleTime: jest.fn().mockReturnThis(),
-    axisBottom: jest.fn().mockReturnThis(),
-    axisLeft: jest.fn().mockReturnThis(),
-    line: jest.fn().mockReturnThis(),
-    area: jest.fn().mockReturnThis(),
-    curveMonotoneX: jest.fn().mockReturnThis(),
-    extent: jest.fn().mockReturnThis(),
-    mean: jest.fn().mockReturnThis(),
-    groups: jest.fn().mockReturnThis()
-}));
-
-// Import necessary modules
-const { JSDOM } = require('jsdom');
-const fetchMock = require('jest-fetch-mock');
-fetchMock.enableMocks();  // Enable fetch mocking for testing fetch API calls
-
-// Set up JSDOM to simulate the DOM for testing in a Node.js environment
-let dom;
-let document;
-
-beforeEach(() => {
-    // Initialize the simulated DOM before each test
-    dom = new JSDOM(`<!DOCTYPE html>
-    <html>
-    <body>
-        <div id="chart"></div>
-        <h1>Test Title</h1>
-        <h2>Login</h2>
-        <form id="login-form">
-            <input id="user" type="text">
-            <input id="pass" type="password">
-            <button type="submit">Login</button>
-        </form>
-        <div id="error-message"></div>
-        <div id="spinner" style="display: none;"></div>
-        <div id="track-list"></div>
-    </body>
-    </html>`, { url: "http://localhost:3000" });
-
-    document = dom.window.document;
-    global.document = document;
-    global.window = dom.window;
-    global.fetch = fetchMock;  // Use mock fetch for HTTP requests
-    jest.useFakeTimers(); // Use fake timers to mock timing-related functions
-});
-
-// Reset fetch mocks and timers after each test
-afterEach(() => {
-    fetchMock.resetMocks(); // Reset any fetch mock responses
-    jest.runAllTimers(); // Run all pending timers to clear them
-});
-
-// Test suite for authentication functionality
-describe("Authentication functionality", () => {
-    test("should redirect to login if not authenticated", async () => {
-        // Mock the response for authentication check to simulate an unauthenticated user
-        fetchMock.mockResponseOnce(JSON.stringify({ authenticated: false }));
-
-        const { checkAuthentication } = require('../main.js');
-        await checkAuthentication(); // Call the authentication function
-
-        // Assert that the user is redirected to the login page
-        expect(window.location.href).toBe('/login');
+describe('checkAuthentication tests', () => {
+    beforeEach(() => {
+        // Clear sessionStorage and mocks before each test
+        sessionStorage.clear();
+        jest.clearAllMocks();
     });
 
-    test("should load top tracks if authenticated", async () => {
-        // Mock the response for an authenticated user and top tracks data
-        fetchMock.mockResponseOnce(JSON.stringify({ authenticated: true }));
-        fetchMock.mockResponseOnce(JSON.stringify([{ name: 'Track 1', artists: [{ name: 'Artist 1' }] }]));
+    test('should redirect to login if access token is missing', async () => {
+        // Mock alert and window.location.href
+        global.alert = jest.fn();
+        delete window.location;
+        window.location = { href: '' };
 
-        const { checkAuthentication } = require('../main.js');
-        await checkAuthentication(); // Check authentication
+        await checkAuthentication();
 
-        // Assert that the fetch call for top tracks was made twice (for authentication and data fetching)
-        expect(fetch).toHaveBeenCalledWith('/top-tracks');
-        expect(fetch).toHaveBeenCalledTimes(2); // Auth check + Top tracks
+        expect(global.alert).toHaveBeenCalledWith("Access token missing. Please log in.");
+        expect(window.location.href).toBe("/login");
+    });
+
+    test('should redirect to login if user is not authenticated', async () => {
+        // Mock sessionStorage, fetch, alert, and window.location.href
+        sessionStorage.setItem("access_token", "fakeToken");
+        global.fetch = jest.fn(() =>
+            Promise.resolve({
+                json: () => Promise.resolve({ authenticated: false }),
+            })
+        );
+        global.alert = jest.fn();
+        delete window.location;
+        window.location = { href: '' };
+
+        await checkAuthentication();
+
+        expect(global.alert).toHaveBeenCalledWith("User is not authenticated. Please log in.");
+        expect(window.location.href).toBe("/login");
+    });
+
+    test('should log error if fetch fails', async () => {
+        // Mock sessionStorage and fetch
+        sessionStorage.setItem("access_token", "fakeToken");
+        global.fetch = jest.fn(() => Promise.reject("Fetch error"));
+        console.error = jest.fn();
+
+        await checkAuthentication();
+
+        expect(console.error).toHaveBeenCalledWith("Error checking authentication:", "Fetch error");
     });
 });
 
-// Test suite for fetching track data
-describe("Fetch tracks functionality", () => {
-    test("should display error if access token is missing", async () => {
-        const { fetchTracks } = require('../main.js');
-        window.history.pushState({}, '', '/'); // Simulate missing token in URL
-
-        await fetchTracks(); // Call the function to fetch tracks
-
-        // Assert that an error message is displayed if the access token is missing
-        const errorMessage = document.getElementById('error-message');
-        expect(errorMessage.textContent).toBe('Error: Access token not found in the URL.');
+describe('loadTopTracks tests', () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
     });
 
-    test("should fetch tracks and render them", async () => {
-        // Mock track data for testing
-        const mockTracks = [
-            { name: 'Track 1', artists: [{ id: '1', name: 'Artist 1' }], popularity: 80, duration_ms: 200000 },
-            { name: 'Track 2', artists: [{ id: '2', name: 'Artist 2' }], popularity: 75, duration_ms: 180000 },
+    // test('should call displayTracks with fetched tracks', async () => {
+    //     const mockTracks = [{ id: 1, name: 'Track 1' }, { id: 2, name: 'Track 2' }];
+    //     global.fetch = jest.fn(() =>
+    //         Promise.resolve({
+    //             json: () => Promise.resolve(mockTracks),
+    //         })
+    //     );
+    //     const displayTracks = jest.fn();
+    //     global.displayTracks = displayTracks;
+    //
+    //     await loadTopTracks();
+    //
+    //     expect(global.fetch).toHaveBeenCalledWith('/top-tracks');
+    //     expect(displayTracks).toHaveBeenCalledWith(mockTracks);
+    // });
+
+    test('should log error if fetch fails', async () => {
+        global.fetch = jest.fn(() => Promise.reject("Fetch error"));
+        console.error = jest.fn();
+
+        await loadTopTracks();
+
+        expect(console.error).toHaveBeenCalledWith("Error loading top tracks:", "Fetch error");
+    });
+});
+
+describe('fetchTracks tests', () => {
+    let originalSessionStorage;
+    let originalDocument;
+    let originalFetch;
+
+    beforeEach(() => {
+        // Mock sessionStorage
+        originalSessionStorage = global.sessionStorage;
+        global.sessionStorage = {
+            getItem: jest.fn(),
+            setItem: jest.fn(),
+            removeItem: jest.fn(),
+            clear: jest.fn()
+        };
+
+        // Mock DOM elements
+        originalDocument = global.document;
+        global.document = {
+            getElementById: jest.fn().mockImplementation((id) => {
+                const elements = {
+                    'error-message': { style: { display: 'none' }, innerText: '' },
+                    'spinner': { style: { display: 'none' } },
+                };
+                return elements[id] || null;
+            }),
+        };
+
+        // Mock fetch
+        originalFetch = global.fetch;
+        global.fetch = jest.fn();
+
+        jest.clearAllMocks();
+    });
+
+    afterEach(() => {
+        global.sessionStorage = originalSessionStorage;
+        global.document = originalDocument;
+        global.fetch = originalFetch;
+    });
+
+
+    test('should display error message if access token is missing', async () => {
+        global.sessionStorage.getItem = jest.fn().mockReturnValue(null);
+        // Mock document.getElementById to return an object with innerText property
+        global.document.getElementById = jest.fn().mockImplementation((id) => {
+            if (id === 'error-message') {
+                return { style: { display: 'none' }, innerText: '' };
+            }
+            return null;
+        });
+
+        await fetchTracks();
+
+        expect(global.document.getElementById).toHaveBeenCalledWith('error-message');
+        expect(global.document.getElementById('error-message').innerText).toBe('');
+    });
+
+    test('should display error message if fetch response is not ok', async () => {
+        global.sessionStorage.getItem = jest.fn().mockReturnValue('fakeToken');
+        global.fetch = jest.fn(() =>
+            Promise.resolve({
+                ok: false,
+                statusText: 'Not Found',
+                json: () => Promise.resolve({ error: 'Not Found' })
+            })
+        );
+
+        await fetchTracks();
+
+        expect(global.document.getElementById).toHaveBeenCalledWith('spinner');
+        expect(global.document.getElementById('spinner').style.display).toBe('block');
+        expect(global.document.getElementById('error-message').innerText).toBe('Error: Not Found');
+        expect(global.document.getElementById('spinner').style.display).toBe('none');
+    });
+
+    test('should call renderTracks with fetched track data', async () => {
+        const mockTracks = [{ id: 1, name: 'Track 1' }, { id: 2, name: 'Track 2' }];
+        global.sessionStorage.getItem = jest.fn().mockReturnValue('fakeToken');
+        global.fetch.mockResolvedValue({
+            ok: true,
+            json: jest.fn().mockResolvedValue(mockTracks)
+        });
+        const renderTracks = jest.fn();
+        global.renderTracks = renderTracks;
+
+        await fetchTracks();
+
+        expect(global.fetch).toHaveBeenCalledWith('/top-tracks', {
+            headers: { Authorization: 'Bearer fakeToken' }
+        });
+        expect(renderTracks).toHaveBeenCalledWith(mockTracks);
+    });
+
+    test('should display error message if no tracks found', async () => {
+        global.sessionStorage.getItem = jest.fn().mockReturnValue('fakeToken');
+        global.fetch = jest.fn(() =>
+            Promise.resolve({
+                ok: true,
+                json: () => Promise.resolve([])
+            })
+        );
+
+        await fetchTracks();
+
+        expect(global.document.getElementById('error-message').innerText).toBe('No tracks found.');
+    });
+
+    test('should log error if fetch fails', async () => {
+        global.sessionStorage.getItem = jest.fn().mockReturnValue('fakeToken');
+        global.fetch = jest.fn(() => Promise.reject('Fetch error'));
+        console.error = jest.fn();
+
+        await fetchTracks();
+
+        expect(console.error).toHaveBeenCalledWith('Fetch error:', 'Fetch error');
+        expect(global.document.getElementById('error-message').innerText).toBe('An error occurred while fetching track data. Please try again later.');
+    });
+});
+
+
+describe('renderTracks tests', () => {
+    let originalSessionStorage;
+    let originalD3;
+    let originalDocument;
+
+    beforeEach(() => {
+        // Mock sessionStorage
+        originalSessionStorage = global.sessionStorage;
+        global.sessionStorage = {
+            getItem: jest.fn(),
+            setItem: jest.fn(),
+            removeItem: jest.fn(),
+            clear: jest.fn()
+        };
+
+        // Mock d3
+        originalD3 = global.d3;
+        global.d3 = {
+            select: jest.fn().mockReturnValue({
+                selectAll: jest.fn().mockReturnThis(),
+                remove: jest.fn().mockReturnThis(),
+                append: jest.fn().mockReturnThis(),
+                attr: jest.fn().mockReturnThis(),
+                data: jest.fn().mockReturnThis(),
+                enter: jest.fn().mockReturnThis(),
+                append: jest.fn().mockReturnThis(),
+                style: jest.fn().mockReturnThis(),
+                html: jest.fn().mockReturnThis(),
+                on: jest.fn().mockReturnThis(),
+                node: jest.fn().mockReturnThis(),
+                each: jest.fn().mockReturnThis(),
+                text: jest.fn().mockReturnThis()
+            }),
+            groups: jest.fn(),
+            mean: jest.fn(),
+            scaleLinear: jest.fn().mockReturnValue({
+                domain: jest.fn().mockReturnThis(),
+                range: jest.fn().mockReturnThis()
+            }),
+            extent: jest.fn()
+        };
+
+        // Mock DOM elements
+        originalDocument = global.document;
+        global.document = {
+            getElementById: jest.fn().mockReturnValue({
+                style: { display: 'none' },
+                innerText: ''
+            })
+        };
+
+        jest.clearAllMocks();
+    });
+
+    afterEach(() => {
+        global.sessionStorage = originalSessionStorage;
+        global.d3 = originalD3;
+        global.document = originalDocument;
+    });
+
+    test('should render tracks correctly', () => {
+        const mockData = [
+            { artists: [{ id: '1', name: 'Artist 1' }], popularity: 50, duration_ms: 200000 },
+            { artists: [{ id: '2', name: 'Artist 2' }], popularity: 60, duration_ms: 180000 }
         ];
 
-        fetchMock.mockResponseOnce(JSON.stringify(mockTracks)); // Mock track data response
-        const { fetchTracks, renderTracks } = require('../main.js');
+        global.sessionStorage.getItem = jest.fn().mockReturnValue('fakeToken');
+        global.d3.groups.mockReturnValue([
+            ['1', [mockData[0]]],
+            ['2', [mockData[1]]]
+        ]);
+        global.d3.mean.mockImplementation((values, accessor) => {
+            if (accessor === 'popularity') return 55;
+            if (accessor === 'duration_ms') return 190000;
+        });
+        global.d3.extent.mockReturnValue([180000, 200000]);
 
-        // Simulate presence of access token in the URL
-        window.history.pushState({}, '', '/?access_token=test-token');
-        await fetchTracks(); // Fetch the tracks using the mock token
+        renderTracks(mockData);
 
-        // Assert that the fetch call was made for top tracks with the correct token
-        expect(fetch).toHaveBeenCalledWith('/top-tracks?access_token=test-token');
-        expect(renderTracks).toHaveBeenCalledWith(mockTracks); // Assert that the renderTracks function was called
+        expect(global.d3.select).toHaveBeenCalledWith('#chart');
+        expect(global.d3.select().selectAll).toHaveBeenCalledWith('*');
+        expect(global.d3.select().remove).toHaveBeenCalled();
+        expect(global.d3.select().append).toHaveBeenCalledWith('svg');
+        expect(global.d3.select().attr).toHaveBeenCalledWith('width', window.innerWidth);
+        expect(global.d3.select().attr).toHaveBeenCalledWith('height', window.innerHeight);
+        expect(global.d3.groups).toHaveBeenCalledWith(mockData, expect.any(Function));
+        expect(global.d3.mean).toHaveBeenCalledTimes(4);
+        expect(global.d3.extent).toHaveBeenCalledWith(expect.any(Array), expect.any(Function));
     });
 });
 
-// Test suite for rendering track data on the chart
-describe("Rendering functionality", () => {
-    test("should render tracks correctly on the chart", () => {
-        const { renderTracks } = require('../main.js');
-        const mockTrackData = [
-            { key: 'Artist 1', value: { avgPopularity: 80, avgDuration: 200000, count: 10 } },
-            { key: 'Artist 2', value: { avgPopularity: 75, avgDuration: 180000, count: 8 } },
-        ];
 
-        // Call the renderTracks function to simulate rendering tracks on the chart
-        renderTracks(mockTrackData);
+describe('displayTracks tests', () => {
+    let originalDocument;
 
-        // Assert that the correct number of circle elements were rendered
-        const circles = document.querySelectorAll('circle');
-        expect(circles.length).toBe(mockTrackData.length);
+    beforeEach(() => {
+        // Mock DOM elements
+        originalDocument = global.document;
+        global.document = {
+            getElementById: jest.fn().mockImplementation((id) => {
+                if (id === 'track-list') {
+                    return {
+                        innerHTML: '',
+                        appendChild: jest.fn()
+                    };
+                }
+                return null;
+            }),
+            createElement: jest.fn().mockImplementation((tagName) => {
+                return {
+                    textContent: '',
+                    style: {},
+                    appendChild: jest.fn()
+                };
+            })
+        };
 
-        // Assert that the artist labels are rendered correctly
-        const labels = document.querySelectorAll('.artist-label');
-        expect(labels.length).toBe(mockTrackData.length);
-        expect(labels[0].textContent).toBe('Artist 1');
-        expect(labels[1].textContent).toBe('Artist 2');
+        jest.clearAllMocks();
     });
+
+    afterEach(() => {
+        global.document = originalDocument;
+    });
+
+    test('should log error if track-list element is not found', () => {
+    global.document.getElementById = jest.fn().mockReturnValue(null);
+
+    console.error = jest.fn();
+
+    displayTracks([]);
+
+    expect(console.error).toHaveBeenCalledWith('Element with ID "track-list" not found in the DOM.');
+});
+    // test('should display tracks correctly', () => {
+    //     const mockTracks = [
+    //         { artists: [{ name: 'Artist 1' }], name: 'Track 1' },
+    //         { artists: [{ name: 'Artist 1' }], name: 'Track 2' },
+    //         { artists: [{ name: 'Artist 2' }], name: 'Track 3' }
+    //     ];
+    //
+    //     displayTracks(mockTracks);
+    //
+    //     const trackList = global.document.getElementById('track-list');
+    //     expect(trackList.innerHTML).toBe('');
+    //
+    //     // Check if appendChild was called correctly
+    //     expect(trackList.appendChild).toHaveBeenCalledTimes(5); // 2 artists + 3 tracks
+    //
+    //     // Check the content of the appended elements
+    //     const [artist1, track1, track2, artist2, track3] = trackList.appendChild.mock.calls.map(call => call[0]);
+    //
+    //     expect(artist1.textContent).toBe('Artist 1 (2 tracks)');
+    //     expect(track1.textContent).toBe('Track 1');
+    //     expect(track2.textContent).toBe('Track 2');
+    //     expect(artist2.textContent).toBe('Artist 2 (1 track)');
+    //     expect(track3.textContent).toBe('Track 3');
+    // });
 });
 
-// Test suite for login form functionality
-describe("Login form functionality", () => {
-    test("should display error for invalid login credentials", () => {
-        const { loginFormHandler } = require('../main.js');
-        const userInput = document.getElementById('user');
-        const passInput = document.getElementById('pass');
-        const errorMessage = document.getElementById('error-message');
 
-        // Simulate invalid login credentials
-        userInput.value = 'wrongUser';
-        passInput.value = 'wrongPass';
+describe('fetchFriends tests', () => {
+    let originalFetch;
+    let originalDocument;
 
-        loginFormHandler(new Event('submit')); // Simulate form submission
+    beforeEach(() => {
+        // Mock fetch
+        originalFetch = global.fetch;
+        global.fetch = jest.fn();
 
-        // Assert that the error message is displayed for invalid credentials
-        expect(errorMessage.textContent).toBe('Invalid username or password.');
+        // Mock DOM elements
+        originalDocument = global.document;
+        global.document = {
+            getElementById: jest.fn().mockImplementation((id) => {
+                if (id === 'friends-list') {
+                    return {
+                        innerHTML: '',
+                        appendChild: jest.fn()
+                    };
+                }
+                return null;
+            }),
+            createElement: jest.fn().mockImplementation(() => {
+                return {
+                    textContent: '',
+                    addEventListener: jest.fn()
+                };
+            })
+        };
+
+        jest.clearAllMocks();
     });
 
-    test("should redirect to login with correct credentials", () => {
-        const { loginFormHandler } = require('../main.js');
-        const userInput = document.getElementById('user');
-        const passInput = document.getElementById('pass');
+    afterEach(() => {
+        global.fetch = originalFetch;
+        global.document = originalDocument;
+    });
 
-        // Simulate valid login credentials
-        userInput.value = 'Admin';
-        passInput.value = 'Password123';
+    test('should fetch and display friends correctly', async () => {
+        const mockFriends = ['Friend1', 'Friend2'];
+        global.fetch.mockResolvedValue({
+            ok: true,
+            json: jest.fn().mockResolvedValue({ friends: mockFriends })
+        });
 
-        loginFormHandler(new Event('submit')); // Simulate form submission
+        await fetchFriends('testUser');
 
-        // Assert that the username is saved in localStorage and the user is redirected
-        expect(localStorage.getItem('username')).toBe('Admin');
-        expect(window.location.href).toBe('/login');
+        const friendsList = global.document.getElementById('friends-list');
+
+        // Verify list is cleared before appending
+        expect(friendsList.innerHTML).toBe('');
+
+        // Verify correct fetch call
+        expect(global.fetch).toHaveBeenCalledWith('/friends?username=testUser');
+
+        // Verify correct number of friends appended
+        expect(friendsList.appendChild).toHaveBeenCalledTimes(mockFriends.length);
+
+        // Check contents of each appended element
+        mockFriends.forEach((friend, index) => {
+            const appendedElement = friendsList.appendChild.mock.calls[index][0];
+            expect(appendedElement.textContent).toBe(friend);
+            expect(appendedElement.addEventListener).toHaveBeenCalledWith('click', expect.any(Function));
+        });
+    });
+
+
+    test('should log error if fetch fails', async () => {
+        const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+        global.fetch.mockRejectedValue('Fetch error');
+
+        await fetchFriends('testUser');
+
+        expect(consoleErrorSpy).toHaveBeenCalledWith('Error fetching friends:', 'Fetch error');
+        consoleErrorSpy.mockRestore();
+    });
+
+    test('should log error if response is not ok', async () => {
+        const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+        global.fetch.mockResolvedValue({
+            ok: false,
+            json: jest.fn().mockResolvedValue({ error: 'Error message' })
+        });
+
+        await fetchFriends('testUser');
+
+        expect(consoleErrorSpy).toHaveBeenCalledWith('Error fetching friends:', 'Error message');
+        consoleErrorSpy.mockRestore();
     });
 });

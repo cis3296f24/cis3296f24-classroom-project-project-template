@@ -53,6 +53,11 @@ app.use((req, res, next) => {
   next();
 });
 
+// A sample route to test the middleware
+app.get('/test-csp', (req, res) => {
+  res.send('CSP Test');
+});
+
 // Helmet configuration with CSP
 app.use(
   helmet({

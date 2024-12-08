@@ -1,16 +1,20 @@
 //For cursor glow -> not working yet!
-document.addEventListener('mousemove', function(e) {
-    const cursor = document.createElement('div');
-    cursor.classList.add('cursor-glow');
-    cursor.style.left = e.pageX + 'px';
-    cursor.style.top = e.pageY + 'px';
-    document.body.appendChild(cursor);
+// document.addEventListener('mousemove', function(e) {
+//     const cursor = document.createElement('div');
+//     cursor.classList.add('cursor-glow');
+//     cursor.style.left = e.pageX + 'px';
+//     cursor.style.top = e.pageY + 'px';
+//     document.body.appendChild(cursor);
+//
+//     setTimeout(() => {
+//         cursor.remove();
+//     }, 500); // Adjust duration as needed
+// });
 
-    setTimeout(() => {
-        cursor.remove();
-    }, 500); // Adjust duration as needed
-});
+// Define trackData
+let trackData = [];
 
+// Function to check if user is authenticated
 async function checkAuthentication() {
     try {
         const accessToken = sessionStorage.getItem("access_token");
@@ -37,6 +41,7 @@ async function checkAuthentication() {
     }
 }
 
+// Function to load top tracks from the backend
 async function loadTopTracks() {
     try {
         const response = await fetch('/top-tracks');
@@ -239,7 +244,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 async function fetchTracks() {
    const accessToken = sessionStorage.getItem('access_token');
-    const spinner = document.getElementById('spinner');
+   const spinner = document.getElementById('spinner');
 
     if (!accessToken) {
         document.getElementById('error-message').innerText = 'Error: Access token not found in the URL.';
@@ -258,7 +263,7 @@ async function fetchTracks() {
             throw new Error(`Network response was not ok: ${response.statusText}`);
         }
 
-        const trackData = await response.json();
+        trackData = await response.json();
         console.log('Fetched track data:', trackData);
 
         if (trackData && trackData.length) {
@@ -588,6 +593,10 @@ console.log("Track Data:", trackData);
 
 function displayTracks(tracks) {
     const trackList = document.getElementById('track-list');
+    if (!trackList) {
+        console.error('Element with ID "track-list" not found in the DOM.');
+        return;
+    }
     trackList.innerHTML = '';
 
     // Aggregate data by artist
@@ -621,94 +630,100 @@ function displayTracks(tracks) {
     });
   
   const d3 = require('d3');
-  module.exports = {
-        checkAuthentication,
-        fetchTracks,
-        renderTracks,
-        fetchUserProfile,
-        fetchFriends,
-        goToHome
-   };
 }
 
+module.exports = {
+    checkAuthentication,
+    fetchTracks,
+    renderTracks,
+    loadTopTracks,
+    displayTracks,
+    fetchFriends,
+    goToHome
+};
+
 // Functionality for Login and redirection to profile page
-document.getElementById("login-form").addEventListener("submit", async (event) => {
-    event.preventDefault();
-  
-    const username = document.getElementById("user").value;
-    const password = document.getElementById("pass").value;
-  
-    try {
-      // Make a login request to backend
-      const response = await fetch('/spaceify-login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password }),
-      });
-  
-      const result = await response.json();
-  
-      if (response.ok) {
-        localStorage.setItem('username', result.username); // Store the username
-        sessionStorage.setItem('access_token', result.accessToken); // Store the access token
-        window.location.href = `profile.html?access_token=${result.accessToken}`; // Redirect to profile page
-      } else {
-        document.getElementById('error-message').textContent = result.error || 'Login failed.';
-      }
-    } catch (error) {
-      console.error('Error during login:', error);
-      document.getElementById('error-message').textContent = 'An error occurred. Please try again.';
-    }
-  });
+document.addEventListener("DOMContentLoaded", function() {
+    // Functionality for Login and redirection to profile page
+    document.getElementById("login-form").addEventListener("submit", async (event) => {
+        event.preventDefault();
 
-  /*async function fetchFriends(username) {
-    const friendsList = document.getElementById("friends-list");
-    friendsList.innerHTML = "";
 
-    // Fetch friends and render their profiles
-    fetch(`/friends?username=${username}`)
-        .then((response) => response.json())
-        .then((data) => {
-        data.friends.forEach((friend) => {
-            const friendItem = document.createElement("li");
-            friendItem.textContent = friend;
+        const username = document.getElementById("user").value;
+        const password = document.getElementById("pass").value;
 
-            // Clicking on a friend redirects to their profile
-            friendItem.addEventListener("click", () => {
-            window.location.href = `/friend-profile.html?username=${friend}`;
+        try {
+            // Make a login request to backend
+            const response = await fetch('/spaceify-login', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({username, password}),
             });
 
-            friendsList.appendChild(friendItem);
-        });
-        });
-    }*/
+            const result = await response.json();
+
+            if (response.ok) {
+                localStorage.setItem('username', result.username); // Store the username
+                sessionStorage.setItem('access_token', result.accessToken); // Store the access token
+                window.location.href = `profile.html?access_token=${result.accessToken}`; // Redirect to profile page
+            } else {
+                document.getElementById('error-message').textContent = result.error || 'Login failed.';
+            }
+
+        } catch (error) {
+            console.error('Error during login:', error);
+            document.getElementById('error-message').textContent = 'An error occurred. Please try again.';
+        }
+    });
+});
+    /*async function fetchFriends(username) {
+      const friendsList = document.getElementById("friends-list");
+      friendsList.innerHTML = "";
+
+      // Fetch friends and render their profiles
+      fetch(`/friends?username=${username}`)
+          .then((response) => response.json())
+          .then((data) => {
+          data.friends.forEach((friend) => {
+              const friendItem = document.createElement("li");
+              friendItem.textContent = friend;
+
+              // Clicking on a friend redirects to their profile
+              friendItem.addEventListener("click", () => {
+              window.location.href = `/friend-profile.html?username=${friend}`;
+              });
+
+              friendsList.appendChild(friendItem);
+          });
+          });
+      }*/
 
     // Fetch and Display Friends
     async function fetchFriends(username) {
         const friendsList = document.getElementById("friends-list");
         friendsList.innerHTML = ""; // Clear the current list
-    
+
         try {
-        const response = await fetch(`/friends?username=${username}`);
-        const data = await response.json();
-    
-        if (response.ok) {
-            data.friends.forEach((friend) => {
-            const friendItem = document.createElement("li");
-            friendItem.textContent = friend;
-    
-            // Clicking on a friend's name redirects to their profile
-            friendItem.addEventListener("click", () => {
-                window.location.href = `/friend-profile.html?username=${friend}`;
-            });
-    
-            friendsList.appendChild(friendItem);
-            });
-        } else {
-            console.error("Error fetching friends:", data.error);
-        }
+            const response = await fetch(`/friends?username=${username}`);
+            const data = await response.json();
+
+            if (response.ok) {
+                data.friends.forEach((friend) => {
+                    const friendItem = document.createElement("li");
+                    friendItem.textContent = friend;
+
+                    // Clicking on a friend's name redirects to their profile
+                    friendItem.addEventListener("click", () => {
+                        window.location.href = `/friend-profile.html?username=${friend}`;
+                    });
+
+                    friendsList.appendChild(friendItem);
+                });
+            } else {
+                console.error("Error fetching friends:", data.error);
+            }
         } catch (error) {
-        console.error("Error fetching friends:", error);
+            console.error("Error fetching friends:", error);
         }
     }
 
@@ -756,7 +771,6 @@ async function removeFriend(username, friendUsername) {
     }
 }
     */
-
-function goToHome() {
-    window.history.back();
-}
+    function goToHome() {
+        window.history.back();
+    }
