@@ -113,9 +113,47 @@ document.addEventListener("DOMContentLoaded", function() {
         errorMessage.style.fontFamily = "'Arial', sans-serif";
     }
 
+    // Functionality for Login and redirection to profile page
+    document.getElementById("login-form").addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const username = document.getElementById("user").value;
+        const password = document.getElementById("pass").value;
+
+        try {
+            // Make a login request to backend
+            const response = await fetch('/spaceify-login', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({username, password}),
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                localStorage.setItem('username', result.username); // Store the username
+                sessionStorage.setItem('access_token', result.accessToken); // Store the access token
+                window.location.href = `profile.html?access_token=${result.accessToken}`; // Redirect to profile page
+            } else {
+                document.getElementById('error-message').textContent = result.error || 'Login failed.';
+            }
+
+        } catch (error) {
+            console.error('Error during login:', error);
+            document.getElementById('error-message').textContent = 'An error occurred. Please try again.';
+        }
+    });
+
     // Profile page functionality
     if (window.location.pathname.endsWith('profile.html')) {
-        document.getElementById('username-display').textContent = username;
+        //document.getElementById('username-display').textContent = username;
+        const username = localStorage.getItem('username'); // Retrieve from localStorage
+        if (username) {
+            document.getElementById('username-display').textContent = username;
+        } else {
+            console.error('No username found in localStorage');
+        }
+        
         fetchFriends(username);
 
         const friendInput = document.getElementById("friend-input");
@@ -165,26 +203,26 @@ document.addEventListener("DOMContentLoaded", function() {
         screenshotInput.addEventListener("change", async () => {
             const file = screenshotInput.files[0];
             if (file) {
-            const formData = new FormData();
-            formData.append("screenshot", file);
-    
-            try {
-                const response = await fetch("/upload-screenshot", {
-                method: "POST",
-                body: formData,
-                });
-    
-                const data = await response.json();
-                if (response.ok) {
-                screenshotImg.src = data.screenshot;
-                uploadDateText.textContent = `Uploaded on: ${new Date(data.uploadDate).toLocaleDateString()}`;
-                } else {
-                alert(data.error || "Failed to upload screenshot.");
+                const formData = new FormData();
+                formData.append("screenshot", file);
+        
+                try {
+                    const response = await fetch("/upload-screenshot", {
+                    method: "POST",
+                    body: formData,
+                    });
+        
+                    const data = await response.json();
+                    if (response.ok) {
+                    screenshotImg.src = data.screenshot;
+                    uploadDateText.textContent = `Uploaded on: ${new Date(data.uploadDate).toLocaleDateString()}`;
+                    } else {
+                    alert(data.error || "Failed to upload screenshot.");
+                    }
+                } catch (error) {
+                    console.error("Error uploading screenshot:", error);
+                    alert("An error occurred while uploading your screenshot.");
                 }
-            } catch (error) {
-                console.error("Error uploading screenshot:", error);
-                alert("An error occurred while uploading your screenshot.");
-            }
             }
         });
         async function fetchUserProfile() {
@@ -642,12 +680,12 @@ module.exports = {
     goToHome
 };
 
+/*
 // Functionality for Login and redirection to profile page
 document.addEventListener("DOMContentLoaded", function() {
     // Functionality for Login and redirection to profile page
     document.getElementById("login-form").addEventListener("submit", async (event) => {
         event.preventDefault();
-
 
         const username = document.getElementById("user").value;
         const password = document.getElementById("pass").value;
@@ -676,27 +714,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 });
-    /*async function fetchFriends(username) {
-      const friendsList = document.getElementById("friends-list");
-      friendsList.innerHTML = "";
-
-      // Fetch friends and render their profiles
-      fetch(`/friends?username=${username}`)
-          .then((response) => response.json())
-          .then((data) => {
-          data.friends.forEach((friend) => {
-              const friendItem = document.createElement("li");
-              friendItem.textContent = friend;
-
-              // Clicking on a friend redirects to their profile
-              friendItem.addEventListener("click", () => {
-              window.location.href = `/friend-profile.html?username=${friend}`;
-              });
-
-              friendsList.appendChild(friendItem);
-          });
-          });
-      }*/
+*/
 
     // Fetch and Display Friends
     async function fetchFriends(username) {
@@ -727,50 +745,6 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    /*
-async function addFriend(username, friendUsername) {
-    try {
-        const response = await fetch('/friends/add', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, friendUsername }),
-        });
-        const data = await response.json();
-
-        if (response.ok) {
-            alert('Friend added successfully!');
-            fetchFriends(username);
-        } else {
-            alert(data.error || 'Error adding friend.');
-        }
-    } catch (error) {
-        console.error('Error adding friend:', error);
-    }
-
-  }
-})
-}
-
-async function removeFriend(username, friendUsername) {
-    try {
-        const response = await fetch('/friends/remove', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, friendUsername }),
-        });
-        const data = await response.json();
-
-        if (response.ok) {
-            alert('Friend removed successfully!');
-            fetchFriends(username);
-        } else {
-            alert(data.error || 'Error removing friend.');
-        }
-    } catch (error) {
-        console.error('Error removing friend:', error);
-    }
-}
-    */
     function goToHome() {
         window.history.back();
     }

@@ -195,7 +195,7 @@ app.post('/register', async (req, res) => {
   }
 });
 
-// User login
+// Spaceify user login
 app.post('/spaceify-login', async (req, res) => {
   const { username, password } = req.body;
 
