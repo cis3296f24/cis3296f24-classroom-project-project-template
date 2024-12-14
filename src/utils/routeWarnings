@@ -1,0 +1,30 @@
+const express = require('express');
+const fetch = require('node-fetch');
+const app = express();
+
+/**
+ * Fetch SEPTA route alerts from their API.
+ * Example usage: GET /septa-alerts?route=bus_route_33
+ */
+app.get('/septa-alerts', async (req, res) => {
+    const route = req.query.route || 'bus_route_10';
+    const url = `https://www3.septa.org/api/Alerts/index.php?routes=${encodeURIComponent(route)}`;
+
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`Error fetching SEPTA alerts: ${response.statusText}`);
+        }
+        const data = await response.json();
+        res.json(data);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Start the server
+const PORT = process.env.PORT || 3333;
+app.listen(PORT, () => {
+    console.log(`SEPTA API Proxy running on http://localhost:${PORT}`);
+});

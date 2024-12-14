@@ -1,28 +1,25 @@
-# Project Name
-Put here a short paragraph describing your project. 
-Adding an screenshot or a mockup of your application in action would be nice.  
+# SEPTA+
+SEPTA+ is a web application that allows users to access timetables, delays, detours, and more live information on SEPTA bus and train routes, offering faster access times and an overall less bloated user experience. Users can save favorite routes to receive updates and quickly access information, find information on round trips based on requested times, and enjoy a bloat-free experience compared to the official SEPTA web application
 
-![This is a screenshot.](images.png)
-# How to run
-Provide here instructions on how to use your application.   
-- Download the latest binary from the Release section on the right on GitHub.  
-- On the command line uncompress using
-```
-tar -xzf  
-```
-- On the command line run with
-```
-./hello
-```
-- You will see Hello World! on your terminal. 
+# How to run   
+- Open command prompt and run the following command:
+    - cd Downloads
+    - git clone "https://github.com/cis3296f24/02-Septa-CLI"
+    - cd 02-Septa-CLI
+    - npm install
+    - npm run build
+    - npm run dev
+- Open a web browser and connect to [localhost:3333]([localhost:3333])  
 
 # How to contribute
-Follow this project board to know the latest status of the project: [http://...]([http://...])  
+Follow this project board to know the latest status of the project: [https://github.com/cis3296f24/02-Septa-CLI]([https://github.com/cis3296f24/02-Septa-CLI])  
 
 ### How to build
-- Use this github repository: ... 
-- Specify what branch to use for a more stable release or for cutting edge development.  
-- Use InteliJ 11
-- Specify additional library to download if needed 
-- What file and target to compile and run. 
-- What is expected to happen when the app start. 
+- Open command prompt and run the following command:
+    - cd Downloads
+    - git clone "https://github.com/cis3296f24/02-Septa-CLI"
+    - cd 02-Septa-CLI
+    - npm install
+    - npm run build
+    - npm run dev
+- Open a web browser and connect to [localhost:3333]([localhost:3333])  
