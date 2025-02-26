@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <title>Friend Profile | Spaceify</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            font-family: "Arial", sans-serif;
+            letter-spacing: 0.1em;
+            background: url('https://www.pixel4k.com/wp-content/uploads/2018/10/sky-full-of-stars-space-4k_1540139420.jpg') no-repeat center center;
+            background-size: cover;
+            color: #fff;
+            overflow: hidden;
+        }
+
+        .friend-profile {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            width: 500px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        #profile-pic {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+        }
+
+        .friend-username {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #fff;
+            font-family: "Arial", sans-serif;
+        }
+
+        button {
+            background-color: #ffffff;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #e5f1fc;
+        }
+
+        #friend-upload-date {
+            text-align: center;
+            font-weight: bold;
+            font-size: 0.75em;
+            font-family: "Arial", sans-serif;
+        }
+
+        #friend-screenshot {
+            max-width: 100%;
+            max-height: 150px;
+            width: auto;
+            height: auto; 
+            display: block;
+            margin: 0 auto;
+            border: 2px solid white;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="friend-profile">
+        <img id="profile-pic" src="earth.jpg" alt="Profile Picture" />
+        <h2 id="friend-username">jenv</h2>
+        <h3>Spaceify Results</h3>
+        <img id="friend-screenshot" src="placeholder.jpg" />
+        <p id="friend-upload-date">(No results uploaded yet)</p>
+
+        <!-- Home button -->
+        <button id="home-button" onclick="goToHome()">
+            🏠
+        </button>
+    </div>  
+
+    <script src="main.js"></script>
+</body>
+</html>
