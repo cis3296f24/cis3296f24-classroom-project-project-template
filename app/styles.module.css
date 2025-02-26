@@ -1,0 +1,253 @@
+/* styles.module.css */
+
+/* Container styling */
+.container {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    min-height: calc(100vh - 30px);
+    font-family: Arial, sans-serif;
+}
+
+.recipes {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+    width: 100%;
+    max-width: 800px;
+    margin-top: 20px;
+}
+
+.recipeCard {
+    background-color: whitesmoke;
+    border: 2px solid gray;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.2s ease;
+}
+
+.recipeCard:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.recipeCard img {
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+}
+
+.recipeCard img:hover {
+    transform: scale(1.05);
+}
+
+.recipeCard h3 {
+    margin: 10px 0;
+    font-size: 1.2rem;
+    color: #333;
+    font-family: Arial, sans-serif; 
+    text-align: center;
+}
+
+.recipeCard a {
+    text-decoration: none;
+    color: green;
+    font-weight: bold;
+    transition: color 0.2s ease;
+}
+
+.recipeCard a:hover {
+    color: #ff6347;
+    text-decoration: underline;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: #ffe4b5;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+/* Home button styling --------- can revert button to this behavior*/
+.homeButton {
+    text-decoration: none;
+    font-size: 1rem;
+    padding: 10px 20px;
+    background-color: #ffa07a;
+    color: white;
+    border-radius: 15px;
+    font-family: Arial, sans-serif; 
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+    cursor: pointer;
+}
+
+.homeButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+.authButtonContainer {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+}
+
+.authButton {
+    padding: 8px 15px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    background-color: #ff7f50;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.authButton:hover {
+    background-color: #ff6347;
+}
+
+/* Writing animation keyframes */
+@keyframes draw {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+/* Search area styling */
+
+/* Input styling */
+
+/* Button styling */
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.search .dropdownContent {
+    padding: 10px 20px;
+    background-color: #ffa07a;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif; 
+    display: inline-block;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    z-index: 1;
+}
+
+.search .dropdownContent button {
+    padding: 10px 20px;
+    background-color: #ffa07a;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif; 
+    display: inline-block;
+}
+
+.dropdown a:hover {
+    background-color: #ddd;
+}
+
+.active {
+    background-color: #f88457; /* Green highlight for active filters */
+    color: white;
+}
+
+.card {
+    background-color: whitesmoke ;
+    padding: 20px;
+    border-radius: 50px;
+    max-width: 600px;
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.welcomeMessage {
+    font-size: 1.2rem;
+    color: #333;
+    font-family: Arial, sans-serif; 
+    font-weight: bold;
+}
+
+.superChefHeader {
+    font-size: 3.5rem;
+    font-family: "Pacifico", cursive;
+    fill: black;
+    stroke: #333;
+    stroke-width: 2;
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: draw 3s ease forwards;
+}
+
+.saveButton {
+    padding: 8px 16px;
+    background-color: #ffa07a;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 10px;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.saveButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+.profileImage {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    position: absolute;
+    top: 40px;
+    left: 20px;
+}
+
+.recipeDetailsContainer {
+    background-color: #fff8dc;
+    min-height: 100vh; 
+    padding: 20px; 
+    font-family: Arial, sans-serif; 
+}
+
+/* Navbar Styling */
+
+/* Dropdown Menu Styling */
